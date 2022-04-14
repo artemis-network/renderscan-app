@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:renderscan/components/rounded_button.dart';
 import 'package:renderscan/components/rounded_input.dart';
 import 'package:renderscan/components/already_have_account.dart';
-import 'package:renderscan/main.dart';
-import 'package:renderscan/screen/login_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -45,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return SignUpScreen();
+                        return const SignUpScreen();
                         // return LoginScreen();
                       },
                     ),

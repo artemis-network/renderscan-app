@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         home: SafeArea(
           child: Scaffold(
-            body: Container(
+            body: SizedBox(
               height: size.height,
               width: size.width,
               child: screens[context.watch<ScreenStateProvider>().currentIndex],

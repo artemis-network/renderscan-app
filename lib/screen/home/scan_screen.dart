@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/http/image.dart';
@@ -70,7 +72,7 @@ class _ScanScreenState extends State<ScanScreen> {
         resizeToAvoidBottomInset: false,
         body: Column(
           children: [
-            Container(
+            SizedBox(
               width: size.width,
               height: size.height * .75,
               child: Stack(
@@ -102,11 +104,9 @@ class _ScanScreenState extends State<ScanScreen> {
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const ElevatedButton(
-                            onPressed: null, child: const Text("Retry")),
-                        const ElevatedButton(
-                            onPressed: null, child: const Text("Next")),
+                      children: const [
+                        ElevatedButton(onPressed: null, child: Text("Retry")),
+                        ElevatedButton(onPressed: null, child: Text("Next")),
                       ],
                     ),
             )
