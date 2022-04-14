@@ -6,6 +6,7 @@ import 'package:renderscan/http/image.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/provider/image.dart';
 import 'package:renderscan/components/rounded_button.dart';
+import 'package:renderscan/screen/home/mint_screen.dart';
 
 class ScanScreen extends StatefulWidget {
   final List<CameraDescription>? cameras;
@@ -68,6 +69,17 @@ class _ScanScreenState extends State<ScanScreen> {
       setState(() {});
     }
 
+    goToMintScreen() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return MintScreen(img: context.watch<ImageP>().decodedImg);
+          },
+        ),
+      );
+    }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Column(
@@ -103,10 +115,12 @@ class _ScanScreenState extends State<ScanScreen> {
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        ElevatedButton(onPressed: null, child: Text("Retry")),
-                        ElevatedButton(onPressed: null, child: Text("Next")),
+                      children: [
+                        const ElevatedButton(
+                            onPressed: null, child: Text("Retry")),
+                        ElevatedButton(
+                            onPressed: goToMintScreen,
+                            child: const Text("Next")),
                       ],
                     ),
             )

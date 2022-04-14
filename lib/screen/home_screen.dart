@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final screens = [
     ScanScreen(cameras: cameras),
     const GalleryScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
     const WalletScreen(),
     const HelpScreen(),
   ];
