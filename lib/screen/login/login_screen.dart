@@ -1,15 +1,74 @@
-import 'package:camera/camera.dart';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:renderscan/components/rounded_button.dart';
-import 'package:renderscan/components/rounded_input.dart';
-import 'package:renderscan/components/already_have_account.dart';
-import 'package:renderscan/screen/signup_screen.dart';
-import 'package:renderscan/screen/home_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  List<CameraDescription> cameras;
+// components
+import 'package:renderscan/common/components/rounded_button.dart';
+import 'package:renderscan/common/components/rounded_input.dart';
+import 'package:renderscan/common/components/already_have_account.dart';
+import 'package:renderscan/screen/login/login_dtos.dart';
 
-  LoginScreen({Key? key, required this.cameras}) : super(key: key);
+// screens
+import 'package:renderscan/screen/signup/signup_screen.dart';
+import 'package:renderscan/screen/home/home_screen.dart';
+
+// api
+import 'package:renderscan/screen/login/log_api.dart';
+
+// logger
+import 'package:renderscan/common/utils/logger.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool isPasswordVisible = false;
+  String username = "";
+  String password = "";
+  bool error = false;
+  String message = "";
+
+  void handleEmailInput(String _username) {
+    setState(() {
+      username = _username;
+    });
+  }
+
+  void handlePasswordInput(String _password) {
+    setState(() {
+      password = _password;
+    });
+  }
+
+  void handleSuccess(LoginResponse response) {
+    print(response);
+    setState(() {
+      error = response.error!;
+      message = response.message!;
+    });
+    if (!error) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const HomeScreen();
+          },
+        ),
+      );
+    }
+  }
+
+  void authenticate() {
+    LoginRequest request = LoginRequest(username: username, password: password);
+    Future<LoginResponse> response = LoginApi().authenticateUser(request);
+    response
+        .then((resp) => handleSuccess(resp))
+        .catchError((err) => log.d(err));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +91,14 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
                 hintText: "Your Email",
-                onChanged: (value) {},
+                onChanged: (email) => handleEmailInput(email),
               ),
               RoundedPasswordField(
-                onChanged: (value) {},
+                onChanged: (password) => handlePasswordInput(password),
               ),
               RoundedButton(
                 text: "LOGIN",
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return HomeScreen(
-                          cameras: cameras,
-                        );
-                      },
-                    ),
-                  );
-                },
+                press: authenticate,
               ),
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(

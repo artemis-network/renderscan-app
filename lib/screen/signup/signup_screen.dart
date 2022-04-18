@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/components/rounded_button.dart';
-import 'package:renderscan/components/rounded_input.dart';
-import 'package:renderscan/components/already_have_account.dart';
+import 'package:renderscan/common/components/rounded_button.dart';
+import 'package:renderscan/common/components/rounded_input.dart';
+import 'package:renderscan/common/components/already_have_account.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);

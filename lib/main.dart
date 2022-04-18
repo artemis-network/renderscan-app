@@ -1,27 +1,10 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-// providers
-import 'package:renderscan/provider/image.dart';
-import 'package:renderscan/provider/screen.dart';
 
 // pages
-import 'package:renderscan/screen/welcome_screen.dart';
-
-late List<CameraDescription> cameras;
+import 'package:renderscan/screen/welcome/welcome_screen.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  cameras = await availableCameras();
-
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => ImageP()),
-      ChangeNotifierProvider(create: (_) => ScreenStateProvider())
-    ],
-    child: const MyApp(),
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -40,11 +23,9 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: SafeArea(
+        home: const SafeArea(
           child: Scaffold(
-            body: WelcomeScreen(
-              cameras: cameras,
-            ),
+            body: WelcomeScreen(),
           ),
         ));
   }

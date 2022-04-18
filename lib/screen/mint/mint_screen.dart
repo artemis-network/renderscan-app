@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:renderscan/components/rounded_button.dart';
+import 'package:renderscan/common/components/rounded_button.dart';
 
 class MintScreen extends StatelessWidget {
   Uint8List img;

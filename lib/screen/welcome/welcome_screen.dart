@@ -1,11 +1,8 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:renderscan/screen/login_screen.dart';
+import 'package:renderscan/screen/login/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  List<CameraDescription> cameras;
-
-  WelcomeScreen({Key? key, required this.cameras}) : super(key: key);
+  const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +11,7 @@ class WelcomeScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return LoginScreen(
-              cameras: cameras,
-            );
+            return const LoginScreen();
           },
         ),
       );

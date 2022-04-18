@@ -1,22 +1,14 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:renderscan/main.dart';
-
-// providers
-import 'package:renderscan/provider/screen.dart';
 
 // pages
-import 'package:renderscan/screen/home/gallery_screen.dart';
-import 'package:renderscan/screen/home/profile_screen.dart';
-import 'package:renderscan/screen/home/scan_screen.dart';
-import 'package:renderscan/screen/home/wallet_screen.dart';
-import 'package:renderscan/screen/home/help_screen.dart';
+import 'package:renderscan/screen/scan/scan_screen.dart';
+import 'package:renderscan/screen/profile/profile_screen.dart';
+import 'package:renderscan/screen/wallet/wallet_screen.dart';
+import 'package:renderscan/screen/help/help_screen.dart';
+import 'package:renderscan/screen/gallery/gallery_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  late List<CameraDescription>? cameras;
-
-  HomeScreen({Key? key, required this.cameras}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,28 +16,35 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final screens = [
-    ScanScreen(cameras: cameras),
+    const ScanScreen(),
     const GalleryScreen(),
-    ProfileScreen(),
+    const ProfileScreen(),
     const WalletScreen(),
     const HelpScreen(),
   ];
+
+  int currentIndex = 0;
+  void setIndex(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Renderscan',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.purple,
+          primarySwatch: Colors.blue,
         ),
         home: SafeArea(
           child: Scaffold(
             body: SizedBox(
               height: size.height,
               width: size.width,
-              child: screens[context.watch<ScreenStateProvider>().currentIndex],
+              child: screens[currentIndex],
             ),
             bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
@@ -72,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       size: 26,
                       color: Colors.blueAccent,
                     ),
-                    label: 'Settings',
+                    label: 'Profile',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(
@@ -91,10 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     label: 'Help',
                   ),
                 ],
-                currentIndex: context.watch<ScreenStateProvider>().currentIndex,
-                selectedItemColor: Colors.teal[800],
-                onTap: (index) =>
-                    context.read<ScreenStateProvider>().setPage(index)),
+                currentIndex: currentIndex,
+                selectedItemColor: Colors.blue[800],
+                onTap: (index) => setIndex(index)),
           ),
         ));
   }
