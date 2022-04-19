@@ -8,7 +8,7 @@ cutImageFromServer(XFile file) async {
   var data = await file.readAsBytes();
   try {
     var request =
-        http.MultipartRequest('POST', HttpServerConfig().getHost("/cut"));
+        http.MultipartRequest('POST', HttpServerConfig().getImageHost("/cut"));
     request.fields['username'] = 'akashmadduru';
     var pic = http.MultipartFile.fromBytes('data', data, filename: file.name);
     request.files.add(pic);

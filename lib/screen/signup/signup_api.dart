@@ -1,26 +1,14 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:renderscan/screen/login/login_dtos.dart';
+import 'package:renderscan/common/config/http_config.dart';
+import 'package:renderscan/common/dtos/auth_dto.dart';
 
-Uri getHost(String host, String url) {
-  if (host == "DEV") {
-    return Uri.parse("http://192.168.1.2:5000" + url);
-  }
-  return Uri.parse("");
-}
-
-final headers = {
-  "accept": "application/json",
-  "content-type": "application/json"
-};
-
-const String server = "DEV";
-
-class LoginApi {
-  Future<LoginResponse> authenticateUser(LoginRequest request) async {
-    final response = await http.post(getHost(server, "/users/register"),
-        headers: headers, body: jsonEncode(request.toJson()));
-    return LoginResponse.fromJson(jsonDecode(response.body));
+class SignUpApi {
+  Future<void> authenticateUser(AuthRequest request) async {
+    final response = await http.post(
+        HttpServerConfig().getHost("/users/register"),
+        headers: HttpServerConfig().headers,
+        body: jsonEncode(request.toJson()));
   }
 }

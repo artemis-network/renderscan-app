@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 // components
-import 'package:renderscan/common/components/rounded_button.dart';
-import 'package:renderscan/common/components/rounded_input.dart';
-import 'package:renderscan/common/components/already_have_account.dart';
+import 'package:renderscan/common/components/form/rounded_input.dart';
+import 'package:renderscan/common/components/form/rounded_button.dart';
+import 'package:renderscan/common/components/form/rounded_password.dart';
+import 'package:renderscan/common/components/form/already_have_account.dart';
+
+// utils
 import 'package:renderscan/common/utils/storage.dart';
-import 'package:renderscan/screen/login/login_dtos.dart';
+
+// dto
+import 'package:renderscan/common/dtos/auth_dto.dart';
 
 // screens
 import 'package:renderscan/screen/signup/signup_screen.dart';
@@ -49,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void handleSuccess(LoginResponse response) {
+  void handleSuccess(AuthResponse response) {
     setState(() {
       error = response.error!;
       message = response.message!;
@@ -95,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void authenticate() {
-    LoginRequest request = LoginRequest(username: username, password: password);
-    Future<LoginResponse> response = LoginApi().authenticateUser(request);
+    AuthRequest request = AuthRequest(username: username, password: password);
+    Future<AuthResponse> response = LoginApi().authenticateUser(request);
     response
         .then((resp) => handleSuccess(resp))
         .catchError((err) => log.d(err));
@@ -122,15 +127,19 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
+                validation: () => (null),
                 hintText: "Your Email",
                 onChanged: (email) => handleEmailInput(email),
               ),
               !isPasswordVisible
                   ? RoundedPasswordField(
+                      text: "Password",
                       onChanged: (password) => handlePasswordInput(password),
                     )
                   : RoundedInputField(
+                      validation: () => (null),
                       hintText: "",
+                      icon: Icons.lock,
                       onChanged: (password) => handleEmailInput(password),
                     ),
               RoundedButton(

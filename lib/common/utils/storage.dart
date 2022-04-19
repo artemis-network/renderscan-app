@@ -1,10 +1,10 @@
-import 'package:renderscan/screen/login/login_dtos.dart';
+import 'package:renderscan/common/dtos/auth_dto.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Storage {
   var storage = const FlutterSecureStorage();
 
-  void createSession(LoginResponse response) {
+  void createSession(AuthResponse response) {
     storage.write(key: "username", value: response.username);
     storage.write(key: "email", value: response.email);
     storage.write(key: "userId", value: response.userId.toString());

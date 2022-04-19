@@ -1,56 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/rounded_button.dart';
-import 'package:renderscan/common/components/rounded_input.dart';
-import 'package:renderscan/common/components/already_have_account.dart';
 
-class SignUpScreen extends StatelessWidget {
+// components
+import 'package:renderscan/common/components/form/rounded_input.dart';
+import 'package:renderscan/common/components/form/rounded_button.dart';
+import 'package:renderscan/common/components/form/rounded_password.dart';
+import 'package:renderscan/common/components/form/already_have_account.dart';
+
+// validations
+import 'package:renderscan/screen/signup/signup_validations.dart';
+
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
 
+class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    GlobalKey<FormState> formkey = GlobalKey<FormState>();
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                "SIGNUP",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: size.height * 0.03),
-              Image.asset(
-                "assets/images/register.png",
-                height: size.height * 0.35,
-              ),
-              RoundedInputField(
-                hintText: "Your Email",
-                onChanged: (value) {},
-              ),
-              RoundedPasswordField(
-                onChanged: (value) {},
-              ),
-              RoundedButton(
-                text: "SIGNUP",
-                press: () {},
-              ),
-              SizedBox(height: size.height * 0.03),
-              AlreadyHaveAnAccountCheck(
-                login: false,
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const SignUpScreen();
-                        // return LoginScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
+          child: Form(
+            key: formkey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RoundedInputField(
+                  validation: SignupValidations().nameValidations,
+                  hintText: "Name",
+                  onChanged: (value) {},
+                ),
+                RoundedInputField(
+                  validation: SignupValidations().emailValidations,
+                  hintText: "Email",
+                  icon: Icons.email,
+                  onChanged: (value) {},
+                ),
+                RoundedInputField(
+                  validation: SignupValidations().usernameValidations,
+                  hintText: "Username",
+                  icon: Icons.person_add_alt,
+                  onChanged: (value) {},
+                ),
+                // RoundedPasswordField(
+                //   text: "Password",
+                //   onChanged: (value) {},
+                // ),
+                // RoundedPasswordField(
+                //   text: "Confirm Password",
+                //   onChanged: (value) {},
+                // ),
+                RoundedButton(
+                  text: "SIGNUP",
+                  press: () {
+                    var errors = formkey.currentState!.validate();
+                    print(errors);
+                  },
+                ),
+                SizedBox(height: size.height * 0.03),
+                AlreadyHaveAnAccountCheck(
+                  login: false,
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const SignUpScreen();
+                          // return LoginScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

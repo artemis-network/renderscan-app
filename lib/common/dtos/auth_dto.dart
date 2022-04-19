@@ -1,10 +1,10 @@
-class LoginRequest {
+class AuthRequest {
   String? username;
   String? password;
 
-  LoginRequest({this.username, this.password});
+  AuthRequest({this.username, this.password});
 
-  LoginRequest.fromJson(Map<String, dynamic> json) {
+  AuthRequest.fromJson(Map<String, dynamic> json) {
     username = json['username'];
     password = json['password'];
   }
@@ -17,7 +17,7 @@ class LoginRequest {
   }
 }
 
-class LoginResponse {
+class AuthResponse {
   String? email;
   String? username;
   String? accessToken;
@@ -26,7 +26,7 @@ class LoginResponse {
   String? message;
   bool? error;
 
-  LoginResponse(
+  AuthResponse(
       {this.email,
       this.username,
       this.accessToken,
@@ -35,7 +35,7 @@ class LoginResponse {
       this.message,
       this.error});
 
-  LoginResponse.fromJson(Map<String, dynamic> json) {
+  AuthResponse.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     username = json['username'];
     accessToken = json['accessToken'];
