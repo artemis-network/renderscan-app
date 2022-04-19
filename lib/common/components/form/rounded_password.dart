@@ -4,8 +4,13 @@ import 'package:renderscan/constants.dart';
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String text;
-  const RoundedPasswordField(
-      {Key? key, required this.text, required this.onChanged})
+  final Function validation;
+
+  RoundedPasswordField(
+      {Key? key,
+      required this.text,
+      required this.onChanged,
+      required this.validation})
       : super(key: key);
   @override
   State<RoundedPasswordField> createState() => _RoundedPasswordFieldState();
@@ -16,8 +21,9 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: isVisible,
+      validator: (value) => widget.validation(value),
       onChanged: widget.onChanged,
       cursorColor: kPrimaryColor,
       decoration: InputDecoration(

@@ -5,6 +5,7 @@ import 'package:renderscan/common/components/form/rounded_input.dart';
 import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/common/components/form/rounded_password.dart';
 import 'package:renderscan/common/components/form/already_have_account.dart';
+import 'package:renderscan/constants.dart';
 
 // validations
 import 'package:renderscan/screen/signup/signup_validations.dart';
@@ -16,43 +17,60 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  static GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
           child: Form(
             key: formkey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RoundedInputField(
-                  validation: SignupValidations().nameValidations,
-                  hintText: "Name",
+                TextFormField(
+                  validator: (value) =>
+                      SignupValidations().nameValidations(value.toString()),
+                  cursorColor: kPrimaryColor,
+                  decoration: InputDecoration(
+                    icon: Icon(
+                      Icons.person,
+                      color: kPrimaryColor,
+                    ),
+                    hintText: "Name",
+                  ),
+                ),
+                TextFormField(
+                  validator: (value) =>
+                      SignupValidations().emailValidations(value.toString()),
+                  cursorColor: kPrimaryColor,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.email,
+                      color: kPrimaryColor,
+                    ),
+                    hintText: "Email",
+                  ),
+                ),
+                TextFormField(
+                  validator: (value) =>
+                      SignupValidations().usernameValidations(value.toString()),
+                  cursorColor: kPrimaryColor,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.person_add_alt_1,
+                      color: kPrimaryColor,
+                    ),
+                    hintText: "Username",
+                  ),
+                ),
+                RoundedPasswordField(
+                  validation: SignupValidations().passwordValidation,
+                  text: "Password",
                   onChanged: (value) {},
                 ),
-                RoundedInputField(
-                  validation: SignupValidations().emailValidations,
-                  hintText: "Email",
-                  icon: Icons.email,
-                  onChanged: (value) {},
-                ),
-                RoundedInputField(
-                  validation: SignupValidations().usernameValidations,
-                  hintText: "Username",
-                  icon: Icons.person_add_alt,
-                  onChanged: (value) {},
-                ),
-                // RoundedPasswordField(
-                //   text: "Password",
-                //   onChanged: (value) {},
-                // ),
-                // RoundedPasswordField(
-                //   text: "Confirm Password",
-                //   onChanged: (value) {},
-                // ),
                 RoundedButton(
                   text: "SIGNUP",
                   press: () {

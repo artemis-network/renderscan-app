@@ -133,6 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               !isPasswordVisible
                   ? RoundedPasswordField(
+                      validation: () => (null),
                       text: "Password",
                       onChanged: (password) => handlePasswordInput(password),
                     )
