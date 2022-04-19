@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:renderscan/common/utils/storage.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -7,7 +8,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    void fun() => print("hello");
+    void fun() => (null);
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
       child: SizedBox(
@@ -25,13 +27,19 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Column(
                   children: [
-                    Text("akashmadduru",
-                        style: GoogleFonts.poppins(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text("akashmadduru@gmail.com",
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                        )),
+                    FutureBuilder(
+                        future: Storage().getItem('username'),
+                        builder: (context, snapshot) {
+                          return Text(snapshot.data.toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 18, fontWeight: FontWeight.bold));
+                        }),
+                    FutureBuilder(
+                        future: Storage().getItem('email'),
+                        builder: (context, snapshot) {
+                          return Text(snapshot.data.toString(),
+                              style: GoogleFonts.poppins(fontSize: 14));
+                        }),
                   ],
                 ),
               ),
@@ -94,7 +102,7 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void fun() => print("hello");
+    void fun() => (null);
     final size = MediaQuery.of(context).size;
 
     return Padding(

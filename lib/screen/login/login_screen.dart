@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 // components
 import 'package:renderscan/common/components/rounded_button.dart';
 import 'package:renderscan/common/components/rounded_input.dart';
 import 'package:renderscan/common/components/already_have_account.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/login/login_dtos.dart';
 
 // screens
@@ -27,8 +26,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordVisible = false;
-  String username = "";
-  String password = "";
+  String username = "ivycox@corporana.com";
+  String password = "password@1234";
   bool error = false;
   String message = "";
 
@@ -44,19 +43,52 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  void togglePassword() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   void handleSuccess(LoginResponse response) {
-    print(response);
     setState(() {
       error = response.error!;
       message = response.message!;
     });
     if (!error) {
+      Storage().createSession(response);
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
             return const HomeScreen();
           },
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(
+            label: "Close",
+            onPressed: () {
+              setState(() {
+                isPasswordVisible = false;
+                username = "ivycox@corporana.com";
+                password = "password@1234";
+                error = false;
+                message = "";
+              });
+            },
+          ),
+          content: Text(message),
+          duration: const Duration(milliseconds: 1500),
+          width: 400, // Width of the SnackBar.
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0, // Inner padding for SnackBar content.
+          ),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
         ),
       );
     }
@@ -93,9 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintText: "Your Email",
                 onChanged: (email) => handleEmailInput(email),
               ),
-              RoundedPasswordField(
-                onChanged: (password) => handlePasswordInput(password),
-              ),
+              !isPasswordVisible
+                  ? RoundedPasswordField(
+                      onChanged: (password) => handlePasswordInput(password),
+                    )
+                  : RoundedInputField(
+                      hintText: "",
+                      onChanged: (password) => handleEmailInput(password),
+                    ),
               RoundedButton(
                 text: "LOGIN",
                 press: authenticate,

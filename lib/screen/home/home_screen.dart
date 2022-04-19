@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:renderscan/screen/scan/scan_screen.dart';
 import 'package:renderscan/screen/profile/profile_screen.dart';
 import 'package:renderscan/screen/wallet/wallet_screen.dart';
-import 'package:renderscan/screen/help/help_screen.dart';
+import 'package:renderscan/screen/upgrade/upgrade_screen.dart';
 import 'package:renderscan/screen/gallery/gallery_screen.dart';
+
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,14 +18,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final screens = [
-    const ScanScreen(),
     const GalleryScreen(),
     const ProfileScreen(),
+    const ScanScreen(),
     const WalletScreen(),
-    const HelpScreen(),
+    const UpgradeScreen(),
   ];
 
-  int currentIndex = 0;
+  int currentIndex = 2;
   void setIndex(int index) {
     setState(() {
       currentIndex = index;
@@ -40,60 +42,46 @@ class _HomeScreenState extends State<HomeScreen> {
           primarySwatch: Colors.blue,
         ),
         home: SafeArea(
-          child: Scaffold(
-            body: SizedBox(
-              height: size.height,
-              width: size.width,
-              child: screens[currentIndex],
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.camera_alt_outlined,
-                      size: 26,
-                      color: Colors.blueAccent,
-                    ),
-                    label: 'Clip',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.folder_outlined,
-                      size: 26,
-                      color: Colors.blueAccent,
-                    ),
-                    label: 'Gallery',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.person_outlined,
-                      size: 26,
-                      color: Colors.blueAccent,
-                    ),
-                    label: 'Profile',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.wallet_travel_outlined,
-                      size: 26,
-                      color: Colors.blueAccent,
-                    ),
-                    label: 'Wallet',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.help_center_outlined,
-                      size: 26,
-                      color: Colors.blueAccent,
-                    ),
-                    label: 'Help',
-                  ),
-                ],
-                currentIndex: currentIndex,
-                selectedItemColor: Colors.blue[800],
-                onTap: (index) => setIndex(index)),
+            child: Scaffold(
+          body: SizedBox(
+            height: size.height,
+            width: size.width,
+            child: screens[currentIndex],
           ),
-        ));
+          bottomNavigationBar: CurvedNavigationBar(
+            index: 2,
+            height: 50.0,
+            items: const <Widget>[
+              Icon(
+                Icons.picture_in_picture,
+                size: 30,
+                color: Colors.white,
+              ),
+              Icon(Icons.person, size: 30, color: Colors.white),
+              Icon(Icons.camera, size: 46, color: Colors.white),
+              Icon(
+                Icons.account_balance_wallet,
+                size: 30,
+                color: Colors.white,
+              ),
+              Icon(
+                Icons.upgrade,
+                size: 30,
+                color: Colors.white,
+              ),
+            ],
+            color: Colors.blue,
+            buttonBackgroundColor: Colors.blue,
+            backgroundColor: Colors.white,
+            animationCurve: Curves.easeInOut,
+            animationDuration: const Duration(milliseconds: 600),
+            onTap: (index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            letIndexChange: (index) => true,
+          ),
+        )));
   }
 }

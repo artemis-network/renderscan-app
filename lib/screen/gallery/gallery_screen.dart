@@ -136,7 +136,7 @@ List<ImageDetails> _images = [
         'This image was taken during a party in New York on new years eve. Quite a colorful shot.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/2.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$10.00',
     photographer: 'Abraham Costa',
     title: 'Spring',
@@ -144,7 +144,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/3.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$30.00',
     photographer: 'Jamie Bryan',
     title: 'Casual Look',
@@ -152,31 +152,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/4.jpg',
-    price: '\$20.00',
-    photographer: 'Jamie Bryan',
-    title: 'New York',
-    details:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
-  ),
-  const ImageDetails(
-    imagePath: 'assets/images/5.jpg',
-    price: '\$20.00',
-    photographer: 'Jamie Bryan',
-    title: 'New York',
-    details:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
-  ),
-  const ImageDetails(
-    imagePath: 'assets/images/6.jpg',
-    price: '\$20.00',
-    photographer: 'Jamie Bryan',
-    title: 'New York',
-    details:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
-  ),
-  const ImageDetails(
-    imagePath: 'assets/images/7.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -192,7 +168,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/2.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -200,7 +176,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/3.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -208,7 +184,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/4.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -216,7 +192,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/5.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -224,7 +200,7 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/6.jpg',
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Jamie Bryan',
     title: 'New York',
@@ -232,7 +208,31 @@ List<ImageDetails> _images = [
         'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
   ),
   const ImageDetails(
-    imagePath: 'assets/images/7.jpg',
+    imagePath: 'assets/images/1.jpg',
+    price: '\$20.00',
+    photographer: 'Jamie Bryan',
+    title: 'New York',
+    details:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
+  ),
+  const ImageDetails(
+    imagePath: 'assets/images/1.jpg',
+    price: '\$20.00',
+    photographer: 'Jamie Bryan',
+    title: 'New York',
+    details:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
+  ),
+  const ImageDetails(
+    imagePath: 'assets/images/1.jpg',
+    price: '\$20.00',
+    photographer: 'Jamie Bryan',
+    title: 'New York',
+    details:
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil error aspernatur, sequi inventore eligendi vitae dolorem animi suscipit. Nobis, cumque.',
+  ),
+  const ImageDetails(
+    imagePath: 'assets/images/1.jpg',
     price: '\$20.00',
     photographer: 'Matthew',
     title: 'Cone Ice Cream',

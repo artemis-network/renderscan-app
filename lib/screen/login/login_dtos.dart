@@ -18,15 +18,17 @@ class LoginRequest {
 }
 
 class LoginResponse {
+  String? email;
   String? username;
   String? accessToken;
   String? publicToken;
-  String? userId;
+  int? userId;
   String? message;
   bool? error;
 
   LoginResponse(
-      {this.username,
+      {this.email,
+      this.username,
       this.accessToken,
       this.publicToken,
       this.userId,
@@ -34,6 +36,7 @@ class LoginResponse {
       this.error});
 
   LoginResponse.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
     username = json['username'];
     accessToken = json['accessToken'];
     publicToken = json['publicToken'];
@@ -44,6 +47,7 @@ class LoginResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['email'] = email;
     data['username'] = username;
     data['accessToken'] = accessToken;
     data['publicToken'] = publicToken;
