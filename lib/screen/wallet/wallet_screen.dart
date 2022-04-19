@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/screen/wallet/wallet_api.dart';
+import 'package:renderscan/screen/wallet/wallet_dto.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -9,13 +12,39 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  late Wallet wallet;
+
+  Future<Wallet> setUpWallet() async {
+    final username = await Storage().getItem("username");
+    return await WalletApi().getBalance(username.toString());
+  }
+
+  getBalance() {
+    return FutureBuilder(
+        future: setUpWallet(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState.name == "done") {
+            final data = snapshot.data as Wallet;
+            return Text(
+              data.balance.toString() + " RNDV",
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            );
+          } else {
+            return Text(
+              0.toString() + " RNDV",
+              style: GoogleFonts.poppins(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            );
+          }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var data = [
       {"title": "Rendle 7", "subTitle": "Entry Fee", "trailing": "2000 RNDV"},
-      {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
-      {"title": "Rendle 6", "subTitle": "Entry Fee", "trailing": "1500 RNDV"},
       {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
       {"title": "Rendle 6", "subTitle": "Entry Fee", "trailing": "1500 RNDV"},
       {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
@@ -94,11 +123,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           style: GoogleFonts.poppins(
                               fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          "2400 RENDV",
-                          style: GoogleFonts.poppins(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
+                        getBalance()
                       ],
                     )),
                 Expanded(
