@@ -52,11 +52,11 @@ class _ScanScreenState extends State<ScanScreen> {
       },
     );
 
-    void cutFunction() {
-      // pictureFile = await controller.takePicture();
-      // var uri = await cutImageFromServer(pictureFile!);
+    void cutFunction() async {
+      pictureFile = await controller.takePicture();
+      var uri = await cutImageFromServer(pictureFile!);
       setState(() {
-        base64String = imgUrl;
+        base64String = uri;
       });
     }
 
