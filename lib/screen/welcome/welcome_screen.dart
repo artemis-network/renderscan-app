@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/screen/home/home_screen.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -12,7 +11,7 @@ class WelcomeScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const LoginScreen();
+            return const HomeScreen();
           },
         ),
       );

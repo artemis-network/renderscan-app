@@ -46,7 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) =>
                       SignupValidations().emailValidations(value.toString()),
                   cursorColor: kPrimaryColor,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     icon: Icon(
                       Icons.email,
                       color: kPrimaryColor,
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) =>
                       SignupValidations().usernameValidations(value.toString()),
                   cursorColor: kPrimaryColor,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     icon: Icon(
                       Icons.person_add_alt_1,
                       color: kPrimaryColor,

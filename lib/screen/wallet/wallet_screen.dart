@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/wallet/wallet_api.dart';
 import 'package:renderscan/screen/wallet/wallet_dto.dart';
+import 'package:renderscan/constants.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -28,13 +29,17 @@ class _WalletScreenState extends State<WalletScreen> {
             return Text(
               data.balance.toString() + " RNDV",
               style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.bold),
+                  color: kPrimaryLightColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             );
           } else {
             return Text(
               0.toString() + " RNDV",
               style: GoogleFonts.poppins(
-                  fontSize: 18, fontWeight: FontWeight.bold),
+                  color: kPrimaryLightColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
             );
           }
         });
@@ -55,7 +60,8 @@ class _WalletScreenState extends State<WalletScreen> {
     ];
 
     return Scaffold(
-        body: SafeArea(
+        body: Container(
+      color: KprimaryBackGroundColor,
       child: Column(
         children: [
           SingleChildScrollView(
@@ -63,7 +69,7 @@ class _WalletScreenState extends State<WalletScreen> {
             children: [
               Container(
                   padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(color: Colors.white),
+                  decoration: BoxDecoration(color: kPrimaryColor),
                   width: size.width,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -72,22 +78,26 @@ class _WalletScreenState extends State<WalletScreen> {
                           Column(children: [
                             Text("Wallet",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                                    color: kPrimaryLightColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold)),
                             Text("Active",
                                 style: GoogleFonts.poppins(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
+                                    color: kPrimaryLightColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.left),
                           ]),
                         ]),
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 30,
-                          backgroundColor: Colors.white,
-                          backgroundImage: NetworkImage(
+                          backgroundColor: kPrimaryColor,
+                          backgroundImage: const NetworkImage(
                               'https://images.unsplash.com/photo-1648737154547-b0dfd281c51e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),
                         ),
                       ])),
               Container(
-                decoration: const BoxDecoration(color: Colors.white),
+                decoration: BoxDecoration(color: kPrimaryColor),
                 alignment: Alignment.centerRight,
               ),
             ],
@@ -97,13 +107,13 @@ class _WalletScreenState extends State<WalletScreen> {
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: Colors.white,
-                  boxShadow: const [
+                  color: kPrimaryColor,
+                  boxShadow: [
                     BoxShadow(
-                      color: Colors.grey,
+                      color: kPrimaryLightColor,
                       blurRadius: 3.0, // soften the shadow
                       spreadRadius: -2.0, //extend the shadow
-                      offset: Offset(
+                      offset: const Offset(
                         1.0, // Move to right 10  horizontally
                         1.0, // Move to bottom 10 Vertically
                       ),
@@ -121,9 +131,18 @@ class _WalletScreenState extends State<WalletScreen> {
                         Text(
                           "Balance",
                           style: GoogleFonts.poppins(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                              color: kPrimaryLightColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
                         ),
-                        getBalance()
+                        Text(
+                          "10000 RNDV",
+                          style: GoogleFonts.poppins(
+                              color: kPrimaryLightColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        // getBalance()
                       ],
                     )),
                 Expanded(
@@ -134,12 +153,16 @@ class _WalletScreenState extends State<WalletScreen> {
                       Text(
                         "Account",
                         style: GoogleFonts.poppins(
-                            fontSize: 14, fontWeight: FontWeight.bold),
+                            color: kPrimaryLightColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "0xcff8...",
                         style: GoogleFonts.poppins(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                            color: kPrimaryLightColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -178,11 +201,14 @@ class _WalletScreenState extends State<WalletScreen> {
                   Text(
                     "Last Transcations",
                     style: GoogleFonts.poppins(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+                        color: kPrimaryLightColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "View All",
                     style: GoogleFonts.poppins(
+                      color: kPrimaryLightColor,
                       fontSize: 14,
                     ),
                   ),
@@ -227,17 +253,18 @@ class ButtonWidget extends StatelessWidget {
           onPressed: null,
           child: Icon(
             icon,
-            color: Colors.blue,
+            color: kPrimaryLightColor,
           ),
           style: OutlinedButton.styleFrom(
               shape: const CircleBorder(),
               side: const BorderSide(color: Colors.transparent),
               padding: const EdgeInsets.all(15),
               elevation: 5,
-              backgroundColor: Colors.white,
+              backgroundColor: kPrimaryColor,
               shadowColor: Colors.grey.withOpacity(0.2)),
         ),
-        Text(text, style: GoogleFonts.poppins(fontSize: 12, color: Colors.blue))
+        Text(text,
+            style: GoogleFonts.poppins(fontSize: 12, color: kPrimaryLightColor))
       ],
     );
   }
@@ -258,23 +285,24 @@ class ListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: const CircleAvatar(
+      leading: CircleAvatar(
+        backgroundColor: kPrimaryLightColor,
         child: Icon(
           Icons.receipt_outlined,
-          color: Colors.blue,
+          color: KprimaryBackGroundColor,
         ),
       ),
       title: Text(
         title,
-        style: GoogleFonts.poppins(),
+        style: GoogleFonts.poppins(color: kPrimaryLightColor),
       ),
       subtitle: Text(
         subTitle,
-        style: GoogleFonts.poppins(),
+        style: GoogleFonts.poppins(color: kPrimaryLightColor),
       ),
       trailing: Text(
         trailing,
-        style: GoogleFonts.poppins(),
+        style: GoogleFonts.poppins(color: kPrimaryLightColor),
       ),
     );
   }

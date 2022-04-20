@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/constants.dart';
 
 class DetailsPage extends StatelessWidget {
   final String imagePath;
@@ -50,8 +51,8 @@ class DetailsPage extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         title,
-                        style: const TextStyle(
-                          color: Colors.lightBlueAccent,
+                        style: TextStyle(
+                          color: kPrimaryColor,
                           fontSize: 22,
                           fontWeight: FontWeight.w600,
                         ),
@@ -64,8 +65,8 @@ class DetailsPage extends StatelessWidget {
                       ),
                       Text(
                         price,
-                        style: const TextStyle(
-                          color: Colors.lightBlueAccent,
+                        style: TextStyle(
+                          color: kPrimaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w400,
                         ),
@@ -90,11 +91,11 @@ class DetailsPage extends StatelessWidget {
                           Navigator.pop(context);
                         },
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        color: Colors.lightBlueAccent,
-                        child: const Text(
+                        color: kPrimaryColor,
+                        child: Text(
                           'Back',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: kPrimaryLightColor,
                           ),
                         ),
                       ),
@@ -106,11 +107,11 @@ class DetailsPage extends StatelessWidget {
                       child: FlatButton(
                         onPressed: () {},
                         padding: const EdgeInsets.symmetric(vertical: 15),
-                        color: Colors.lightBlueAccent,
-                        child: const Text(
+                        color: kPrimaryColor,
+                        child: Text(
                           'Buy',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: kPrimaryLightColor,
                           ),
                         ),
                       ),
@@ -247,7 +248,7 @@ class GalleryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: KprimaryBackGroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -255,12 +256,12 @@ class GalleryScreen extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            const Text(
+            Text(
               'Gallery',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: kPrimaryLightColor,
               ),
               textAlign: TextAlign.center,
             ),
@@ -273,9 +274,9 @@ class GalleryScreen extends StatelessWidget {
                   horizontal: 20,
                   vertical: 30,
                 ),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: KprimaryBackGroundColor,
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(30),
                     topRight: Radius.circular(30),
                   ),

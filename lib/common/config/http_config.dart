@@ -1,5 +1,5 @@
 class HttpServerConfig {
-  final _host = "DEV";
+  final _host = "PROD";
   final _headers = {
     "accept": "application/json",
     "content-type": "application/json"
@@ -9,11 +9,11 @@ class HttpServerConfig {
 
   Uri getHost(String url) {
     if (_host == "DEV") return Uri.parse("http://192.168.1.14:5000" + url);
-    return Uri.parse("");
+    return Uri.parse("https://renderscan.azurewebsites.net" + url);
   }
 
   Uri getImageHost(String url) {
     if (_host == "DEV") return Uri.parse("http://192.168.1.14:5001" + url);
-    return Uri.parse("");
+    return Uri.parse("https://artemisnetwork.azurewebsites.net/" + url);
   }
 }

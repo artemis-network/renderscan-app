@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -11,13 +12,15 @@ class ProfileScreen extends StatelessWidget {
     void fun() => (null);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-      child: SizedBox(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Container(
+          color: KprimaryBackGroundColor,
           height: size.height,
           width: size.width,
           child: Column(
             children: [
-              const SizedBox(
+              const Padding(
+                padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: CircleAvatar(
                   backgroundImage: AssetImage('assets/images/1.jpg'),
                   radius: 50,
@@ -32,13 +35,18 @@ class ProfileScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           return Text(snapshot.data.toString(),
                               style: GoogleFonts.poppins(
-                                  fontSize: 18, fontWeight: FontWeight.bold));
+                                  color: kPrimaryLightColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold));
                         }),
                     FutureBuilder(
                         future: Storage().getItem('email'),
                         builder: (context, snapshot) {
                           return Text(snapshot.data.toString(),
-                              style: GoogleFonts.poppins(fontSize: 14));
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: kPrimaryLightColor,
+                              ));
                         }),
                   ],
                 ),
@@ -47,8 +55,8 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
                 child: TextButton(
                     style: TextButton.styleFrom(
-                        primary: Colors.white,
-                        backgroundColor: Colors.blue,
+                        primary: kPrimaryColor,
+                        backgroundColor: kPrimaryLightColor,
                         minimumSize: Size(size.width * 0.4, 50),
                         elevation: 2,
                         shape: RoundedRectangleBorder(
@@ -123,8 +131,8 @@ class ButtonWidget extends StatelessWidget {
           ),
           style: TextButton.styleFrom(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              primary: Colors.blue,
-              backgroundColor: Colors.white,
+              primary: kPrimaryLightColor,
+              backgroundColor: kPrimaryColor,
               minimumSize: Size(size.width, 50),
               elevation: 2,
               shape: RoundedRectangleBorder(

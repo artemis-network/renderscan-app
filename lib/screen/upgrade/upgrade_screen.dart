@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:renderscan/constants.dart';
 
 class UpgradeScreen extends StatelessWidget {
   const UpgradeScreen({Key? key}) : super(key: key);
@@ -8,88 +9,93 @@ class UpgradeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(children: [
-      const Padding(
-        padding: EdgeInsets.all(20),
-        child: CircleAvatar(
-          backgroundImage: AssetImage("assets/images/1.jpg"),
-          radius: 50,
-        ),
-      ),
-      Container(
-        padding: const EdgeInsets.fromLTRB(50, 40, 50, 40),
-        decoration: const BoxDecoration(color: Colors.blue),
-        width: size.width * 1,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Unlimeted Clips",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  const Icon(Icons.arrow_circle_left, color: Colors.white)
-                ]),
-            SizedBox(
-              height: size.height * 0.015,
+    return Container(
+        color: KprimaryBackGroundColor,
+        child: Column(children: [
+          const Padding(
+            padding: EdgeInsets.all(20),
+            child: CircleAvatar(
+              backgroundImage: AssetImage("assets/images/1.jpg"),
+              radius: 50,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(children: [
-                  Text(
-                    "HD Clips",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  const Icon(
-                    Icons.image_aspect_ratio_outlined,
-                    color: Colors.white,
-                  )
-                ]),
-                Column(children: [
-                  Text(
-                    "No Watermarks",
-                    style: GoogleFonts.poppins(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  const Icon(
-                    Icons.stop_circle_outlined,
-                    color: Colors.white,
-                  )
-                ]),
-              ],
-            )
-          ],
-        ),
-      ),
-      SizedBox(
-        height: size.height * 0.05,
-      ),
-      Column(
-        children: [
-          const ButtonWidget(
-            text: "Annual-1000 rend",
-            icon: Icons.upgrade,
           ),
-          const ButtonWidget(
-            text: "Monthly-120 rend",
-            icon: Icons.upgrade,
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+            decoration: BoxDecoration(color: kPrimaryColor),
+            width: size.width * 1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Unlimeted Clips",
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      const Icon(Icons.arrow_circle_left, color: Colors.white)
+                    ]),
+                SizedBox(
+                  height: size.height * 0.025,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(children: [
+                      Text(
+                        "HD Clips",
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      const Icon(
+                        Icons.image_aspect_ratio_outlined,
+                        color: Colors.white,
+                      )
+                    ]),
+                    Column(children: [
+                      Text(
+                        "No Watermarks",
+                        style: GoogleFonts.poppins(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      const Icon(
+                        Icons.stop_circle_outlined,
+                        color: Colors.white,
+                      )
+                    ]),
+                  ],
+                )
+              ],
+            ),
           ),
           SizedBox(
-            height: size.height * 0.02,
+            height: size.height * 0.05,
           ),
-          const Text("7 Days Free Trail"),
-          const Text("Cancel Anytime")
-        ],
-      )
-    ]);
+          Column(
+            children: [
+              const ButtonWidget(
+                text: "Annual-1000 rend",
+                icon: Icons.upgrade,
+              ),
+              const ButtonWidget(
+                text: "Monthly-120 rend",
+                icon: Icons.upgrade,
+              ),
+              SizedBox(
+                child: null,
+                height: size.height * 0.05,
+              ),
+              Text("7 Days Free Trail",
+                  style: GoogleFonts.poppins(color: kPrimaryLightColor)),
+              Text("Cancel Anytime",
+                  style: GoogleFonts.poppins(color: kPrimaryLightColor))
+            ],
+          )
+        ]));
   }
 }
 
@@ -107,7 +113,7 @@ class ButtonWidget extends StatelessWidget {
     final pad = (size.width * 0.25);
 
     return Padding(
-        padding: EdgeInsets.fromLTRB(pad, 6, pad, 40),
+        padding: EdgeInsets.fromLTRB(pad, 10, pad, 10),
         child: TextButton(
           onPressed: fun,
           child: Stack(
@@ -124,8 +130,8 @@ class ButtonWidget extends StatelessWidget {
           ),
           style: TextButton.styleFrom(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              primary: Colors.blue,
-              backgroundColor: Colors.white,
+              primary: kPrimaryLightColor,
+              backgroundColor: kPrimaryColor,
               minimumSize: Size(size.width, 50),
               elevation: 2,
               shape: RoundedRectangleBorder(

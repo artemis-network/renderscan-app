@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/constants.dart';
 
 // pages
 import 'package:renderscan/screen/scan/scan_screen.dart';
@@ -38,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return MaterialApp(
         title: 'Renderscan',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(),
         home: SafeArea(
             child: Scaffold(
           body: SizedBox(
@@ -51,28 +50,28 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomNavigationBar: CurvedNavigationBar(
             index: 2,
             height: 50.0,
-            items: const <Widget>[
+            items: <Widget>[
               Icon(
                 Icons.picture_in_picture,
                 size: 30,
-                color: Colors.white,
+                color: kPrimaryLightColor,
               ),
-              Icon(Icons.person, size: 30, color: Colors.white),
-              Icon(Icons.camera, size: 46, color: Colors.white),
+              Icon(Icons.person, size: 30, color: kPrimaryLightColor),
+              Icon(Icons.camera, size: 46, color: kPrimaryLightColor),
               Icon(
                 Icons.account_balance_wallet,
                 size: 30,
-                color: Colors.white,
+                color: kPrimaryLightColor,
               ),
               Icon(
                 Icons.upgrade,
                 size: 30,
-                color: Colors.white,
+                color: kPrimaryLightColor,
               ),
             ],
-            color: Colors.blue,
-            buttonBackgroundColor: Colors.blue,
-            backgroundColor: Colors.white,
+            color: kPrimaryColor,
+            buttonBackgroundColor: kPrimaryColor,
+            backgroundColor: KprimaryBackGroundColor,
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 600),
             onTap: (index) {
