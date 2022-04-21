@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -5,12 +6,36 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/constants.dart';
 
+import 'package:renderscan/screen/gallery/gallery_screen.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 class MintScreen extends StatelessWidget {
   Uint8List img;
   MintScreen({Key? key, required this.img}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    IO.Socket? socket;
+    fun() {
+      socket = IO.io(
+          'http://192.168.1.14:5001',
+          IO.OptionBuilder()
+              .setTransports(['websocket'])
+              .enableAutoConnect()
+              .build());
+
+      socket?.connect();
+
+      socket?.onConnect((_) {
+        print('connect');
+      });
+      print(socket?.connected.toString());
+      var base64ImgString = base64Encode(img).toString();
+      socket?.onError((data) => print(data));
+      socket?.emit('/message', base64ImgString);
+    }
+
     mint() {
       showDialog(
           context: context,
@@ -52,29 +77,76 @@ class MintScreen extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: kPrimaryColor,
+        ),
         backgroundColor: KprimaryBackGroundColor,
         body: Container(
-            height: size.height * 0.8,
+            height: size.height * 0.85,
             width: size.width,
             child: Column(
               children: [
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 40),
-                  child: img != null
-                      ? Image.memory(
-                          img,
-                        )
-                      : null,
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
+                  child: img.isNotEmpty ? Image.memory(img) : null,
                 )),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        RoundedButton(text: "Mint", press: () => mint()),
-                        RoundedButton(text: "Drop", press: () => mint()),
-                      ]),
+                Column(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              RoundedButton(text: "Mint", press: () => mint()),
+                              RoundedButton(text: "Drop", press: fun),
+                            ])),
+                    Padding(
+                        padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const GalleryScreen()),
+                                );
+                              },
+                              child: Icon(
+                                Icons.picture_in_picture,
+                                color: kPrimaryLightColor,
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  side: const BorderSide(
+                                      color: Colors.transparent),
+                                  padding: const EdgeInsets.all(15),
+                                  elevation: 5,
+                                  backgroundColor: kPrimaryColor,
+                                  shadowColor: Colors.grey.withOpacity(0.2)),
+                            ),
+                            OutlinedButton(
+                              onPressed: fun,
+                              child: Icon(
+                                Icons.edit,
+                                color: kPrimaryLightColor,
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  side: const BorderSide(
+                                      color: Colors.transparent),
+                                  padding: const EdgeInsets.all(15),
+                                  elevation: 5,
+                                  backgroundColor: kPrimaryColor,
+                                  shadowColor: Colors.grey.withOpacity(0.2)),
+                            ),
+                          ],
+                        ))
+                  ],
                 )
               ],
             )));

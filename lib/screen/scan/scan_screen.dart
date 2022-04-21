@@ -1,14 +1,13 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/screen/scan/scan_api.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
-import 'package:renderscan/screen/scan/uri.dart';
+import 'package:renderscan/screen/scan/scan_loader.dart';
 
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:renderscan/screen/scan/scan_provider.dart';
+import 'package:provider/provider.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -17,72 +16,54 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
+  // camera state
   late List<CameraDescription> cameras;
   late CameraController controller;
-
-  Future<void> setupCameras() async {
-    cameras = await availableCameras();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
-    await controller.initialize();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  String? base64String;
   XFile? pictureFile;
-  late Uint8List list;
-
-  Uint8List getImage() => const Base64Codec().decode(base64String.toString());
 
   @override
   Widget build(BuildContext context) {
-    bool isLoading = false;
     final size = MediaQuery.of(context).size;
-    final spinkit = SpinKitFadingCircle(
-      itemBuilder: (BuildContext context, int index) {
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: index.isEven ? KprimaryBackGroundColor : kPrimaryLightColor,
-          ),
-        );
-      },
-    );
 
-    void cutFunction() async {
-      pictureFile = await controller.takePicture();
-      var uri = await cutImageFromServer(pictureFile!);
-      setState(() {
-        base64String = uri;
-      });
+    Future<void> setupCameras() async {
+      cameras = await availableCameras();
+      controller = CameraController(cameras[0], ResolutionPreset.medium);
+      await controller.initialize();
+    }
+
+    void scanFunction() async {
+      print("> Capturing image");
+      var pictureFile = await controller.takePicture();
+      print("> Processing image");
+      var uri = await cutImageFromServer(pictureFile);
+      print("> Setting scan state");
+      context.read<ScanProvider>().setScanStatus(uri);
+      context.read<ScanProvider>().setLoading(false);
+    }
+
+    void ScanImage() {
+      print("> Setting Loader");
+      context.read<ScanProvider>().setLoading(true);
+      scanFunction();
     }
 
     goToMintScreen() {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) {
-            return MintScreen(img: getImage());
-          },
-        ),
+            builder: (context) =>
+                MintScreen(img: context.watch<ScanProvider>().imageSource)),
       );
     }
 
-    retry() {
-      setState(() {
-        base64String = null;
-        cameras = cameras;
-        controller = controller;
-      });
+    void retry() {
+      context.read<ScanProvider>().resetProvider();
     }
 
     return FutureBuilder(
         future: setupCameras(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState.name == "done") {
+          if (snapshot.connectionState.name == "done")
             return Container(
                 color: KprimaryBackGroundColor,
                 child: Column(
@@ -101,32 +82,39 @@ class _ScanScreenState extends State<ScanScreen> {
                             top: size.height * .2,
                             width: size.width * 1,
                             child: Container(
-                                child: base64String != null
+                                child: context
+                                            .watch<ScanProvider>()
+                                            .isFetched ==
+                                        true
                                     ? Image.memory(
-                                        getImage(),
+                                        context
+                                            .watch<ScanProvider>()
+                                            .imageSource,
                                       )
-                                    : null),
+                                    : context.watch<ScanProvider>().isLoading
+                                        ? spinkit
+                                        : null),
                           ),
                         ],
                       ),
                     ),
                     Container(
                       alignment: Alignment.bottomCenter,
-                      child: base64String == null
+                      child: context.watch<ScanProvider>().isFetched == false
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(100, 5, 100, 0),
+                              padding: const EdgeInsets.fromLTRB(60, 10, 60, 0),
                               child: Column(
                                 children: [
-                                  OutlinedButton(
-                                    onPressed: cutFunction,
-                                    child: Icon(
-                                      Icons.camera,
-                                      color: kPrimaryLightColor,
-                                      size: 30,
+                                  TextButton(
+                                    onPressed: ScanImage,
+                                    child: Text(
+                                      "Scan",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    style: OutlinedButton.styleFrom(
-                                        shape: const CircleBorder(),
+                                    style: TextButton.styleFrom(
+                                        minimumSize: Size(90, 20),
                                         side: const BorderSide(
                                             color: Colors.transparent),
                                         padding: const EdgeInsets.all(15),
@@ -139,7 +127,7 @@ class _ScanScreenState extends State<ScanScreen> {
                               ),
                             )
                           : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 ElevatedButton(
                                     onPressed: () => retry(),
@@ -152,13 +140,14 @@ class _ScanScreenState extends State<ScanScreen> {
                     )
                   ],
                 ));
-          } else {
-            return const SizedBox(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+          return spinkit;
         });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    cameras = [];
+    super.dispose();
   }
 }

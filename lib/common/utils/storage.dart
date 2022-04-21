@@ -13,4 +13,13 @@ class Storage {
   }
 
   Future<String?> getItem(String key) async => await storage.read(key: key);
+  Future<void> deleteItem(String key) async => await storage.delete(key: key);
+
+  void logout() async {
+    await deleteItem("username");
+    await deleteItem("email");
+    await deleteItem("userId");
+    await deleteItem("publicToken");
+    await deleteItem("accessToken");
+  }
 }

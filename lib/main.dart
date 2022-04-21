@@ -3,8 +3,19 @@ import 'package:flutter/material.dart';
 // pages
 import 'package:renderscan/screen/welcome/welcome_screen.dart';
 
+// provider
+import 'package:provider/provider.dart';
+import 'package:renderscan/screen/scan/scan_provider.dart';
+
 void main() async {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
