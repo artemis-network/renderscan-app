@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,30 +11,32 @@ import 'package:renderscan/screen/gallery/gallery_screen.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class MintScreen extends StatelessWidget {
+class MintScreen extends StatefulWidget {
   Uint8List img;
   MintScreen({Key? key, required this.img}) : super(key: key);
 
   @override
+  State<MintScreen> createState() => _MintScreenState();
+}
+
+class _MintScreenState extends State<MintScreen> {
+  @override
   Widget build(BuildContext context) {
-    IO.Socket? socket;
     fun() {
-      socket = IO.io(
+      IO.Socket socket = IO.io(
           'http://192.168.1.14:5001',
           IO.OptionBuilder()
               .setTransports(['websocket'])
-              .enableAutoConnect()
+              .setTimeout(10000)
               .build());
-
-      socket?.connect();
-
-      socket?.onConnect((_) {
+      socket.connect();
+      socket.onConnect((_) {
         print('connect');
       });
-      print(socket?.connected.toString());
-      var base64ImgString = base64Encode(img).toString();
-      socket?.onError((data) => print(data));
-      socket?.emit('/message', base64ImgString);
+      print(socket.connected.toString());
+      socket.onError((data) => print(data));
+      var base64ImgString = base64Encode(widget.img).toString();
+      socket.emit('message', base64ImgString);
     }
 
     mint() {
@@ -89,7 +92,8 @@ class MintScreen extends StatelessWidget {
                 Expanded(
                     child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
-                  child: img.isNotEmpty ? Image.memory(img) : null,
+                  child:
+                      widget.img.isNotEmpty ? Image.memory(widget.img) : null,
                 )),
                 Column(
                   children: [
