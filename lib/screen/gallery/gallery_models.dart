@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 class ImageItem {
   String? filename;
   String? nft;
@@ -14,14 +17,19 @@ class ImageItem {
   }
 }
 
-class Images {
-  List<ImageItem>? images;
-  Images({this.images});
-  Images.fromJson(Map<String, dynamic> json) {
-    images = json['images'];
+class ImageList {
+  List<ImageItem>? images = [];
+  ImageList({this.images});
+  ImageList.fromJson(Map<String, dynamic> json) {
+    var jsonImageList = json['images'];
+    List<ImageItem> items = [];
+    for (int i = 0; i < jsonImageList.length; i++) {
+      ImageItem imageItem = ImageItem.fromJson(jsonImageList[i]);
+      items.add(imageItem);
+    }
+    images = items;
   }
 
-  get nft => null;
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['images'] = images;

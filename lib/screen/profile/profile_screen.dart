@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
-          color: KprimaryBackGroundColor,
+          color: kprimaryBackGroundColor,
           height: size.height,
           width: size.width,
           child: Column(
@@ -134,7 +134,8 @@ class ButtonWidget extends StatelessWidget {
               primary: kPrimaryLightColor,
               backgroundColor: kPrimaryColor,
               minimumSize: Size(size.width, 50),
-              elevation: 2,
+              elevation: 8,
+              shadowColor: kPrimaryShadow,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40),
               )),

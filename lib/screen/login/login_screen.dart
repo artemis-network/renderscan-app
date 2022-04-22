@@ -55,6 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void handleSuccess(AuthResponse response) {
+    print(response.email);
+    print(response.username);
+    print(response.userId);
+    print(response.publicToken);
     setState(() {
       error = response.error!;
       message = response.message!;

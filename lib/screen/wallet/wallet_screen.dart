@@ -61,7 +61,7 @@ class _WalletScreenState extends State<WalletScreen> {
 
     return Scaffold(
         body: Container(
-      color: KprimaryBackGroundColor,
+      color: kprimaryBackGroundColor,
       child: Column(
         children: [
           SingleChildScrollView(
@@ -72,29 +72,15 @@ class _WalletScreenState extends State<WalletScreen> {
                   decoration: BoxDecoration(color: kPrimaryColor),
                   width: size.width,
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Column(children: [
                           Column(children: [
-                            Text("Wallet",
-                                style: GoogleFonts.poppins(
-                                    color: kPrimaryLightColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold)),
-                            Text("Active",
-                                style: GoogleFonts.poppins(
-                                    color: kPrimaryLightColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.left),
+                            Text("WALLET",
+                                style: kPrimartFont(
+                                    kPrimaryLightColor, 24, FontWeight.bold)),
                           ]),
                         ]),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: kPrimaryColor,
-                          backgroundImage: const NetworkImage(
-                              'https://images.unsplash.com/photo-1648737154547-b0dfd281c51e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),
-                        ),
                       ])),
               Container(
                 decoration: BoxDecoration(color: kPrimaryColor),
@@ -130,17 +116,13 @@ class _WalletScreenState extends State<WalletScreen> {
                       children: [
                         Text(
                           "Balance",
-                          style: GoogleFonts.poppins(
-                              color: kPrimaryLightColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                          style: kPrimartFont(
+                              kPrimaryLightColor, 14, FontWeight.bold),
                         ),
                         Text(
                           "10000 RNDV",
-                          style: GoogleFonts.poppins(
-                              color: kPrimaryLightColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold),
+                          style: kPrimartFont(
+                              kPrimaryLightColor, 14, FontWeight.bold),
                         ),
                         // getBalance()
                       ],
@@ -152,17 +134,13 @@ class _WalletScreenState extends State<WalletScreen> {
                     children: [
                       Text(
                         "Account",
-                        style: GoogleFonts.poppins(
-                            color: kPrimaryLightColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold),
+                        style: kPrimartFont(
+                            kPrimaryLightColor, 14, FontWeight.bold),
                       ),
                       Text(
                         "0xcff8...",
-                        style: GoogleFonts.poppins(
-                            color: kPrimaryLightColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                        style: kPrimartFont(
+                            kPrimaryLightColor, 18, FontWeight.bold),
                       ),
                     ],
                   ),
@@ -200,17 +178,13 @@ class _WalletScreenState extends State<WalletScreen> {
                 children: [
                   Text(
                     "Last Transcations",
-                    style: GoogleFonts.poppins(
-                        color: kPrimaryLightColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                    style:
+                        kPrimartFont(kPrimaryLightColor, 20, FontWeight.bold),
                   ),
                   Text(
                     "View All",
-                    style: GoogleFonts.poppins(
-                      color: kPrimaryLightColor,
-                      fontSize: 14,
-                    ),
+                    style:
+                        kPrimartFont(kPrimaryLightColor, 14, FontWeight.normal),
                   ),
                 ],
               )),
@@ -264,7 +238,7 @@ class ButtonWidget extends StatelessWidget {
               shadowColor: Colors.grey.withOpacity(0.2)),
         ),
         Text(text,
-            style: GoogleFonts.poppins(fontSize: 12, color: kPrimaryLightColor))
+            style: kPrimartFont(kPrimaryLightColor, 12, FontWeight.normal))
       ],
     );
   }
@@ -289,7 +263,7 @@ class ListItemWidget extends StatelessWidget {
         backgroundColor: kPrimaryLightColor,
         child: Icon(
           Icons.receipt_outlined,
-          color: KprimaryBackGroundColor,
+          color: kprimaryBackGroundColor,
         ),
       ),
       title: Text(

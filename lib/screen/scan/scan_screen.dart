@@ -60,88 +60,136 @@ class _ScanScreenState extends State<ScanScreen> {
       context.read<ScanProvider>().resetProvider();
     }
 
-    return FutureBuilder(
-        future: setupCameras(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState.name == "done")
-            return Container(
-                color: KprimaryBackGroundColor,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: size.width,
-                      height: size.height * .725,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                              child: SizedBox(
-                            width: size.width,
-                            child: CameraPreview(controller),
-                          )),
-                          Positioned(
-                            top: size.height * .2,
-                            width: size.width * 1,
-                            child: Container(
-                                child: context
-                                            .watch<ScanProvider>()
-                                            .isFetched ==
-                                        true
-                                    ? Image.memory(
-                                        context
-                                            .watch<ScanProvider>()
-                                            .imageSource,
-                                      )
-                                    : context.watch<ScanProvider>().isLoading
-                                        ? spinkit
-                                        : null),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      child: context.watch<ScanProvider>().isFetched == false
-                          ? Padding(
-                              padding: const EdgeInsets.fromLTRB(60, 10, 60, 0),
-                              child: Column(
-                                children: [
-                                  TextButton(
-                                    onPressed: ScanImage,
-                                    child: Text(
-                                      "Scan",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    style: TextButton.styleFrom(
-                                        minimumSize: Size(90, 20),
-                                        side: const BorderSide(
-                                            color: Colors.transparent),
-                                        padding: const EdgeInsets.all(15),
-                                        elevation: 5,
-                                        backgroundColor: kPrimaryColor,
-                                        shadowColor:
-                                            Colors.grey.withOpacity(0.2)),
-                                  ),
-                                ],
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: kprimaryBackGroundColor,
+        ),
+        body: FutureBuilder(
+            future: setupCameras(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState.name == "done")
+                return Container(
+                    color: kprimaryBackGroundColor,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: size.width,
+                          height: size.height * .645,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                  child: SizedBox(
+                                width: size.width,
+                                child: CameraPreview(controller),
+                              )),
+                              Positioned(
+                                top: size.height * .2,
+                                width: size.width * 1,
+                                child: Container(
+                                    child: context
+                                                .watch<ScanProvider>()
+                                                .isFetched ==
+                                            true
+                                        ? Image.memory(
+                                            context
+                                                .watch<ScanProvider>()
+                                                .imageSource,
+                                          )
+                                        : context
+                                                .watch<ScanProvider>()
+                                                .isLoading
+                                            ? spinkit
+                                            : null),
                               ),
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                ElevatedButton(
-                                    onPressed: () => retry(),
-                                    child: const Text("Retry")),
-                                ElevatedButton(
-                                    onPressed: goToMintScreen,
-                                    child: const Text("Next")),
-                              ],
-                            ),
-                    )
-                  ],
-                ));
-          return spinkit;
-        });
+                            ],
+                          ),
+                        ),
+                        Container(
+                            alignment: Alignment.bottomCenter,
+                            child: context.watch<ScanProvider>().isFetched ==
+                                    false
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                    child: Column(
+                                      children: [
+                                        TextButton(
+                                          onPressed: ScanImage,
+                                          child: Text(
+                                            "Scan",
+                                            style: kPrimartFont(
+                                                kPrimaryLightColor,
+                                                18,
+                                                FontWeight.bold),
+                                          ),
+                                          style: TextButton.styleFrom(
+                                              minimumSize:
+                                                  Size(size.width * 0.95, 20),
+                                              side: const BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 10),
+                                              padding: const EdgeInsets.all(12),
+                                              elevation: 8,
+                                              backgroundColor: kPrimaryColor,
+                                              shadowColor: kPrimaryShadow),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                            style: TextButton.styleFrom(
+                                                minimumSize:
+                                                    Size(size.width * 0.4, 6),
+                                                side: const BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 10),
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                elevation: 8,
+                                                backgroundColor: kPrimaryColor,
+                                                shadowColor: kPrimaryShadow),
+                                            onPressed: () => retry(),
+                                            child: Text(
+                                              "Retry",
+                                              style: kPrimartFont(
+                                                  kPrimaryLightColor,
+                                                  14,
+                                                  FontWeight.bold),
+                                            )),
+                                        ElevatedButton(
+                                          style: TextButton.styleFrom(
+                                              minimumSize:
+                                                  Size(size.width * 0.4, 8),
+                                              side: const BorderSide(
+                                                  color: Colors.transparent,
+                                                  width: 10),
+                                              padding: const EdgeInsets.all(15),
+                                              elevation: 8,
+                                              backgroundColor: kPrimaryColor,
+                                              shadowColor: kPrimaryShadow),
+                                          onPressed: goToMintScreen,
+                                          child: Text("Next",
+                                              style: kPrimartFont(
+                                                  kPrimaryLightColor,
+                                                  14,
+                                                  FontWeight.bold)),
+                                        ),
+                                      ],
+                                    ),
+                                  ))
+                      ],
+                    ));
+              return Container(
+                child: spinkit,
+                alignment: Alignment.center,
+              );
+            }));
   }
 
   @override

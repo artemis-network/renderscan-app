@@ -27,7 +27,7 @@ class DetailsPage extends StatelessWidget {
               tag: 'logo$index',
               child: Container(
                 decoration: BoxDecoration(
-                  color: KprimaryBackGroundColor,
+                  color: kprimaryBackGroundColor,
                   borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(30),
                       bottomRight: Radius.circular(30)),

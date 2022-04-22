@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/constants.dart';
 
@@ -39,51 +37,79 @@ class _MintScreenState extends State<MintScreen> {
       socket.emit('message', base64ImgString);
     }
 
+    final size = MediaQuery.of(context).size;
+
     mint() {
-      showDialog(
+      return showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              backgroundColor: KprimaryBackGroundColor,
-              title: Text(
-                "Mint",
-                style: GoogleFonts.poppins(
-                    color: kPrimaryLightColor, fontWeight: FontWeight.bold),
-              ),
-              content: Text(
-                "mint the nft on block chain ?",
-                style: GoogleFonts.poppins(
-                  color: kPrimaryLightColor,
-                ),
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Mint",
-                      style: GoogleFonts.poppins(
-                          color: kPrimaryLightColor,
-                          fontWeight: FontWeight.bold),
-                    )),
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Cancel",
-                      style: GoogleFonts.poppins(
-                          color: kPrimaryLightColor,
-                          fontWeight: FontWeight.bold),
-                    )),
-              ],
-            );
+            return Dialog(
+                elevation: 5,
+                backgroundColor: Color(0xff5534a5),
+                child: Container(
+                  height: size.height * 0.3,
+                  child: Stack(
+                    children: [
+                      Container(
+                          child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(children: [
+                          SizedBox(
+                            height: size.height * 0.1,
+                          ),
+                          Text("Mint!",
+                              textAlign: TextAlign.center,
+                              style: kPrimartFont(
+                                  kPrimaryLightColor, 20, FontWeight.bold)),
+                          Text(
+                              "Minting image will write the image on to the block chain",
+                              textAlign: TextAlign.center,
+                              style: kPrimartFont(
+                                  kPrimaryLightColor, 14, FontWeight.bold)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Close"),
+                                style: TextButton.styleFrom(
+                                    backgroundColor: kprimaryBackGroundColor),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Mint"),
+                                style: TextButton.styleFrom(
+                                    backgroundColor: kPrimaryLightColor),
+                              ),
+                            ],
+                          )
+                        ]),
+                      )),
+                      Positioned(
+                          left: size.width * 0.3,
+                          child: CircleAvatar(
+                            child: Icon(
+                              Icons.flag_circle,
+                              size: 82,
+                              color: kPrimaryLightColor,
+                            ),
+                            backgroundColor: kPrimaryColor,
+                          )),
+                    ],
+                  ),
+                ));
           });
     }
 
-    final size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
         ),
-        backgroundColor: KprimaryBackGroundColor,
+        backgroundColor: kprimaryBackGroundColor,
         body: Container(
             height: size.height * 0.85,
             width: size.width,

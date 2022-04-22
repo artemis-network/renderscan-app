@@ -10,7 +10,7 @@ class UpgradeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-        color: KprimaryBackGroundColor,
+        color: kprimaryBackGroundColor,
         child: Column(children: [
           const Padding(
             padding: EdgeInsets.all(20),
@@ -20,7 +20,7 @@ class UpgradeScreen extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             decoration: BoxDecoration(color: kPrimaryColor),
             width: size.width * 1,
             child: Column(
@@ -31,12 +31,11 @@ class UpgradeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        "Unlimeted Clips",
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-                      const Icon(Icons.arrow_circle_left, color: Colors.white)
+                      const Icon(Icons.arrow_circle_left,
+                          color: Colors.white, size: 48),
+                      Text("Unlimited Clips",
+                          style: kPrimartFont(
+                              kPrimaryLightColor, 14, FontWeight.bold)),
                     ]),
                 SizedBox(
                   height: size.height * 0.025,
@@ -46,26 +45,24 @@ class UpgradeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Column(children: [
-                      Text(
-                        "HD Clips",
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
                       const Icon(
                         Icons.image_aspect_ratio_outlined,
                         color: Colors.white,
-                      )
+                        size: 48,
+                      ),
+                      Text("HD Clips",
+                          style: kPrimartFont(
+                              kPrimaryLightColor, 14, FontWeight.bold)),
                     ]),
                     Column(children: [
-                      Text(
-                        "No Watermarks",
-                        style: GoogleFonts.poppins(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
                       const Icon(
                         Icons.stop_circle_outlined,
                         color: Colors.white,
-                      )
+                        size: 48,
+                      ),
+                      Text("No Watermarks",
+                          style: kPrimartFont(
+                              kPrimaryLightColor, 14, FontWeight.bold)),
                     ]),
                   ],
                 )
@@ -78,12 +75,13 @@ class UpgradeScreen extends StatelessWidget {
           Column(
             children: [
               const ButtonWidget(
-                text: "Annual-1000 rend",
-                icon: Icons.upgrade,
+                text: "3 Scans - 1000 REND",
               ),
               const ButtonWidget(
-                text: "Monthly-120 rend",
-                icon: Icons.upgrade,
+                text: "4 Scans - 1500 REND",
+              ),
+              const ButtonWidget(
+                text: "5 Scans - 2000 REND",
               ),
               SizedBox(
                 child: null,
@@ -101,10 +99,8 @@ class UpgradeScreen extends StatelessWidget {
 
 class ButtonWidget extends StatelessWidget {
   final String text;
-  final IconData icon;
 
-  const ButtonWidget({Key? key, required this.text, required this.icon})
-      : super(key: key);
+  const ButtonWidget({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +114,6 @@ class ButtonWidget extends StatelessWidget {
           onPressed: fun,
           child: Stack(
             children: <Widget>[
-              Align(alignment: Alignment.centerLeft, child: Icon(icon)),
               Align(
                   alignment: Alignment.center,
                   child: Text(

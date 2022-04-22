@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/screen/home/home_screen.dart';
 import 'package:renderscan/screen/login/login_screen.dart';
+import 'package:renderscan/screen/mint/mint_screen.dart';
+import 'package:renderscan/screen/scan/scan_provider.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -11,7 +15,8 @@ class WelcomeScreen extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const LoginScreen();
+            // return MintScreen(img: context.watch<ScanProvider>().imageSource);
+            return HomeScreen();
           },
         ),
       );

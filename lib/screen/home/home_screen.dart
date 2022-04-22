@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const UpgradeScreen(),
   ];
 
-  int currentIndex = 2;
+  int currentIndex = 0;
   void setIndex(int index) {
     setState(() {
       currentIndex = index;
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: screens[currentIndex],
           ),
           bottomNavigationBar: CurvedNavigationBar(
-            index: 2,
+            index: 0,
             height: 50.0,
             items: <Widget>[
               Icon(
@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: kPrimaryLightColor,
               ),
               Icon(Icons.person, size: 30, color: kPrimaryLightColor),
-              Icon(Icons.camera, size: 46, color: kPrimaryLightColor),
+              Icon(Icons.home, size: 46, color: kPrimaryLightColor),
               Icon(
                 Icons.account_balance_wallet,
                 size: 30,
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
             color: kPrimaryColor,
             buttonBackgroundColor: kPrimaryColor,
-            backgroundColor: KprimaryBackGroundColor,
+            backgroundColor: kprimaryBackGroundColor,
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 600),
             onTap: (index) {
