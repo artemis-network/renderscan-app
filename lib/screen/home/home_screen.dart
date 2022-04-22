@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: kPrimaryLightColor,
               ),
             ],
-            color: kPrimaryColor,
+            color: kprimaryBottomBarColor,
             buttonBackgroundColor: kPrimaryColor,
             backgroundColor: kprimaryBackGroundColor,
             animationCurve: Curves.easeInOut,

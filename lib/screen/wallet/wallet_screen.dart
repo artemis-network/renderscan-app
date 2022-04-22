@@ -92,18 +92,19 @@ class _WalletScreenState extends State<WalletScreen> {
             padding: const EdgeInsets.only(top: 30),
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
                   color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(
-                      color: kPrimaryLightColor,
-                      blurRadius: 3.0, // soften the shadow
-                      spreadRadius: -2.0, //extend the shadow
-                      offset: const Offset(
-                        1.0, // Move to right 10  horizontally
-                        1.0, // Move to bottom 10 Vertically
-                      ),
-                    )
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        color: kprimaryNeuLight,
+                        offset: Offset(-1, -1)),
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        color: kprimaryNeuDark,
+                        offset: Offset(5, 5)),
                   ]),
               height: size.height * 0.15,
               width: size.width * 0.9,
@@ -223,19 +224,32 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        OutlinedButton(
-          onPressed: null,
-          child: Icon(
-            icon,
-            color: kPrimaryLightColor,
-          ),
-          style: OutlinedButton.styleFrom(
-              shape: const CircleBorder(),
-              side: const BorderSide(color: Colors.transparent),
-              padding: const EdgeInsets.all(15),
-              elevation: 5,
-              backgroundColor: kPrimaryColor,
-              shadowColor: Colors.grey.withOpacity(0.2)),
+        TextButton(
+            onPressed: null,
+            child: Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        color: kprimaryNeuLight,
+                        offset: Offset(-1, -1)),
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        color: kprimaryNeuDark,
+                        offset: Offset(5, 5)),
+                  ]),
+              child: Icon(
+                icon,
+                color: kPrimaryLightColor,
+              ),
+            )),
+        SizedBox(
+          height: 5,
         ),
         Text(text,
             style: kPrimartFont(kPrimaryLightColor, 12, FontWeight.normal))
@@ -268,15 +282,15 @@ class ListItemWidget extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: GoogleFonts.poppins(color: kPrimaryLightColor),
+        style: kPrimartFont(kPrimaryLightColor, 14, FontWeight.normal),
       ),
       subtitle: Text(
         subTitle,
-        style: GoogleFonts.poppins(color: kPrimaryLightColor),
+        style: kPrimartFont(kPrimaryLightColor, 14, FontWeight.normal),
       ),
       trailing: Text(
         trailing,
-        style: GoogleFonts.poppins(color: kPrimaryLightColor),
+        style: kPrimartFont(kPrimaryLightColor, 14, FontWeight.normal),
       ),
     );
   }

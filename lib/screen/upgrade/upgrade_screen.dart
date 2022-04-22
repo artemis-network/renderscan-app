@@ -19,54 +19,71 @@ class UpgradeScreen extends StatelessWidget {
               radius: 50,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            decoration: BoxDecoration(color: kPrimaryColor),
-            width: size.width * 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        color: kprimaryNeuLight,
+                        offset: Offset(-1, -1)),
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        color: kprimaryNeuDark,
+                        offset: Offset(5, 5)),
+                  ]),
+              width: size.width * 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.arrow_circle_left,
+                            color: Colors.white, size: 48),
+                        Text("Unlimited Clips",
+                            style: kPrimartFont(
+                                kPrimaryLightColor, 14, FontWeight.bold)),
+                      ]),
+                  SizedBox(
+                    height: size.height * 0.025,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Icon(Icons.arrow_circle_left,
-                          color: Colors.white, size: 48),
-                      Text("Unlimited Clips",
-                          style: kPrimartFont(
-                              kPrimaryLightColor, 14, FontWeight.bold)),
-                    ]),
-                SizedBox(
-                  height: size.height * 0.025,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(children: [
-                      const Icon(
-                        Icons.image_aspect_ratio_outlined,
-                        color: Colors.white,
-                        size: 48,
-                      ),
-                      Text("HD Clips",
-                          style: kPrimartFont(
-                              kPrimaryLightColor, 14, FontWeight.bold)),
-                    ]),
-                    Column(children: [
-                      const Icon(
-                        Icons.stop_circle_outlined,
-                        color: Colors.white,
-                        size: 48,
-                      ),
-                      Text("No Watermarks",
-                          style: kPrimartFont(
-                              kPrimaryLightColor, 14, FontWeight.bold)),
-                    ]),
-                  ],
-                )
-              ],
+                      Column(children: [
+                        const Icon(
+                          Icons.image_aspect_ratio_outlined,
+                          color: Colors.white,
+                          size: 48,
+                        ),
+                        Text("HD Clips",
+                            style: kPrimartFont(
+                                kPrimaryLightColor, 14, FontWeight.bold)),
+                      ]),
+                      Column(children: [
+                        const Icon(
+                          Icons.stop_circle_outlined,
+                          color: Colors.white,
+                          size: 48,
+                        ),
+                        Text("No Watermarks",
+                            style: kPrimartFont(
+                                kPrimaryLightColor, 14, FontWeight.bold)),
+                      ]),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
           SizedBox(
@@ -110,28 +127,34 @@ class ButtonWidget extends StatelessWidget {
 
     return Padding(
         padding: EdgeInsets.fromLTRB(pad, 10, pad, 10),
-        child: TextButton(
-          onPressed: fun,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20, 12, 20, 12),
           child: Stack(
             children: <Widget>[
               Align(
                   alignment: Alignment.center,
                   child: Text(
                     text,
-                    style: GoogleFonts.poppins(
-                        fontSize: 14, fontWeight: FontWeight.bold),
+                    style:
+                        kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
                   ))
             ],
           ),
-          style: TextButton.styleFrom(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              primary: kPrimaryLightColor,
-              backgroundColor: kPrimaryColor,
-              minimumSize: Size(size.width, 50),
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
-              )),
+          decoration: BoxDecoration(
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                    color: kprimaryNeuLight,
+                    offset: Offset(-1, -1)),
+                BoxShadow(
+                    spreadRadius: 1,
+                    blurRadius: 8,
+                    color: kprimaryNeuDark,
+                    offset: Offset(5, 5)),
+              ]),
         ));
   }
 }

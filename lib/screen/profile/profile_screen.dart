@@ -34,40 +34,22 @@ class ProfileScreen extends StatelessWidget {
                         future: Storage().getItem('username'),
                         builder: (context, snapshot) {
                           return Text(snapshot.data.toString(),
-                              style: GoogleFonts.poppins(
-                                  color: kPrimaryLightColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold));
+                              style: kPrimartFont(
+                                  kPrimaryLightColor, 18, FontWeight.bold));
                         }),
                     FutureBuilder(
                         future: Storage().getItem('email'),
                         builder: (context, snapshot) {
                           return Text(snapshot.data.toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: kPrimaryLightColor,
-                              ));
+                              style: kPrimartFont(
+                                  kPrimaryLightColor, 14, FontWeight.normal));
                         }),
                   ],
                 ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                        primary: kPrimaryColor,
-                        backgroundColor: kPrimaryLightColor,
-                        minimumSize: Size(size.width * 0.4, 50),
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
-                        )),
-                    child: Text(
-                      "Upgrade to PRO",
-                      style: GoogleFonts.poppins(
-                          fontSize: 14, fontWeight: FontWeight.w600),
-                    ),
-                    onPressed: fun),
+                child: ButtonWidget(text: "Upgrade", icon: Icons.upgrade),
               ),
               Expanded(
                   child: Padding(
@@ -110,35 +92,44 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void fun() => (null);
     final size = MediaQuery.of(context).size;
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
-        child: TextButton(
-          onPressed: fun,
-          child: Stack(
-            children: <Widget>[
-              Align(alignment: Alignment.centerLeft, child: Icon(icon)),
-              Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    text,
-                    style: GoogleFonts.poppins(
-                        fontSize: 14, fontWeight: FontWeight.bold),
-                  ))
-            ],
-          ),
-          style: TextButton.styleFrom(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              primary: kPrimaryLightColor,
-              backgroundColor: kPrimaryColor,
-              minimumSize: Size(size.width, 50),
-              elevation: 8,
-              shadowColor: kPrimaryShadow,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
-              )),
-        ));
+        padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
+        child: Container(
+            width: size.width,
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      icon,
+                      color: kPrimaryLightColor,
+                    )),
+                Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      text,
+                      style:
+                          kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
+                    ))
+              ],
+            ),
+            decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      color: kprimaryNeuLight,
+                      offset: Offset(-1, -1)),
+                  BoxShadow(
+                      spreadRadius: 1,
+                      blurRadius: 8,
+                      color: kprimaryNeuDark,
+                      offset: Offset(5, 5)),
+                ])));
   }
 }

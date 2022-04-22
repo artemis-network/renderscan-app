@@ -27,7 +27,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     Future<void> setupCameras() async {
       cameras = await availableCameras();
-      controller = CameraController(cameras[0], ResolutionPreset.medium);
+      controller = CameraController(cameras[0], ResolutionPreset.high);
       await controller.initialize();
     }
 
@@ -113,25 +113,34 @@ class _ScanScreenState extends State<ScanScreen> {
                                         const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                     child: Column(
                                       children: [
-                                        TextButton(
-                                          onPressed: ScanImage,
-                                          child: Text(
-                                            "Scan",
-                                            style: kPrimartFont(
-                                                kPrimaryLightColor,
-                                                18,
-                                                FontWeight.bold),
+                                        Container(
+                                          width: size.width * 0.95,
+                                          child: TextButton(
+                                            onPressed: ScanImage,
+                                            child: Text(
+                                              "Scan",
+                                              style: kPrimartFont(
+                                                  kPrimaryLightColor,
+                                                  18,
+                                                  FontWeight.bold),
+                                            ),
                                           ),
-                                          style: TextButton.styleFrom(
-                                              minimumSize:
-                                                  Size(size.width * 0.95, 20),
-                                              side: const BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 10),
-                                              padding: const EdgeInsets.all(12),
-                                              elevation: 8,
-                                              backgroundColor: kPrimaryColor,
-                                              shadowColor: kPrimaryShadow),
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 2,
+                                                    color: kprimaryNeuLight,
+                                                    offset: Offset(-1, -1)),
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 8,
+                                                    color: kprimaryNeuDark,
+                                                    offset: Offset(5, 5)),
+                                              ]),
                                         ),
                                       ],
                                     ),
