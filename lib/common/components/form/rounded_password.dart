@@ -21,28 +21,31 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      obscureText: isVisible,
-      validator: (value) => widget.validation(value),
-      onChanged: widget.onChanged,
-      cursorColor: kPrimaryColor,
-      decoration: InputDecoration(
-        hintText: widget.text,
-        icon: Icon(
-          Icons.lock,
-          color: kPrimaryColor,
-        ),
-        suffixIcon: InkWell(
-          onTap: () => setState(() {
-            isVisible = !isVisible;
-          }),
-          child: Icon(
-            isVisible ? Icons.visibility : Icons.visibility_off,
-            color: kPrimaryColor,
+    return Padding(
+        padding: EdgeInsets.only(top: 15),
+        child: TextFormField(
+          obscureText: isVisible,
+          validator: (value) => widget.validation(value),
+          onChanged: widget.onChanged,
+          cursorColor: kPrimaryColor,
+          decoration: InputDecoration(
+            hintText: widget.text,
+            labelText: widget.text,
+            prefixIcon: Icon(
+              Icons.lock,
+              color: kPrimaryColor,
+            ),
+            suffixIcon: InkWell(
+              onTap: () => setState(() {
+                isVisible = !isVisible;
+              }),
+              child: Icon(
+                isVisible ? Icons.visibility : Icons.visibility_off,
+                color: kPrimaryColor,
+              ),
+            ),
+            border: OutlineInputBorder(),
           ),
-        ),
-        border: InputBorder.none,
-      ),
-    );
+        ));
   }
 }

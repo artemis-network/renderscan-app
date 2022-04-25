@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/constants.dart';
 
 // pages
 import 'package:renderscan/screen/scan/scan_screen.dart';
@@ -8,7 +7,19 @@ import 'package:renderscan/screen/wallet/wallet_screen.dart';
 import 'package:renderscan/screen/upgrade/upgrade_screen.dart';
 import 'package:renderscan/screen/gallery/gallery_screen.dart';
 
+// navbar
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+//gallery api
+import 'package:renderscan/screen/gallery/gallery_api.dart';
+import 'package:renderscan/screen/gallery/gallery_models.dart';
+
+// Global Vars
+import 'package:renderscan/constants.dart';
+
+// provider
+import 'package:provider/provider.dart';
+import 'package:renderscan/screen/gallery/gallery_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,6 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  void initImageList(ImageList imageList) {
+    List<ImageItem>? images = imageList.images;
+    if (images!.isNotEmpty)
+      return context.read<GalleryProvider>().initializeImageList(images);
+    return context.read<GalleryProvider>().initializeImageList([]);
+  }
+
+  @override
+  void initState() {
+    GalleryApi().callImages().then((imageList) => initImageList(imageList));
+    super.initState();
   }
 
   @override

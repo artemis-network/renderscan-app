@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/login/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -9,8 +9,19 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    void fun() => (null);
+    void logOut() {
+      print("> Logging out");
+      Storage().logout();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => LoginScreen(),
+        ),
+        (route) => false,
+      );
+    }
 
+    void fun() => (null);
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
@@ -49,7 +60,11 @@ class ProfileScreen extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                child: ButtonWidget(text: "Upgrade", icon: Icons.upgrade),
+                child: ButtonWidget(
+                  text: "Upgrade",
+                  icon: Icons.upgrade,
+                  onClick: fun,
+                ),
               ),
               Expanded(
                   child: Padding(
@@ -57,22 +72,29 @@ class ProfileScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ButtonWidget(
-                        text: "Privacy", icon: Icons.privacy_tip_outlined),
+                      text: "Privacy",
+                      icon: Icons.privacy_tip_outlined,
+                      onClick: fun,
+                    ),
                     ButtonWidget(
                       text: "Help & Support",
                       icon: Icons.help_center_outlined,
+                      onClick: fun,
                     ),
                     ButtonWidget(
                       text: "Settings",
                       icon: Icons.settings_outlined,
+                      onClick: fun,
                     ),
                     ButtonWidget(
                       text: "Refer a Friend",
                       icon: Icons.person_add_outlined,
+                      onClick: fun,
                     ),
                     ButtonWidget(
-                      text: "Logout",
+                      text: "Log out",
                       icon: Icons.logout_outlined,
+                      onClick: logOut,
                     ),
                   ],
                 ),
@@ -86,8 +108,10 @@ class ProfileScreen extends StatelessWidget {
 class ButtonWidget extends StatelessWidget {
   final String text;
   final IconData icon;
+  final Function onClick;
 
-  ButtonWidget({Key? key, required this.text, required this.icon})
+  ButtonWidget(
+      {Key? key, required this.text, required this.icon, required this.onClick})
       : super(key: key);
 
   @override
@@ -95,41 +119,44 @@ class ButtonWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(8, 12, 8, 12),
-        child: Container(
-            width: size.width,
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-            child: Stack(
-              children: <Widget>[
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Icon(
-                      icon,
-                      color: kPrimaryLightColor,
-                    )),
-                Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      text,
-                      style:
-                          kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
-                    ))
-              ],
-            ),
-            decoration: BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      color: kprimaryNeuLight,
-                      offset: Offset(-1, -1)),
-                  BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 8,
-                      color: kprimaryNeuDark,
-                      offset: Offset(5, 5)),
-                ])));
+      padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+      child: TextButton(
+          onPressed: () => onClick(),
+          child: Container(
+              width: size.width,
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Icon(
+                        icon,
+                        color: kPrimaryLightColor,
+                      )),
+                  Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        text,
+                        style: kPrimartFont(
+                            kPrimaryLightColor, 14, FontWeight.bold),
+                      ))
+                ],
+              ),
+              decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        color: kprimaryNeuLight,
+                        offset: Offset(-1, -1)),
+                    BoxShadow(
+                        spreadRadius: 1,
+                        blurRadius: 8,
+                        color: kprimaryNeuDark,
+                        offset: Offset(5, 5)),
+                  ]))),
+    );
   }
 }

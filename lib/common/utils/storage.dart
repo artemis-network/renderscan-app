@@ -16,10 +16,10 @@ class Storage {
   Future<void> deleteItem(String key) async => await storage.delete(key: key);
 
   void logout() async {
-    await deleteItem("username");
-    await deleteItem("email");
-    await deleteItem("userId");
-    await deleteItem("publicToken");
-    await deleteItem("accessToken");
+    await deleteItem("username").then((value) => null);
+    await deleteItem("email").then((value) => null);
+    await deleteItem("userId").then((value) => null);
+    await deleteItem("publicToken").then((value) => null);
+    await deleteItem("accessToken").then((value) => null);
   }
 }

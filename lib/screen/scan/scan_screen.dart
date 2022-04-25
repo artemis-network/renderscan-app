@@ -27,7 +27,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     Future<void> setupCameras() async {
       cameras = await availableCameras();
-      controller = CameraController(cameras[0], ResolutionPreset.high);
+      controller = CameraController(cameras[0], ResolutionPreset.medium);
       await controller.initialize();
     }
 
@@ -114,7 +114,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                     child: Column(
                                       children: [
                                         Container(
-                                          width: size.width * 0.95,
+                                          width: size.width * 0.65,
                                           child: TextButton(
                                             onPressed: ScanImage,
                                             child: Text(
@@ -151,43 +151,60 @@ class _ScanScreenState extends State<ScanScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        ElevatedButton(
-                                            style: TextButton.styleFrom(
-                                                minimumSize:
-                                                    Size(size.width * 0.4, 6),
-                                                side: const BorderSide(
-                                                    color: Colors.transparent,
-                                                    width: 10),
-                                                padding:
-                                                    const EdgeInsets.all(15),
-                                                elevation: 8,
-                                                backgroundColor: kPrimaryColor,
-                                                shadowColor: kPrimaryShadow),
-                                            onPressed: () => retry(),
-                                            child: Text(
-                                              "Retry",
-                                              style: kPrimartFont(
-                                                  kPrimaryLightColor,
-                                                  14,
-                                                  FontWeight.bold),
-                                            )),
-                                        ElevatedButton(
-                                          style: TextButton.styleFrom(
-                                              minimumSize:
-                                                  Size(size.width * 0.4, 8),
-                                              side: const BorderSide(
-                                                  color: Colors.transparent,
-                                                  width: 10),
-                                              padding: const EdgeInsets.all(15),
-                                              elevation: 8,
-                                              backgroundColor: kPrimaryColor,
-                                              shadowColor: kPrimaryShadow),
-                                          onPressed: goToMintScreen,
-                                          child: Text("Next",
-                                              style: kPrimartFont(
-                                                  kPrimaryLightColor,
-                                                  14,
-                                                  FontWeight.bold)),
+                                        Container(
+                                          width: size.width * 0.45,
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 2,
+                                                    color: kprimaryNeuLight,
+                                                    offset: Offset(-1, -1)),
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 8,
+                                                    color: kprimaryNeuDark,
+                                                    offset: Offset(5, 5)),
+                                              ]),
+                                          child: TextButton(
+                                              onPressed: () => retry(),
+                                              child: Text(
+                                                "Retry",
+                                                style: kPrimartFont(
+                                                    kPrimaryLightColor,
+                                                    14,
+                                                    FontWeight.bold),
+                                              )),
+                                        ),
+                                        Container(
+                                          width: size.width * 0.45,
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 2,
+                                                    color: kprimaryNeuLight,
+                                                    offset: Offset(-1, -1)),
+                                                BoxShadow(
+                                                    spreadRadius: 1,
+                                                    blurRadius: 8,
+                                                    color: kprimaryNeuDark,
+                                                    offset: Offset(5, 5)),
+                                              ]),
+                                          child: TextButton(
+                                            onPressed: goToMintScreen,
+                                            child: Text("Next",
+                                                style: kPrimartFont(
+                                                    kPrimaryLightColor,
+                                                    14,
+                                                    FontWeight.bold)),
+                                          ),
                                         ),
                                       ],
                                     ),

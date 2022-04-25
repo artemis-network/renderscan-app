@@ -6,6 +6,7 @@ import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/common/components/form/rounded_password.dart';
 import 'package:renderscan/common/components/form/already_have_account.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/login/login_screen.dart';
 
 // validations
 import 'package:renderscan/screen/signup/signup_validations.dart';
@@ -27,75 +28,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Background(
         child: SingleChildScrollView(
           child: Form(
-            key: formkey,
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  validator: (value) =>
-                      SignupValidations().nameValidations(value.toString()),
-                  cursorColor: kPrimaryColor,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.person,
-                      color: kPrimaryColor,
+              key: formkey,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Column(
+                  children: <Widget>[
+                    CustomTextField(
+                      validator: SignupValidations().nameValidations,
+                      icon: Icons.person,
+                      labelText: "Name",
+                      hintText: "Name",
                     ),
-                    hintText: "Name",
-                  ),
-                ),
-                TextFormField(
-                  validator: (value) =>
-                      SignupValidations().emailValidations(value.toString()),
-                  cursorColor: kPrimaryColor,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.email,
-                      color: kPrimaryColor,
+                    CustomTextField(
+                      validator: SignupValidations().emailValidations,
+                      icon: Icons.email,
+                      labelText: "Email",
+                      hintText: "xyz@email.com",
                     ),
-                    hintText: "Email",
-                  ),
-                ),
-                TextFormField(
-                  validator: (value) =>
-                      SignupValidations().usernameValidations(value.toString()),
-                  cursorColor: kPrimaryColor,
-                  decoration: InputDecoration(
-                    icon: Icon(
-                      Icons.person_add_alt_1,
-                      color: kPrimaryColor,
+                    CustomTextField(
+                      validator: SignupValidations().usernameValidations,
+                      icon: Icons.person_add_alt_1,
+                      labelText: "Username",
+                      hintText: "xyz123",
                     ),
-                    hintText: "Username",
-                  ),
+                    RoundedPasswordField(
+                      validation: SignupValidations().passwordValidation,
+                      text: "Password",
+                      onChanged: (value) {},
+                    ),
+                    RoundedButton(
+                      text: "SIGNUP",
+                      press: () {
+                        var errors = formkey.currentState!.validate();
+                        print(errors);
+                      },
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    AlreadyHaveAnAccountCheck(
+                      login: false,
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const LoginScreen();
+                              // return LoginScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-                RoundedPasswordField(
-                  validation: SignupValidations().passwordValidation,
-                  text: "Password",
-                  onChanged: (value) {},
-                ),
-                RoundedButton(
-                  text: "SIGNUP",
-                  press: () {
-                    var errors = formkey.currentState!.validate();
-                    print(errors);
-                  },
-                ),
-                SizedBox(height: size.height * 0.03),
-                AlreadyHaveAnAccountCheck(
-                  login: false,
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SignUpScreen();
-                          // return LoginScreen();
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
+              )),
         ),
       ),
     );
@@ -137,6 +122,39 @@ class Background extends StatelessWidget {
           ),
           child,
         ],
+      ),
+    );
+  }
+}
+
+class CustomTextField extends StatelessWidget {
+  String hintText;
+  String labelText;
+  IconData icon;
+  Function validator;
+
+  CustomTextField(
+      {Key? key,
+      required this.hintText,
+      required this.labelText,
+      required this.icon,
+      required this.validator});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10),
+      child: TextFormField(
+        validator: (value) => validator(value),
+        cursorColor: kPrimaryColor,
+        decoration: InputDecoration(
+            prefixIcon: Icon(
+              icon,
+              color: kPrimaryColor,
+            ),
+            hintText: hintText,
+            labelText: labelText,
+            border: OutlineInputBorder()),
       ),
     );
   }

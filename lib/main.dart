@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/screen/gallery/gallery_provider.dart';
 
 // pages
 import 'package:renderscan/screen/welcome/welcome_screen.dart';
@@ -12,6 +13,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => GalleryProvider())
       ],
       child: const MyApp(),
     ),
@@ -27,16 +29,15 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const SafeArea(
-          child: Scaffold(
-            body: WelcomeScreen(),
-          ),
-        ));
+    return new WillPopScope(
+        onWillPop: () async => false,
+        child: MaterialApp(
+            title: 'Renderscan',
+            debugShowCheckedModeBanner: false,
+            home: const SafeArea(
+              child: Scaffold(
+                body: WelcomeScreen(),
+              ),
+            )));
   }
 }

@@ -11,6 +11,7 @@ import 'package:renderscan/common/utils/storage.dart';
 
 // dto
 import 'package:renderscan/common/dtos/auth_dto.dart';
+import 'package:renderscan/screen/scan/scan_loader.dart';
 
 // screens
 import 'package:renderscan/screen/signup/signup_screen.dart';
@@ -30,9 +31,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isLoading = false;
   bool isPasswordVisible = false;
-  String username = "ivycox@corporana.com";
-  String password = "password@1234";
+  String username = "";
+  String password = "";
   bool error = false;
   String message = "";
 
@@ -81,8 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
             onPressed: () {
               setState(() {
                 isPasswordVisible = false;
-                username = "ivycox@corporana.com";
-                password = "password@1234";
+                username = "";
+                password = "";
                 error = false;
                 message = "";
               });
@@ -106,17 +108,32 @@ class _LoginScreenState extends State<LoginScreen> {
   void authenticate() {
     AuthRequest request = AuthRequest(username: username, password: password);
     Future<AuthResponse> response = LoginApi().authenticateUser(request);
-    response
-        .then((resp) => handleSuccess(resp))
-        .catchError((err) => log.d(err));
+    setState(() {
+      isLoading = true;
+    });
+    response.then((resp) {
+      handleSuccess(resp);
+      setState(() {
+        isLoading = false;
+      });
+    }).catchError((err) => log.d(err));
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    if (isLoading)
+      return Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.white,
+        child: spinkit,
+      );
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
+            child: Padding(
+          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -132,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
                 validation: () => (null),
-                hintText: "Your Email",
+                hintText: "Email",
                 onChanged: (email) => handleEmailInput(email),
               ),
               !isPasswordVisible
@@ -166,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ],
           ),
-        ),
+        )),
       ),
     );
   }

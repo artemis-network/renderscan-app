@@ -124,12 +124,47 @@ class _MintScreenState extends State<MintScreen> {
                 Column(
                   children: [
                     Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 0, 100, 0),
+                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              RoundedButton(text: "Mint", press: () => mint()),
-                              RoundedButton(text: "Drop", press: fun),
+                              Container(
+                                child: RoundedButton(
+                                    text: "Mint", press: () => mint()),
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          color: kprimaryNeuLight,
+                                          offset: Offset(-1, -1)),
+                                      BoxShadow(
+                                          spreadRadius: 1,
+                                          blurRadius: 8,
+                                          color: kprimaryNeuDark,
+                                          offset: Offset(5, 5)),
+                                    ]),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          color: kprimaryNeuLight,
+                                          offset: Offset(-1, -1)),
+                                      BoxShadow(
+                                          spreadRadius: 1,
+                                          blurRadius: 8,
+                                          color: kprimaryNeuDark,
+                                          offset: Offset(5, 5)),
+                                    ]),
+                                child: RoundedButton(text: "Drop", press: fun),
+                              )
                             ])),
                     Padding(
                         padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
@@ -163,6 +198,21 @@ class _MintScreenState extends State<MintScreen> {
                               onPressed: fun,
                               child: Icon(
                                 Icons.edit,
+                                color: kPrimaryLightColor,
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                  shape: const CircleBorder(),
+                                  side: const BorderSide(
+                                      color: Colors.transparent),
+                                  padding: const EdgeInsets.all(15),
+                                  elevation: 5,
+                                  backgroundColor: kPrimaryColor,
+                                  shadowColor: Colors.grey.withOpacity(0.2)),
+                            ),
+                            OutlinedButton(
+                              onPressed: fun,
+                              child: Icon(
+                                Icons.upgrade,
                                 color: kPrimaryLightColor,
                               ),
                               style: OutlinedButton.styleFrom(
