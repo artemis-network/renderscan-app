@@ -8,7 +8,7 @@ class HttpServerConfig {
   get headers => _headers;
 
   Uri getImageHost(String url) {
-    if (_host == "DEV") return Uri.parse("http://192.168.1.14:5001" + url);
+    if (_host == "DEV") return Uri.parse("http://192.168.1.41:5001" + url);
     return Uri.parse("https://renderscan.azurewebsites.net" + url);
   }
 

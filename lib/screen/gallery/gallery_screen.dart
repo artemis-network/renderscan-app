@@ -8,6 +8,7 @@ import 'package:renderscan/screen/gallery/gallery_models.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/screen/gallery/gallery_provider.dart';
+import 'package:renderscan/screen/mint/mint_screen.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({Key? key}) : super(key: key);
@@ -81,7 +82,15 @@ class _GalleryGrid extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             return RawMaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MintScreen(
+                          img: base64StringToUInt8List(
+                              imageList[index].nft.toString()))),
+                );
+              },
               child: Padding(
                 padding: EdgeInsets.all(3),
                 child: Container(

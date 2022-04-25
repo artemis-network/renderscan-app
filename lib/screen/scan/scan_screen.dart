@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/screen/scan/scan_api.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
 import 'package:renderscan/screen/scan/scan_loader.dart';
@@ -27,17 +26,41 @@ class _ScanScreenState extends State<ScanScreen> {
 
     Future<void> setupCameras() async {
       cameras = await availableCameras();
-      controller = CameraController(cameras[0], ResolutionPreset.medium);
+      controller = CameraController(cameras[0], ResolutionPreset.high);
       await controller.initialize();
     }
 
     void scanFunction() async {
+      print("> Res Test");
+      print(ResolutionPreset.medium);
       print("> Capturing image");
       var pictureFile = await controller.takePicture();
       print("> Processing image");
-      var uri = await cutImageFromServer(pictureFile);
+      var resp = await cutImageFromServer(pictureFile);
+      if (resp['error'] == true || resp == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            action: SnackBarAction(
+              label: "Close",
+              onPressed: () {},
+            ),
+            content: Text("Server is busy, please try again"),
+            duration: const Duration(milliseconds: 3000),
+            backgroundColor: Colors.red,
+            width: size.width * 0.9, // Width of the SnackBar.
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0, // Inner padding for SnackBar content.
+            ),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        );
+        return context.read<ScanProvider>().resetProvider();
+      }
       print("> Setting scan state");
-      context.read<ScanProvider>().setScanStatus(uri);
+      context.read<ScanProvider>().setScanStatus(resp["nft"]);
       context.read<ScanProvider>().setLoading(false);
     }
 

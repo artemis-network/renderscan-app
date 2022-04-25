@@ -17,11 +17,8 @@ cutImageFromServer(XFile file) async {
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     final result = jsonDecode(response.body) as Map<String, dynamic>;
-    return result["file"];
-  } catch (e) {
-    int i = 10;
-    i = i * 1;
-  }
+    return {"nft": result["file"], "error": result["error"]};
+  } catch (e) {}
   // print('Response status: ${response.statusCode}');
   // print('Response body: ${response.body}');
 }

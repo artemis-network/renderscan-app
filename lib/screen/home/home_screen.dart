@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
             buttonBackgroundColor: kPrimaryColor,
             backgroundColor: kprimaryBackGroundColor,
             animationCurve: Curves.easeInOut,
-            animationDuration: const Duration(milliseconds: 600),
+            animationDuration: const Duration(milliseconds: 300),
             onTap: (index) {
               setState(() {
                 currentIndex = index;

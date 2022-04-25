@@ -7,8 +7,6 @@ import 'package:renderscan/constants.dart';
 
 import 'package:renderscan/screen/gallery/gallery_screen.dart';
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-
 class MintScreen extends StatefulWidget {
   Uint8List img;
   MintScreen({Key? key, required this.img}) : super(key: key);
@@ -20,22 +18,7 @@ class MintScreen extends StatefulWidget {
 class _MintScreenState extends State<MintScreen> {
   @override
   Widget build(BuildContext context) {
-    fun() {
-      IO.Socket socket = IO.io(
-          'http://192.168.1.14:5001',
-          IO.OptionBuilder()
-              .setTransports(['websocket'])
-              .setTimeout(10000)
-              .build());
-      socket.connect();
-      socket.onConnect((_) {
-        print('connect');
-      });
-      print(socket.connected.toString());
-      socket.onError((data) => print(data));
-      var base64ImgString = base64Encode(widget.img).toString();
-      socket.emit('message', base64ImgString);
-    }
+    fun() {}
 
     final size = MediaQuery.of(context).size;
 
