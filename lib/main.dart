@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/screen/gallery/gallery_provider.dart';
+import 'package:renderscan/screen/signup/signup_screen.dart';
 
 // pages
 import 'package:renderscan/screen/welcome/welcome_screen.dart';
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         ),
         home: const SafeArea(
           child: Scaffold(
-            body: WelcomeScreen(),
+            body: SignUpScreen(),
           ),
         ));
   }

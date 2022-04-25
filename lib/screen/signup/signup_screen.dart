@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
 // components
-import 'package:renderscan/common/components/form/rounded_button.dart';
-import 'package:renderscan/common/components/form/rounded_password.dart';
-import 'package:renderscan/common/components/form/already_have_account.dart';
-import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/signup/components/input_field.dart';
+import 'package:renderscan/screen/signup/components/input_password_field.dart';
+import 'package:renderscan/screen/signup/components/signup_button.dart';
+
+// pages
 import 'package:renderscan/screen/login/login_screen.dart';
+
+// signup api / models
+import 'package:renderscan/screen/signup/signup_api.dart';
+import 'package:renderscan/screen/signup/signup_model.dart';
 
 // validations
 import 'package:renderscan/screen/signup/signup_validations.dart';
+
+// global vars
+import 'package:renderscan/constants.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -28,6 +36,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    handleRequest(SignUpResponse response) {
+      bool? hasError = response.hasError;
+      Color bgColor = hasError! ? Colors.red : Colors.green;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(
+            label: "Close",
+            onPressed: () {},
+          ),
+          backgroundColor: bgColor,
+          content: Text(response.message.toString()),
+          duration: const Duration(milliseconds: 3000),
+          width: size.width * 0.9, // Width of the SnackBar.
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0, // Inner padding for SnackBar content.
+          ),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      );
+    }
+
     return new WillPopScope(
         child: Scaffold(
           body: Background(
@@ -38,8 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Column(
                       children: <Widget>[
-                        CustomTextField(
-                          validator: SignupValidations().nameValidations,
+                        InputField(
                           icon: Icons.person,
                           labelText: "Name",
                           hintText: "Name",
@@ -50,8 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password = password;
                           }),
                         ),
-                        CustomTextField(
-                          validator: SignupValidations().emailValidations,
+                        InputField(
                           icon: Icons.email,
                           labelText: "Email",
                           hintText: "xyz@email.com",
@@ -62,8 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password = password;
                           }),
                         ),
-                        CustomTextField(
-                          validator: SignupValidations().usernameValidations,
+                        InputField(
                           icon: Icons.person_add_alt_1,
                           labelText: "Username",
                           hintText: "xyz123",
@@ -74,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password = password;
                           }),
                         ),
-                        RoundedPasswordField(
+                        InputPasswordField(
                           validation: SignupValidations().passwordValidation,
                           text: "Password",
                           onChanged: (value) => setState(() {
@@ -84,34 +113,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password = value;
                           }),
                         ),
-                        RoundedButton(
-                          text: "SIGNUP",
+                        SizedBox(
+                          height: size.height * 0.05,
+                        ),
+                        SignUpButton(
+                          text: "Sign Up",
                           press: () {
-                            var hasErrors = formkey.currentState!.validate();
-                            if (!hasErrors) {}
-                            print(email);
-                            print(username);
-                            print(password);
-                            print(name);
-                            // print(keys.);
-                            // SignUpRequest signUpRequest = new SignUpRequest();
-                            // SignUpApi().registerUser(request);
+                            var isValid = formkey.currentState!.validate();
+                            if (isValid) {
+                              SignUpRequest signUpRequest = new SignUpRequest(
+                                  email: email,
+                                  name: name,
+                                  password: password,
+                                  username: username);
+                              SignUpApi()
+                                  .registerUser(signUpRequest)
+                                  .then((value) => handleRequest(value));
+                            }
                           },
                         ),
                         SizedBox(height: size.height * 0.03),
-                        AlreadyHaveAnAccountCheck(
-                          login: false,
-                          press: () {
+                        TextButton(
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
                                   return const LoginScreen();
-                                  // return LoginScreen();
                                 },
                               ),
                             );
                           },
+                          child: Text(
+                            "Already have an account? Sign In",
+                            style: TextStyle(
+                              color: kPrimaryLightColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -133,7 +172,8 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
+    return Container(
+      color: kprimaryAuthBGColor,
       height: size.height,
       width: double.infinity,
       // Here i can use size.width but use double.infinity because both work as a same
@@ -150,7 +190,7 @@ class Background extends StatelessWidget {
           ),
           Positioned(
             bottom: -100,
-            left: -100,
+            right: -100,
             child: Image.asset(
               "assets/images/gradient_two.png",
               width: size.width * 0.5,
@@ -158,42 +198,6 @@ class Background extends StatelessWidget {
           ),
           child,
         ],
-      ),
-    );
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  String hintText;
-  String labelText;
-  IconData icon;
-  Function validator;
-  Function onChange;
-
-  CustomTextField(
-      {Key? key,
-      required this.hintText,
-      required this.labelText,
-      required this.icon,
-      required this.validator,
-      required this.onChange});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10),
-      child: TextFormField(
-        onChanged: (value) => onChange(value),
-        validator: (value) => validator(value),
-        cursorColor: kPrimaryColor,
-        decoration: InputDecoration(
-            prefixIcon: Icon(
-              icon,
-              color: kPrimaryColor,
-            ),
-            hintText: hintText,
-            labelText: labelText,
-            border: OutlineInputBorder()),
       ),
     );
   }

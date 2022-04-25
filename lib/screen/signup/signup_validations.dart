@@ -31,15 +31,9 @@ class SignupValidations {
 
   passwordValidation(String password) {
     bool hasAll =
-        RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})')
+        !RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})')
             .hasMatch(password);
-    if (hasAll) return null;
-
-    bool hasMinLength = password.length < 8;
-    bool hasSpecialChars = r'!@#$%^&*()_+=~`'.contains(password);
-    if (password.isEmpty) return "*Password Required";
-    if (hasMinLength) return "*Min 8 characters required";
-    if (hasSpecialChars) return "*Should have one special character";
+    if (hasAll) return "Invalid Password!";
     return null;
   }
 }

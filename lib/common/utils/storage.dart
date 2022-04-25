@@ -1,4 +1,4 @@
-import 'package:renderscan/common/dtos/auth_dto.dart';
+import 'package:renderscan/screen/login/login_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Storage {

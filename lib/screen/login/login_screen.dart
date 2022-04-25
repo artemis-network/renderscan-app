@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-// components
-import 'package:renderscan/common/components/form/rounded_input.dart';
-import 'package:renderscan/common/components/form/rounded_button.dart';
-import 'package:renderscan/common/components/form/rounded_password.dart';
-import 'package:renderscan/common/components/form/already_have_account.dart';
-
 // utils
 import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/constants.dart';
+
+//components
+import 'package:renderscan/screen/login/components/input_field.dart';
+import 'package:renderscan/screen/login/components/input_password_field.dart';
+import 'package:renderscan/screen/login/components/login_button.dart';
 
 // dto
 import 'package:renderscan/screen/login/login_model.dart';
@@ -32,7 +32,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
   String username = "";
   String password = "";
   bool error = false;
@@ -56,72 +56,70 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void handleSuccess(AuthResponse response) {
-    print(response.email);
-    print(response.username);
-    print(response.userId);
-    print(response.publicToken);
-    setState(() {
-      error = response.error!;
-      message = response.message!;
-    });
-    if (!error) {
-      Storage().createSession(response);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return const HomeScreen();
-          },
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          action: SnackBarAction(
-            label: "Close",
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = false;
-                username = "";
-                password = "";
-                error = false;
-                message = "";
-              });
-            },
-          ),
-          content: Text(message),
-          duration: const Duration(milliseconds: 1500),
-          width: 400, // Width of the SnackBar.
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0, // Inner padding for SnackBar content.
-          ),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-      );
-    }
-  }
-
-  void authenticate() {
-    AuthRequest request = AuthRequest(username: username, password: password);
-    Future<AuthResponse> response = LoginApi().authenticateUser(request);
-    setState(() {
-      isLoading = true;
-    });
-    response.then((resp) {
-      handleSuccess(resp);
-      setState(() {
-        isLoading = false;
-      });
-    }).catchError((err) => log.d(err));
-  }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    void handleSuccess(AuthResponse response) {
+      setState(() {
+        error = response.error!;
+        message = response.message!;
+      });
+      if (!error) {
+        Storage().createSession(response);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return const HomeScreen();
+            },
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            action: SnackBarAction(
+              label: "Close",
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = false;
+                  username = "";
+                  password = "";
+                  error = false;
+                  message = "";
+                });
+              },
+            ),
+            content: Text(message),
+            duration: const Duration(milliseconds: 1500),
+            backgroundColor: error ? Colors.red : Colors.green,
+            width: size.width * 0.9, // Width of the SnackBar.
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0, // Inner padding for SnackBar content.
+            ),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+          ),
+        );
+      }
+    }
+
+    void authenticate() {
+      AuthRequest request = AuthRequest(username: username, password: password);
+      Future<AuthResponse> response = LoginApi().authenticateUser(request);
+      setState(() {
+        isLoading = true;
+      });
+      response.then((resp) {
+        handleSuccess(resp);
+        setState(() {
+          isLoading = false;
+        });
+      }).catchError((err) => log.d(err));
+    }
+
     if (isLoading)
       return Container(
         height: size.height,
@@ -134,40 +132,40 @@ class _LoginScreenState extends State<LoginScreen> {
           body: Background(
             child: SingleChildScrollView(
                 child: Padding(
-              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
-                    "assets/images/login.png",
-                    height: size.height * 0.35,
+                    "assets/images/no_bg_logo.png",
+                    height: size.height * 0.25,
                   ),
-                  SizedBox(height: size.height * 0.03),
-                  RoundedInputField(
-                    validation: () => (null),
+                  InputField(
+                    icon: Icons.email,
+                    labelText: "Email",
                     hintText: "Email",
-                    onChanged: (email) => handleEmailInput(email),
+                    onChange: (email) => handleEmailInput(email),
                   ),
-                  !isPasswordVisible
-                      ? RoundedPasswordField(
+                  isPasswordVisible
+                      ? InputPasswordField(
                           validation: () => (null),
                           text: "Password",
                           onChanged: (password) =>
                               handlePasswordInput(password),
                         )
-                      : RoundedInputField(
-                          validation: () => (null),
+                      : InputField(
+                          labelText: "",
                           hintText: "",
                           icon: Icons.lock,
-                          onChanged: (password) => handleEmailInput(password),
+                          onChange: (password) => handleEmailInput(password),
                         ),
-                  RoundedButton(
+                  SizedBox(height: size.height * 0.05),
+                  LoginButton(
                     text: "LOGIN",
                     press: authenticate,
                   ),
                   SizedBox(height: size.height * 0.03),
-                  AlreadyHaveAnAccountCheck(
-                    press: () {
+                  TextButton(
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -177,6 +175,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     },
+                    child: Text(
+                      "Create an account? Sign Up!",
+                      style: TextStyle(
+                        color: kPrimaryLightColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -209,7 +214,8 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
+    return Container(
+      color: kprimaryAuthBGColor,
       width: double.infinity,
       height: size.height,
       child: Stack(

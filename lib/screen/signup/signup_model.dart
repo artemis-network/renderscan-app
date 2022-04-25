@@ -32,14 +32,14 @@ class SignUpResponse {
 
   SignUpResponse.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    hasError = json['hasError'];
+    hasError = json['error'];
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
-    data['hasError'] = hasError;
+    data['error'] = hasError;
     data['status'] = status;
     return data;
   }
