@@ -28,9 +28,9 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
               obscureText: isVisible,
               validator: (value) => widget.validation(value),
               onChanged: widget.onChanged,
-              cursorColor: kPrimaryColor,
+              cursorColor: kPrimaryLightColor,
+              style: kPrimartFont(kPrimaryLightColor, 18, FontWeight.normal),
               decoration: InputDecoration(
-                hintText: widget.text,
                 labelText: widget.text,
                 labelStyle:
                     kPrimartFont(kPrimaryLightColor, 16, FontWeight.normal),

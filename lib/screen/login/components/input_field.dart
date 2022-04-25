@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
 
 class InputField extends StatelessWidget {
-  String hintText;
   String labelText;
   IconData icon;
   Function onChange;
 
   InputField(
       {Key? key,
-      required this.hintText,
       required this.labelText,
       required this.icon,
       required this.onChange});
@@ -36,15 +34,13 @@ class InputField extends StatelessWidget {
             ]),
         child: TextField(
           onChanged: (value) => onChange(value),
-          cursorColor: kPrimaryColor,
+          cursorColor: kPrimaryLightColor,
+          style: kPrimartFont(kPrimaryLightColor, 18, FontWeight.normal),
           decoration: InputDecoration(
               prefixIcon: Icon(
                 icon,
                 color: kPrimaryLightColor,
               ),
-              hintText: hintText,
-              hintStyle:
-                  kPrimartFont(kPrimaryLightColor, 14, FontWeight.normal),
               label: Text(
                 labelText,
                 style: kPrimartFont(kPrimaryLightColor, 16, FontWeight.normal),

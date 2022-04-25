@@ -142,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   InputField(
                     icon: Icons.email,
                     labelText: "Email",
-                    hintText: "Email",
                     onChange: (email) => handleEmailInput(email),
                   ),
                   isPasswordVisible
@@ -154,7 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       : InputField(
                           labelText: "",
-                          hintText: "",
                           icon: Icons.lock,
                           onChange: (password) => handleEmailInput(password),
                         ),

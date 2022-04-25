@@ -73,7 +73,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         InputField(
                           icon: Icons.person,
                           labelText: "Name",
-                          hintText: "Name",
                           onChange: (value) => setState(() {
                             name = value;
                             email = email;
@@ -84,7 +83,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         InputField(
                           icon: Icons.email,
                           labelText: "Email",
-                          hintText: "xyz@email.com",
                           onChange: (value) => setState(() {
                             name = name;
                             email = value;
@@ -95,7 +93,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         InputField(
                           icon: Icons.person_add_alt_1,
                           labelText: "Username",
-                          hintText: "xyz123",
                           onChange: (value) => setState(() {
                             name = name;
                             email = email;
