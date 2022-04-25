@@ -82,8 +82,8 @@ class _GalleryGrid extends StatelessWidget {
           itemBuilder: (context, index) {
             return RawMaterialButton(
               onPressed: () {},
-              child: Hero(
-                tag: 'logo$index',
+              child: Padding(
+                padding: EdgeInsets.all(3),
                 child: Container(
                   decoration: BoxDecoration(
                       color: kPrimaryColor,
