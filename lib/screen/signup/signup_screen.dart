@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 // components
-import 'package:renderscan/common/components/form/rounded_input.dart';
 import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/common/components/form/rounded_password.dart';
 import 'package:renderscan/common/components/form/already_have_account.dart';
@@ -20,70 +19,107 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   static GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
+  String name = "";
+  String email = "";
+  String username = "";
+  String password = "";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Background(
-        child: SingleChildScrollView(
-          child: Form(
-              key: formkey,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Column(
-                  children: <Widget>[
-                    CustomTextField(
-                      validator: SignupValidations().nameValidations,
-                      icon: Icons.person,
-                      labelText: "Name",
-                      hintText: "Name",
+    return new WillPopScope(
+        child: Scaffold(
+          body: Background(
+            child: SingleChildScrollView(
+              child: Form(
+                  key: formkey,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Column(
+                      children: <Widget>[
+                        CustomTextField(
+                          validator: SignupValidations().nameValidations,
+                          icon: Icons.person,
+                          labelText: "Name",
+                          hintText: "Name",
+                          onChange: (value) => setState(() {
+                            name = value;
+                            email = email;
+                            username = username;
+                            password = password;
+                          }),
+                        ),
+                        CustomTextField(
+                          validator: SignupValidations().emailValidations,
+                          icon: Icons.email,
+                          labelText: "Email",
+                          hintText: "xyz@email.com",
+                          onChange: (value) => setState(() {
+                            name = name;
+                            email = value;
+                            username = username;
+                            password = password;
+                          }),
+                        ),
+                        CustomTextField(
+                          validator: SignupValidations().usernameValidations,
+                          icon: Icons.person_add_alt_1,
+                          labelText: "Username",
+                          hintText: "xyz123",
+                          onChange: (value) => setState(() {
+                            name = name;
+                            email = email;
+                            username = value;
+                            password = password;
+                          }),
+                        ),
+                        RoundedPasswordField(
+                          validation: SignupValidations().passwordValidation,
+                          text: "Password",
+                          onChanged: (value) => setState(() {
+                            name = name;
+                            email = email;
+                            username = password;
+                            password = value;
+                          }),
+                        ),
+                        RoundedButton(
+                          text: "SIGNUP",
+                          press: () {
+                            var hasErrors = formkey.currentState!.validate();
+                            if (!hasErrors) {}
+                            print(email);
+                            print(username);
+                            print(password);
+                            print(name);
+                            // print(keys.);
+                            // SignUpRequest signUpRequest = new SignUpRequest();
+                            // SignUpApi().registerUser(request);
+                          },
+                        ),
+                        SizedBox(height: size.height * 0.03),
+                        AlreadyHaveAnAccountCheck(
+                          login: false,
+                          press: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const LoginScreen();
+                                  // return LoginScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    CustomTextField(
-                      validator: SignupValidations().emailValidations,
-                      icon: Icons.email,
-                      labelText: "Email",
-                      hintText: "xyz@email.com",
-                    ),
-                    CustomTextField(
-                      validator: SignupValidations().usernameValidations,
-                      icon: Icons.person_add_alt_1,
-                      labelText: "Username",
-                      hintText: "xyz123",
-                    ),
-                    RoundedPasswordField(
-                      validation: SignupValidations().passwordValidation,
-                      text: "Password",
-                      onChanged: (value) {},
-                    ),
-                    RoundedButton(
-                      text: "SIGNUP",
-                      press: () {
-                        var errors = formkey.currentState!.validate();
-                        print(errors);
-                      },
-                    ),
-                    SizedBox(height: size.height * 0.03),
-                    AlreadyHaveAnAccountCheck(
-                      login: false,
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const LoginScreen();
-                              // return LoginScreen();
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              )),
+                  )),
+            ),
+          ),
         ),
-      ),
-    );
+        onWillPop: () async => false);
   }
 }
 
@@ -132,19 +168,22 @@ class CustomTextField extends StatelessWidget {
   String labelText;
   IconData icon;
   Function validator;
+  Function onChange;
 
   CustomTextField(
       {Key? key,
       required this.hintText,
       required this.labelText,
       required this.icon,
-      required this.validator});
+      required this.validator,
+      required this.onChange});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: 10),
       child: TextFormField(
+        onChanged: (value) => onChange(value),
         validator: (value) => validator(value),
         cursorColor: kPrimaryColor,
         decoration: InputDecoration(

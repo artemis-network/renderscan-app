@@ -29,15 +29,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-        onWillPop: () async => false,
-        child: MaterialApp(
-            title: 'Renderscan',
-            debugShowCheckedModeBanner: false,
-            home: const SafeArea(
-              child: Scaffold(
-                body: WelcomeScreen(),
-              ),
-            )));
+    return MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const SafeArea(
+          child: Scaffold(
+            body: WelcomeScreen(),
+          ),
+        ));
   }
 }

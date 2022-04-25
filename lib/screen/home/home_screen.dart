@@ -60,11 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return MaterialApp(
-        title: 'Renderscan',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(),
-        home: SafeArea(
+    return new WillPopScope(
+        child: SafeArea(
             child: Scaffold(
           body: SizedBox(
             height: size.height,
@@ -105,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             letIndexChange: (index) => true,
           ),
-        )));
+        )),
+        onWillPop: () async => false);
   }
 }

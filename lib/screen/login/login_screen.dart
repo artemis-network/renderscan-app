@@ -10,7 +10,7 @@ import 'package:renderscan/common/components/form/already_have_account.dart';
 import 'package:renderscan/common/utils/storage.dart';
 
 // dto
-import 'package:renderscan/common/dtos/auth_dto.dart';
+import 'package:renderscan/screen/login/login_model.dart';
 import 'package:renderscan/screen/scan/scan_loader.dart';
 
 // screens
@@ -129,63 +129,61 @@ class _LoginScreenState extends State<LoginScreen> {
         color: Colors.white,
         child: spinkit,
       );
-    return Scaffold(
-      body: Background(
-        child: SingleChildScrollView(
-            child: Padding(
-          padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                "LOGIN",
-                style: TextStyle(fontWeight: FontWeight.bold),
+    return new WillPopScope(
+        child: Scaffold(
+          body: Background(
+            child: SingleChildScrollView(
+                child: Padding(
+              padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/login.png",
+                    height: size.height * 0.35,
+                  ),
+                  SizedBox(height: size.height * 0.03),
+                  RoundedInputField(
+                    validation: () => (null),
+                    hintText: "Email",
+                    onChanged: (email) => handleEmailInput(email),
+                  ),
+                  !isPasswordVisible
+                      ? RoundedPasswordField(
+                          validation: () => (null),
+                          text: "Password",
+                          onChanged: (password) =>
+                              handlePasswordInput(password),
+                        )
+                      : RoundedInputField(
+                          validation: () => (null),
+                          hintText: "",
+                          icon: Icons.lock,
+                          onChanged: (password) => handleEmailInput(password),
+                        ),
+                  RoundedButton(
+                    text: "LOGIN",
+                    press: authenticate,
+                  ),
+                  SizedBox(height: size.height * 0.03),
+                  AlreadyHaveAnAccountCheck(
+                    press: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const SignUpScreen();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: size.height * 0.03),
-              Image.asset(
-                "assets/images/login.png",
-                height: size.height * 0.35,
-              ),
-              SizedBox(height: size.height * 0.03),
-              RoundedInputField(
-                validation: () => (null),
-                hintText: "Email",
-                onChanged: (email) => handleEmailInput(email),
-              ),
-              !isPasswordVisible
-                  ? RoundedPasswordField(
-                      validation: () => (null),
-                      text: "Password",
-                      onChanged: (password) => handlePasswordInput(password),
-                    )
-                  : RoundedInputField(
-                      validation: () => (null),
-                      hintText: "",
-                      icon: Icons.lock,
-                      onChanged: (password) => handleEmailInput(password),
-                    ),
-              RoundedButton(
-                text: "LOGIN",
-                press: authenticate,
-              ),
-              SizedBox(height: size.height * 0.03),
-              AlreadyHaveAnAccountCheck(
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const SignUpScreen();
-                      },
-                    ),
-                  );
-                },
-              ),
-            ],
+            )),
           ),
-        )),
-      ),
-    );
+        ),
+        onWillPop: () async => false);
   }
 }
 
