@@ -1,17 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 // utils
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/common/utils/storage.dart';
 
 //components
 import 'package:renderscan/screen/login/components/input_field.dart';
 import 'package:renderscan/screen/login/components/input_password_field.dart';
 import 'package:renderscan/screen/login/components/login_button.dart';
+import 'package:renderscan/screen/scan/scan_loader.dart';
 
 // dto
 import 'package:renderscan/screen/login/login_model.dart';
-import 'package:renderscan/screen/scan/scan_loader.dart';
 
 // screens
 import 'package:renderscan/screen/signup/signup_screen.dart';
@@ -32,7 +34,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
-  bool isPasswordVisible = true;
+  bool isPasswordVisible = false;
   String username = "";
   String password = "";
   bool error = false;
@@ -60,10 +62,40 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    void handleError() {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          action: SnackBarAction(
+            label: "Close",
+            onPressed: () {
+              setState(() {
+                isPasswordVisible = false;
+                username = "";
+                password = "";
+                error = false;
+                message = "";
+              });
+            },
+          ),
+          content: Text(message),
+          duration: const Duration(milliseconds: 3500),
+          backgroundColor: error ? Colors.red : Colors.green,
+          width: size.width * 0.9, // Width of the SnackBar.
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0, // Inner padding for SnackBar content.
+          ),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      );
+    }
+
     void handleSuccess(AuthResponse response) {
       setState(() {
-        error = response.error!;
-        message = response.message!;
+        error = response.error ?? true;
+        message = response.message ?? "Some thing went wrong";
       });
       if (!error) {
         Storage().createSession(response);
@@ -76,48 +108,24 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            action: SnackBarAction(
-              label: "Close",
-              onPressed: () {
-                setState(() {
-                  isPasswordVisible = false;
-                  username = "";
-                  password = "";
-                  error = false;
-                  message = "";
-                });
-              },
-            ),
-            content: Text(message),
-            duration: const Duration(milliseconds: 1500),
-            backgroundColor: error ? Colors.red : Colors.green,
-            width: size.width * 0.9, // Width of the SnackBar.
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0, // Inner padding for SnackBar content.
-            ),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-          ),
-        );
+        handleError();
       }
     }
 
     void authenticate() {
-      AuthRequest request = AuthRequest(username: username, password: password);
-      Future<AuthResponse> response = LoginApi().authenticateUser(request);
       setState(() {
         isLoading = true;
       });
+      AuthRequest request = AuthRequest(username: username, password: password);
+      Future<AuthResponse> response = LoginApi().authenticateUser(request);
       response.then((resp) {
+        log.i("> Handling Response");
         handleSuccess(resp);
+        log.i("> " + resp.username.toString());
         setState(() {
           isLoading = false;
         });
-      }).catchError((err) => log.d(err));
+      });
     }
 
     if (isLoading)
@@ -144,18 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelText: "Email",
                     onChange: (email) => handleEmailInput(email),
                   ),
-                  isPasswordVisible
-                      ? InputPasswordField(
-                          validation: () => (null),
-                          text: "Password",
-                          onChanged: (password) =>
-                              handlePasswordInput(password),
-                        )
-                      : InputField(
-                          labelText: "",
-                          icon: Icons.lock,
-                          onChange: (password) => handleEmailInput(password),
-                        ),
+                  InputPasswordField(
+                    text: "Password",
+                    onChanged: (password) => handlePasswordInput(password),
+                  ),
                   SizedBox(height: size.height * 0.05),
                   LoginButton(
                     text: "LOGIN",

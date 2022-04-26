@@ -6,10 +6,14 @@ import 'package:renderscan/screen/wallet/wallet_dto.dart';
 
 class WalletApi {
   Future<Wallet> getBalance(String username) async {
-    final response = await http.post(
-        HttpServerConfig().getHost("/users/get-user-wallet"),
-        headers: HttpServerConfig().headers,
-        body: jsonEncode({'username': username}));
-    return Wallet.fromJson(jsonDecode(response.body));
+    try {
+      final response = await http.post(
+          HttpServerConfig().getHost("/users/get-user-wallet"),
+          headers: HttpServerConfig().headers,
+          body: jsonEncode({'username': username}));
+      return Wallet.fromJson(jsonDecode(response.body));
+    } on Exception {
+      return Wallet(balance: 0, walletId: 0);
+    }
   }
 }

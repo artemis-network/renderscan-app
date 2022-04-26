@@ -116,17 +116,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SignUpButton(
                           text: "Sign Up",
                           press: () {
-                            var isValid = formkey.currentState!.validate();
-                            if (isValid) {
-                              SignUpRequest signUpRequest = new SignUpRequest(
-                                  email: email,
-                                  name: name,
-                                  password: password,
-                                  username: username);
-                              SignUpApi()
-                                  .registerUser(signUpRequest)
-                                  .then((value) => handleRequest(value));
-                            }
+                            // var isValid = formkey.currentState!.validate();
+                            // if (isValid) {
+                            SignUpRequest signUpRequest = new SignUpRequest(
+                                email: email,
+                                name: name,
+                                password: password,
+                                username: username);
+                            SignUpApi()
+                                .registerUser(signUpRequest)
+                                .then((value) => handleRequest(value));
+                            // }
                           },
                         ),
                         SizedBox(height: size.height * 0.03),

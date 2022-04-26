@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/form/rounded_button.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:renderscan/screen/gallery/gallery_screen.dart';
@@ -111,43 +109,52 @@ class _MintScreenState extends State<MintScreen> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
-                                child: RoundedButton(
-                                    text: "Mint", press: () => mint()),
-                                decoration: BoxDecoration(
-                                    color: kPrimaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          color: kprimaryNeuLight,
-                                          offset: Offset(-1, -1)),
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 8,
-                                          color: kprimaryNeuDark,
-                                          offset: Offset(5, 5)),
-                                    ]),
+                              Padding(
+                                padding: EdgeInsets.only(top: 0),
+                                child: Container(
+                                  width: size.width * 0.4,
+                                  child: TextButton(
+                                      child: Text("Mint"),
+                                      onPressed: () => mint()),
+                                  decoration: BoxDecoration(
+                                      color: kPrimaryColor,
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            blurRadius: 2,
+                                            color: kprimaryNeuLight,
+                                            offset: Offset(-1, -1)),
+                                        BoxShadow(
+                                            spreadRadius: 1,
+                                            blurRadius: 8,
+                                            color: kprimaryNeuDark,
+                                            offset: Offset(5, 5)),
+                                      ]),
+                                ),
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: kPrimaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          color: kprimaryNeuLight,
-                                          offset: Offset(-1, -1)),
-                                      BoxShadow(
-                                          spreadRadius: 1,
-                                          blurRadius: 8,
-                                          color: kprimaryNeuDark,
-                                          offset: Offset(5, 5)),
-                                    ]),
-                                child: RoundedButton(text: "Drop", press: fun),
-                              )
+                              Padding(
+                                  padding: EdgeInsets.only(top: 20),
+                                  child: Container(
+                                    width: size.width * 0.4,
+                                    decoration: BoxDecoration(
+                                        color: kPrimaryColor,
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              spreadRadius: 1,
+                                              blurRadius: 2,
+                                              color: kprimaryNeuLight,
+                                              offset: Offset(-1, -1)),
+                                          BoxShadow(
+                                              spreadRadius: 1,
+                                              blurRadius: 8,
+                                              color: kprimaryNeuDark,
+                                              offset: Offset(5, 5)),
+                                        ]),
+                                    child: TextButton(
+                                        child: Text("Drop"), onPressed: fun),
+                                  ))
                             ])),
                     Padding(
                         padding: EdgeInsets.fromLTRB(0, 80, 0, 0),

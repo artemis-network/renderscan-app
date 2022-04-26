@@ -4,20 +4,20 @@ import 'package:renderscan/constants.dart';
 class InputPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String text;
-  final Function validation;
+  final isPasswordVisible;
 
-  const InputPasswordField(
-      {Key? key,
-      required this.text,
-      required this.onChanged,
-      required this.validation})
-      : super(key: key);
+  const InputPasswordField({
+    Key? key,
+    required this.text,
+    required this.onChanged,
+    this.isPasswordVisible,
+  }) : super(key: key);
   @override
   State<InputPasswordField> createState() => _InputPasswordFieldState();
 }
 
 class _InputPasswordFieldState extends State<InputPasswordField> {
-  bool isVisible = false;
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
         padding: EdgeInsets.only(top: 15),
         child: Container(
             child: TextFormField(
-              obscureText: isVisible,
-              validator: (value) => widget.validation(value),
+              obscureText: isPasswordHidden,
               onChanged: widget.onChanged,
               cursorColor: kPrimaryLightColor,
               style: kPrimartFont(kPrimaryLightColor, 18, FontWeight.normal),
@@ -40,10 +39,10 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
                 ),
                 suffixIcon: InkWell(
                   onTap: () => setState(() {
-                    isVisible = !isVisible;
+                    isPasswordHidden = !isPasswordHidden;
                   }),
                   child: Icon(
-                    isVisible ? Icons.visibility : Icons.visibility_off,
+                    !isPasswordHidden ? Icons.visibility : Icons.visibility_off,
                     color: kPrimaryLightColor,
                   ),
                 ),

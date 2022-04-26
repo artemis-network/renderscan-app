@@ -26,7 +26,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     Future<void> setupCameras() async {
       cameras = await availableCameras();
-      controller = CameraController(cameras[0], ResolutionPreset.high);
+      controller = CameraController(cameras[0], ResolutionPreset.medium);
       await controller.initialize();
     }
 

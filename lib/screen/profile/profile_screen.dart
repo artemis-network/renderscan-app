@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/login/login_screen.dart';
+import 'package:renderscan/screen/profile/component/profiile_buttons.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -60,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                child: ButtonWidget(
+                child: ProfileButton(
                   text: "Upgrade",
                   icon: Icons.upgrade,
                   onClick: fun,
@@ -71,27 +73,27 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
                 child: Column(
                   children: [
-                    ButtonWidget(
+                    ProfileButton(
                       text: "Privacy",
                       icon: Icons.privacy_tip_outlined,
                       onClick: fun,
                     ),
-                    ButtonWidget(
+                    ProfileButton(
                       text: "Help & Support",
                       icon: Icons.help_center_outlined,
                       onClick: fun,
                     ),
-                    ButtonWidget(
+                    ProfileButton(
                       text: "Settings",
                       icon: Icons.settings_outlined,
                       onClick: fun,
                     ),
-                    ButtonWidget(
+                    ProfileButton(
                       text: "Refer a Friend",
                       icon: Icons.person_add_outlined,
                       onClick: fun,
                     ),
-                    ButtonWidget(
+                    ProfileButton(
                       text: "Log out",
                       icon: Icons.logout_outlined,
                       onClick: logOut,
@@ -101,62 +103,6 @@ class ProfileScreen extends StatelessWidget {
               ))
             ],
           )),
-    );
-  }
-}
-
-class ButtonWidget extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  final Function onClick;
-
-  ButtonWidget(
-      {Key? key, required this.text, required this.icon, required this.onClick})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-      child: TextButton(
-          onPressed: () => onClick(),
-          child: Container(
-              width: size.width,
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        icon,
-                        color: kPrimaryLightColor,
-                      )),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        text,
-                        style: kPrimartFont(
-                            kPrimaryLightColor, 14, FontWeight.bold),
-                      ))
-                ],
-              ),
-              decoration: BoxDecoration(
-                  color: kPrimaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        color: kprimaryNeuLight,
-                        offset: Offset(-1, -1)),
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        color: kprimaryNeuDark,
-                        offset: Offset(5, 5)),
-                  ]))),
     );
   }
 }
