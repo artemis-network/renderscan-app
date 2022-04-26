@@ -10,7 +10,7 @@ import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/login/components/input_field.dart';
 import 'package:renderscan/screen/login/components/input_password_field.dart';
 import 'package:renderscan/screen/login/components/login_button.dart';
-import 'package:renderscan/screen/scan/scan_loader.dart';
+import 'package:renderscan/common/components/loader.dart';
 
 // dto
 import 'package:renderscan/screen/login/login_model.dart';

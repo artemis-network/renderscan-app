@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/scan/scan_api.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
-import 'package:renderscan/screen/scan/scan_loader.dart';
+import 'package:renderscan/common/components/loader.dart';
 
 import 'package:renderscan/screen/scan/scan_provider.dart';
 import 'package:provider/provider.dart';

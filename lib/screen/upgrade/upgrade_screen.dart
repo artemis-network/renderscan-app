@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/upgrade/components/upgrade_buttons.dart';
 
 class UpgradeScreen extends StatelessWidget {
   const UpgradeScreen({Key? key}) : super(key: key);
@@ -91,13 +92,13 @@ class UpgradeScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              const ButtonWidget(
+              const UpgradeButton(
                 text: "3 Scans - 1000 REND",
               ),
-              const ButtonWidget(
+              const UpgradeButton(
                 text: "4 Scans - 1500 REND",
               ),
-              const ButtonWidget(
+              const UpgradeButton(
                 text: "5 Scans - 2000 REND",
               ),
               SizedBox(
@@ -111,50 +112,5 @@ class UpgradeScreen extends StatelessWidget {
             ],
           )
         ]));
-  }
-}
-
-class ButtonWidget extends StatelessWidget {
-  final String text;
-
-  const ButtonWidget({Key? key, required this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    void fun() => log.d("hello");
-    final size = MediaQuery.of(context).size;
-    final pad = (size.width * 0.25);
-
-    return Padding(
-        padding: EdgeInsets.fromLTRB(pad, 10, pad, 10),
-        child: Container(
-          padding: EdgeInsets.fromLTRB(20, 12, 20, 12),
-          child: Stack(
-            children: <Widget>[
-              Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    text,
-                    style:
-                        kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
-                  ))
-            ],
-          ),
-          decoration: BoxDecoration(
-              color: kPrimaryColor,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    color: kprimaryNeuLight,
-                    offset: Offset(-1, -1)),
-                BoxShadow(
-                    spreadRadius: 1,
-                    blurRadius: 8,
-                    color: kprimaryNeuDark,
-                    offset: Offset(5, 5)),
-              ]),
-        ));
   }
 }
