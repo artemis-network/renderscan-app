@@ -19,7 +19,12 @@ class _UpgradeButtonState extends State<UpgradeButton> {
     final pad = (size.width * 0.25);
 
     return GestureDetector(
-      onTap: () {
+      onTapDown: (td) {
+        setState(() {
+          _isElevated = !_isElevated;
+        });
+      },
+      onTapUp: (td) {
         setState(() {
           _isElevated = !_isElevated;
         });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/constants.dart';
 
 class InputPasswordField extends StatefulWidget {
@@ -28,7 +29,13 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
               obscureText: isPasswordHidden,
               onChanged: widget.onChanged,
               cursorColor: kPrimaryLightColor,
-              style: kPrimartFont(kPrimaryLightColor, 18, FontWeight.normal),
+              style: GoogleFonts.poppins(
+                  decoration: TextDecoration.none,
+                  decorationThickness: 0,
+                  decorationColor: kprimaryAuthNeuFGColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: kPrimaryLightColor),
               decoration: InputDecoration(
                 labelText: widget.text,
                 labelStyle:

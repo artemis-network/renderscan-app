@@ -21,14 +21,20 @@ class _LoginButtonState extends State<LoginButton> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {
+      onTapUp: (tu) {
+        setState(() {
+          _isElevated = !_isElevated;
+        });
+      },
+      onTapDown: (td) {
         setState(() {
           _isElevated = !_isElevated;
         });
         widget.press();
       },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
+        margin: EdgeInsets.all(10),
+        duration: Duration(milliseconds: 100),
         padding: EdgeInsets.all(20),
         width: size.width * 0.6,
         decoration: BoxDecoration(

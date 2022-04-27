@@ -21,7 +21,12 @@ class _ProfileButtonState extends State<ProfileButton> {
     final size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () {
+      onTapUp: (tu) {
+        setState(() {
+          _isElevated = !_isElevated;
+        });
+      },
+      onTapDown: (td) {
         setState(() {
           _isElevated = !_isElevated;
         });

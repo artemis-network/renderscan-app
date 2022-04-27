@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 var kPrimaryColor = Color(0xff0F0326);
 var kprimaryBackGroundColor = kPrimaryColor;
-var kPrimaryLightColor = Colors.white70;
+var kPrimaryLightColor = Colors.white;
 
 var kPrimaryShadow = kPrimaryColor.withOpacity(1);
 

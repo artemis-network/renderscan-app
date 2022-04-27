@@ -25,7 +25,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  static GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   String name = "";
   String email = "";
@@ -106,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onChanged: (value) => setState(() {
                             name = name;
                             email = email;
-                            username = password;
+                            username = username;
                             password = value;
                           }),
                         ),
@@ -118,14 +118,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           press: () {
                             // var isValid = formkey.currentState!.validate();
                             // if (isValid) {
-                            SignUpRequest signUpRequest = new SignUpRequest(
-                                email: email,
-                                name: name,
-                                password: password,
-                                username: username);
-                            SignUpApi()
-                                .registerUser(signUpRequest)
-                                .then((value) => handleRequest(value));
+                            if (name != "" &&
+                                email != "" &&
+                                password != "" &&
+                                username != "") {
+                              SignUpRequest signUpRequest = new SignUpRequest(
+                                  email: email.trim(),
+                                  name: name.trim(),
+                                  password: password.trim(),
+                                  username: username.trim());
+                              SignUpApi()
+                                  .registerUser(signUpRequest)
+                                  .then((value) => handleRequest(value));
+                            }
                             // }
                           },
                         ),
@@ -141,12 +146,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             );
                           },
-                          child: Text(
-                            "Already have an account? Sign In",
-                            style: TextStyle(
-                              color: kPrimaryLightColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account?",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: kPrimaryLightColor,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Container(
+                                child: Text(
+                                  " Sign In",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.pink.shade400,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ],
@@ -169,32 +190,35 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: kprimaryAuthBGColor,
-      height: size.height,
-      width: double.infinity,
-      // Here i can use size.width but use double.infinity because both work as a same
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: -100,
-            left: -100,
-            child: Image.asset(
-              "assets/images/gradient_one.png",
-              width: size.width * 0.55,
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: Container(
+        color: kprimaryAuthBGColor,
+        height: size.height,
+        width: double.infinity,
+        // Here i can use size.width but use double.infinity because both work as a same
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: -100,
+              left: -100,
+              child: Image.asset(
+                "assets/images/gradient_one.png",
+                width: size.width * 0.55,
+              ),
             ),
-          ),
-          Positioned(
-            bottom: -100,
-            right: -100,
-            child: Image.asset(
-              "assets/images/gradient_two.png",
-              width: size.width * 0.5,
+            Positioned(
+              bottom: -100,
+              right: -100,
+              child: Image.asset(
+                "assets/images/gradient_two.png",
+                width: size.width * 0.5,
+              ),
             ),
-          ),
-          child,
-        ],
+            child,
+          ],
+        ),
       ),
     );
   }

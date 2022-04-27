@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 // utils
@@ -113,9 +111,12 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     void authenticate() {
-      setState(() {
-        isLoading = true;
+      var future = Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          isLoading = true;
+        });
       });
+      future.then((value) => null);
       AuthRequest request = AuthRequest(username: username, password: password);
       Future<AuthResponse> response = LoginApi().authenticateUser(request);
       response.then((resp) {
@@ -137,6 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     return new WillPopScope(
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: Background(
             child: SingleChildScrollView(
                 child: Padding(
@@ -173,12 +175,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       );
                     },
-                    child: Text(
-                      "Create an account? Sign Up!",
-                      style: TextStyle(
-                        color: kPrimaryLightColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: kPrimaryLightColor,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            " Sign Up",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.pink.shade400,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -212,31 +230,34 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      color: kprimaryAuthBGColor,
-      width: double.infinity,
-      height: size.height,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: -100,
-            left: -100,
-            child: Image.asset(
-              "assets/images/gradient_one.png",
-              width: size.width * 0.55,
+    return SingleChildScrollView(
+      physics: ClampingScrollPhysics(),
+      child: Container(
+        color: kprimaryAuthBGColor,
+        width: double.infinity,
+        height: size.height,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: -100,
+              left: -100,
+              child: Image.asset(
+                "assets/images/gradient_one.png",
+                width: size.width * 0.55,
+              ),
             ),
-          ),
-          Positioned(
-            bottom: -100,
-            right: -100,
-            child: Image.asset(
-              "assets/images/gradient_two.png",
-              width: size.width * 0.6,
+            Positioned(
+              bottom: -100,
+              right: -100,
+              child: Image.asset(
+                "assets/images/gradient_two.png",
+                width: size.width * 0.6,
+              ),
             ),
-          ),
-          child,
-        ],
+            child,
+          ],
+        ),
       ),
     );
   }

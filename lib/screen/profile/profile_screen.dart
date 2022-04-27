@@ -78,21 +78,25 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.privacy_tip_outlined,
                       onClick: fun,
                     ),
+                    SizedBox(height: 10),
                     ProfileButton(
                       text: "Help & Support",
                       icon: Icons.help_center_outlined,
                       onClick: fun,
                     ),
+                    SizedBox(height: 10),
                     ProfileButton(
                       text: "Settings",
                       icon: Icons.settings_outlined,
                       onClick: fun,
                     ),
+                    SizedBox(height: 10),
                     ProfileButton(
                       text: "Refer a Friend",
                       icon: Icons.person_add_outlined,
                       onClick: fun,
                     ),
+                    SizedBox(height: 10),
                     ProfileButton(
                       text: "Log out",
                       icon: Icons.logout_outlined,

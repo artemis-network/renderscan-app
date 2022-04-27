@@ -20,7 +20,12 @@ class _SignUpButtonState extends State<SignUpButton> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {
+      onTapUp: (tu) {
+        setState(() {
+          _isElevated = !_isElevated;
+        });
+      },
+      onTapDown: (td) {
         setState(() {
           _isElevated = !_isElevated;
         });

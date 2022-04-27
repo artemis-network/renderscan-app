@@ -22,7 +22,12 @@ class _WalletRoundedButtonState extends State<WalletRoundedButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
+        onTapUp: (tu) {
+          setState(() {
+            _isElevated = !_isElevated;
+          });
+        },
+        onTapDown: (td) {
           setState(() {
             _isElevated = !_isElevated;
             widget.callback();
