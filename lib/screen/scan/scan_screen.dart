@@ -4,6 +4,7 @@ import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/scan/scan_api.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
 import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/screen/scan/scan_modal.dart';
 
 import 'package:renderscan/screen/scan/scan_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +37,8 @@ class _ScanScreenState extends State<ScanScreen> {
       print("> Capturing image");
       var pictureFile = await controller.takePicture();
       print("> Processing image");
-      var resp = await cutImageFromServer(pictureFile);
-      if (resp['error'] == true || resp == null) {
+      ScanResponse resp = await cutImageFromServer(pictureFile);
+      if (resp.isError == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             action: SnackBarAction(
@@ -60,7 +61,9 @@ class _ScanScreenState extends State<ScanScreen> {
         return context.read<ScanProvider>().resetProvider();
       }
       print("> Setting scan state");
-      context.read<ScanProvider>().setScanStatus(resp["nft"]);
+      context
+          .read<ScanProvider>()
+          .setScanStatus(resp.file.toString(), resp.filename.toString());
       context.read<ScanProvider>().setLoading(false);
     }
 
@@ -74,8 +77,9 @@ class _ScanScreenState extends State<ScanScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                MintScreen(img: context.watch<ScanProvider>().imageSource)),
+            builder: (context) => MintScreen(
+                imageSource: context.watch<ScanProvider>().imageSource,
+                filename: context.watch<ScanProvider>().filename)),
       );
     }
 

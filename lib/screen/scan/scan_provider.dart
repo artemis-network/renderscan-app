@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 
 class ScanProvider extends ChangeNotifier {
   Uint8List? _imgSource;
+  String? _filename;
   bool? _isFetched = false;
   bool? _isLoading = false;
 
-  setScanStatus(String base64ImageString) {
+  setScanStatus(String base64ImageString, String filename) {
     _imgSource = const Base64Codec().decode(base64ImageString.toString());
+    _filename = filename;
     _isFetched = true;
     notifyListeners();
   }
@@ -21,11 +23,13 @@ class ScanProvider extends ChangeNotifier {
 
   resetProvider() {
     _imgSource = null;
+    _filename = null;
     _isFetched = false;
     _isLoading = false;
     notifyListeners();
   }
 
+  get filename => _filename;
   get imageSource => _imgSource;
   get isFetched => _isFetched;
   get isLoading => _isLoading;

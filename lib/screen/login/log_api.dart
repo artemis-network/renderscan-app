@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:renderscan/screen/login/login_model.dart';
@@ -13,7 +12,7 @@ class LoginApi {
           headers: HttpServerConfig().headers,
           body: jsonEncode(request.toJson()));
       return AuthResponse.fromJson(jsonDecode(response.body));
-    } on SocketException {
+    } on Exception {
       return AuthResponse(
           error: true,
           message: "Internal Server Error, Please try after some time");

@@ -4,8 +4,9 @@ import 'package:camera/camera.dart';
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/screen/scan/scan_modal.dart';
 
-cutImageFromServer(XFile file) async {
+Future<ScanResponse> cutImageFromServer(XFile file) async {
   try {
     var data = await file.readAsBytes();
     var username = await Storage().getItem("username");
@@ -16,11 +17,8 @@ cutImageFromServer(XFile file) async {
     request.files.add(pic);
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    final result = jsonDecode(response.body) as Map<String, dynamic>;
-    return {"nft": result["file"], "error": result["error"]};
+    return ScanResponse.fromJson(jsonDecode(response.body));
   } on Exception {
-    return {"nft": "", "error": true};
+    return ScanResponse(file: "", filename: "", isError: true);
   }
-  // print('Response status: ${response.statusCode}');
-  // print('Response body: ${response.body}');
 }

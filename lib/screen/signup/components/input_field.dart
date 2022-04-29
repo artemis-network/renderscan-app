@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/constants.dart';
 
 class InputField extends StatelessWidget {
-  String labelText;
-  IconData icon;
-  Function onChange;
+  final String labelText;
+  final IconData icon;
+  final Function onChange;
 
   InputField(
       {Key? key,

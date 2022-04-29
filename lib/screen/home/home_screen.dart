@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initImageList(ImageList imageList) {
     List<ImageItem>? images = imageList.images;
+    print(images);
     if (images!.isNotEmpty)
       return context.read<GalleryProvider>().initializeImageList(images);
     return context.read<GalleryProvider>().initializeImageList([]);

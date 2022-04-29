@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/upgrade/components/upgrade_buttons.dart';

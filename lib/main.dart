@@ -8,6 +8,8 @@ import 'package:renderscan/screen/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/screen/scan/scan_provider.dart';
 
+import 'package:double_back_to_close/double_back_to_close.dart';
+
 void main() async {
   runApp(
     MultiProvider(
@@ -29,15 +31,31 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    bool allowClose = false;
     return MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SafeArea(
+        home: SafeArea(
           child: Scaffold(
-            body: WelcomeScreen(),
+            body: DoubleBack(
+              condition: allowClose,
+              onConditionFail: () {
+                setState(() {
+                  allowClose = true;
+                });
+              },
+              child: WelcomeScreen(),
+              waitForSecondBackPress: 3, // default 2
+              textStyle: TextStyle(
+                fontSize: 13,
+                color: Colors.white,
+              ),
+              background: Colors.red,
+              backgroundRadius: 30,
+            ),
           ),
         ));
   }

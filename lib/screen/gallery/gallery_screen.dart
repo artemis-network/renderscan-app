@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/gallery/gallery_api.dart';
 import 'package:renderscan/screen/gallery/gallery_models.dart';
 
 import 'package:provider/provider.dart';
@@ -87,8 +86,10 @@ class _GalleryGrid extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => MintScreen(
-                          img: base64StringToUInt8List(
-                              imageList[index].nft.toString()))),
+                            imageSource: base64StringToUInt8List(
+                                imageList[index].nft.toString()),
+                            filename: "",
+                          )),
                 );
               },
               child: Padding(
