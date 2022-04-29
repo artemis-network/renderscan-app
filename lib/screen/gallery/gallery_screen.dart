@@ -3,10 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/gallery/gallery_api.dart';
 import 'package:renderscan/screen/gallery/gallery_models.dart';
 
-import 'package:provider/provider.dart';
-import 'package:renderscan/screen/gallery/gallery_provider.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
 
 class GalleryScreen extends StatefulWidget {
@@ -16,6 +15,19 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
+  late List<ImageItem> gallery = [];
+  @override
+  void initState() {
+    super.initState();
+    GalleryApi().callImages().then((value) {
+      setState(() {
+        gallery = value.images as List<ImageItem>;
+      });
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,27 +42,31 @@ class _GalleryScreenState extends State<GalleryScreen> {
             Text(
               'Gallery',
               style: TextStyle(
-                fontSize: 25,
+                fontSize: 26,
                 fontWeight: FontWeight.w600,
                 color: kPrimaryLightColor,
               ),
               textAlign: TextAlign.center,
             ),
-            _GalleryGrid()
+            _GalleryGrid(
+              gallery: gallery,
+            )
           ])),
     );
   }
 }
 
 class _GalleryGrid extends StatelessWidget {
-  Uint8List base64StringToUInt8List(String base64String) =>
-      base64Decode(base64String);
+  final List<ImageItem> gallery;
+
+  _GalleryGrid({required this.gallery});
 
   @override
   Widget build(BuildContext context) {
-    List<ImageItem> imageList = context.watch<GalleryProvider>().imagesList;
+    Uint8List base64StringToUInt8List(String base64String) =>
+        base64Decode(base64String);
 
-    if (imageList.length == 0)
+    if (gallery.length == 0)
       return Container(
           padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
           child: Text(
@@ -87,7 +103,7 @@ class _GalleryGrid extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => MintScreen(
                             imageSource: base64StringToUInt8List(
-                                imageList[index].nft.toString()),
+                                gallery[index].nft.toString()),
                             filename: "",
                           )),
                 );
@@ -111,7 +127,7 @@ class _GalleryGrid extends StatelessWidget {
                             offset: Offset(5, 5)),
                       ]),
                   child: Image.memory(
-                    base64StringToUInt8List(imageList[index].nft.toString()),
+                    base64StringToUInt8List(gallery[index].nft.toString()),
                     height: 120,
                     width: 160,
                   ),
@@ -119,7 +135,7 @@ class _GalleryGrid extends StatelessWidget {
               ),
             );
           },
-          itemCount: imageList.length,
+          itemCount: gallery.length,
         ),
       )),
     );
