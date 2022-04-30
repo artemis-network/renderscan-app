@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/screen/gallery/gallery_provider.dart';
 
 // pages
 import 'package:renderscan/screen/welcome/welcome_screen.dart';
@@ -14,6 +15,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => GalleryProvider()),
       ],
       child: const MyApp(),
     ),

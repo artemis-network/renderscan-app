@@ -2,9 +2,15 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
 import 'package:renderscan/screen/gallery/gallery_models.dart';
+
+import 'package:renderscan/screen/gallery/gallery_provider.dart';
+import 'package:provider/provider.dart';
 
 import 'package:renderscan/screen/mint/mint_screen.dart';
 
@@ -15,14 +21,24 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
-  late List<ImageItem> gallery = [];
+  List<String> _imagesList = [];
+  bool _isLoaded = false;
+  bool _isRefreshed = false;
+  get imagesList => _imagesList;
+  get isLoaded => _isLoaded;
+  get isRefreshed => _isRefreshed;
+  void initializeImageList(List<String> imageList) {
+    setState(() {
+      _imagesList = imageList;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    GalleryApi().callImages().then((value) {
-      setState(() {
-        gallery = value.images as List<ImageItem>;
-      });
+    GalleryApi().callImages().then((resp) {
+      List<String> imageList = resp.images as List<String>;
+      initializeImageList(imageList);
     }).catchError((err) {
       print(err);
     });
@@ -48,23 +64,35 @@ class _GalleryScreenState extends State<GalleryScreen> {
               ),
               textAlign: TextAlign.center,
             ),
-            _GalleryGrid(
-              gallery: gallery,
-            )
+            _GalleryGrid(gallery: _imagesList)
           ])),
     );
   }
 }
 
 class _GalleryGrid extends StatelessWidget {
-  final List<ImageItem> gallery;
+  final List<String> gallery;
 
   _GalleryGrid({required this.gallery});
 
+  Future<String> getImageUrl(String filename) async {
+    var username = await Storage().getItem("username");
+    return 'https://renderscanner.blob.core.windows.net/scans/$username/$filename';
+  }
+
   @override
   Widget build(BuildContext context) {
-    Uint8List base64StringToUInt8List(String base64String) =>
-        base64Decode(base64String);
+    ImageNBuilder(filename) {
+      return FutureBuilder(
+          future: getImageUrl(filename),
+          builder: (context, snap) {
+            if (snap.connectionState.name == "done") {
+              return Image.network(snap.data.toString(),
+                  height: 160, width: 120);
+            }
+            return spinkit;
+          });
+    }
 
     if (gallery.length == 0)
       return Container(
@@ -98,15 +126,14 @@ class _GalleryGrid extends StatelessWidget {
           itemBuilder: (context, index) {
             return RawMaterialButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => MintScreen(
-                            imageSource: base64StringToUInt8List(
-                                gallery[index].nft.toString()),
-                            filename: "",
-                          )),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => MintScreen(
+                //             imageSource: getImageUrl(gallery[index]),
+                //             filename: gallery[index],
+                //           )),
+                // );
               },
               child: Padding(
                 padding: EdgeInsets.all(3),
@@ -126,11 +153,7 @@ class _GalleryGrid extends StatelessWidget {
                             color: kprimaryNeuDark,
                             offset: Offset(5, 5)),
                       ]),
-                  child: Image.memory(
-                    base64StringToUInt8List(gallery[index].nft.toString()),
-                    height: 120,
-                    width: 160,
-                  ),
+                  child: ImageNBuilder(gallery[index]),
                 ),
               ),
             );

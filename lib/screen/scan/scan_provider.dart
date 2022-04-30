@@ -9,8 +9,8 @@ class ScanProvider extends ChangeNotifier {
   bool? _isFetched = false;
   bool? _isLoading = false;
 
-  setScanStatus(String base64ImageString, String filename) {
-    _imgSource = const Base64Codec().decode(base64ImageString.toString());
+  setScanStatus(Uint8List imageSource, String filename) {
+    _imgSource = imageSource;
     _filename = filename;
     _isFetched = true;
     notifyListeners();

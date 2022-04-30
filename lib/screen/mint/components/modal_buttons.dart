@@ -23,7 +23,9 @@ class ModalButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      onClick();
+                    },
                     child: Text(
                       text,
                       style:
@@ -33,7 +35,9 @@ class ModalButton extends StatelessWidget {
                   width: 10,
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    onClick();
+                  },
                   child: color == "primary"
                       ? Icon(
                           Icons.bolt_rounded,
