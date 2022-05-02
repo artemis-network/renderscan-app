@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+
 import 'package:renderscan/screen/login/login_screen.dart';
 import 'package:renderscan/screen/profile/component/profiile_buttons.dart';
+
+import 'package:provider/provider.dart';
+import 'package:renderscan/screen/home/home_provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -21,6 +25,10 @@ class ProfileScreen extends StatelessWidget {
         ),
         (route) => false,
       );
+    }
+
+    goToUpgradePage() {
+      context.read<HomeProvider>().setCurrentIndex(4);
     }
 
     void fun() => (null);
@@ -65,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                 child: ProfileButton(
                   text: "Upgrade",
                   icon: Icons.upgrade,
-                  onClick: fun,
+                  onClick: goToUpgradePage,
                 ),
               ),
               Expanded(

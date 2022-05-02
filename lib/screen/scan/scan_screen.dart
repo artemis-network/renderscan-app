@@ -3,7 +3,9 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/scan/components/Scan_protector_screen.dart';
 import 'package:renderscan/screen/scan/scan_api.dart';
 import 'package:renderscan/screen/mint/mint_screen.dart';
 import 'package:renderscan/common/components/loader.dart';
@@ -23,6 +25,19 @@ class _ScanScreenState extends State<ScanScreen> {
   late List<CameraDescription> cameras;
   late CameraController controller;
   XFile? pictureFile;
+
+  @override
+  void initState() {
+    ScanApi().hasAccountActivated("").then((resp) {
+      bool isActivated = resp.isActivated;
+      if (!isActivated) {
+        return ScanProtectorScreen();
+      }
+    }).catchError((err) {
+      log.e(err);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +80,8 @@ class _ScanScreenState extends State<ScanScreen> {
         );
         return context.read<ScanProvider>().resetProvider();
       }
-      print(">> Setting scan state");
-      print(">> Filename " + resp.filename.toString());
+      log.i(">> Setting scan state");
+      log.i(">> Filename " + resp.filename.toString());
       context
           .read<ScanProvider>()
           .setScanStatus(fromBase64(resp.file), resp.filename.toString());
@@ -74,19 +89,21 @@ class _ScanScreenState extends State<ScanScreen> {
     }
 
     void ScanImage() {
-      print("> Setting Loader");
+      log.i("> Setting Loader");
       context.read<ScanProvider>().setLoading(true);
       scanFunction();
     }
 
     goToMintScreen() {
-      print(">> In Mint Function");
+      log.i(">> In Mint Function");
       String filename =
           Provider.of<ScanProvider>(context, listen: false).filename;
+
       ScanApi()
           .save(filename)
           .then((value) => print(value))
           .catchError((err) => print(err));
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -96,9 +113,7 @@ class _ScanScreenState extends State<ScanScreen> {
       );
     }
 
-    void retry() {
-      context.read<ScanProvider>().resetProvider();
-    }
+    void retry() => context.read<ScanProvider>().resetProvider();
 
     Widget cameraWidget(context) {
       var camera = controller.value;
@@ -121,168 +136,204 @@ class _ScanScreenState extends State<ScanScreen> {
       );
     }
 
-    return SafeArea(
-        child: Scaffold(
-            body: FutureBuilder(
-                future: setupCameras(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState.name == "done")
-                    return Container(
-                        color: kprimaryBackGroundColor,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: size.height * 0.075,
-                            ),
-                            SizedBox(
-                              width: size.width,
-                              height: size.height * .65,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                      child: SizedBox(
-                                          width: size.width,
-                                          child: cameraWidget(context))),
-                                  Positioned(
-                                    top: size.height * .2,
-                                    width: size.width * 1,
-                                    child: Container(
-                                        child: context
-                                                    .watch<ScanProvider>()
-                                                    .isFetched ==
-                                                true
-                                            ? Image.memory(
-                                                context
-                                                    .watch<ScanProvider>()
-                                                    .imageSource,
-                                              )
-                                            : context
-                                                    .watch<ScanProvider>()
-                                                    .isLoading
-                                                ? spinkit
-                                                : null),
-                                  ),
-                                ],
+    Widget scanner() {
+      return SafeArea(
+          child: Scaffold(
+              body: FutureBuilder(
+                  future: setupCameras(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState.name == "done")
+                      return Container(
+                          color: kprimaryBackGroundColor,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: size.height * 0.075,
                               ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.05,
-                            ),
-                            Container(
-                                alignment: Alignment.bottomCenter,
-                                child: context
-                                            .watch<ScanProvider>()
-                                            .isFetched ==
-                                        false
-                                    ? Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 10, 0, 0),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              width: size.width * 0.65,
-                                              child: TextButton(
-                                                onPressed: ScanImage,
-                                                child: Text(
-                                                  "Scan",
-                                                  style: kPrimartFont(
-                                                      kPrimaryLightColor,
-                                                      18,
-                                                      FontWeight.bold),
+                              SizedBox(
+                                width: size.width,
+                                height: size.height * .65,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                        child: SizedBox(
+                                            width: size.width,
+                                            child: cameraWidget(context))),
+                                    Positioned(
+                                      top: size.height * .2,
+                                      width: size.width * 1,
+                                      child: Container(
+                                          child: context
+                                                      .watch<ScanProvider>()
+                                                      .isFetched ==
+                                                  true
+                                              ? Image.memory(
+                                                  context
+                                                      .watch<ScanProvider>()
+                                                      .imageSource,
+                                                )
+                                              : context
+                                                      .watch<ScanProvider>()
+                                                      .isLoading
+                                                  ? spinkit
+                                                  : null),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.05,
+                              ),
+                              Container(
+                                  alignment: Alignment.bottomCenter,
+                                  child: context
+                                              .watch<ScanProvider>()
+                                              .isFetched ==
+                                          false
+                                      ? Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 10, 0, 0),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                width: size.width * 0.65,
+                                                child: TextButton(
+                                                  onPressed: ScanImage,
+                                                  child: Text(
+                                                    "Scan",
+                                                    style: kPrimartFont(
+                                                        kPrimaryLightColor,
+                                                        18,
+                                                        FontWeight.bold),
+                                                  ),
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    color: kPrimaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          color:
+                                                              kprimaryNeuLight,
+                                                          offset:
+                                                              Offset(-1, -1)),
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 8,
+                                                          color:
+                                                              kprimaryNeuDark,
+                                                          offset: Offset(5, 5)),
+                                                    ]),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: size.width * 0.45,
+                                                decoration: BoxDecoration(
+                                                    color: kPrimaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          color:
+                                                              kprimaryNeuLight,
+                                                          offset:
+                                                              Offset(-1, -1)),
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 8,
+                                                          color:
+                                                              kprimaryNeuDark,
+                                                          offset: Offset(5, 5)),
+                                                    ]),
+                                                child: TextButton(
+                                                    onPressed: () => retry(),
+                                                    child: Text(
+                                                      "Retry",
+                                                      style: kPrimartFont(
+                                                          kPrimaryLightColor,
+                                                          14,
+                                                          FontWeight.bold),
+                                                    )),
+                                              ),
+                                              Container(
+                                                width: size.width * 0.45,
+                                                decoration: BoxDecoration(
+                                                    color: kPrimaryColor,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 2,
+                                                          color:
+                                                              kprimaryNeuLight,
+                                                          offset:
+                                                              Offset(-1, -1)),
+                                                      BoxShadow(
+                                                          spreadRadius: 1,
+                                                          blurRadius: 8,
+                                                          color:
+                                                              kprimaryNeuDark,
+                                                          offset: Offset(5, 5)),
+                                                    ]),
+                                                child: TextButton(
+                                                  onPressed: goToMintScreen,
+                                                  child: Text("Next",
+                                                      style: kPrimartFont(
+                                                          kPrimaryLightColor,
+                                                          14,
+                                                          FontWeight.bold)),
                                                 ),
                                               ),
-                                              decoration: BoxDecoration(
-                                                  color: kPrimaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        color: kprimaryNeuLight,
-                                                        offset: Offset(-1, -1)),
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 8,
-                                                        color: kprimaryNeuDark,
-                                                        offset: Offset(5, 5)),
-                                                  ]),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    : Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                  color: kPrimaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        color: kprimaryNeuLight,
-                                                        offset: Offset(-1, -1)),
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 8,
-                                                        color: kprimaryNeuDark,
-                                                        offset: Offset(5, 5)),
-                                                  ]),
-                                              child: TextButton(
-                                                  onPressed: () => retry(),
-                                                  child: Text(
-                                                    "Retry",
-                                                    style: kPrimartFont(
-                                                        kPrimaryLightColor,
-                                                        14,
-                                                        FontWeight.bold),
-                                                  )),
-                                            ),
-                                            Container(
-                                              width: size.width * 0.45,
-                                              decoration: BoxDecoration(
-                                                  color: kPrimaryColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 2,
-                                                        color: kprimaryNeuLight,
-                                                        offset: Offset(-1, -1)),
-                                                    BoxShadow(
-                                                        spreadRadius: 1,
-                                                        blurRadius: 8,
-                                                        color: kprimaryNeuDark,
-                                                        offset: Offset(5, 5)),
-                                                  ]),
-                                              child: TextButton(
-                                                onPressed: goToMintScreen,
-                                                child: Text("Next",
-                                                    style: kPrimartFont(
-                                                        kPrimaryLightColor,
-                                                        14,
-                                                        FontWeight.bold)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ))
-                          ],
-                        ));
-                  return Container(
-                    child: spinkit,
-                    alignment: Alignment.center,
-                  );
-                })));
+                                            ],
+                                          ),
+                                        ))
+                            ],
+                          ));
+                    return Container(
+                      child: spinkit,
+                      alignment: Alignment.center,
+                    );
+                  })));
+    }
+
+    scanProtectionWrapper() {
+      ScanProtectionResponse scanProtectionResponse = ScanProtectionResponse(
+          message: "", isActivated: false, hasError: false);
+      return FutureBuilder(
+        initialData: scanProtectionResponse,
+        future: ScanApi().hasAccountActivated(""),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState.name == "done") {
+            final data = snapshot.data as ScanProtectionResponse;
+            if (!data.isActivated) return ScanProtectorScreen();
+            return scanner();
+          }
+          return Container(
+            child: spinkit,
+            alignment: Alignment.center,
+          );
+        },
+      );
+    }
+
+    return scanProtectionWrapper();
   }
 
   @override

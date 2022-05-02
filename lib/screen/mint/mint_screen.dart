@@ -73,13 +73,13 @@ class _MintScreenState extends State<MintScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               ModalButton(
-                                  text: "Mint",
-                                  onClick: back,
-                                  color: "primary"),
-                              ModalButton(
                                   text: "Close",
                                   onClick: back,
                                   color: "secondary"),
+                              ModalButton(
+                                  text: "Mint",
+                                  onClick: back,
+                                  color: "primary"),
                             ],
                           ),
                         ]),

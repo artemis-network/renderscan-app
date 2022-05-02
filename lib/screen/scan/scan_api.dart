@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:http/http.dart' as http;
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/scan/scan_modal.dart';
 
@@ -24,19 +25,35 @@ class ScanApi {
     }
   }
 
+  Future<ScanProtectionResponse> hasAccountActivated(String code) async {
+    try {
+      print(code);
+      var username = await Storage().getItem("username");
+      final response = await http.post(
+          HttpServerConfig().getHost("users/is-activated"),
+          headers: HttpServerConfig().headers,
+          body: jsonEncode(
+              {'username': username.toString(), 'code': code.toString()}));
+      return ScanProtectionResponse.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      log.e(e);
+      return ScanProtectionResponse(
+          hasError: true, isActivated: false, message: "Internal server error");
+    }
+  }
+
   Future<SaveResponse> save(String filename) async {
     try {
       var username = await Storage().getItem("username");
-      print(">> Username " + username.toString());
-      print(">> filename " + filename);
+      log.i(">> Username " + username.toString());
+      log.i(">> filename " + filename);
       final response = await http.post(HttpServerConfig().getImageHost("/save"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(
               {'username': username.toString(), 'filename': filename}));
       return SaveResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
-      print(e);
-      print(">> here error");
+      log.e(e);
       return SaveResponse(message: "Internal Server Error");
     }
   }

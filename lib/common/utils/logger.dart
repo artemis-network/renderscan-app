@@ -1,9 +1,15 @@
 import 'package:logger/logger.dart';
 
 var log = Logger(
-  printer: PrettyPrinter(),
+  printer: LogConfig(),
 );
 
-var logNS = Logger(
-  printer: PrettyPrinter(methodCount: 0),
-);
+class LogConfig extends LogPrinter {
+  @override
+  List<String> log(LogEvent event) {
+    final color = PrettyPrinter.levelColors[event.level];
+    final emoji = PrettyPrinter.levelEmojis[event.level];
+    final message = event.message;
+    return [color!('$emoji: $message')];
+  }
+}

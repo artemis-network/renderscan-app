@@ -13,8 +13,8 @@ class HttpServerConfig {
   }
 
   Uri getHost(String url) {
-    if (_host == "DEV") return Uri.parse("http://192.168.1.14:5000" + url);
-    return Uri.parse("https://artemisnetwork.azurewebsites.net/" + url);
+    if (_host != "DEV") return Uri.parse("http://192.168.1.14:5000/" + url);
+    return Uri.parse("https://artemisnetwork.azurewebsites.net" + url);
   }
 
   Uri azureServiceBusHost(String url) => Uri.parse(url);

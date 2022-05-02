@@ -13,6 +13,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 // Global Vars
 import 'package:renderscan/constants.dart';
 
+// home provider
+import 'package:renderscan/screen/home/home_provider.dart';
+import 'package:provider/provider.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -29,13 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
     const UpgradeScreen(),
   ];
 
-  int currentIndex = 0;
-  void setIndex(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -45,10 +42,10 @@ class _HomeScreenState extends State<HomeScreen> {
           body: SizedBox(
             height: size.height,
             width: size.width,
-            child: screens[currentIndex],
+            child: screens[context.watch<HomeProvider>().currentIndex],
           ),
           bottomNavigationBar: CurvedNavigationBar(
-            index: 0,
+            index: context.watch<HomeProvider>().currentIndex,
             height: 50.0,
             items: <Widget>[
               Icon(
@@ -75,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             animationCurve: Curves.easeInOut,
             animationDuration: const Duration(milliseconds: 300),
             onTap: (index) {
-              setState(() {
-                currentIndex = index;
-              });
+              context.read<HomeProvider>().setCurrentIndex(index);
             },
             letIndexChange: (index) => true,
           ),

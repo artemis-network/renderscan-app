@@ -5,14 +5,12 @@ import 'package:renderscan/constants.dart';
 class InputPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String text;
-  final Function validation;
 
-  const InputPasswordField(
-      {Key? key,
-      required this.text,
-      required this.onChanged,
-      required this.validation})
-      : super(key: key);
+  const InputPasswordField({
+    Key? key,
+    required this.text,
+    required this.onChanged,
+  }) : super(key: key);
   @override
   State<InputPasswordField> createState() => _InputPasswordFieldState();
 }
@@ -26,8 +24,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
         padding: EdgeInsets.only(top: 15),
         child: Container(
             child: TextFormField(
-              obscureText: isVisible,
-              validator: (value) => widget.validation(value),
+              obscureText: !isVisible,
               onChanged: widget.onChanged,
               cursorColor: kPrimaryLightColor,
               style: GoogleFonts.poppins(

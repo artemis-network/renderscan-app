@@ -8,7 +8,7 @@ class LoginApi {
   Future<AuthResponse> authenticateUser(AuthRequest request) async {
     try {
       final response = await http.post(
-          HttpServerConfig().getHost("/users/authenticate"),
+          HttpServerConfig().getHost("users/authenticate"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(request.toJson()));
       return AuthResponse.fromJson(jsonDecode(response.body));

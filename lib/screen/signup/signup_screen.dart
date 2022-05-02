@@ -31,12 +31,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String email = "";
   String username = "";
   String password = "";
+  List<String> validations = [];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    redirectToLogin() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const SignUpScreen();
+          },
+        ),
+      );
+    }
+
     handleRequest(SignUpResponse response) {
+      var future =
+          Future.delayed(const Duration(seconds: 3), () => redirectToLogin());
       bool? hasError = response.hasError;
       Color bgColor = hasError! ? Colors.red : Colors.green;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -58,6 +72,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       );
+      future.then((value) => null);
     }
 
     return new WillPopScope(
@@ -101,7 +116,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }),
                         ),
                         InputPasswordField(
-                          validation: SignupValidations().passwordValidation,
                           text: "Password",
                           onChanged: (value) => setState(() {
                             name = name;

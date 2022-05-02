@@ -44,6 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
+  setIsLoading(bool isLoading) {
+    setState(() {
+      isLoading = isLoading;
+    });
+  }
+
   void handlePasswordInput(String _password) {
     setState(() {
       password = _password;
@@ -60,24 +66,25 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    void handleError() {
+    void handleError(String? argMessage, bool? argError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           action: SnackBarAction(
             label: "Close",
+            textColor: Colors.white,
             onPressed: () {
               setState(() {
                 isPasswordVisible = false;
                 username = "";
                 password = "";
-                error = false;
+                error = argError ?? error;
                 message = "";
               });
             },
           ),
-          content: Text(message),
+          content: Text(argMessage ?? message),
           duration: const Duration(milliseconds: 3500),
-          backgroundColor: error ? Colors.red : Colors.green,
+          backgroundColor: argError ?? error ? Colors.red : Colors.green,
           width: size.width * 0.9, // Width of the SnackBar.
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0, // Inner padding for SnackBar content.
@@ -106,27 +113,31 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-        handleError();
+        handleError(null, null);
       }
     }
 
     void authenticate() {
-      var future = Future.delayed(const Duration(seconds: 1), () {
-        setState(() {
-          isLoading = true;
+      if (username != "" && password != "") {
+        var future = Future.delayed(
+            const Duration(seconds: 2), () => setIsLoading(true));
+        future.then((value) => null);
+        AuthRequest request =
+            AuthRequest(username: username, password: password);
+        Future<AuthResponse> response = LoginApi().authenticateUser(request);
+        response.then((resp) {
+          log.i("> Handling Response");
+          log.i("> Logged in username :" + resp.username.toString());
+          setIsLoading(false);
+          handleSuccess(resp);
+        }).catchError((err) {
+          log.e("> Handling Error :" + err);
+          handleError(err, true);
+          setIsLoading(false);
         });
-      });
-      future.then((value) => null);
-      AuthRequest request = AuthRequest(username: username, password: password);
-      Future<AuthResponse> response = LoginApi().authenticateUser(request);
-      response.then((resp) {
-        log.i("> Handling Response");
-        handleSuccess(resp);
-        log.i("> " + resp.username.toString());
-        setState(() {
-          isLoading = false;
-        });
-      });
+      } else {
+        handleError("Enter Credentails", true);
+      }
     }
 
     if (isLoading)

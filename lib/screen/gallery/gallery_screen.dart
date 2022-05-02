@@ -1,18 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
-import 'package:renderscan/screen/gallery/gallery_models.dart';
-
-import 'package:renderscan/screen/gallery/gallery_provider.dart';
-import 'package:provider/provider.dart';
-
-import 'package:renderscan/screen/mint/mint_screen.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({Key? key}) : super(key: key);

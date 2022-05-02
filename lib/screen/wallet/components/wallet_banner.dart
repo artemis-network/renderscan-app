@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:renderscan/common/utils/storage.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/wallet/wallet_api.dart';
+import 'package:renderscan/screen/wallet/wallet_dto.dart';
 // import 'package:renderscan/screen/wallet/wallet_api.dart';
 // import 'package:renderscan/screen/wallet/wallet_dto.dart';
 
@@ -15,37 +19,37 @@ class WalletBanner extends StatefulWidget {
 class _WalletBannerState extends State<WalletBanner> {
   @override
   Widget build(BuildContext context) {
-    // late Wallet wallet;
+    late Wallet wallet;
 
-    // Future<Wallet> setUpWallet() async {
-    //   final username = await Storage().getItem("username");
-    //   return await WalletApi().getBalance(username.toString());
-    // }
+    Future<Wallet> setUpWallet() async {
+      final username = await Storage().getItem("username");
+      return await WalletApi().getBalance(username.toString());
+    }
 
-    // getBalance() {
-    //   return FutureBuilder(
-    //       future: setUpWallet(),
-    //       builder: (BuildContext context, AsyncSnapshot snapshot) {
-    //         if (snapshot.connectionState.name == "done") {
-    //           final data = snapshot.data as Wallet;
-    //           return Text(
-    //             data.balance.toString() + " RNDV",
-    //             style: GoogleFonts.poppins(
-    //                 color: kPrimaryLightColor,
-    //                 fontSize: 18,
-    //                 fontWeight: FontWeight.bold),
-    //           );
-    //         } else {
-    //           return Text(
-    //             0.toString() + " RNDV",
-    //             style: GoogleFonts.poppins(
-    //                 color: kPrimaryLightColor,
-    //                 fontSize: 18,
-    //                 fontWeight: FontWeight.bold),
-    //           );
-    //         }
-    //       });
-    // }
+    getBalance() {
+      return FutureBuilder(
+          future: setUpWallet(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.connectionState.name == "done") {
+              final data = snapshot.data as Wallet;
+              return Text(
+                data.balance.toString() + " RNDV",
+                style: GoogleFonts.poppins(
+                    color: kPrimaryLightColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              );
+            } else {
+              return Text(
+                0.toString() + " RNDV",
+                style: GoogleFonts.poppins(
+                    color: kPrimaryLightColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              );
+            }
+          });
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 30),
@@ -79,12 +83,12 @@ class _WalletBannerState extends State<WalletBanner> {
                     style:
                         kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
                   ),
-                  Text(
-                    "10000 RNDV",
-                    style:
-                        kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
-                  ),
-                  // getBalance()
+                  // Text(
+                  //   "10000 RNDV",
+                  //   style:
+                  //       kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
+                  // ),
+                  getBalance()
                 ],
               )),
           Expanded(

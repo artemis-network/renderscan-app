@@ -34,3 +34,25 @@ class SaveResponse {
     return data;
   }
 }
+
+class ScanProtectionResponse {
+  bool? hasError;
+  String message = "";
+  bool isActivated = false;
+
+  ScanProtectionResponse(
+      {this.hasError, required this.message, required this.isActivated});
+
+  ScanProtectionResponse.fromJson(Map<String, dynamic> json) {
+    hasError = json['error'];
+    message = json['message'];
+    isActivated = json['is_activated'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['error'] = hasError;
+    data['message'] = message;
+    data['is_activated'] = isActivated;
+    return data;
+  }
+}
