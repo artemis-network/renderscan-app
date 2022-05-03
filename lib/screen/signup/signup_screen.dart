@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/common/utils/logger.dart';
 
 // components
 import 'package:renderscan/screen/signup/components/input_field.dart';
@@ -27,11 +29,21 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  String name = "";
-  String email = "";
+  String confirmPassword = "";
+
   String username = "";
+  String usernameError = "Username Required";
+  bool isUsernameHasError = true;
+
+  String email = "";
+  String emailError = "Email Required";
+  bool isEmailHasError = true;
+
   String password = "";
-  List<String> validations = [];
+  String passwordError = "Password Required";
+  bool isPasswordHasError = true;
+
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +54,84 @@ class _SignUpScreenState extends State<SignUpScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return const SignUpScreen();
+            return const LoginScreen();
           },
         ),
       );
     }
 
+    void handleUsername(String _username) {
+      String error = SignupValidations().usernameValidations(_username)!;
+      if (error == "") {
+        setState(() {
+          isUsernameHasError = false;
+        });
+      } else {
+        setState(() {
+          isUsernameHasError = true;
+        });
+      }
+      setState(() {
+        username = _username;
+        usernameError = error;
+      });
+    }
+
+    void handleEmail(String _email) {
+      String error = SignupValidations().emailValidations(_email)!;
+      if (error == "") {
+        setState(() {
+          isEmailHasError = false;
+        });
+      } else {
+        setState(() {
+          isEmailHasError = true;
+        });
+      }
+      setState(() {
+        email = _email;
+        emailError = error;
+      });
+    }
+
+    void handlePassword(String _password) {
+      String error = SignupValidations().passwordValidation(_password)!;
+      if (error == "") {
+        setState(() {
+          isPasswordHasError = false;
+        });
+      } else {
+        setState(() {
+          isPasswordHasError = true;
+        });
+      }
+      setState(() {
+        password = _password;
+        passwordError = error;
+      });
+    }
+
+    void handleConfirmPassword(String _confirmPassword) {
+      setState(() {
+        confirmPassword = _confirmPassword;
+      });
+      if (password != _confirmPassword) {
+        setState(() {
+          isPasswordHasError = true;
+          passwordError = "*Passwords wont match";
+        });
+      } else {
+        setState(() {
+          isPasswordHasError = false;
+          passwordError = "";
+        });
+      }
+    }
+
     handleRequest(SignUpResponse response) {
-      var future =
-          Future.delayed(const Duration(seconds: 3), () => redirectToLogin());
+      setState(() {
+        _isLoading = false;
+      });
       bool? hasError = response.hasError;
       Color bgColor = hasError! ? Colors.red : Colors.green;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +142,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           backgroundColor: bgColor,
           content: Text(response.message.toString()),
-          duration: const Duration(milliseconds: 3000),
+          duration: const Duration(milliseconds: 5000),
           width: size.width * 0.9, // Width of the SnackBar.
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0, // Inner padding for SnackBar content.
@@ -72,7 +153,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       );
-      future.then((value) => null);
+      var future =
+          Future.delayed(const Duration(seconds: 3), () => redirectToLogin());
+      future.then((value) => null).catchError((err) {
+        log.e(err);
+      });
     }
 
     return new WillPopScope(
@@ -86,68 +171,89 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Column(
                       children: <Widget>[
                         InputField(
-                          icon: Icons.person,
-                          labelText: "Name",
-                          onChange: (value) => setState(() {
-                            name = value;
-                            email = email;
-                            username = username;
-                            password = password;
-                          }),
-                        ),
-                        InputField(
-                          icon: Icons.email,
-                          labelText: "Email",
-                          onChange: (value) => setState(() {
-                            name = name;
-                            email = value;
-                            username = username;
-                            password = password;
-                          }),
-                        ),
-                        InputField(
+                          isHidden: false,
+                          hasError: isUsernameHasError,
+                          errorMessage: usernameError,
                           icon: Icons.person_add_alt_1,
                           labelText: "Username",
-                          onChange: (value) => setState(() {
-                            name = name;
-                            email = email;
-                            username = value;
-                            password = password;
-                          }),
+                          onChange: (value) => handleUsername(value),
+                        ),
+                        InputField(
+                          isHidden: false,
+                          hasError: isEmailHasError,
+                          errorMessage: emailError,
+                          icon: Icons.email,
+                          labelText: "Email",
+                          onChange: (value) => handleEmail(value),
+                        ),
+                        InputField(
+                          isHidden: true,
+                          hasError: isPasswordHasError,
+                          errorMessage: passwordError,
+                          icon: Icons.lock,
+                          labelText: "password",
+                          onChange: (value) => handlePassword(value),
                         ),
                         InputPasswordField(
-                          text: "Password",
-                          onChanged: (value) => setState(() {
-                            name = name;
-                            email = email;
-                            username = username;
-                            password = value;
-                          }),
+                          text: "Confirm Password",
+                          onChanged: (value) => handleConfirmPassword(value),
                         ),
                         SizedBox(
                           height: size.height * 0.05,
                         ),
-                        SignUpButton(
-                          text: "Sign Up",
-                          press: () {
-                            // var isValid = formkey.currentState!.validate();
-                            // if (isValid) {
-                            if (name != "" &&
-                                email != "" &&
-                                password != "" &&
-                                username != "") {
-                              SignUpRequest signUpRequest = new SignUpRequest(
-                                  email: email.trim(),
-                                  name: name.trim(),
-                                  password: password.trim(),
-                                  username: username.trim());
-                              SignUpApi()
-                                  .registerUser(signUpRequest)
-                                  .then((value) => handleRequest(value));
-                            }
-                            // }
-                          },
-                        ),
+                        _isLoading
+                            ? spinkit
+                            : SignUpButton(
+                                text: "Sign Up",
+                                press: () {
+                                  redirectToLogin();
+                                  bool isValid = !isUsernameHasError &&
+                                      !isEmailHasError &&
+                                      !isPasswordHasError &&
+                                      password.isNotEmpty;
+
+                                  log.i(">> LOG :" + isValid.toString());
+                                  if (isValid) {
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
+                                    SignUpRequest signUpRequest =
+                                        new SignUpRequest(
+                                      username: username.trim(),
+                                      email: email.trim(),
+                                      password: password.trim(),
+                                    );
+                                    SignUpApi()
+                                        .registerUser(signUpRequest)
+                                        .then((value) => handleRequest(value));
+                                  } else {
+                                    Color bgColor = Colors.red;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        action: SnackBarAction(
+                                          label: "Close",
+                                          onPressed: () {},
+                                        ),
+                                        backgroundColor: bgColor,
+                                        content: Text("Invalid credentails"),
+                                        duration:
+                                            const Duration(milliseconds: 3000),
+                                        width: size.width *
+                                            0.9, // Width of the SnackBar.
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal:
+                                              24.0, // Inner padding for SnackBar content.
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                         SizedBox(height: size.height * 0.03),
                         TextButton(
                           onPressed: () {

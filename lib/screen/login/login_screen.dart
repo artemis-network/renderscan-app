@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // utils
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/screen/login/components/google_login_button.dart';
 
 //components
 import 'package:renderscan/screen/login/components/input_field.dart';
@@ -140,13 +141,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    if (isLoading)
-      return Container(
-        height: size.height,
-        width: size.width,
-        color: Colors.white,
-        child: spinkit,
-      );
     return new WillPopScope(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -169,12 +163,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Password",
                     onChanged: (password) => handlePasswordInput(password),
                   ),
-                  SizedBox(height: size.height * 0.05),
-                  LoginButton(
-                    text: "LOGIN",
-                    press: authenticate,
-                  ),
                   SizedBox(height: size.height * 0.03),
+                  !isLoading
+                      ? LoginButton(
+                          text: "LOGIN",
+                          press: authenticate,
+                        )
+                      : spinkit,
+                  SizedBox(height: size.height * 0.02),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
@@ -210,6 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
+                  SizedBox(height: size.height * 0.02),
+                  GoogleLoginButton(),
                 ],
               ),
             )),

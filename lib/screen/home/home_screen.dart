@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/screen/home/home_protector_screen.dart';
+import 'package:renderscan/screen/scan/scan_api.dart';
+import 'package:renderscan/screen/scan/scan_modal.dart';
 
 // pages
 import 'package:renderscan/screen/scan/scan_screen.dart';
@@ -34,8 +39,19 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+  void initState() {
+    ScanApi().hasAccountActivated("").then((resp) {
+      bool isActivated = resp.isActivated;
+      if (!isActivated) {
+        return HomProtectorScreen();
+      }
+    }).catchError((err) {
+      log.e(err);
+    });
+    super.initState();
+  }
+
+  home(Size size) {
     return new WillPopScope(
         child: SafeArea(
             child: Scaffold(
@@ -78,5 +94,33 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )),
         onWillPop: () async => false);
+  }
+
+  HomeProtectionWrapper(Size size) {
+    return FutureBuilder(
+      future: ScanApi().hasAccountActivated(""),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        log.i(snapshot.connectionState.name);
+        log.i(snapshot.data);
+        if (snapshot.connectionState.name == "done") {
+          final data = snapshot.data as ScanProtectionResponse;
+          log.i(data.message);
+          log.i(data.isActivated);
+          if (!data.isActivated) return HomProtectorScreen();
+          // return home(size);
+          return home(size);
+        }
+        return Container(
+          child: spinkit,
+          alignment: Alignment.center,
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return home(size);
   }
 }

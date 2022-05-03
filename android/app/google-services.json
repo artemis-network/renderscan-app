@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "418017857147",
+    "project_id": "renderscan-20c9b",
+    "storage_bucket": "renderscan-20c9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418017857147:android:c1ee8b46376f0e394bdcde",
+        "android_client_info": {
+          "package_name": "com.example.renderscan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418017857147-f3qracj6lfuq9s72tgueo0ip1v3amvjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.renderscan",
+            "certificate_hash": "0042a8060368277f48f0ea580914c01acbc320a0"
+          }
+        },
+        {
+          "client_id": "418017857147-ptn4affqvioiq3cs9tt77hvcs9tnns98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5sridGClQo1M__u8OO2WmT7JdBIckkEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418017857147-ptn4affqvioiq3cs9tt77hvcs9tnns98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
