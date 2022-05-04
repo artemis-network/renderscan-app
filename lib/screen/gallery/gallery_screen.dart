@@ -4,6 +4,7 @@ import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
+import 'package:image_collapse/image_collapse.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({Key? key}) : super(key: key);
@@ -147,7 +148,10 @@ class _GalleryGrid extends StatelessWidget {
                             color: kprimaryNeuDark,
                             offset: Offset(5, 5)),
                       ]),
-                  child: ImageNBuilder(gallery[index]),
+                  // child: ImageNBuilder(gallery[index]),
+                  child: ImageCollapse(
+                    imageUrls: [gallery[index]],
+                  ),
                 ),
               ),
             );
