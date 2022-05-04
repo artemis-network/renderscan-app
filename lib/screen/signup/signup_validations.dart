@@ -24,7 +24,7 @@ class SignupValidations {
     log.d(">> Has Special :" + hasSpecialChars.toString());
     if (username.isEmpty) {
       return "*Username required";
-    } else if (username.length < 8) {
+    } else if (username.length < 5) {
       return "*Username should contain at least six characters";
     } else if (hasSpecialChars != true) {
       return "*Username should not contain any special characters";

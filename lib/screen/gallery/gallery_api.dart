@@ -14,7 +14,6 @@ class GalleryApi {
           HttpServerConfig().getImageHost("images"),
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username.toString()}));
-      log.i(response.body);
       return ImageList.fromJson(jsonDecode(response.body));
     } catch (e) {
       log.e(e);

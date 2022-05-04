@@ -4,7 +4,7 @@ import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
-import 'package:image_collapse/image_collapse.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class GalleryScreen extends StatefulWidget {
   const GalleryScreen({Key? key}) : super(key: key);
@@ -20,8 +20,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
   get isLoaded => _isLoaded;
   get isRefreshed => _isRefreshed;
   void initializeImageList(List<String> imageList) {
-    log.i(">> Images");
-    log.i(imageList);
+    log.i(">> Images Loaded");
     setState(() {
       _imagesList = imageList;
     });
@@ -41,26 +40,20 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kprimaryBackGroundColor,
-      body: SafeArea(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-            const SizedBox(
-              height: 40,
+    return Container(
+      color: kprimaryBackGroundColor,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+            child: Text(
+              "Gallery",
+              style: kPrimartFont(kPrimaryLightColor, 24, FontWeight.bold),
             ),
-            Text(
-              'Gallery',
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.w600,
-                color: kPrimaryLightColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            _GalleryGrid(gallery: _imagesList)
-          ])),
+          ),
+          _GalleryGrid(gallery: _imagesList)
+        ],
+      ),
     );
   }
 }
@@ -82,8 +75,11 @@ class _GalleryGrid extends StatelessWidget {
           future: getImageUrl(filename),
           builder: (context, snap) {
             if (snap.connectionState.name == "done") {
-              return Image.network(snap.data.toString(),
-                  height: 160, width: 120);
+              return Image.network(
+                snap.data.toString(),
+                width: 220,
+                height: 220,
+              );
             }
             return spinkit;
           });
@@ -98,67 +94,63 @@ class _GalleryGrid extends StatelessWidget {
             textAlign: TextAlign.center,
           ));
 
-    return Container(
-      child: Expanded(
-          child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 80,
+    return Expanded(
+        child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-        ),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-          ),
-          itemBuilder: (context, index) {
-            return RawMaterialButton(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => MintScreen(
-                //             imageSource: getImageUrl(gallery[index]),
-                //             filename: gallery[index],
-                //           )),
-                // );
-              },
-              child: Padding(
-                padding: EdgeInsets.all(3),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            color: kprimaryNeuLight,
-                            offset: Offset(-1, -1)),
-                        BoxShadow(
-                            spreadRadius: 1,
-                            blurRadius: 8,
-                            color: kprimaryNeuDark,
-                            offset: Offset(5, 5)),
-                      ]),
-                  // child: ImageNBuilder(gallery[index]),
-                  child: ImageCollapse(
-                    imageUrls: [gallery[index]],
-                  ),
+      ),
+      child: StaggeredGridView.countBuilder(
+        staggeredTileBuilder: (index) => index % 7 == 0
+            ? StaggeredTile.count(2, 2)
+            : StaggeredTile.count(1, 1),
+        itemBuilder: (context, index) {
+          return RawMaterialButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => MintScreen(
+              //             imageSource: getImageUrl(gallery[index]),
+              //             filename: gallery[index],
+              //           )),
+              // );
+            },
+            child: Padding(
+              padding: EdgeInsets.all(5),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: kPrimaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          color: kprimaryNeuLight,
+                          offset: Offset(-1, -1)),
+                      BoxShadow(
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          color: kprimaryNeuDark,
+                          offset: Offset(5, 5)),
+                    ]),
+                // child: ImageNBuilder(gallery[index]),
+                child: ImageNBuilder(
+                  gallery[index].toString(),
                 ),
               ),
-            );
-          },
-          itemCount: gallery.length,
-        ),
-      )),
-    );
+            ),
+          );
+        },
+        itemCount: gallery.length,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        crossAxisCount: 3,
+      ),
+    ));
   }
 }
