@@ -2,20 +2,22 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/gallery/gallery_models.dart';
 
 class GalleryApi {
   Future<ImageList> callImages() async {
     try {
-      var username = await Storage().getItem("username").toString();
-      username = 'john123';
+      var username = await Storage().getItem("username");
       final response = await http.post(
-          HttpServerConfig().getImageHost("/images"),
+          HttpServerConfig().getImageHost("images"),
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username.toString()}));
+      log.i(response.body);
       return ImageList.fromJson(jsonDecode(response.body));
     } catch (e) {
+      log.e(e);
       return ImageList(images: []);
     }
   }
@@ -23,7 +25,6 @@ class GalleryApi {
   Future<String> getImage(String filename) async {
     try {
       var username = await Storage().getItem("username");
-      username = 'john123';
       var mod = filename.toString();
       final uri = Uri.parse(
           'https://renderscanner.blob.core.winjows.net/scans/$username/$mod');

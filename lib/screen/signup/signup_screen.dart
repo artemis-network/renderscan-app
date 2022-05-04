@@ -206,7 +206,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             : SignUpButton(
                                 text: "Sign Up",
                                 press: () {
-                                  redirectToLogin();
                                   bool isValid = !isUsernameHasError &&
                                       !isEmailHasError &&
                                       !isPasswordHasError &&

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
@@ -18,6 +19,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
   get isLoaded => _isLoaded;
   get isRefreshed => _isRefreshed;
   void initializeImageList(List<String> imageList) {
+    log.i(">> Images");
+    log.i(imageList);
     setState(() {
       _imagesList = imageList;
     });
@@ -30,7 +33,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
       List<String> imageList = resp.images as List<String>;
       initializeImageList(imageList);
     }).catchError((err) {
-      print(err);
+      log.e(">> Error");
+      log.e(err);
     });
   }
 
@@ -110,8 +114,8 @@ class _GalleryGrid extends StatelessWidget {
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
           ),
           itemBuilder: (context, index) {
             return RawMaterialButton(

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 var kPrimaryColor = Color(0xff0F0326);
 var kprimaryBackGroundColor = kPrimaryColor;
-var kPrimaryLightColor = Colors.white;
+var kPrimaryLightColor = Color(0xffE6DAFB);
 
 var kPrimaryShadow = kPrimaryColor.withOpacity(1);
 
@@ -17,7 +17,7 @@ kPrimartFont(Color? color, double? fontSize, FontWeight? weight) {
 
 kSecondaryFont(
     Color color, Color backgruond, double fontSize, FontWeight weight) {
-  return GoogleFonts.oswald(
+  return GoogleFonts.quicksand(
     color: color,
     backgroundColor: backgruond,
     fontSize: fontSize,

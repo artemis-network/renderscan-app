@@ -114,17 +114,19 @@ class _ScanScreenState extends State<ScanScreen> {
       var scale = deviceRatio * camera.aspectRatio;
       // to prevent scaling down, invert the value
       if (scale < 1) scale = 1 / scale;
-      return Transform.scale(
-        scale: scale,
-        child: Center(
-          child: CameraPreview(controller),
+      return Container(
+        child: Transform.scale(
+          scale: scale,
+          child: Center(
+            child: CameraPreview(controller),
+          ),
         ),
       );
     }
 
     return SafeArea(
-        child: Scaffold(
-            body: FutureBuilder(
+        child: Container(
+            child: FutureBuilder(
                 future: setupCameras(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState.name == "done")
@@ -133,19 +135,19 @@ class _ScanScreenState extends State<ScanScreen> {
                         child: Column(
                           children: [
                             SizedBox(
-                              height: size.height * 0.075,
+                              height: size.height * 0.035,
                             ),
-                            SizedBox(
-                              width: size.width,
-                              height: size.height * .65,
+                            Container(
+                              width: size.width * 0.9,
+                              height: size.height * 0.625,
                               child: Stack(
                                 children: [
-                                  Positioned(
-                                      child: SizedBox(
-                                          width: size.width,
+                                  Expanded(
+                                      child: Container(
+                                          decoration: BoxDecoration(),
                                           child: cameraWidget(context))),
                                   Positioned(
-                                    top: size.height * .2,
+                                    top: size.height * .15,
                                     width: size.width * 1,
                                     child: Container(
                                         child: context

@@ -45,9 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  setIsLoading(bool isLoading) {
+  setIsLoading(bool _isLoading) {
     setState(() {
-      isLoading = isLoading;
+      isLoading = _isLoading;
     });
   }
 
@@ -100,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     void handleSuccess(AuthResponse response) {
       setState(() {
+        isLoading = false;
         error = response.error ?? true;
         message = response.message ?? "Some thing went wrong";
       });
@@ -120,9 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     void authenticate() {
       if (username != "" && password != "") {
-        var future = Future.delayed(
-            const Duration(seconds: 2), () => setIsLoading(true));
-        future.then((value) => null);
+        setIsLoading(true);
         AuthRequest request =
             AuthRequest(username: username, password: password);
         Future<AuthResponse> response = LoginApi().authenticateUser(request);

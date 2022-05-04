@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:renderscan/common/utils/storage.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/wallet/wallet_api.dart';
 import 'package:renderscan/screen/wallet/wallet_dto.dart';
-// import 'package:renderscan/screen/wallet/wallet_api.dart';
-// import 'package:renderscan/screen/wallet/wallet_dto.dart';
 
 class WalletBanner extends StatefulWidget {
   final Size size;
@@ -19,8 +15,6 @@ class WalletBanner extends StatefulWidget {
 class _WalletBannerState extends State<WalletBanner> {
   @override
   Widget build(BuildContext context) {
-    late Wallet wallet;
-
     Future<Wallet> setUpWallet() async {
       final username = await Storage().getItem("username");
       return await WalletApi().getBalance(username.toString());
@@ -59,12 +53,12 @@ class _WalletBannerState extends State<WalletBanner> {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                  spreadRadius: 1,
+                  spreadRadius: 3,
                   blurRadius: 2,
                   color: kprimaryNeuLight,
                   offset: Offset(-1, -1)),
               BoxShadow(
-                  spreadRadius: 1,
+                  spreadRadius: 3,
                   blurRadius: 8,
                   color: kprimaryNeuDark,
                   offset: Offset(5, 5)),
@@ -83,11 +77,6 @@ class _WalletBannerState extends State<WalletBanner> {
                     style:
                         kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
                   ),
-                  // Text(
-                  //   "10000 RNDV",
-                  //   style:
-                  //       kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
-                  // ),
                   getBalance()
                 ],
               )),
