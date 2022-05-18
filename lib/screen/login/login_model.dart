@@ -22,7 +22,7 @@ class AuthResponse {
   String? username;
   String? accessToken;
   String? publicToken;
-  int? userId;
+  String? userId;
   String? message;
   bool? error;
 

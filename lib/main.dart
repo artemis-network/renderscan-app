@@ -29,16 +29,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool allowClose = false;
+
   @override
   Widget build(BuildContext context) {
     bool allowClose = false;
     return MaterialApp(
-        title: 'Flutter Demo',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: SafeArea(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: DoubleBack(
+        condition: allowClose,
+        onConditionFail: () {
+          setState(() {
+            allowClose = true;
+          });
+        },
+        // message: "Press back again to exit",
+        child: SafeArea(
           child: Scaffold(
             body: DoubleBack(
               condition: allowClose,
@@ -57,6 +67,21 @@ class _MyAppState extends State<MyApp> {
               backgroundRadius: 30,
             ),
           ),
-        ));
+        ),
+        // onFirstBackPress: (context) {
+        //   // change this with your custom action
+        //   final snackBar = SnackBar(content: Text('Press back again to exit'));
+        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //   // ---
+        // },
+        waitForSecondBackPress: 3, // default 2
+        textStyle: TextStyle(
+          fontSize: 13,
+          color: Colors.white,
+        ),
+        background: Colors.red,
+        backgroundRadius: 30,
+      ),
+    );
   }
 }

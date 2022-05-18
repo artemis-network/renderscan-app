@@ -11,7 +11,7 @@ class GalleryApi {
     try {
       var username = await Storage().getItem("username");
       final response = await http.post(
-          HttpServerConfig().getImageHost("images"),
+          HttpServerConfig().getImageHost("/v1/gallery"),
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username.toString()}));
       return ImageList.fromJson(jsonDecode(response.body));

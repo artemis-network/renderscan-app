@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:renderscan/screen/gallery/gallery_screen.dart';
@@ -23,6 +24,7 @@ class _MintScreenState extends State<MintScreen> {
     back() => Navigator.of(context).pop();
 
     drop() {
+      log.i(">> Log Drop", widget.filename);
       MintApi().drop(widget.filename).then((value) {
         print(value);
         print(value.statusCode);
