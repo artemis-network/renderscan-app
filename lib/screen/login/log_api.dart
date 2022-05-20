@@ -23,9 +23,9 @@ class LoginApi {
     }
   }
 
-  Future<AuthResponse> googleLogin(String token) async {
+  Future<AuthResponse> googleLogin(String email) async {
     try {
-      var request = {"token": token, "client": "client0123"};
+      var request = {"email": email, "client": "client0123"};
       final response = await http.post(
           HttpServerConfig().getHost("/v1/users/google-mobile-login"),
           headers: HttpServerConfig().headers,

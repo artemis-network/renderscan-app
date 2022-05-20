@@ -69,36 +69,23 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
           _googleSignin.signIn().then((user) {
             user = user as GoogleSignInAccount;
             log.i(user.displayName);
-            user.authentication.then((googleKey) {
-              log.i(googleKey.idToken.toString());
-              LoginApi()
-                  .googleLogin(googleKey.idToken.toString())
-                  .then((value) {
-                log.i(value.error);
-                log.i(value.message);
-                log.i(value.username);
-                log.i(value.userId);
-                log.i(value.accessToken);
-                log.i(value.email);
-                bool error = value.error ?? false;
-                if (!error) {
-                  Storage().createSession(value);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const HomeScreen();
-                      },
-                    ),
-                  );
-                }
-              }).catchError((err) {
-                print(err);
-                log.e(">> Error");
-                log.e(err);
-              });
+            LoginApi().googleLogin(user.email).then((value) {
+              bool error = value.error ?? false;
+              if (!error) {
+                Storage().createSession(value);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const HomeScreen();
+                    },
+                  ),
+                );
+              }
             }).catchError((err) {
-              print('inner error');
+              print(err);
+              log.e(">> Error");
+              log.e(err);
             });
           }).catchError((err) {
             log.e(">> ERROR");

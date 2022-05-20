@@ -142,7 +142,7 @@ class _ScanScreenState extends State<ScanScreen> {
                               height: size.height * 0.625,
                               child: Stack(
                                 children: [
-                                  Expanded(
+                                  SizedBox(
                                       child: Container(
                                           decoration: BoxDecoration(),
                                           child: cameraWidget(context))),
