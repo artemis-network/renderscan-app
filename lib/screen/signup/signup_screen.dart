@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/utils/logger.dart';
 
@@ -160,142 +161,142 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
 
-    return new WillPopScope(
-        child: Scaffold(
-          body: Background(
-            child: SingleChildScrollView(
-              child: Form(
-                  key: formkey,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Column(
-                      children: <Widget>[
-                        InputField(
-                          isHidden: false,
-                          hasError: isUsernameHasError,
-                          errorMessage: usernameError,
-                          icon: Icons.person_add_alt_1,
-                          labelText: "Username",
-                          onChange: (value) => handleUsername(value),
-                        ),
-                        InputField(
-                          isHidden: false,
-                          hasError: isEmailHasError,
-                          errorMessage: emailError,
-                          icon: Icons.email,
-                          labelText: "Email",
-                          onChange: (value) => handleEmail(value),
-                        ),
-                        InputField(
-                          isHidden: true,
-                          hasError: isPasswordHasError,
-                          errorMessage: passwordError,
-                          icon: Icons.lock,
-                          labelText: "password",
-                          onChange: (value) => handlePassword(value),
-                        ),
-                        InputPasswordField(
-                          text: "Confirm Password",
-                          onChanged: (value) => handleConfirmPassword(value),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.05,
-                        ),
-                        _isLoading
-                            ? spinkit
-                            : SignUpButton(
-                                text: "Sign Up",
-                                press: () {
-                                  bool isValid = !isUsernameHasError &&
-                                      !isEmailHasError &&
-                                      !isPasswordHasError &&
-                                      password.isNotEmpty;
+    return AppExitDialogWrapper(
+      child: Scaffold(
+        body: Background(
+          child: SingleChildScrollView(
+            child: Form(
+                key: formkey,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Column(
+                    children: <Widget>[
+                      InputField(
+                        isHidden: false,
+                        hasError: isUsernameHasError,
+                        errorMessage: usernameError,
+                        icon: Icons.person_add_alt_1,
+                        labelText: "Username",
+                        onChange: (value) => handleUsername(value),
+                      ),
+                      InputField(
+                        isHidden: false,
+                        hasError: isEmailHasError,
+                        errorMessage: emailError,
+                        icon: Icons.email,
+                        labelText: "Email",
+                        onChange: (value) => handleEmail(value),
+                      ),
+                      InputField(
+                        isHidden: true,
+                        hasError: isPasswordHasError,
+                        errorMessage: passwordError,
+                        icon: Icons.lock,
+                        labelText: "password",
+                        onChange: (value) => handlePassword(value),
+                      ),
+                      InputPasswordField(
+                        text: "Confirm Password",
+                        onChanged: (value) => handleConfirmPassword(value),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.05,
+                      ),
+                      _isLoading
+                          ? spinkit
+                          : SignUpButton(
+                              text: "Sign Up",
+                              press: () {
+                                bool isValid = !isUsernameHasError &&
+                                    !isEmailHasError &&
+                                    !isPasswordHasError &&
+                                    password.isNotEmpty;
 
-                                  log.i(">> LOG :" + isValid.toString());
-                                  if (isValid) {
-                                    setState(() {
-                                      _isLoading = true;
-                                    });
-                                    SignUpRequest signUpRequest =
-                                        new SignUpRequest(
-                                      username: username.trim(),
-                                      email: email.trim(),
-                                      password: password.trim(),
-                                    );
-                                    SignUpApi()
-                                        .registerUser(signUpRequest)
-                                        .then((value) => handleRequest(value));
-                                  } else {
-                                    Color bgColor = Colors.red;
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        action: SnackBarAction(
-                                          label: "Close",
-                                          onPressed: () {},
-                                        ),
-                                        backgroundColor: bgColor,
-                                        content: Text("Invalid credentails"),
-                                        duration:
-                                            const Duration(milliseconds: 3000),
-                                        width: size.width *
-                                            0.9, // Width of the SnackBar.
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal:
-                                              24.0, // Inner padding for SnackBar content.
-                                        ),
-                                        behavior: SnackBarBehavior.floating,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
+                                log.i(">> LOG :" + isValid.toString());
+                                if (isValid) {
+                                  setState(() {
+                                    _isLoading = true;
+                                  });
+                                  SignUpRequest signUpRequest =
+                                      new SignUpRequest(
+                                    username: username.trim(),
+                                    email: email.trim(),
+                                    password: password.trim(),
+                                  );
+                                  SignUpApi()
+                                      .registerUser(signUpRequest)
+                                      .then((value) => handleRequest(value));
+                                } else {
+                                  Color bgColor = Colors.red;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      action: SnackBarAction(
+                                        label: "Close",
+                                        onPressed: () {},
                                       ),
-                                    );
-                                  }
-                                },
+                                      backgroundColor: bgColor,
+                                      content: Text("Invalid credentails"),
+                                      duration:
+                                          const Duration(milliseconds: 3000),
+                                      width: size.width *
+                                          0.9, // Width of the SnackBar.
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            24.0, // Inner padding for SnackBar content.
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                      SizedBox(height: size.height * 0.03),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return const LoginScreen();
+                              },
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: kPrimaryLightColor,
+                                fontWeight: FontWeight.normal,
                               ),
-                        SizedBox(height: size.height * 0.03),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const LoginScreen();
-                                },
-                              ),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Already have an account?",
+                            ),
+                            Container(
+                              child: Text(
+                                " Sign In",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: kPrimaryLightColor,
-                                  fontWeight: FontWeight.normal,
+                                  color: Colors.pink.shade400,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                child: Text(
-                                  " Sign In",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.pink.shade400,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                  )),
-            ),
+                      ),
+                    ],
+                  ),
+                )),
           ),
         ),
-        onWillPop: () async => false);
+      ),
+    );
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -63,26 +62,16 @@ class _GalleryGrid extends StatelessWidget {
 
   _GalleryGrid({required this.gallery});
 
-  Future<String> getImageUrl(String filename) async {
-    var username = await Storage().getItem("username");
-    return 'https://renderscanner.blob.core.windows.net/scans/$username/$filename';
-  }
-
   @override
   Widget build(BuildContext context) {
-    ImageNBuilder(filename) {
-      return FutureBuilder(
-          future: getImageUrl(filename),
-          builder: (context, snap) {
-            if (snap.connectionState.name == "done") {
-              return Image.network(
-                snap.data.toString(),
-                width: 220,
-                height: 220,
-              );
-            }
-            return spinkit;
-          });
+    ImageNBuilder(fileUrl) {
+      return RotatedBox(
+          quarterTurns: 1,
+          child: Image.network(
+            fileUrl,
+            width: 220,
+            height: 220,
+          ));
     }
 
     if (gallery.length == 0)

@@ -1,3 +1,4 @@
+import 'package:path_provider/path_provider.dart';
 import 'package:renderscan/screen/login/login_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -21,5 +22,9 @@ class Storage {
     await deleteItem("userId").then((value) => null);
     await deleteItem("publicToken").then((value) => null);
     await deleteItem("accessToken").then((value) => null);
+    var tempDir = await getTemporaryDirectory();
+    if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
+    var appDocDir = await getApplicationDocumentsDirectory();
+    if (appDocDir.existsSync()) appDocDir.deleteSync(recursive: true);
   }
 }

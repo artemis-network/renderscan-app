@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/components/exit_dialog.dart';
 
 // utils
 import 'package:renderscan/constants.dart';
@@ -140,79 +141,79 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    return new WillPopScope(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Background(
-            child: SingleChildScrollView(
-                child: Padding(
-              padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    "assets/images/no_bg_logo.png",
-                    height: size.height * 0.25,
-                  ),
-                  InputField(
-                    icon: Icons.email,
-                    labelText: "Email",
-                    onChange: (email) => handleEmailInput(email),
-                  ),
-                  InputPasswordField(
-                    text: "Password",
-                    onChanged: (password) => handlePasswordInput(password),
-                  ),
-                  SizedBox(height: size.height * 0.03),
-                  !isLoading
-                      ? LoginButton(
-                          text: "LOGIN",
-                          press: authenticate,
-                        )
-                      : spinkit,
-                  SizedBox(height: size.height * 0.02),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const SignUpScreen();
-                          },
+    return new AppExitDialogWrapper(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Background(
+          child: SingleChildScrollView(
+              child: Padding(
+            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+            child: Column(
+              children: <Widget>[
+                Image.asset(
+                  "assets/images/no_bg_logo.png",
+                  height: size.height * 0.25,
+                ),
+                InputField(
+                  icon: Icons.email,
+                  labelText: "Email",
+                  onChange: (email) => handleEmailInput(email),
+                ),
+                InputPasswordField(
+                  text: "Password",
+                  onChanged: (password) => handlePasswordInput(password),
+                ),
+                SizedBox(height: size.height * 0.03),
+                !isLoading
+                    ? LoginButton(
+                        text: "LOGIN",
+                        press: authenticate,
+                      )
+                    : spinkit,
+                SizedBox(height: size.height * 0.02),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const SignUpScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: kPrimaryLightColor,
+                          fontWeight: FontWeight.normal,
                         ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account?",
+                      ),
+                      Container(
+                        child: Text(
+                          " Sign Up",
                           style: TextStyle(
                             fontSize: 16,
-                            color: kPrimaryLightColor,
-                            fontWeight: FontWeight.normal,
+                            color: Colors.pink.shade400,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          child: Text(
-                            " Sign Up",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.pink.shade400,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  SizedBox(height: size.height * 0.02),
-                  GoogleLoginButton(),
-                ],
-              ),
-            )),
-          ),
+                ),
+                SizedBox(height: size.height * 0.02),
+                GoogleLoginButton(),
+              ],
+            ),
+          )),
         ),
-        onWillPop: () async => false);
+      ),
+    );
   }
 }
 

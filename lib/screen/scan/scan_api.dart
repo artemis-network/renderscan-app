@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:camera/camera.dart';
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/utils/logger.dart';
@@ -8,14 +7,14 @@ import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/scan/scan_modal.dart';
 
 class ScanApi {
-  Future<ScanResponse> cutImageFromServer(XFile file) async {
+  Future<ScanResponse> cutImageFromServer(file) async {
     try {
       var data = await file.readAsBytes();
       var username = await Storage().getItem("username");
       var request = http.MultipartRequest(
           'POST', HttpServerConfig().getImageHost("/v1/cut"));
       request.fields['username'] = username.toString();
-      var pic = http.MultipartFile.fromBytes('data', data, filename: file.name);
+      var pic = http.MultipartFile.fromBytes('data', data, filename: file.path);
       request.files.add(pic);
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -27,7 +26,6 @@ class ScanApi {
 
   Future<ScanProtectionResponse> hasAccountActivated(String code) async {
     try {
-      print(code);
       var username = await Storage().getItem("username");
       final response = await http.post(
           HttpServerConfig().getHost("/v1/users/activate-user"),

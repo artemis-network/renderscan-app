@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/utils/logger.dart';
@@ -25,6 +26,7 @@ class LoginApi {
 
   Future<AuthResponse> googleLogin(String email) async {
     try {
+      log.i(email);
       var request = {"email": email, "client": "client0123"};
       final response = await http.post(
           HttpServerConfig().getHost("/v1/users/google-mobile-login"),

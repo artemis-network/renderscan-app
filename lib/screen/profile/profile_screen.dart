@@ -9,6 +9,7 @@ import 'package:renderscan/screen/profile/component/profiile_buttons.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/screen/home/home_provider.dart';
+import 'package:renderscan/screen/scan/scan_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -24,6 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     void logOut() {
       print("> Logging out");
       Storage().logout();
+      context.read<ScanProvider>().resetProvider();
+      context.read<HomeProvider>().setCurrentIndex(2);
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
