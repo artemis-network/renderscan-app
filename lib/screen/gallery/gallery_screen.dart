@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/gallery/gallery_api.dart';
@@ -64,15 +63,7 @@ class _GalleryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageNBuilder(fileUrl) {
-      return RotatedBox(
-          quarterTurns: 1,
-          child: Image.network(
-            fileUrl,
-            width: 220,
-            height: 220,
-          ));
-    }
+    ImageNBuilder(fileUrl) { return Image.network(fileUrl, width: 220, height: 220)}
 
     if (gallery.length == 0)
       return Container(

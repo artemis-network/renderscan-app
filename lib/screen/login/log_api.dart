@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/screen/login/login_model.dart';
