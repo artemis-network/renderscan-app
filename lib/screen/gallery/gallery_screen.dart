@@ -63,7 +63,7 @@ class _GalleryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ImageNBuilder(fileUrl) { return Image.network(fileUrl, width: 220, height: 220)}
+    ImageNBuilder(fileUrl) => Image.network(fileUrl, width: 220, height: 220);
 
     if (gallery.length == 0)
       return Container(
