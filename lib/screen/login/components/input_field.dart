@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class InputField extends StatelessWidget {
@@ -19,38 +21,43 @@ class InputField extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: Container(
         decoration: BoxDecoration(
-            color: kprimaryAuthNeuFGColor,
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
-                  spreadRadius: -5,
-                  blurRadius: 8,
-                  color: kprimaryAuthNeuDarkColor,
-                  offset: Offset(-5, -5)),
-              BoxShadow(
-                  spreadRadius: -2,
-                  blurRadius: 4,
-                  color: kprimaryAuthNeuLightColor,
-                  offset: Offset(1, 1)),
+                  spreadRadius: 0,
+                  blurRadius: 100,
+                  color: context
+                      .watch<ThemeProvider>()
+                      .getHighLightColor()
+                      .withOpacity(0.22),
+                  offset: Offset(0, 0)),
             ]),
         child: TextField(
           onChanged: (value) => onChange(value),
           cursorColor: kPrimaryLightColor,
           style: GoogleFonts.poppins(
-              decoration: TextDecoration.none,
-              decorationThickness: 0,
-              decorationColor: kprimaryAuthNeuFGColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: kPrimaryLightColor),
+            decoration: TextDecoration.none,
+            decorationThickness: 0,
+            decorationColor: context
+                .watch<ThemeProvider>()
+                .getSecondaryFontColor()
+                .withOpacity(0.0),
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: context.watch<ThemeProvider>().getSecondaryFontColor(),
+          ),
           decoration: InputDecoration(
               prefixIcon: Icon(
                 icon,
-                color: kPrimaryLightColor,
+                color: context.watch<ThemeProvider>().getSecondaryFontColor(),
               ),
               label: Text(
                 labelText,
-                style: kPrimartFont(kPrimaryLightColor, 16, FontWeight.normal),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getSecondaryFontColor(),
+                    16,
+                    FontWeight.normal),
                 maxLines: 1,
               ),
               border: InputBorder.none,

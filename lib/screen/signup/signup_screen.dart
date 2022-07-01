@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/common/components/loader.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 
 // components
@@ -155,7 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       );
       var future =
-          Future.delayed(const Duration(seconds: 3), () => redirectToLogin());
+          Future.delayed(const Duration(seconds: 1), () => redirectToLogin());
       future.then((value) => null).catchError((err) {
         log.e(err);
       });
@@ -273,7 +275,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               "Already have an account?",
                               style: TextStyle(
                                 fontSize: 16,
-                                color: kPrimaryLightColor,
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getSecondaryFontColor(),
                                 fontWeight: FontWeight.normal,
                               ),
                             ),
@@ -282,7 +286,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 " Sign In",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.pink.shade400,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getSecondaryFontColor(),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -313,7 +319,7 @@ class Background extends StatelessWidget {
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
       child: Container(
-        color: kprimaryAuthBGColor,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
         height: size.height,
         width: double.infinity,
         // Here i can use size.width but use double.infinity because both work as a same

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class ModalButton extends StatelessWidget {
@@ -28,8 +30,10 @@ class ModalButton extends StatelessWidget {
                     },
                     child: Text(
                       text,
-                      style:
-                          kPrimartFont(kPrimaryLightColor, 14, FontWeight.bold),
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                          14,
+                          FontWeight.bold),
                     )),
                 SizedBox(
                   width: 10,
@@ -58,10 +62,13 @@ class ModalButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                      spreadRadius: 1,
-                      blurRadius: 2,
-                      color: kprimaryAuthBGColor,
-                      offset: Offset(1, 1)),
+                      spreadRadius: 0,
+                      blurRadius: 100,
+                      color: context
+                          .watch<ThemeProvider>()
+                          .getHighLightColor()
+                          .withOpacity(0.66),
+                      offset: Offset(0, 0)),
                 ]),
           )),
     );

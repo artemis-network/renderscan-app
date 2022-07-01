@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
@@ -25,19 +27,17 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
         child: AnimatedContainer(
           padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
-              color: kprimaryAuthBGColor,
+              color: context.watch<ThemeProvider>().getBackgroundColor(),
               borderRadius: BorderRadius.circular(40),
               boxShadow: [
                 BoxShadow(
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    color: kprimaryNeuLight,
-                    offset: Offset(-1, -1)),
-                BoxShadow(
-                    spreadRadius: 1,
-                    blurRadius: 8,
-                    color: kprimaryNeuDark,
-                    offset: Offset(5, 5)),
+                    spreadRadius: 0,
+                    blurRadius: 100,
+                    color: context
+                        .watch<ThemeProvider>()
+                        .getHighLightColor()
+                        .withOpacity(0.22),
+                    offset: Offset(0, 0)),
               ]),
           duration: Duration(milliseconds: 3),
           child: Row(

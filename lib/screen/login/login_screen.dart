@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/exit_dialog.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 
 // utils
 import 'package:renderscan/constants.dart';
@@ -189,7 +191,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         "Don't have an account?",
                         style: TextStyle(
                           fontSize: 16,
-                          color: kPrimaryLightColor,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getSecondaryFontColor(),
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -198,7 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           " Sign Up",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.pink.shade400,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getSecondaryFontColor(),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -242,7 +248,7 @@ class Background extends StatelessWidget {
     return SingleChildScrollView(
       physics: ClampingScrollPhysics(),
       child: Container(
-        color: kprimaryAuthBGColor,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
         width: double.infinity,
         height: size.height,
         child: Stack(

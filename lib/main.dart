@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/screen/home/home_provider.dart';
+import 'package:renderscan/common/components/topbar/components/sidebar.dart';
+import 'package:renderscan/screen/home/home_screen.dart';
 
 // pages
 import 'package:renderscan/screen/welcome/welcome_screen.dart';
@@ -7,6 +8,8 @@ import 'package:renderscan/screen/welcome/welcome_screen.dart';
 // provider
 import 'package:provider/provider.dart';
 import 'package:renderscan/screen/scan/scan_provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/screen/home/home_provider.dart';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
 
@@ -14,6 +17,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
       ],
@@ -35,11 +39,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     bool allowClose = false;
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: DoubleBack(
         condition: allowClose,
         onConditionFail: () {

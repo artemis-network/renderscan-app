@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class InputField extends StatelessWidget {
@@ -27,7 +29,8 @@ class InputField extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return SimpleDialog(
-              backgroundColor: kprimaryAuthBGColor,
+              backgroundColor:
+                  context.watch<ThemeProvider>().getBackgroundColor(),
               children: [
                 Container(
                   alignment: Alignment.center,
@@ -50,7 +53,11 @@ class InputField extends StatelessWidget {
                         ),
                         child: Text("Okay",
                             style: kPrimartFont(
-                                kPrimaryLightColor, 18, FontWeight.bold)),
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getHighLightColor(),
+                                18,
+                                FontWeight.bold)),
                       )
                     ],
                   ),
@@ -64,19 +71,17 @@ class InputField extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: Container(
         decoration: BoxDecoration(
-            color: kprimaryAuthNeuFGColor,
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
-                  spreadRadius: -5,
-                  blurRadius: 8,
-                  color: kprimaryAuthNeuDarkColor,
-                  offset: Offset(-5, -5)),
-              BoxShadow(
-                  spreadRadius: -2,
-                  blurRadius: 4,
-                  color: kprimaryAuthNeuLightColor,
-                  offset: Offset(1, 1)),
+                spreadRadius: 0,
+                blurRadius: 100,
+                color: context
+                    .watch<ThemeProvider>()
+                    .getHighLightColor()
+                    .withOpacity(0.22),
+              ),
             ]),
         child: TextField(
           obscureText: isHidden,
@@ -85,15 +90,17 @@ class InputField extends StatelessWidget {
           style: GoogleFonts.poppins(
               decoration: TextDecoration.none,
               decorationThickness: 0,
-              decorationColor: kprimaryAuthNeuFGColor,
+              decorationColor: context
+                  .watch<ThemeProvider>()
+                  .getBackgroundColor()
+                  .withOpacity(0.0),
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: kPrimaryLightColor),
+              color: context.watch<ThemeProvider>().getSecondaryFontColor()),
           decoration: InputDecoration(
-              prefixIcon: Icon(
-                icon,
-                color: kPrimaryLightColor,
-              ),
+              prefixIcon: Icon(icon,
+                  color:
+                      context.watch<ThemeProvider>().getSecondaryFontColor()),
               suffixIcon: hasError
                   ? GestureDetector(
                       onTap: showErrorDialog,
@@ -102,7 +109,10 @@ class InputField extends StatelessWidget {
                   : Icon(Icons.check_circle, color: Colors.greenAccent),
               label: Text(
                 labelText,
-                style: kPrimartFont(kPrimaryLightColor, 15, FontWeight.normal),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getSecondaryFontColor(),
+                    15,
+                    FontWeight.normal),
                 maxLines: 1,
               ),
               border: InputBorder.none,

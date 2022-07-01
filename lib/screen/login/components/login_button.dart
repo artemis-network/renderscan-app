@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class LoginButton extends StatefulWidget {
@@ -38,37 +40,25 @@ class _LoginButtonState extends State<LoginButton> {
         padding: EdgeInsets.all(20),
         width: size.width * 0.6,
         decoration: BoxDecoration(
-            color: kprimaryAuthBGColor,
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
             borderRadius: BorderRadius.circular(40),
-            boxShadow: _isElevated
-                ? [
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        color: kprimaryNeuLight,
-                        offset: Offset(-1, -1)),
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        color: kprimaryNeuDark,
-                        offset: Offset(5, 5)),
-                  ]
-                : [
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        color: kprimaryNeuLight,
-                        offset: Offset(1, 1)),
-                    BoxShadow(
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        color: kprimaryNeuDark,
-                        offset: Offset(-5, -5)),
-                  ]),
+            boxShadow: [
+              BoxShadow(
+                  spreadRadius: 0,
+                  blurRadius: 100,
+                  color: context
+                      .watch<ThemeProvider>()
+                      .getHighLightColor()
+                      .withOpacity(0.22),
+                  offset: Offset(0, 0)),
+            ]),
         child: Text(
           widget.text,
           textAlign: TextAlign.center,
-          style: kPrimartFont(kPrimaryLightColor, 18, FontWeight.bold),
+          style: kPrimartFont(
+              context.watch<ThemeProvider>().getSecondaryFontColor(),
+              18,
+              FontWeight.bold),
         ),
       ),
     );

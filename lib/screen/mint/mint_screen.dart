@@ -1,10 +1,13 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/sidebar.dart';
+import 'package:renderscan/common/components/topbar/topbar.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 
-import 'package:renderscan/screen/gallery/gallery_screen.dart';
 import 'package:renderscan/screen/mint/components/modal_buttons.dart';
 import 'package:renderscan/screen/mint/mint_api.dart';
 
@@ -41,8 +44,9 @@ class _MintScreenState extends State<MintScreen> {
             return Dialog(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                elevation: 5,
-                backgroundColor: kPrimaryColor,
+                elevation: 100,
+                backgroundColor:
+                    context.watch<ThemeProvider>().getBackgroundColor(),
                 child: Container(
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(20)),
@@ -59,7 +63,11 @@ class _MintScreenState extends State<MintScreen> {
                           Text("Mint!",
                               textAlign: TextAlign.center,
                               style: kPrimartFont(
-                                  kPrimaryLightColor, 20, FontWeight.bold)),
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  20,
+                                  FontWeight.bold)),
                           SizedBox(
                             height: size.height * 0.04,
                           ),
@@ -67,7 +75,11 @@ class _MintScreenState extends State<MintScreen> {
                               "Minting image will write the image on to the block chain",
                               textAlign: TextAlign.center,
                               style: kPrimartFont(
-                                  kPrimaryLightColor, 14, FontWeight.bold)),
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  14,
+                                  FontWeight.bold)),
                           SizedBox(
                             height: size.height * 0.04,
                           ),
@@ -95,7 +107,9 @@ class _MintScreenState extends State<MintScreen> {
                               size: 82,
                               color: Colors.greenAccent,
                             ),
-                            backgroundColor: kPrimaryColor,
+                            backgroundColor: context
+                                .watch<ThemeProvider>()
+                                .getBackgroundColor(),
                           )),
                     ],
                   ),
@@ -103,139 +117,111 @@ class _MintScreenState extends State<MintScreen> {
           });
     }
 
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-        ),
-        backgroundColor: kprimaryBackGroundColor,
-        body: Container(
-            height: size.height * 0.85,
-            width: size.width,
-            child: Column(
+    var scaffoldKey = GlobalKey<ScaffoldState>();
+
+    return SafeArea(
+        child: Scaffold(
+            backgroundColor:
+                context.watch<ThemeProvider>().getBackgroundColor(),
+            key: scaffoldKey,
+            drawerEnableOpenDragGesture: false,
+            drawer: Drawer(
+              child: SideBar(),
+            ),
+            body: Column(
               children: [
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
-                  child: widget.imageSource.isNotEmpty
-                      ? Image.memory(widget.imageSource)
-                      : null,
-                )),
-                Column(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 0),
-                                child: Container(
-                                  width: size.width * 0.48,
-                                  child: TextButton(
-                                      child: Text("Mint"),
-                                      onPressed: () => mint()),
-                                  decoration: BoxDecoration(
-                                      color: kPrimaryColor,
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            color: kprimaryNeuLight,
-                                            offset: Offset(-1, -1)),
-                                        BoxShadow(
-                                            spreadRadius: 1,
-                                            blurRadius: 8,
-                                            color: kprimaryNeuDark,
-                                            offset: Offset(5, 5)),
-                                      ]),
-                                ),
-                              ),
-                              Padding(
-                                  padding: EdgeInsets.only(top: 20),
-                                  child: Container(
-                                    width: size.width * 0.48,
-                                    decoration: BoxDecoration(
-                                        color: kPrimaryColor,
-                                        borderRadius: BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              color: kprimaryNeuLight,
-                                              offset: Offset(-1, -1)),
-                                          BoxShadow(
-                                              spreadRadius: 1,
-                                              blurRadius: 8,
-                                              color: kprimaryNeuDark,
-                                              offset: Offset(5, 5)),
-                                        ]),
-                                    child: TextButton(
-                                        child: Text("Drop"), onPressed: drop),
-                                  ))
-                            ])),
-                    Padding(
-                        padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Topbar(
+                  popSideBar: () => scaffoldKey.currentState?.openDrawer(),
+                ),
+                Container(
+                    height: size.height * 0.8,
+                    width: size.width * .8,
+                    child: Column(
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
+                          child: widget.imageSource.isNotEmpty
+                              ? Card(
+                                  elevation: 100,
+                                  shadowColor: context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()
+                                      .withOpacity(0.66),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(35)),
+                                  clipBehavior: Clip.antiAlias,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getBackgroundColor(),
+                                  child: Image.memory(widget.imageSource),
+                                )
+                              : null,
+                        )),
+                        Column(
                           children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const GalleryScreen()),
-                                );
-                              },
-                              child: Icon(
-                                Icons.picture_in_picture,
-                                color: kPrimaryLightColor,
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  side: const BorderSide(
-                                      color: Colors.transparent),
-                                  padding: const EdgeInsets.all(15),
-                                  elevation: 5,
-                                  backgroundColor: kPrimaryColor,
-                                  shadowColor: Colors.grey.withOpacity(0.2)),
-                            ),
-                            OutlinedButton(
-                              onPressed: back,
-                              child: Icon(
-                                Icons.edit,
-                                color: kPrimaryLightColor,
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  side: const BorderSide(
-                                      color: Colors.transparent),
-                                  padding: const EdgeInsets.all(15),
-                                  elevation: 5,
-                                  backgroundColor: kPrimaryColor,
-                                  shadowColor: Colors.grey.withOpacity(0.2)),
-                            ),
-                            OutlinedButton(
-                              onPressed: back,
-                              child: Icon(
-                                Icons.upgrade,
-                                color: kPrimaryLightColor,
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                  shape: const CircleBorder(),
-                                  side: const BorderSide(
-                                      color: Colors.transparent),
-                                  padding: const EdgeInsets.all(15),
-                                  elevation: 5,
-                                  backgroundColor: kPrimaryColor,
-                                  shadowColor: Colors.grey.withOpacity(0.2)),
-                            ),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                                child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 0),
+                                        child: Container(
+                                          width: size.width * 0.48,
+                                          child: TextButton(
+                                              child: Text("Mint"),
+                                              onPressed: () => mint()),
+                                          decoration: BoxDecoration(
+                                              color: context
+                                                  .watch<ThemeProvider>()
+                                                  .getBackgroundColor(),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 0,
+                                                    blurRadius: 100,
+                                                    color: context
+                                                        .watch<ThemeProvider>()
+                                                        .getHighLightColor()
+                                                        .withOpacity(0.66),
+                                                    offset: Offset(0, 0)),
+                                              ]),
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(top: 20),
+                                          child: Container(
+                                            width: size.width * 0.48,
+                                            decoration: BoxDecoration(
+                                                color: context
+                                                    .watch<ThemeProvider>()
+                                                    .getBackgroundColor(),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      spreadRadius: 0,
+                                                      blurRadius: 100,
+                                                      color: context
+                                                          .watch<
+                                                              ThemeProvider>()
+                                                          .getHighLightColor()
+                                                          .withOpacity(0.66),
+                                                      offset: Offset(0, 0)),
+                                                ]),
+                                            child: TextButton(
+                                                child: Text("Edit"),
+                                                onPressed: drop),
+                                          ))
+                                    ])),
                           ],
-                        ))
-                  ],
-                )
+                        )
+                      ],
+                    ))
               ],
             )));
   }

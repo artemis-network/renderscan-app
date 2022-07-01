@@ -10,6 +10,7 @@ import 'package:renderscan/screen/profile/component/profiile_buttons.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/screen/home/home_provider.dart';
 import 'package:renderscan/screen/scan/scan_provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
           child: Container(
-              color: kprimaryBackGroundColor,
+              color: context.watch<ThemeProvider>().getBackgroundColor(),
               height: size.height,
               width: size.width,
               child: Column(
@@ -74,17 +75,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             builder: (context, snapshot) {
                               return Text(snapshot.data.toString(),
                                   style: kPrimartFont(
-                                      kPrimaryLightColor, 18, FontWeight.bold));
-                            }),
-                        FutureBuilder(
-                            future: Storage().getItem('email'),
-                            builder: (context, snapshot) {
-                              return Text(snapshot.data.toString(),
-                                  style: kPrimartFont(kPrimaryLightColor, 14,
-                                      FontWeight.normal));
+                                      context
+                                          .watch<ThemeProvider>()
+                                          .getPriamryFontColor(),
+                                      18,
+                                      FontWeight.bold));
                             }),
                       ],
                     ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Dark Theme",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                18,
+                                FontWeight.bold),
+                          ),
+                          Switch(
+                              value:
+                                  context.watch<ThemeProvider>().isDarkTheme(),
+                              onChanged: (r) {
+                                context.read<ThemeProvider>().setTheme(r);
+                              })
+                        ]),
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),

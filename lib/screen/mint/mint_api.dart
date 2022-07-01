@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/common/config/http_config.dart';
 
@@ -12,13 +13,16 @@ class MintApi {
     try {
       // keep in config
       var username = await Storage().getItem("username");
+      log.i(username);
       var containerName = "renderscan-images";
+      log.i(fileUrl);
       var urlBuilder = "https://" +
           containerName +
           ".s3.ap-south-1.amazonaws.com/" +
           username.toString() +
           "/" +
           fileUrl;
+      log.i(urlBuilder);
       var brokerProperties = jsonEncode({'SessionId': username.toString()});
       Map<String, String> requestHeaders = {
         'Content-type': 'application/atom+xml;type=entry;charset=utf-8',

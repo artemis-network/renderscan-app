@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
-  int? _currentIndex = 2;
+  int? _currentIndex = 0;
 
   setCurrentIndex(int index) {
     _currentIndex = index;

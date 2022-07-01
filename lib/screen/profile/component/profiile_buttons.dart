@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 
 class ProfileButton extends StatefulWidget {
@@ -15,21 +17,12 @@ class ProfileButton extends StatefulWidget {
 }
 
 class _ProfileButtonState extends State<ProfileButton> {
-  bool _isElevated = true;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return GestureDetector(
-      onTapUp: (tu) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
-      },
-      onTapDown: (td) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
+    return InkWell(
+      onTap: () {
         widget.onClick();
       },
       child: AnimatedContainer(
@@ -44,45 +37,36 @@ class _ProfileButtonState extends State<ProfileButton> {
                       alignment: Alignment.centerLeft,
                       child: Icon(
                         widget.icon,
-                        color: kPrimaryLightColor,
+                        color: context
+                            .watch<ThemeProvider>()
+                            .getPriamryFontColor(),
                       )),
                   Align(
                       alignment: Alignment.center,
                       child: Text(
                         widget.text,
                         style: kPrimartFont(
-                            kPrimaryLightColor, 14, FontWeight.bold),
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            14,
+                            FontWeight.bold),
                       ))
                 ],
               ),
               decoration: BoxDecoration(
-                  color: kPrimaryColor,
+                  color: context.watch<ThemeProvider>().getBackgroundColor(),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: _isElevated
-                      ? [
-                          BoxShadow(
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              color: kprimaryNeuLight,
-                              offset: Offset(-1, -1)),
-                          BoxShadow(
-                              spreadRadius: 1,
-                              blurRadius: 8,
-                              color: kprimaryNeuDark,
-                              offset: Offset(5, 5)),
-                        ]
-                      : [
-                          BoxShadow(
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              color: kprimaryNeuLight,
-                              offset: Offset(1, 1)),
-                          BoxShadow(
-                              spreadRadius: 1,
-                              blurRadius: 8,
-                              color: kprimaryNeuDark,
-                              offset: Offset(-5, -5)),
-                        ]))),
+                  boxShadow: [
+                    BoxShadow(
+                        spreadRadius: 0,
+                        blurRadius: 100,
+                        color: context
+                            .watch<ThemeProvider>()
+                            .getHighLightColor()
+                            .withOpacity(0.22),
+                        offset: Offset(0, 0)),
+                  ]))),
     );
   }
 }

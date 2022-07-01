@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class WalletRoundedButton extends StatefulWidget {
@@ -22,64 +24,40 @@ class _WalletRoundedButtonState extends State<WalletRoundedButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTapUp: (tu) {
-          setState(() {
-            _isElevated = !_isElevated;
-          });
-        },
-        onTapDown: (td) {
-          setState(() {
-            _isElevated = !_isElevated;
-            widget.callback();
-          });
-        },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 250),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: _isElevated
-                        ? [
-                            BoxShadow(
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                color: kprimaryNeuLight,
-                                offset: Offset(-1, -1)),
-                            BoxShadow(
-                                spreadRadius: 1,
-                                blurRadius: 8,
-                                color: kprimaryNeuDark,
-                                offset: Offset(5, 5)),
-                          ]
-                        : [
-                            BoxShadow(
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                color: kprimaryNeuLight,
-                                offset: Offset(1, 1)),
-                            BoxShadow(
-                                spreadRadius: 1,
-                                blurRadius: 8,
-                                color: kprimaryNeuDark,
-                                offset: Offset(-5, -5)),
-                          ]),
-                child: Icon(
-                  widget.icon,
-                  color: kPrimaryLightColor,
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(widget.text,
-                  style:
-                      kPrimartFont(kPrimaryLightColor, 12, FontWeight.normal))
-            ],
+      duration: Duration(milliseconds: 250),
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: context.watch<ThemeProvider>().getBackgroundColor(),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 0,
+                      blurRadius: 100,
+                      color: context
+                          .watch<ThemeProvider>()
+                          .getHighLightColor()
+                          .withOpacity(0.33),
+                      offset: Offset(0, 0)),
+                ]),
+            child: Icon(
+              widget.icon,
+              color: context.watch<ThemeProvider>().getHighLightColor(),
+            ),
           ),
-        ));
+          SizedBox(
+            height: 5,
+          ),
+          Text(widget.text,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  12,
+                  FontWeight.normal))
+        ],
+      ),
+    ));
   }
 }

@@ -11,8 +11,11 @@ class ScanApi {
     try {
       var data = await file.readAsBytes();
       var username = await Storage().getItem("username");
+      print(username);
       var request = http.MultipartRequest(
-          'POST', HttpServerConfig().getImageHost("/v1/cut"));
+          'POST', Uri.parse('http://192.168.1.14:5001/backend/v1/images/cut')
+// HttpServerConfig().getImageHost("/v1/images/cut")
+          );
       request.fields['username'] = username.toString();
       var pic = http.MultipartFile.fromBytes('data', data, filename: file.path);
       request.files.add(pic);
@@ -20,6 +23,7 @@ class ScanApi {
       var response = await http.Response.fromStream(streamedResponse);
       return ScanResponse.fromJson(jsonDecode(response.body));
     } on Exception {
+      log.i(">> error heer");
       return ScanResponse(file: "", filename: "", isError: true);
     }
   }
