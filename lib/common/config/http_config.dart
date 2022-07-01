@@ -1,5 +1,5 @@
 class HttpServerConfig {
-  final _host = "PROD";
+  final _host = "DEV";
   final _headers = {
     "accept": "application/json",
     "content-type": "application/json"
