@@ -7,8 +7,7 @@ import 'package:renderscan/screen/wallet/wallet_dto.dart';
 class WalletApi {
   Future<Wallet> getBalance(String username) async {
     try {
-      final response = await http.post(
-          HttpServerConfig().getHost("/backend/v1/wallets"),
+      final response = await http.post(HttpServerConfig().getHost("/wallets"),
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username}));
       return Wallet.fromJson(jsonDecode(response.body));

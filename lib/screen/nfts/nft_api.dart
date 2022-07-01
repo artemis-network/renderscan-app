@@ -11,7 +11,7 @@ class NFTApi {
     try {
       var username = await Storage().getItem("username");
       final response = await http.post(
-          HttpServerConfig().getImageHost("/v1/gallery"),
+          HttpServerConfig().getHost("/images/gallery"),
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username.toString()}));
       return ImageList.fromJson(jsonDecode(response.body));

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,8 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:renderscan/screen/scan/scan_api.dart';
+import 'package:renderscan/screen/scan/scan_modal.dart';
 
 class ImportScreen extends StatefulWidget {
   @override
@@ -38,17 +42,17 @@ class _ImportScreenState extends State<ImportScreen> {
       ];
 
   int currentStep = 0;
-  File? img;
+  Uint8List? img;
+
+  Uint8List fromBase64(base64Str) => base64Decode(base64Str);
 
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      ScanResponse resp = await ScanApi().cutImageFromServer(image);
+      var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
       if (image == null) return;
-      final imgTemp = File(image.path);
-      log.e(">> HERE " + imgTemp.toString());
-      log.i(">> HERE " + imgTemp.toString());
-      setState(() => img = imgTemp);
-      return image;
+      setState(() => img = fromBase64(url));
     } on PlatformException catch (e) {
       log.e(e);
     }
@@ -79,13 +83,14 @@ class _ImportScreenState extends State<ImportScreen> {
               ],
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              height: 300,
-              width: 400,
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
+              height: 350,
+              width: 420,
               child: getRes(),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: context.watch<ThemeProvider>().getHighLightColor()),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [],
+              ),
             ),
             InkWell(
               onTap: pickImage,
@@ -97,11 +102,14 @@ class _ImportScreenState extends State<ImportScreen> {
 
   getRes() {
     if (img != null)
-      return InkWell(
-        child: Image.file(
-          img!,
-          height: 300,
-          fit: BoxFit.fitWidth,
+      return RotatedBox(
+        quarterTurns: 15,
+        child: InkWell(
+          child: Image.memory(
+            img!,
+            height: 300,
+            fit: BoxFit.fitWidth,
+          ),
         ),
       );
     return null;

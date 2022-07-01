@@ -8,7 +8,7 @@ class LoginApi {
   Future<AuthResponse> authenticateUser(AuthRequest request) async {
     try {
       final response = await http.post(
-          HttpServerConfig().getHost("/v1/users/login"),
+          HttpServerConfig().getHost("/users/login"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(request.toJson()));
       print(response.body);
@@ -27,7 +27,7 @@ class LoginApi {
       log.i(email);
       var request = {"email": email, "client": "client0123"};
       final response = await http.post(
-          HttpServerConfig().getHost("/v1/users/google-mobile-login"),
+          HttpServerConfig().getHost("/users/google-mobile-login"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(request));
       return AuthResponse.fromJson(jsonDecode(response.body));

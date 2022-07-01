@@ -9,7 +9,7 @@ class SignUpApi {
   Future<SignUpResponse> registerUser(SignUpRequest request) async {
     try {
       final response = await http.post(
-          HttpServerConfig().getHost("/v1/users/register"),
+          HttpServerConfig().getHost("/users/register"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(request.toJson()));
       print(response.body);

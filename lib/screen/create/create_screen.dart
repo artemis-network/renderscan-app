@@ -5,6 +5,7 @@ import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/generate/generate_screen.dart';
 import 'package:renderscan/screen/import/import_screen.dart';
 import 'package:renderscan/screen/scan/scan_screen.dart';
 
@@ -21,6 +22,11 @@ class CreateScreen extends StatelessWidget {
     goToImportScreen() {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ImportScreen()));
+    }
+
+    goToGenerateScreen() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => GenerateScreen()));
     }
 
     final size = MediaQuery.of(context).size;
@@ -85,7 +91,8 @@ class CreateScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            MainButton(buttonLabel: "Generate", onClick: () {})
+            MainButton(
+                buttonLabel: "Generate", onClick: () => goToGenerateScreen())
           ],
         ),
       ),

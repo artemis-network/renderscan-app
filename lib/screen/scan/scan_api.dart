@@ -13,9 +13,7 @@ class ScanApi {
       var username = await Storage().getItem("username");
       print(username);
       var request = http.MultipartRequest(
-          'POST', Uri.parse('http://192.168.1.14:5001/backend/v1/images/cut')
-// HttpServerConfig().getImageHost("/v1/images/cut")
-          );
+          'POST', HttpServerConfig().getHost("/images/cut"));
       request.fields['username'] = username.toString();
       var pic = http.MultipartFile.fromBytes('data', data, filename: file.path);
       request.files.add(pic);
@@ -32,7 +30,7 @@ class ScanApi {
     try {
       var username = await Storage().getItem("username");
       final response = await http.post(
-          HttpServerConfig().getHost("/v1/users/activate-user"),
+          HttpServerConfig().getHost("/users/activate-user"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(
               {'username': username.toString(), 'code': code.toString()}));
@@ -50,7 +48,7 @@ class ScanApi {
       log.i(">> Username " + username.toString());
       log.i(">> filename " + filename);
       final response = await http.post(
-          HttpServerConfig().getImageHost("/v1/save"),
+          HttpServerConfig().getHost("/images/save"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(
               {'username': username.toString(), 'filename': filename}));

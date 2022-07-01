@@ -76,7 +76,7 @@ class _ScanScreenState extends State<ScanScreen> {
       }
       log.i(">> Setting scan state");
       log.i(">> Filename " + resp.filename.toString());
-      var url = resp.file?.replaceAll("data:image/jpeg;base64,", "").toString();
+      var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
       log.i(url);
       context
           .read<ScanProvider>()

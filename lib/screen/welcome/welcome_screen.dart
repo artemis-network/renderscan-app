@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/home/home_screen.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:lottie/lottie.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -16,24 +13,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final List<String> _text = ["Let's", "Create", "Design", "NFT's"];
-  final List<Color> _colors = [
-    Colors.blue,
-    Colors.purple,
-    Colors.deepOrange,
-    Colors.cyan,
-    Colors.indigo
-  ];
-  double _width = 100;
-  double _height = 100;
-  double _fontSize = 24;
-  int _index = 0;
-  List<String> _createdText = ["Tap"];
-
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     var future = Future.delayed(const Duration(milliseconds: 2000), () {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
