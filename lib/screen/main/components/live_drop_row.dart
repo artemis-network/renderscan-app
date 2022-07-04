@@ -62,7 +62,7 @@ class LiveDropItem extends StatelessWidget {
                         radius: 24,
                         backgroundImage: NetworkImage(url),
                       ),
-                    ))
+                    )),
               ],
             ),
             SizedBox(
@@ -104,9 +104,7 @@ class LiveDropRowList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.only(left: 20),
+    return Container(
       height: 175,
       width: 225,
       child: new ListView.builder(

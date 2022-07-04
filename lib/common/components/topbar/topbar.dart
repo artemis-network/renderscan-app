@@ -57,31 +57,28 @@ class Topbar extends StatelessWidget {
                     .getHighLightColor()
                     .withOpacity(0.33))),
       ),
-      child: Flexible(
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          InkWell(
-              radius: 20,
-              child: IconButton(
-                icon: Icon(
-                  Icons.menu,
-                  size: 40,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                ),
-                onPressed: () {
-                  popSideBar();
-                },
-                color: context.watch<ThemeProvider>().getFavouriteColor(),
-              )),
-          Container(
-              child: Text("Renderscan",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      26,
-                      FontWeight.w800))),
-          WalletButton()
-        ]),
-      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        InkWell(
+            radius: 20,
+            child: IconButton(
+              icon: Icon(
+                Icons.menu,
+                size: 40,
+                color: context.watch<ThemeProvider>().getPriamryFontColor(),
+              ),
+              onPressed: () {
+                popSideBar();
+              },
+              color: context.watch<ThemeProvider>().getFavouriteColor(),
+            )),
+        Container(
+            child: Text("Renderscan",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    26,
+                    FontWeight.w800))),
+        WalletButton()
+      ]),
     );
   }
 }

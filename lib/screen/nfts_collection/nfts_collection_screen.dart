@@ -225,6 +225,7 @@ class NFTCollectionItem extends StatelessWidget {
             context, MaterialPageRoute(builder: (context) => NFTScreen(id: 1)));
       },
       child: Container(
+          height: size.height,
           decoration: BoxDecoration(
               color: context.watch<ThemeProvider>().getBackgroundColor(),
               borderRadius: BorderRadius.circular(25),
@@ -238,7 +239,7 @@ class NFTCollectionItem extends StatelessWidget {
                       .withOpacity(0.66),
                 )
               ]),
-          margin: EdgeInsets.fromLTRB(10, 25, 10, 110),
+          margin: EdgeInsets.fromLTRB(10, 25, 10, 90),
           width: size.width * 0.85,
           child: Card(
             shape:

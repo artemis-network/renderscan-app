@@ -2,13 +2,12 @@ import 'package:http/http.dart' as http;
 import 'package:renderscan/common/utils/logger.dart';
 
 class GenerateApi {
-  generate(String input, String username) async {
+  generate(String input) async {
+    var username = "akash";
+    var url =
+        'https://hotpotmedia.s3.us-east-2.amazonaws.com/' + username + '.png';
+
     try {
-      log.i(input + " " + username);
-
-      var url =
-          'https://hotpotmedia.s3.us-east-2.amazonaws.com/' + username + '.png';
-
       var request = http.MultipartRequest(
           'POST', Uri.parse('https://cortex.hotpot.ai/latent-test'));
       request.fields.addAll({
@@ -22,20 +21,22 @@ class GenerateApi {
         'requestId': username,
         'resultUrl': url
       });
-
-      try {
-        http.StreamedResponse response =
-            await request.send().timeout(Duration(minutes: 2));
-        if (response.statusCode == 200) {
-          log.i(">> SUCCESS");
-          return url;
-        }
-      } catch (e) {
-        log.e("FROM INSIDE");
-        log.e(e.toString());
-      }
+      http.StreamedResponse response =
+          await request.send().timeout(Duration(minutes: 2));
+      if (response.statusCode == 200) return;
     } catch (e) {
       log.e(e.toString());
+    } finally {
+      final t =
+          Future.delayed(Duration(minutes: 1), () => http.get(Uri.parse(url)));
+      return await t.then((value) => value.bodyBytes);
     }
+  }
+
+  refresh() {
+    var username = "akash";
+    var url =
+        'https://hotpotmedia.s3.us-east-2.amazonaws.com/' + username + '.png';
+    return Uri.parse(url);
   }
 }

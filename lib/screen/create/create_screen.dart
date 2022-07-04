@@ -88,11 +88,8 @@ class CreateScreen extends StatelessWidget {
               ),
               padding: EdgeInsets.symmetric(vertical: 20),
             ),
-            SizedBox(
-              height: 20,
-            ),
             MainButton(
-                buttonLabel: "Generate", onClick: () => goToGenerateScreen())
+                buttonLabel: "Generate", onClick: () => goToGenerateScreen()),
           ],
         ),
       ),

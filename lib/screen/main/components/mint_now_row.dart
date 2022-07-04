@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/screen/main/main_mock.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
 
 class MintNowItem extends StatelessWidget {
@@ -74,30 +73,5 @@ class MintNowItem extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => NFTScreen(id: id)))
             });
-  }
-}
-
-class MintNowRowList extends StatelessWidget {
-  var mintNow = [];
-  MintNowRowList({required this.mintNow});
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.only(left: 20),
-      height: 210,
-      width: 150,
-      child: new ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: mintNow.length,
-        itemBuilder: (BuildContext context, int index) {
-          return MintNowItem(
-              id: index,
-              url: mintNow[index]["url"],
-              name: mintNow[index]["name"].toString().substring(0, 10) + "...",
-              price: mintNow[index]["price"]);
-        },
-      ),
-    );
   }
 }

@@ -79,7 +79,13 @@ class _WalletBannerState extends State<WalletBanner> {
                         14,
                         FontWeight.bold),
                   ),
-                  getBalance()
+                  Text(
+                    0.toString() + " RNDV",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        18,
+                        FontWeight.bold),
+                  )
                 ],
               )),
           Expanded(

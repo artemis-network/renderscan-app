@@ -87,7 +87,6 @@ class TopMoversRowList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(topMovers);
     return new Container(
       padding: EdgeInsets.only(left: 20),
       height: 175,
@@ -96,7 +95,6 @@ class TopMoversRowList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: topMovers.length,
         itemBuilder: (BuildContext context, int index) {
-          print(index);
           return TopMoversItem(
             rank: int.parse(topMovers[index]["rank"].toString()),
             name: topMovers[index]["name"].toString(),
