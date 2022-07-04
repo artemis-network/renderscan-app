@@ -18,16 +18,16 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    var future = Future.delayed(const Duration(milliseconds: 9000), () async {
-      var isUserLoggedIn = await Storage().getItem("username");
-      log.i(isUserLoggedIn);
-      if (isUserLoggedIn != null) {
-        return Navigator.push(
-            context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      } else {
-        return Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
-      }
+    var future = Future.delayed(const Duration(milliseconds: 5000), () async {
+      // var isUserLoggedIn = await Storage().getItem("username");
+      // log.i(isUserLoggedIn);
+      // if (isUserLoggedIn != null) {
+      return Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      // } else {
+      //   return Navigator.push(
+      //       context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      // }
     });
 
     future.then((value) {});
