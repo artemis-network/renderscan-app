@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/wallet/wallet_api.dart';
-import 'package:renderscan/screen/wallet/wallet_dto.dart';
 
 class WalletBanner extends StatefulWidget {
   final Size size;
@@ -17,36 +13,6 @@ class WalletBanner extends StatefulWidget {
 class _WalletBannerState extends State<WalletBanner> {
   @override
   Widget build(BuildContext context) {
-    Future<Wallet> setUpWallet() async {
-      final username = await Storage().getItem("username");
-      return await WalletApi().getBalance(username.toString());
-    }
-
-    getBalance() {
-      return FutureBuilder(
-          future: setUpWallet(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState.name == "done") {
-              final data = snapshot.data as Wallet;
-              return Text(
-                data.balance.toString() + " RNDV",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    18,
-                    FontWeight.bold),
-              );
-            } else {
-              return Text(
-                0.toString() + " RNDV",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    18,
-                    FontWeight.bold),
-              );
-            }
-          });
-    }
-
     return Padding(
       padding: const EdgeInsets.only(top: 30),
       child: Container(

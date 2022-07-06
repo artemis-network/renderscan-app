@@ -27,4 +27,10 @@ class Storage {
     var appDocDir = await getApplicationDocumentsDirectory();
     if (appDocDir.existsSync()) appDocDir.deleteSync(recursive: true);
   }
+
+  Future<bool> isLoggedIn() async {
+    final username = await storage.read(key: "username");
+    if (username != null) return true;
+    return false;
+  }
 }

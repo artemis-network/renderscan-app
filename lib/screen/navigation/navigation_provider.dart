@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeProvider extends ChangeNotifier {
+class NavigationProvider extends ChangeNotifier {
   int? _currentIndex = 0;
 
   setCurrentIndex(int index) {

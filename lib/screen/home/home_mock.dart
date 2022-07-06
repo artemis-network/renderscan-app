@@ -43,7 +43,7 @@ var topMoversMock = [
   },
 ];
 
-var mintNow = [
+var mintNowMock = [
   {
     "url":
         "https://img.seadn.io/files/5251ad011ea118de352859ea21e5e313.png?fit=max&w=600",
@@ -82,7 +82,7 @@ var mintNow = [
   },
 ];
 
-var liveDrops = [
+var liveDropsMock = [
   {
     "url":
         "https://lh3.googleusercontent.com/YNX01FXY5RWUGjNGpXLc171nOiQNcn_e6iwkVfvJOTjiaKFCKupBg48zbL9oPfMzayGjy_eoQcfRrItNjy1lWmdgZuUlv_0Cv6M15rE=w600",

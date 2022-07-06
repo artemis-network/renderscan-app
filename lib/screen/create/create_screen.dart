@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_launcher_icons/main.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
@@ -98,8 +97,8 @@ class CreateScreen extends StatelessWidget {
 }
 
 class SubButton extends StatelessWidget {
-  String buttonLabel;
-  Function onClick;
+  final String buttonLabel;
+  final Function onClick;
 
   SubButton({required this.buttonLabel, required this.onClick});
 
@@ -134,8 +133,8 @@ class SubButton extends StatelessWidget {
 }
 
 class MainButton extends StatelessWidget {
-  String buttonLabel;
-  Function onClick;
+  final String buttonLabel;
+  final Function onClick;
 
   MainButton({required this.buttonLabel, required this.onClick});
 

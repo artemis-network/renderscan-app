@@ -5,11 +5,11 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class LiveDropItem extends StatelessWidget {
-  String id;
-  String url;
-  String banner;
-  String name;
-  String collectionName;
+  final String id;
+  final String url;
+  final String banner;
+  final String name;
+  final String collectionName;
 
   LiveDropItem(
       {required this.id,
@@ -42,8 +42,8 @@ class LiveDropItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Stack(
+              clipBehavior: Clip.none,
               alignment: Alignment.center,
-              overflow: Overflow.visible,
               children: [
                 ClipRRect(
                   child: Image.network(
@@ -99,7 +99,7 @@ class LiveDropItem extends StatelessWidget {
 }
 
 class LiveDropRowList extends StatelessWidget {
-  var liveDrops = [];
+  final liveDrops;
   LiveDropRowList({required this.liveDrops});
 
   @override

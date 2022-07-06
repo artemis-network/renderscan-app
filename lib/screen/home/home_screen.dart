@@ -1,155 +1,120 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/screen/home/home_protector_screen.dart';
-import 'package:renderscan/screen/nfts/nfts_screen.dart';
-import 'package:renderscan/screen/scan/scan_api.dart';
-import 'package:renderscan/screen/scan/scan_modal.dart';
-
-// pages
-// import 'package:renderscan/screen/scan/scan_screen.dart';
-import 'package:renderscan/screen/profile/profile_screen.dart';
-import 'package:renderscan/screen/wallet/wallet_screen.dart';
-import 'package:renderscan/screen/upgrade/upgrade_screen.dart';
-// import 'package:renderscan/screen/gallery/gallery_screen.dart';
-import 'package:renderscan/screen/main/main.dart';
-import 'package:renderscan/screen/explore/explore_screen.dart';
-
-// navbar
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-
-// Global Vars
-import 'package:renderscan/constants.dart';
-
-// home provider
-import 'package:renderscan/screen/home/home_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/sidebar.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
 
-//
-import 'package:renderscan/common/components/exit_dialog.dart';
-import 'package:renderscan/screen/create/create_screen.dart';
-import 'package:renderscan/screen/welcome/welcome_screen.dart';
+import 'package:renderscan/screen/home/components/mint_now_row.dart';
+import 'package:renderscan/screen/home/components/top_movers_row.dart';
+import 'package:renderscan/screen/home/components/live_drop_row.dart';
+import 'package:renderscan/common/components/topbar/topbar.dart';
+import 'package:renderscan/screen/home/home_mock.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final screens = [
-    MainScreen(),
-    ExploreScreen(),
-    CreateScreen(),
-    NFTSScreen(),
-    const ProfileScreen(),
-  ];
-
-  @override
-  void initState() {
-    ScanApi().hasAccountActivated("").then((resp) {
-      bool isActivated = resp.isActivated;
-      if (!isActivated) {
-        return HomProtectorScreen();
-      }
-    }).catchError((err) {
-      log.e(err);
-    });
-    super.initState();
-  }
-
-  home(Size size) {
-    return AppExitDialogWrapper(
-      child: SafeArea(
-          child: Scaffold(
-        body: Container(
-          child: screens[context.watch<HomeProvider>().currentIndex],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-          elevation: 10,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor:
-              context.watch<ThemeProvider>().getForegroundColor(),
-          unselectedIconTheme: IconThemeData(
-              color: context.watch<ThemeProvider>().getForegroundColor()),
-          selectedIconTheme: IconThemeData(
-              color: context.watch<ThemeProvider>().getHighLightColor()),
-          selectedItemColor: context.watch<ThemeProvider>().getHighLightColor(),
-          currentIndex: context.watch<HomeProvider>().currentIndex,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: 24,
-                ),
-                label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search_outlined,
-                  size: 24,
-                ),
-                label: "Explore"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.add_circle,
-                  size: 34,
-                  color: context.watch<ThemeProvider>().getForegroundColor(),
-                ),
-                activeIcon: Icon(
-                  Icons.add_circle,
-                  size: 34,
-                  color: context.watch<ThemeProvider>().getHighLightColor(),
-                ),
-                label: "Create"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.library_books_outlined,
-                  size: 24,
-                ),
-                label: "NFTs"),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_outline_outlined,
-                  size: 24,
-                ),
-                label: "Profile"),
-          ],
-          onTap: (index) {
-            context.read<HomeProvider>().setCurrentIndex(index);
-          },
-        ),
-      )),
-    );
-  }
-
-  HomeProtectionWrapper(Size size) {
-    return FutureBuilder(
-      future: ScanApi().hasAccountActivated(""),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        log.i(snapshot.connectionState.name);
-        log.i(snapshot.data);
-        if (snapshot.connectionState.name == "done") {
-          final data = snapshot.data as ScanProtectionResponse;
-          log.i(data.message);
-          log.i(data.isActivated);
-          if (!data.isActivated) return HomProtectorScreen();
-          // return home(size);
-          return home(size);
-        }
-        return Container(
-          child: spinkit,
-          alignment: Alignment.center,
-        );
-      },
-    );
-  }
-
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return home(size);
+    return Scaffold(
+      key: scaffoldKey,
+      drawerEnableOpenDragGesture: false,
+      drawer: Drawer(child: SideBar()),
+      body: Container(
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: <Widget>[
+              Topbar(
+                popSideBar: () => scaffoldKey.currentState?.openDrawer(),
+              ),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                child: Text(
+                  "Mint now",
+                  style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color:
+                          context.watch<ThemeProvider>().getPriamryFontColor()),
+                ),
+              ),
+              Container(
+                  height: 205,
+                  width: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mintNowMock.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MintNowItem(
+                        id: index,
+                        url: mintNowMock[index]["url"].toString(),
+                        name: mintNowMock[index]["name"]
+                                .toString()
+                                .substring(0, 10) +
+                            "...",
+                        price: 2,
+                      );
+                    },
+                  )),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                child: Text(
+                  "Top Movers",
+                  style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color:
+                          context.watch<ThemeProvider>().getPriamryFontColor()),
+                ),
+              ),
+              TopMoversRowList(topMovers: topMoversMock),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                child: Text(
+                  "Live Drops",
+                  style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color:
+                          context.watch<ThemeProvider>().getPriamryFontColor()),
+                ),
+              ),
+              LiveDropRowList(liveDrops: liveDropsMock),
+              Container(
+                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                child: Text(
+                  "Unique Items",
+                  style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color:
+                          context.watch<ThemeProvider>().getPriamryFontColor()),
+                ),
+              ),
+              Container(
+                  height: 205,
+                  width: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mintNowMock.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return MintNowItem(
+                        id: index,
+                        url: mintNowMock[index]["url"].toString(),
+                        name: mintNowMock[index]["name"]
+                                .toString()
+                                .substring(0, 10) +
+                            "...",
+                        price: 2,
+                      );
+                    },
+                  )),
+            ],
+          ),
+          color: context.watch<ThemeProvider>().getBackgroundColor()),
+    );
   }
 }

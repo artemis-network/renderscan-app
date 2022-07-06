@@ -4,7 +4,7 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
 class NFTScreen extends StatelessWidget {
-  int id;
+  final int id;
   NFTScreen({required this.id});
 
   @override
@@ -224,7 +224,7 @@ var temp = [
 ];
 
 class NFTTraitsList extends StatelessWidget {
-  var traitsList = [];
+  final traitsList;
   NFTTraitsList({required this.traitsList});
   @override
   Widget build(BuildContext context) {

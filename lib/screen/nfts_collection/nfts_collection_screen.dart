@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
@@ -78,9 +77,9 @@ class NFTCollectionScreen extends StatelessWidget {
         });
   }
 
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String id;
+  final String id;
   NFTCollectionScreen({required this.id});
   @override
   Widget build(BuildContext context) {
@@ -205,10 +204,10 @@ class NFTCollectionScreen extends StatelessWidget {
 }
 
 class NFTCollectionItem extends StatelessWidget {
-  String url;
-  String name;
-  double price;
-  bool isHighlight;
+  final String url;
+  final String name;
+  final double price;
+  final bool isHighlight;
 
   NFTCollectionItem(
       {required this.url,
@@ -301,7 +300,7 @@ class NFTCollectionItem extends StatelessWidget {
 }
 
 class NFTCollectionGrid extends StatefulWidget {
-  var nftItems = [];
+  final nftItems;
   NFTCollectionGrid({required this.nftItems});
 
   @override
@@ -312,8 +311,6 @@ class _NFTCollectionGridState extends State<NFTCollectionGrid> {
   @override
   Widget build(BuildContext context) {
     int currentPageIndex = widget.nftItems.length ~/ 2;
-
-    final size = MediaQuery.of(context).size;
     return Container(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: PageView.builder(
@@ -430,7 +427,7 @@ class ExploreFliterByGrid extends StatelessWidget {
 }
 
 class ExploreSortByTag extends StatelessWidget {
-  String text;
+  final String text;
 
   ExploreSortByTag({required this.text}) {}
 

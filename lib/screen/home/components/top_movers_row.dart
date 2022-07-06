@@ -3,13 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/main/main_mock.dart';
 
 class TopMoversItem extends StatelessWidget {
-  int rank;
-  String url;
-  String name;
-  double price;
+  final int rank;
+  final String url;
+  final String name;
+  final double price;
 
   TopMoversItem(
       {required this.rank,
@@ -82,7 +81,7 @@ class TopMoversItem extends StatelessWidget {
 }
 
 class TopMoversRowList extends StatelessWidget {
-  var topMovers = topMoversMock;
+  final topMovers;
   TopMoversRowList({required this.topMovers});
 
   @override

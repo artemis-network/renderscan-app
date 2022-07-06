@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/home/home_screen.dart';
 import 'package:lottie/lottie.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
+import 'package:renderscan/screen/navigation/navigation_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -21,13 +18,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     var future = Future.delayed(const Duration(milliseconds: 5000), () async {
       // var isUserLoggedIn = await Storage().getItem("username");
       // log.i(isUserLoggedIn);
-      // if (isUserLoggedIn != null) {
+      // return Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
       return Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      // } else {
-      //   return Navigator.push(
-      //       context, MaterialPageRoute(builder: (context) => LoginScreen()));
-      // }
+          context, MaterialPageRoute(builder: (context) => NavigationScreen()));
     });
 
     future.then((value) {});
@@ -61,8 +55,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
           Container(
             color: context.watch<ThemeProvider>().getBackgroundColor(),
-            child: Lottie.asset("assets/lottie/splash.json",
-                height: 450, fit: BoxFit.fitWidth),
+            child: Expanded(
+              child: Lottie.asset("assets/lottie/splash.json",
+                  frameRate: FrameRate.max, height: 450, width: size.width),
+            ),
           ),
         ]),
       ),

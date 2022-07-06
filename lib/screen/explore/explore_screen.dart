@@ -172,7 +172,7 @@ class ExploreFliterByGrid extends StatelessWidget {
 }
 
 class ExploreSortByTag extends StatelessWidget {
-  String text;
+  final String text;
 
   ExploreSortByTag({required this.text}) {}
 

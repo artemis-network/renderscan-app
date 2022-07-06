@@ -4,7 +4,6 @@ import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 
 // utils
-import 'package:renderscan/constants.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/login/components/google_login_button.dart';
 
@@ -16,16 +15,14 @@ import 'package:renderscan/common/components/loader.dart';
 
 // dto
 import 'package:renderscan/screen/login/login_model.dart';
-
-// screens
-import 'package:renderscan/screen/signup/signup_screen.dart';
-import 'package:renderscan/screen/home/home_screen.dart';
+import 'package:renderscan/screen/navigation/navigation_screen.dart';
 
 // api
 import 'package:renderscan/screen/login/log_api.dart';
 
 // logger
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/screen/signup/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -41,6 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
   String password = "";
   bool error = false;
   String message = "";
+
+  static Route<Object?> _dialogBuilder(
+      BuildContext context, Object? arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) => const SignUpScreen(),
+    );
+  }
 
   void handleEmailInput(String _username) {
     setState(() {
@@ -113,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return const HomeScreen();
+              return const NavigationScreen();
             },
           ),
         );
@@ -143,137 +148,84 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
 
-    return new AppExitDialogWrapper(
+    var scaffoldKey = GlobalKey<ScaffoldState>();
+
+    return SafeArea(
+        child: new AppExitDialogWrapper(
       child: Scaffold(
+        key: scaffoldKey,
+        drawer:
+            Container(width: size.width, child: Drawer(child: SignUpScreen())),
+        drawerEnableOpenDragGesture: false,
         resizeToAvoidBottomInset: false,
-        body: Background(
-          child: SingleChildScrollView(
-              child: Padding(
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-            child: Column(
-              children: <Widget>[
-                Image.asset(
-                  "assets/images/no_bg_logo.png",
-                  height: size.height * 0.25,
-                ),
-                InputField(
-                  icon: Icons.email,
-                  labelText: "Email",
-                  onChange: (email) => handleEmailInput(email),
-                ),
-                InputPasswordField(
-                  text: "Password",
-                  onChanged: (password) => handlePasswordInput(password),
-                ),
-                SizedBox(height: size.height * 0.03),
-                !isLoading
-                    ? LoginButton(
-                        text: "LOGIN",
-                        press: authenticate,
-                      )
-                    : spinkit,
-                SizedBox(height: size.height * 0.02),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const SignUpScreen();
-                        },
+        body: SingleChildScrollView(
+            child: Container(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                "assets/images/no_bg_logo.png",
+                height: size.height * 0.25,
+              ),
+              InputField(
+                icon: Icons.email,
+                labelText: "Email",
+                onChange: (email) => handleEmailInput(email),
+              ),
+              InputPasswordField(
+                text: "Password",
+                onChanged: (password) => handlePasswordInput(password),
+              ),
+              SizedBox(height: size.height * 0.03),
+              !isLoading
+                  ? LoginButton(
+                      text: "LOGIN",
+                      press: authenticate,
+                    )
+                  : spinkit,
+              SizedBox(height: size.height * 0.02),
+              TextButton(
+                onPressed: () {
+                  scaffoldKey.currentState?.openDrawer();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: context
+                            .watch<ThemeProvider>()
+                            .getSecondaryFontColor(),
+                        fontWeight: FontWeight.normal,
                       ),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account?",
+                    ),
+                    Container(
+                      child: Text(
+                        " Sign Up",
                         style: TextStyle(
                           fontSize: 16,
                           color: context
                               .watch<ThemeProvider>()
                               .getSecondaryFontColor(),
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Container(
-                        child: Text(
-                          " Sign Up",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getSecondaryFontColor(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-                SizedBox(height: size.height * 0.02),
-                GoogleLoginButton(),
-              ],
-            ),
-          )),
-        ),
-      ),
-    );
-  }
-}
-
-final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  onPrimary: Colors.white,
-  primary: Colors.purple[700],
-  minimumSize: const Size(240, 50),
-  textStyle: const TextStyle(color: Colors.white, fontSize: 24),
-  padding: const EdgeInsets.symmetric(horizontal: 16),
-  elevation: 10,
-  shape: const RoundedRectangleBorder(
-    borderRadius: BorderRadius.all(Radius.circular(20)),
-  ),
-);
-
-class Background extends StatelessWidget {
-  final Widget child;
-  const Background({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      physics: ClampingScrollPhysics(),
-      child: Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        width: double.infinity,
-        height: size.height,
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: -100,
-              left: -100,
-              child: Image.asset(
-                "assets/images/gradient_one.png",
-                width: size.width * 0.55,
               ),
-            ),
-            Positioned(
-              bottom: -100,
-              right: -100,
-              child: Image.asset(
-                "assets/images/gradient_two.png",
-                width: size.width * 0.6,
-              ),
-            ),
-            child,
-          ],
-        ),
+              SizedBox(height: size.height * 0.02),
+              GoogleLoginButton(),
+              SizedBox(
+                height: size.height * 0.1,
+              )
+            ],
+          ),
+        )),
       ),
-    );
+    ));
   }
 }

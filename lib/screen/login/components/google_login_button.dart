@@ -4,9 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
-import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/home/home_screen.dart';
 import 'package:renderscan/screen/login/log_api.dart';
+import 'package:renderscan/screen/navigation/navigation_screen.dart';
 
 class GoogleLoginButton extends StatefulWidget {
   @override
@@ -77,7 +76,7 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const HomeScreen();
+                      return const NavigationScreen();
                     },
                   ),
                 );

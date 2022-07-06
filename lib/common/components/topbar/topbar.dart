@@ -37,7 +37,7 @@ class WalletButton extends StatelessWidget {
 }
 
 class Topbar extends StatelessWidget {
-  Function popSideBar;
+  final Function popSideBar;
 
   Topbar({required this.popSideBar});
 

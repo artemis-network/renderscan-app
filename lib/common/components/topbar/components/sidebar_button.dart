@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -23,7 +22,8 @@ class _SideBarButtonState extends State<SideBarButton> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return GestureDetector(
+    return InkWell(
+      onTap: () => widget.onClick(),
       child: AnimatedContainer(
           duration: Duration(milliseconds: 250),
           padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),

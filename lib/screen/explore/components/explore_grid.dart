@@ -5,11 +5,11 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class LiveDropItem extends StatelessWidget {
-  String banner;
-  String url;
-  String name;
-  String collectionName;
-  String category;
+  final String banner;
+  final String url;
+  final String name;
+  final String collectionName;
+  final String category;
 
   LiveDropItem(
       {required this.banner,
@@ -35,8 +35,8 @@ class LiveDropItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Stack(
+              clipBehavior: Clip.none,
               alignment: Alignment.center,
-              overflow: Overflow.visible,
               children: [
                 InkWell(
                   child: Ink.image(
@@ -115,7 +115,7 @@ class LiveDropItem extends StatelessWidget {
 }
 
 class ExploreGrid extends StatelessWidget {
-  var exploreItems = [];
+  final exploreItems;
   ExploreGrid({required this.exploreItems});
   @override
   Widget build(BuildContext context) {

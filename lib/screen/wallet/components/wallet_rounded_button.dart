@@ -20,7 +20,6 @@ class WalletRoundedButton extends StatefulWidget {
 }
 
 class _WalletRoundedButtonState extends State<WalletRoundedButton> {
-  bool _isElevated = true;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

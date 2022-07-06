@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar_button.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/profile/profile_screen.dart';
 import 'package:renderscan/screen/wallet/wallet_screen.dart';
 
 class SideBar extends StatelessWidget {
@@ -56,20 +55,16 @@ class SideBar extends StatelessWidget {
           Column(
             children: [
               SideBarButton(
-                text: "Profile",
-                icon: Icons.person_outline_outlined,
-                onClick: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()));
-                },
-              ),
-              SideBarButton(
                 text: "Wallet",
                 icon: Icons.wallet_membership_outlined,
                 onClick: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => WalletScreen()));
+                  return WalletScreen();
                 },
+              ),
+              SideBarButton(
+                text: "Notifications",
+                icon: Icons.help_center_outlined,
+                onClick: () {},
               ),
               SideBarButton(
                 text: "Settings",
@@ -77,8 +72,8 @@ class SideBar extends StatelessWidget {
                 onClick: () {},
               ),
               SideBarButton(
-                text: "Help & FAQ",
-                icon: Icons.help_center_outlined,
+                text: "Refer & Earn",
+                icon: Icons.money_outlined,
                 onClick: () {},
               ),
             ],
@@ -91,6 +86,16 @@ class SideBar extends StatelessWidget {
                   .withOpacity(0.33),
               thickness: 2,
               indent: 4),
+          SideBarButton(
+            text: "Help & FAQ",
+            icon: Icons.help_center_outlined,
+            onClick: () {},
+          ),
+          SideBarButton(
+            text: "Rate Us",
+            icon: Icons.star_outlined,
+            onClick: () {},
+          ),
           SideBarButton(
             text: "Logout",
             icon: Icons.logout_outlined,

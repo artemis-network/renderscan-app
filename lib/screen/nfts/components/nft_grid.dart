@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
 
 class NFTItem extends StatelessWidget {
-  String url;
-  String name;
-  double price;
+  final String url;
+  final String name;
+  final double price;
 
   NFTItem({required this.url, required this.name, required this.price});
 
@@ -84,7 +83,7 @@ class NFTItem extends StatelessWidget {
 }
 
 class NFTGrid extends StatelessWidget {
-  var nftItems = [];
+  final nftItems;
   NFTGrid({required this.nftItems});
   @override
   Widget build(BuildContext context) {

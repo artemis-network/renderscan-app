@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class AppExitDialogWrapper extends StatefulWidget {
-  Widget child;
+  final Widget child;
   AppExitDialogWrapper({Key? key, required this.child}) : super(key: key);
 
   @override

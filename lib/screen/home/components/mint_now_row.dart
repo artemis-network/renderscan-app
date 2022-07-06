@@ -5,10 +5,10 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
 
 class MintNowItem extends StatelessWidget {
-  int id;
-  String url;
-  double price;
-  String name;
+  final int id;
+  final String url;
+  final double price;
+  final String name;
 
   MintNowItem(
       {required this.id,
