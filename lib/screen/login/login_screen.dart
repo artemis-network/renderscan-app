@@ -32,20 +32,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isLoading = false;
   bool isPasswordVisible = false;
   String username = "";
   String password = "";
   bool error = false;
   String message = "";
-
-  static Route<Object?> _dialogBuilder(
-      BuildContext context, Object? arguments) {
-    return DialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) => const SignUpScreen(),
-    );
-  }
 
   void handleEmailInput(String _username) {
     setState(() {
@@ -162,68 +155,70 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
-          child: Column(
-            children: <Widget>[
-              Image.asset(
-                "assets/images/no_bg_logo.png",
-                height: size.height * 0.25,
-              ),
-              InputField(
-                icon: Icons.email,
-                labelText: "Email",
-                onChange: (email) => handleEmailInput(email),
-              ),
-              InputPasswordField(
-                text: "Password",
-                onChanged: (password) => handlePasswordInput(password),
-              ),
-              SizedBox(height: size.height * 0.03),
-              !isLoading
-                  ? LoginButton(
-                      text: "LOGIN",
-                      press: authenticate,
-                    )
-                  : spinkit,
-              SizedBox(height: size.height * 0.02),
-              TextButton(
-                onPressed: () {
-                  scaffoldKey.currentState?.openDrawer();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getSecondaryFontColor(),
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        " Sign Up",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getSecondaryFontColor(),
-                          fontWeight: FontWeight.bold,
+          child: Form(
+              child: Column(
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/no_bg_logo.png",
+                    height: size.height * 0.25,
+                  ),
+                  InputField(
+                    icon: Icons.email,
+                    labelText: "Email",
+                    onChange: (email) => handleEmailInput(email),
+                  ),
+                  InputPasswordField(
+                    text: "Password",
+                    onChanged: (password) => handlePasswordInput(password),
+                  ),
+                  SizedBox(height: size.height * 0.03),
+                  !isLoading
+                      ? LoginButton(
+                          text: "LOGIN",
+                          press: authenticate,
+                        )
+                      : spinkit,
+                  SizedBox(height: size.height * 0.02),
+                  TextButton(
+                    onPressed: () {
+                      scaffoldKey.currentState?.openDrawer();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have an account?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getSecondaryFontColor(),
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
+                        Container(
+                          child: Text(
+                            " Sign Up",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getSecondaryFontColor(),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  GoogleLoginButton(),
+                  SizedBox(
+                    height: size.height * 0.1,
+                  )
+                ],
               ),
-              SizedBox(height: size.height * 0.02),
-              GoogleLoginButton(),
-              SizedBox(
-                height: size.height * 0.1,
-              )
-            ],
-          ),
+              key: formkey),
         )),
       ),
     ));

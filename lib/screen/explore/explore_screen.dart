@@ -117,6 +117,27 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 )
               ]),
         ),
+        Container(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Chip(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                avatar: const Icon(Icons.card_giftcard_outlined),
+                label: const Text('NFTs'),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Chip(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                avatar: const Icon(Icons.collections_outlined),
+                label: const Text('Collections'),
+              )
+            ],
+          ),
+        ),
         Expanded(
           child: ExploreGrid(exploreItems: exploreMock),
         )

@@ -25,11 +25,11 @@ class LiveDropItem extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         clipBehavior: Clip.antiAlias,
         color: context.watch<ThemeProvider>().getBackgroundColor(),
-        elevation: 100,
+        elevation: 2,
         shadowColor: context
             .watch<ThemeProvider>()
             .getHighLightColor()
-            .withOpacity(0.66),
+            .withOpacity(0.88),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -40,51 +40,53 @@ class LiveDropItem extends StatelessWidget {
               children: [
                 InkWell(
                   child: Ink.image(
-                    height: 50,
+                    height: 80,
                     image: NetworkImage(banner),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
                 Positioned(
-                    bottom: -20,
+                    bottom: -40,
                     child: CircleAvatar(
-                      radius: 30,
+                      radius: 50,
                       backgroundColor:
                           context.watch<ThemeProvider>().getBackgroundColor(),
                       child: CircleAvatar(
-                        radius: 24,
+                        radius: 44,
                         backgroundImage: NetworkImage(url),
                       ),
                     ))
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 45,
             ),
             Container(
               child: Text(
                 name,
                 style: GoogleFonts.poppins(
-                  fontSize: 16,
+                  fontSize: 18,
                   color: context.watch<ThemeProvider>().getPriamryFontColor(),
                 ),
               ),
               padding: EdgeInsets.only(left: 5),
             ),
             SizedBox(
-              height: 2,
+              height: 8,
             ),
             Container(
               child: Text(
                 collectionName,
                 style: GoogleFonts.poppins(
-                  fontSize: 14,
+                  fontSize: 16,
                   color: context.watch<ThemeProvider>().getSecondaryFontColor(),
                 ),
               ),
               padding: EdgeInsets.only(left: 5),
             ),
-            SizedBox(height: 3),
+            SizedBox(
+              height: 8,
+            ),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
@@ -95,7 +97,7 @@ class LiveDropItem extends StatelessWidget {
               child: Text(
                 category,
                 style: GoogleFonts.poppins(
-                    fontSize: 10,
+                    fontSize: 14,
                     color: context.watch<ThemeProvider>().getPriamryFontColor(),
                     fontWeight: FontWeight.bold),
               ),
@@ -120,14 +122,15 @@ class ExploreGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: GridView.builder(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              childAspectRatio: 1 / 1,
+              crossAxisCount: 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              childAspectRatio: 1 / .82,
             ),
             itemCount: exploreItems.length,
             itemBuilder: (BuildContext context, int index) {

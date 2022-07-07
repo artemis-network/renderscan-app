@@ -53,13 +53,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   FontWeight.normal),
             ),
           ),
-          Container(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            child: Expanded(
-              child: Lottie.asset("assets/lottie/splash.json",
-                  frameRate: FrameRate.max, height: 450, width: size.width),
-            ),
-          ),
+          Lottie.asset("assets/lottie/splash.json",
+              fit: BoxFit.fitWidth, height: 450),
         ]),
       ),
     );

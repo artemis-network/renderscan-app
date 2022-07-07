@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
-class TopMoversItem extends StatelessWidget {
+class TrendingWidget extends StatelessWidget {
   final int rank;
   final String url;
   final String name;
   final double price;
 
-  TopMoversItem(
+  TrendingWidget(
       {required this.rank,
       required this.url,
       required this.name,
@@ -19,13 +19,13 @@ class TopMoversItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(200)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(400)),
       clipBehavior: Clip.antiAlias,
       color: context.watch<ThemeProvider>().getBackgroundColor(),
-      elevation: 100,
+      elevation: 2,
       shadowColor:
-          context.watch<ThemeProvider>().getHighLightColor().withOpacity(0.11),
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          context.watch<ThemeProvider>().getHighLightColor().withOpacity(.75),
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,7 @@ class TopMoversItem extends StatelessWidget {
               CircleAvatar(
                 radius: 46,
                 backgroundColor:
-                    context.watch<ThemeProvider>().getHighLightColor(),
+                    context.watch<ThemeProvider>().getSecondaryFontColor(),
                 child: CircleAvatar(
                   radius: 42,
                   backgroundImage: NetworkImage(url),
@@ -48,7 +48,7 @@ class TopMoversItem extends StatelessWidget {
                         style: GoogleFonts.poppins(
                             color: context
                                 .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
+                                .getBackgroundColor(),
                             fontWeight: FontWeight.bold)),
                     radius: 16,
                     backgroundColor:
@@ -56,11 +56,14 @@ class TopMoversItem extends StatelessWidget {
                   )),
             ],
           ),
+          SizedBox(
+            height: 10,
+          ),
           Container(
             child: Text(
               name,
               style: GoogleFonts.poppins(
-                  fontSize: 10,
+                  fontSize: 12,
                   color: context.watch<ThemeProvider>().getPriamryFontColor(),
                   fontWeight: FontWeight.bold),
             ),
@@ -75,32 +78,6 @@ class TopMoversItem extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class TopMoversRowList extends StatelessWidget {
-  final topMovers;
-  TopMoversRowList({required this.topMovers});
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      padding: EdgeInsets.only(left: 20),
-      height: 175,
-      width: 150,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: topMovers.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TopMoversItem(
-            rank: int.parse(topMovers[index]["rank"].toString()),
-            name: topMovers[index]["name"].toString(),
-            price: double.parse(topMovers[index]["price"].toString()),
-            url: topMovers[index]["url"].toString(),
-          );
-        },
       ),
     );
   }
