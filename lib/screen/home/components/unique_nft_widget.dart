@@ -1,3 +1,4 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -57,13 +58,27 @@ class UniqueNFTWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 5),
               ),
               Container(
-                child: Text(
-                  price.toString() + "8\$",
-                  style: GoogleFonts.poppins(
-                      fontSize: 14,
+                child: Row(
+                  children: [
+                    Text(
+                      price.toString(),
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor(),
+                          fontWeight: FontWeight.w800),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      CryptoFontIcons.ETH,
+                      size: 12,
                       color:
                           context.watch<ThemeProvider>().getPriamryFontColor(),
-                      fontWeight: FontWeight.w800),
+                    )
+                  ],
                 ),
                 padding: EdgeInsets.only(left: 5),
               ),

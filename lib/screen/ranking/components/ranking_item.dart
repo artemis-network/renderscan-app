@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 
 class RankingItem extends StatelessWidget {
   final String name;
@@ -78,28 +79,38 @@ class RankingItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        name,
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            16,
-                            FontWeight.bold),
-                      ),
-                      Text(
-                        totalValue + " ETH",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  Column(children: [
+                    Text(
+                      name,
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          16,
+                          FontWeight.bold),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          totalValue,
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              12,
+                              FontWeight.bold),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          CryptoFontIcons.ETH,
+                          size: 12,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor(),
+                        )
+                      ],
+                    )
+                  ])
                 ],
               ),
             ),

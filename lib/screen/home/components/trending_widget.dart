@@ -18,14 +18,25 @@ class TrendingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(400)),
-      clipBehavior: Clip.antiAlias,
-      color: context.watch<ThemeProvider>().getBackgroundColor(),
-      elevation: 2,
-      shadowColor:
-          context.watch<ThemeProvider>().getHighLightColor().withOpacity(.75),
-      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 0),
+    return Container(
+      decoration: BoxDecoration(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          borderRadius: BorderRadius.circular(500),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 4,
+                color: context
+                    .watch<ThemeProvider>()
+                    .getHighLightColor()
+                    .withOpacity(0.4))
+          ]),
+      // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(400)),
+      // clipBehavior: Clip.antiAlias,
+      // color: context.watch<ThemeProvider>().getBackgroundColor(),
+      // elevation: 2,
+      // shadowColor:
+      //     context.watch<ThemeProvider>().getHighLightColor().withOpacity(.75),
+      margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -33,16 +44,17 @@ class TrendingWidget extends StatelessWidget {
           Stack(
             children: [
               CircleAvatar(
-                radius: 46,
+                radius: 50,
                 backgroundColor:
                     context.watch<ThemeProvider>().getSecondaryFontColor(),
                 child: CircleAvatar(
-                  radius: 42,
+                  radius: 46,
                   backgroundImage: NetworkImage(url),
                 ),
               ),
               Positioned(
-                  bottom: 0,
+                  bottom: 6,
+                  left: 0,
                   child: CircleAvatar(
                     child: Text(rank.toString(),
                         style: GoogleFonts.poppins(
@@ -56,14 +68,11 @@ class TrendingWidget extends StatelessWidget {
                   )),
             ],
           ),
-          SizedBox(
-            height: 10,
-          ),
           Container(
             child: Text(
               name,
               style: GoogleFonts.poppins(
-                  fontSize: 12,
+                  fontSize: 10,
                   color: context.watch<ThemeProvider>().getPriamryFontColor(),
                   fontWeight: FontWeight.bold),
             ),
@@ -73,7 +82,7 @@ class TrendingWidget extends StatelessWidget {
               price.toString() + "M",
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getHighLightColor(),
-                  14,
+                  11,
                   FontWeight.w800),
             ),
           ),

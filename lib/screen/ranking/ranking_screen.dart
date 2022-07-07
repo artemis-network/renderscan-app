@@ -17,6 +17,60 @@ class RankingScreen extends StatefulWidget {
 class _RankingScreenState extends State<RankingScreen> {
   @override
   Widget build(BuildContext context) {
+    showModal(context) {
+      final size = MediaQuery.of(context).size;
+      return showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      "Filter",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          24,
+                          FontWeight.bold),
+                    ),
+                  ),
+                  Container(
+                    width: size.width * 1,
+                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                    child: Text(
+                      "Sort by",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          18,
+                          FontWeight.bold),
+                    ),
+                  ),
+                  RankSortByTimeFrame(),
+                  Container(
+                    width: size.width * 1,
+                    padding: EdgeInsets.fromLTRB(20, 22, 20, 0),
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                    child: Text(
+                      "Filter by",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          18,
+                          FontWeight.bold),
+                    ),
+                  ),
+                  RankFliterByCategory()
+                ],
+              ),
+              color: context.watch<ThemeProvider>().getBackgroundColor(),
+            );
+          });
+    }
+
     var scaffoldKey = GlobalKey<ScaffoldState>();
 
     return SafeArea(
@@ -34,23 +88,27 @@ class _RankingScreenState extends State<RankingScreen> {
                     popSideBar: () => scaffoldKey.currentState?.openDrawer(),
                   ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Ranking 🏆",
-                            style: kPrimartFont(
-                                context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                20,
-                                FontWeight.bold),
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              "Ranking 🏆",
+                              style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  20,
+                                  FontWeight.bold),
+                            ),
                           ),
                           Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            alignment: Alignment.centerLeft,
                             decoration: BoxDecoration(
                                 color: context
                                     .watch<ThemeProvider>()
@@ -68,11 +126,20 @@ class _RankingScreenState extends State<RankingScreen> {
                                 ]),
                             clipBehavior: Clip.antiAlias,
                             child: Container(
-                              child: Options(),
+                              child: Container(),
                               padding: EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                             ),
-                          )
+                          ),
+                          IconButton(
+                              onPressed: () => showModal(context),
+                              icon: Icon(
+                                Icons.menu_outlined,
+                                size: 30,
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                              ))
                         ],
                       )),
                   Expanded(
@@ -102,40 +169,72 @@ class _RankingScreenState extends State<RankingScreen> {
   }
 }
 
-class Options extends StatefulWidget {
+class RankSortByTimeFrame extends StatelessWidget {
   @override
-  State<Options> createState() => _OptionsState();
+  Widget build(BuildContext context) {
+    return Container(
+        height: 70,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: GridView.count(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 5 / 2,
+          children: [
+            RankSortByTag(text: "Daily"),
+            RankSortByTag(text: "Weekly"),
+            RankSortByTag(text: "Monthly"),
+          ],
+        ));
+  }
 }
 
-class _OptionsState extends State<Options> {
-  String dropdownValue = 'Daily';
+class RankFliterByCategory extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        height: 225,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: GridView.count(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 5 / 2,
+          children: [
+            RankSortByTag(text: "Art"),
+            RankSortByTag(text: "Collectable"),
+            RankSortByTag(text: "Gamified"),
+            RankSortByTag(text: "Music"),
+            RankSortByTag(text: "Science"),
+          ],
+        ));
+  }
+}
+
+class RankSortByTag extends StatelessWidget {
+  final String text;
+
+  RankSortByTag({required this.text}) {}
 
   @override
   Widget build(BuildContext context) {
-    final Color color = context.watch<ThemeProvider>().getHighLightColor();
-    final Color bg = context.watch<ThemeProvider>().getBackgroundColor();
-    return DropdownButton<String>(
-      dropdownColor: bg,
-      value: dropdownValue,
-      icon: Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: TextStyle(color: color),
-      underline: Container(
-        height: 2,
-        color: color,
-      ),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-        });
-      },
-      items: <String>['Daily', 'Weekly', 'Monthly', 'Yearly']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );
+    return Container(
+        height: 20,
+        width: 50,
+        padding: EdgeInsets.all(10),
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: kPrimartFont(
+              context.watch<ThemeProvider>().getBackgroundColor(),
+              12,
+              FontWeight.bold),
+        ),
+        decoration: BoxDecoration(
+          color: context.watch<ThemeProvider>().getPriamryFontColor(),
+          borderRadius: BorderRadius.circular(15),
+        ));
   }
 }

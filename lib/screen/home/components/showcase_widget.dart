@@ -1,3 +1,4 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -64,16 +65,29 @@ class ShowcaseWidget extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    child: Text(
-                      price.toString() + ' ETH',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getPriamryFontColor(),
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                      child: Row(
+                    children: [
+                      Text(
+                        price.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        CryptoFontIcons.ETH,
+                        size: 12,
+                        color: context
+                            .watch<ThemeProvider>()
+                            .getPriamryFontColor(),
+                      )
+                    ],
+                  )),
                 ],
               )
             ]),

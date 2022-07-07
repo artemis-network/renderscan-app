@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Heading(text: "Trending"),
                   Padding(
-                    padding: EdgeInsets.only(right: 40),
+                    padding: EdgeInsets.only(right: 20),
                     child: IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               MaterialPageRoute(
                                   builder: (context) => RankingScreen()));
                         },
-                        icon: Icon(Icons.arrow_back_outlined,
+                        icon: Icon(Icons.arrow_forward_rounded,
                             color: context
                                 .watch<ThemeProvider>()
                                 .getPriamryFontColor(),
@@ -53,7 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              RowWrapper(
+              Container(
+                height: 165,
+                width: 225,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: topMoversMock.length,
