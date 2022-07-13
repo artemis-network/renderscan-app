@@ -1,8 +1,10 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/screen/wallet/components/buy_ruby_modal.dart';
 import 'package:renderscan/screen/wallet/components/wallet_banner.dart';
 import 'package:renderscan/screen/wallet/components/wallet_rounded_button.dart';
 import 'package:renderscan/screen/wallet/components/wallet_transcation_list.dart';
@@ -16,18 +18,162 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  topStatus(BuildContext context, Widget child) {
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(PageTransition(
+            type: PageTransitionType.bottomToTop,
+            child: BuyRubyModal(),
+            ctx: context,
+            duration: Duration(milliseconds: 300),
+            childCurrent: child));
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.arrow_back_outlined,
+                    size: 32,
+                    color:
+                        context.watch<ThemeProvider>().getPriamryFontColor())),
+            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Container(
+                padding: EdgeInsets.only(top: 2, bottom: 2, left: 3, right: 2),
+                child: Row(children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 14,
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text("1000",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                          14,
+                          FontWeight.w800)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color:
+                            context.watch<ThemeProvider>().getBackgroundColor(),
+                        borderRadius: BorderRadius.circular(4)),
+                    child: Icon(
+                      Icons.add_rounded,
+                      color: context.watch<ThemeProvider>().getHighLightColor(),
+                      size: 18,
+                    ),
+                  )
+                ]),
+                decoration: BoxDecoration(
+                    color: context.watch<ThemeProvider>().getHighLightColor(),
+                    borderRadius: BorderRadius.circular(6)),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 2, bottom: 2, left: 3, right: 2),
+                child: Row(children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 14,
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                  ),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text("0",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                          14,
+                          FontWeight.w800)),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color:
+                            context.watch<ThemeProvider>().getBackgroundColor(),
+                        borderRadius: BorderRadius.circular(4)),
+                    child: Icon(
+                      Icons.add_rounded,
+                      color: context.watch<ThemeProvider>().getHighLightColor(),
+                      size: 18,
+                    ),
+                  )
+                ]),
+                decoration: BoxDecoration(
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
+                    borderRadius: BorderRadius.circular(6)),
+              ),
+            ])
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var data = [
-      {"title": "Rendle 7", "subTitle": "Entry Fee", "trailing": "2000 RNDV"},
-      {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
-      {"title": "Rendle 6", "subTitle": "Entry Fee", "trailing": "1500 RNDV"},
-      {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
-      {"title": "Rendle 6", "subTitle": "Entry Fee", "trailing": "1500 RNDV"},
-      {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
-      {"title": "Rendle 6", "subTitle": "Entry Fee", "trailing": "1500 RNDV"},
-      {"title": "Rendle 5", "subTitle": "Entry Fee", "trailing": "1000 RNDV"},
+      {
+        "title": "+ 3000",
+        "subTitle": "Signup Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 1000",
+        "subTitle": "Daily Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 500",
+        "subTitle": "Referal Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 1000",
+        "subTitle": "Daily Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 500",
+        "subTitle": "Referal Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 1000",
+        "subTitle": "Daily Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 500",
+        "subTitle": "Referal Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
+      {
+        "title": "+ 1000",
+        "subTitle": "Daily Bonous",
+        "date": "24/2/01",
+        "time": "02:11"
+      },
     ];
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -43,9 +189,7 @@ class _WalletScreenState extends State<WalletScreen> {
               color: context.watch<ThemeProvider>().getBackgroundColor(),
               child: Column(
                 children: [
-                  Topbar(
-                    popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-                  ),
+                  topStatus(context, this.widget),
                   SingleChildScrollView(
                       child: Row(
                     children: [
@@ -55,94 +199,34 @@ class _WalletScreenState extends State<WalletScreen> {
                       ),
                     ],
                   )),
-                  WalletBanner(size: size),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 40, 20, 40),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          WalletRoundedButton(
-                              icon: Icons.add_outlined,
-                              text: "Deposit",
-                              callback: () => null),
-                          WalletRoundedButton(
-                              icon: Icons.transfer_within_a_station_outlined,
-                              text: "Transfer",
-                              callback: () => null),
-                          WalletRoundedButton(
-                              icon: Icons.send_outlined,
-                              text: "Send",
-                              callback: () => null),
-                          WalletRoundedButton(
-                              icon: Icons.receipt_long_outlined,
-                              text: "Recieve",
-                              callback: () => null),
-                        ]),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                    child: Text(
+                      "Transcations",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          20,
+                          FontWeight.bold),
+                    ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Last Transcations",
-                            style: kPrimartFont(
-                                context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                20,
-                                FontWeight.bold),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getBackgroundColor(),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 0,
-                                      blurRadius: 100,
-                                      color: context
-                                          .watch<ThemeProvider>()
-                                          .getHighLightColor()
-                                          .withOpacity(0.66),
-                                      offset: Offset(0, 0)),
-                                ]),
-                            clipBehavior: Clip.antiAlias,
-                            child: Container(
-                              child: Text(
-                                "View All",
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getSecondaryFontColor(),
-                                    14,
-                                    FontWeight.normal),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                            ),
-                          )
-                        ],
-                      )),
                   Expanded(
                       child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 15),
-                      child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: data.length,
-                          itemBuilder: (context, index) =>
-                              WalletTransactionList(
-                                  title: data[index]['title'].toString(),
-                                  subTitle: data[index]['subTitle'].toString(),
-                                  trailing:
-                                      data[index]['trailing'].toString())),
-                    ),
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.length,
+                            itemBuilder: (context, index) =>
+                                WalletTransactionList(
+                                    title: data[index]['title'].toString(),
+                                    date: data[index]['date'].toString(),
+                                    subTitle:
+                                        data[index]['subTitle'].toString(),
+                                    time: data[index]['time'].toString()))),
                   ))
                 ],
               ),

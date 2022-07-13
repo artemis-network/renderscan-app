@@ -22,11 +22,8 @@ class _WalletBannerState extends State<WalletBanner> {
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
-                  blurRadius: 500,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.33),
+                  blurRadius: 1,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(0, 0)),
             ]),
         height: widget.size.height * 0.15,

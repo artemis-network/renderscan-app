@@ -1,201 +1,246 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/nft/nft_screen.dart';
 import 'package:renderscan/screen/nfts/nfts_mock.dart';
+import 'package:renderscan/screen/nfts_collection/components/nft_collection_activity.dart';
+import 'package:renderscan/screen/nfts_collection/components/nft_items_grid.dart';
+import 'package:renderscan/screen/nfts_collection/nft_collection_model.dart';
+import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
-class NFTCollectionScreen extends StatelessWidget {
-  showModal(context) {
-    final size = MediaQuery.of(context).size;
-    return showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Container(
-            child: Expanded(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      color:
-                          context.watch<ThemeProvider>().getBackgroundColor(),
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                      child: Text(
-                        "Filter",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            24,
-                            FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      width: size.width * 1,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-                      color:
-                          context.watch<ThemeProvider>().getBackgroundColor(),
-                      child: Text(
-                        "Sort by",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            18,
-                            FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      height: size.height * 0.28,
-                      child: Expanded(child: ExploreSortByGrid()),
-                    ),
-                    Container(
-                      width: size.width * 1,
-                      padding: EdgeInsets.fromLTRB(20, 22, 20, 0),
-                      color:
-                          context.watch<ThemeProvider>().getBackgroundColor(),
-                      child: Text(
-                        "Filter by",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            18,
-                            FontWeight.bold),
-                      ),
-                    ),
-                    Expanded(child: ExploreFliterByGrid())
-                  ]),
-            ),
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-          );
-        });
-  }
+class NFTCollectionScreen extends StatefulWidget {
+  final String slug;
+  NFTCollectionScreen({required this.slug});
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
+  State<NFTCollectionScreen> createState() => _NFTCollectionScreenState();
+}
 
-  final String id;
-  NFTCollectionScreen({required this.id});
+class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
+  int tabIndex = 0;
+
+  final tabs = [
+    NFTCollectionGridTab(nftItems: nfts),
+    NFTCollectionActivityTab()
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
-      key: scaffoldKey,
-      drawerEnableOpenDragGesture: false,
-      drawer: Drawer(
-        child: SideBar(),
-      ),
       body: Container(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Topbar(
-              popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-            ),
-            SizedBox(
-              height: size.height * 0.025,
-            ),
-            Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SearchButton(),
-                  Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: IconButton(
-                        onPressed: () => showModal(context),
-                        icon: Icon(Icons.menu,
-                            size: 30,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor())),
-                  )
-                ]),
-            SizedBox(
-              height: 25,
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CircleAvatar(
-                          radius: 32,
-                          backgroundImage: AssetImage("assets/images/lion.png"),
+            FutureBuilder(
+                future: NFTCollectionAPI().getNFTCollectionBySlug("slug"),
+                builder: ((context, snapshot) {
+                  final data = snapshot.data as NFTCollection;
+                  return Column(
+                    children: [
+                      Container(
+                          child: Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.none,
+                        children: [
+                          Image.network(
+                            data.bannerUrl,
+                            height: 112,
+                            fit: BoxFit.fitWidth,
+                          ),
+                          Positioned(
+                              top: 10,
+                              left: 10,
+                              child: IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_circle_left,
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getBackgroundColor(),
+                                    size: 50,
+                                  ))),
+                          Positioned(
+                              bottom: 0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getBackgroundColor(),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          blurRadius: 10,
+                                          spreadRadius: 5,
+                                          color: context
+                                              .watch<ThemeProvider>()
+                                              .getBackgroundColor())
+                                    ],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40),
+                                        topRight: Radius.circular(40))),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 26,
+                                          backgroundImage:
+                                              NetworkImage(data.imageUrl),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ))
+                        ],
+                      )),
+                      Container(
+                        height: 15,
+                        width: double.infinity,
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                              blurRadius: 10,
+                              offset: Offset(-5, -5),
+                              spreadRadius: 10,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getBackgroundColor()
+                                  .withOpacity(0.88))
+                        ]),
+                      ),
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 30),
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.name,
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getSecondaryFontColor(),
+                                    16,
+                                    FontWeight.normal),
+                              ),
+                              Text(
+                                "by XV11",
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    14,
+                                    FontWeight.bold),
+                              ),
+                            ],
+                          )),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                        child: Text(
+                          data.description,
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              10,
+                              FontWeight.normal),
                         ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Doodles XIIV",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  20,
-                                  FontWeight.normal),
-                            ),
-                            Text(
-                              "Creator",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  16,
-                                  FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-            SizedBox(
-              height: 20,
-            ),
+                      ),
+                      CollectionStats(
+                        floor: data.stats.floor_price,
+                        items: data.stats.total_Supply,
+                        owners: data.stats.num_owners,
+                        volume: data.stats.one_day_volume,
+                      )
+                    ],
+                  );
+                })),
+            Divider(thickness: 1),
             Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Text(
-                      "Doodle",
-                      style: kPrimartFont(
-                          context
-                              .watch<ThemeProvider>()
-                              .getSecondaryFontColor(),
-                          20,
-                          FontWeight.normal),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          tabIndex = 0;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Items",
+                            style: kPrimartFont(
+                                tabIndex == 0
+                                    ? context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor()
+                                    : Colors.black,
+                                15,
+                                FontWeight.normal),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(Icons.list_alt_outlined,
+                              color: tabIndex == 0
+                                  ? context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()
+                                  : Colors.black),
+                        ],
+                      ),
                     ),
-                    Text(
-                      "Collection Name",
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          16,
-                          FontWeight.bold),
-                    ),
-                  ],
-                )),
-            SizedBox(
-              height: 20,
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          tabIndex = 1;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Acitivity",
+                            style: kPrimartFont(
+                                tabIndex == 1
+                                    ? context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor()
+                                    : Colors.black,
+                                15,
+                                FontWeight.normal),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Icon(Icons.history_outlined,
+                              color: tabIndex == 1
+                                  ? context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()
+                                  : Colors.black),
+                        ],
+                      ),
+                    )
+                  ]),
             ),
+            Divider(thickness: 1),
             Expanded(
-                child: NFTCollectionGrid(
-              nftItems: nfts,
-            ))
+              child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                  child: tabs[tabIndex]),
+            )
           ],
         ),
       ),
@@ -203,251 +248,119 @@ class NFTCollectionScreen extends StatelessWidget {
   }
 }
 
-class NFTCollectionItem extends StatelessWidget {
-  final String url;
-  final String name;
-  final double price;
-  final bool isHighlight;
+class CollectionStats extends StatelessWidget {
+  final int items;
+  final int owners;
+  final String floor;
+  final double volume;
 
-  NFTCollectionItem(
-      {required this.url,
-      required this.name,
-      required this.price,
-      required this.isHighlight});
+  CollectionStats(
+      {required this.items,
+      required this.owners,
+      required this.floor,
+      required this.volume});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NFTScreen(id: 1)));
-      },
-      child: Container(
-          height: size.height,
-          decoration: BoxDecoration(
-              color: context.watch<ThemeProvider>().getBackgroundColor(),
-              borderRadius: BorderRadius.circular(25),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 0),
-                  blurRadius: 100,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.66),
-                )
-              ]),
-          margin: EdgeInsets.fromLTRB(10, 25, 10, 90),
-          width: size.width * 0.85,
-          child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            clipBehavior: Clip.antiAlias,
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            child: Column(
-              children: [
-                InkWell(
-                  child: Ink.image(
-                      height: size.height * 0.25,
-                      image: NetworkImage(url),
-                      fit: BoxFit.fitWidth),
-                ),
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  16,
-                                  FontWeight.normal),
-                            ),
-                            Text(
-                              price.toString() + " ETH",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  14,
-                                  FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                            onPressed: () => {},
-                            icon: Icon(
-                              Icons.favorite_outline,
-                              size: 30,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getFavouriteColor(),
-                            ))
-                      ],
-                    ))
-              ],
-            ),
-          )),
-    );
-  }
-}
-
-class NFTCollectionGrid extends StatefulWidget {
-  final nftItems;
-  NFTCollectionGrid({required this.nftItems});
-
-  @override
-  State<NFTCollectionGrid> createState() => _NFTCollectionGridState();
-}
-
-class _NFTCollectionGridState extends State<NFTCollectionGrid> {
-  @override
-  Widget build(BuildContext context) {
-    int currentPageIndex = widget.nftItems.length ~/ 2;
     return Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: PageView.builder(
-          allowImplicitScrolling: true,
-          clipBehavior: Clip.antiAlias,
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          controller: PageController(
-            viewportFraction: .8,
-            initialPage: widget.nftItems.length ~/ 2,
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              Text(
+                items.toString(),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    14,
+                    FontWeight.bold),
+              ),
+              Text(
+                "items",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    12,
+                    FontWeight.normal),
+              ),
+            ],
           ),
-          reverse: true,
-          itemCount: widget.nftItems.length,
-          onPageChanged: (int index) {
-            setState(() {
-              currentPageIndex = index;
-            });
-          },
-          itemBuilder: (BuildContext context, int index) {
-            if (currentPageIndex == index) {
-              return NFTCollectionItem(
-                  name: widget.nftItems[index]["name"],
-                  price: widget.nftItems[index]["price"],
-                  url: widget.nftItems[index]["url"],
-                  isHighlight: true);
-            }
-            return NFTCollectionItem(
-                name: widget.nftItems[index]["name"],
-                price: widget.nftItems[index]["price"],
-                url: widget.nftItems[index]["url"],
-                isHighlight: false);
-          },
-        ));
-  }
-}
-
-class SearchButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Container(
-      height: size.height * 0.08,
-      width: size.width * 0.78,
-      child: TextField(
-        style: kPrimartFont(context.watch<ThemeProvider>().getForegroundColor(),
-            16, FontWeight.normal),
-        cursorColor: context.watch<ThemeProvider>().getForegroundColor(),
-        decoration: InputDecoration(
-            focusColor: context.watch<ThemeProvider>().getForegroundColor(),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: context.watch<ThemeProvider>().getHighLightColor()),
-                borderRadius: BorderRadius.circular(20)),
-            hintText: "Search for NFTs",
-            hintStyle: kPrimartFont(
-                context.watch<ThemeProvider>().getForegroundColor(),
-                18,
-                FontWeight.bold),
-            suffixIcon: Icon(Icons.clear_outlined,
-                color: context.watch<ThemeProvider>().getPriamryFontColor()),
-            prefixIcon: Icon(Icons.search_rounded,
-                color: context.watch<ThemeProvider>().getPriamryFontColor())),
+          Column(
+            children: [
+              Text(
+                owners.toString(),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    14,
+                    FontWeight.bold),
+              ),
+              Text(
+                "owners",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    12,
+                    FontWeight.normal),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    floor.toString(),
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        14,
+                        FontWeight.bold),
+                  ),
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                  )
+                ],
+              ),
+              Text(
+                "floor",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    12,
+                    FontWeight.normal),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    volume.toString(),
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        14,
+                        FontWeight.bold),
+                  ),
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                  )
+                ],
+              ),
+              Text(
+                "volume",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    12,
+                    FontWeight.normal),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
-class ExploreSortByGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: GridView.count(
-          crossAxisCount: 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 5 / 2,
-          children: [
-            ExploreSortByTag(text: "Low price"),
-            ExploreSortByTag(text: "High price"),
-            ExploreSortByTag(text: "Low volume"),
-            ExploreSortByTag(text: "High volume"),
-            ExploreSortByTag(text: "Trending"),
-            ExploreSortByTag(text: "Almost sold"),
-            ExploreSortByTag(text: "Most Owners"),
-            ExploreSortByTag(text: "Few Owners"),
-            ExploreSortByTag(text: "Oldest️"),
-            ExploreSortByTag(text: "Newest"),
-          ],
-        ));
-  }
-}
-
-class ExploreFliterByGrid extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: GridView.count(
-          crossAxisCount: 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 5 / 2,
-          children: [
-            ExploreSortByTag(text: "Upcoming"),
-            ExploreSortByTag(text: "Sale"),
-          ],
-        ));
-  }
-}
-
-class ExploreSortByTag extends StatelessWidget {
-  final String text;
-
-  ExploreSortByTag({required this.text}) {}
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 20,
-        width: 50,
-        padding: EdgeInsets.all(10),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getPriamryFontColor(),
-              12,
-              FontWeight.bold),
-        ),
-        decoration: BoxDecoration(
-          color: context.watch<ThemeProvider>().getHighLightColor(),
-          borderRadius: BorderRadius.circular(15),
-        ));
-  }
+getBuild() {
+  return;
 }

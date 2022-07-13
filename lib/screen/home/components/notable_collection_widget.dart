@@ -25,7 +25,7 @@ class NotableCollectionWidget extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NFTCollectionScreen(id: id)));
+                  builder: (context) => NFTCollectionScreen(slug: id)));
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),

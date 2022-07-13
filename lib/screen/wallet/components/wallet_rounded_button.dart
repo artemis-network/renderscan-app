@@ -6,7 +6,7 @@ import 'package:renderscan/constants.dart';
 class WalletRoundedButton extends StatefulWidget {
   final IconData icon;
   final String text;
-  final VoidCallback callback;
+  final Function callback;
 
   const WalletRoundedButton(
       {Key? key,
@@ -23,40 +23,40 @@ class _WalletRoundedButtonState extends State<WalletRoundedButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        onTap: () => widget.callback(),
         child: AnimatedContainer(
-      duration: Duration(milliseconds: 250),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: context.watch<ThemeProvider>().getBackgroundColor(),
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                      spreadRadius: 0,
-                      blurRadius: 100,
-                      color: context
-                          .watch<ThemeProvider>()
-                          .getHighLightColor()
-                          .withOpacity(0.33),
-                      offset: Offset(0, 0)),
-                ]),
-            child: Icon(
-              widget.icon,
-              color: context.watch<ThemeProvider>().getHighLightColor(),
-            ),
+          decoration: BoxDecoration(
+              color: context.watch<ThemeProvider>().getBackgroundColor(),
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    spreadRadius: 0,
+                    blurRadius: 1,
+                    color: context.watch<ThemeProvider>().getHighLightColor(),
+                    offset: Offset(0, 0)),
+              ]),
+          alignment: Alignment.center,
+          duration: Duration(milliseconds: 250),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16),
+                child: Icon(
+                  widget.icon,
+                  size: 26,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(widget.text,
+                  style: kPrimartFont(
+                      context.watch<ThemeProvider>().getPriamryFontColor(),
+                      28,
+                      FontWeight.bold))
+            ],
           ),
-          SizedBox(
-            height: 5,
-          ),
-          Text(widget.text,
-              style: kPrimartFont(
-                  context.watch<ThemeProvider>().getPriamryFontColor(),
-                  12,
-                  FontWeight.normal))
-        ],
-      ),
-    ));
+        ));
   }
 }

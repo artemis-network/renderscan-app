@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/screen/home/home_screen_api.dart';
+import 'package:renderscan/screen/home/models/trending_model.dart';
 import 'package:renderscan/screen/ranking/components/ranking_item.dart';
-import 'package:renderscan/screen/ranking/ranking_mock.dart';
 import 'package:renderscan/constants.dart';
 
 class RankingScreen extends StatefulWidget {
@@ -148,19 +149,50 @@ class _RankingScreenState extends State<RankingScreen> {
                     scrollDirection: Axis.vertical,
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 15),
-                      child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: rankingMock.length,
-                          itemBuilder: (context, index) => RankingItem(
-                              ranking: rankingMock[index]['rank'].toString(),
-                              url: rankingMock[index]['url'].toString(),
-                              name: rankingMock[index]['name'].toString(),
-                              floor: rankingMock[index]['floor'].toString(),
-                              totalValue:
-                                  rankingMock[index]['totalValue'].toString(),
-                              owners: rankingMock[index]['owners'].toString(),
-                              volume: rankingMock[index]['volume'].toString())),
+                      child: FutureBuilder(
+                        future: HomeScreenApi().getTrendingCollections(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final trending = snapshot.data as List<Trending>;
+                            return ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: trending.length,
+                                itemBuilder: (context, index) => RankingItem(
+                                    ranking: (index + 1).toString(),
+                                    url: trending[index].logo.toString(),
+                                    name: trending[index].name.toString().length < 12
+                                        ? trending[index].name.toString()
+                                        : trending[index]
+                                                .name
+                                                .toString()
+                                                .substring(0, 12) +
+                                            "...",
+                                    floor:
+                                        trending[index].floor.toString().length < 4
+                                            ? trending[index].floor.toString()
+                                            : trending[index]
+                                                .floor
+                                                .toString()
+                                                .substring(0, 4),
+                                    totalValue: trending[index]
+                                                .oneDayVolume
+                                                .toString()
+                                                .length <
+                                            7
+                                        ? trending[index]
+                                            .oneDayVolume
+                                            .toString()
+                                        : trending[index]
+                                            .oneDayVolume
+                                            .toString()
+                                            .substring(0, 7),
+                                    owners: trending[index].numOwners.toString(),
+                                    volume: trending[index].floor.toString()));
+                          }
+                          return Text("LOADING");
+                        },
+                      ),
                     ),
                   ))
                 ],

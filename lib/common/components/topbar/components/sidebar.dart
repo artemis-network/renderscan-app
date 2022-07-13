@@ -55,10 +55,14 @@ class SideBar extends StatelessWidget {
           Column(
             children: [
               SideBarButton(
-                text: "Wallet",
+                text: "Transcations",
                 icon: Icons.wallet_membership_outlined,
                 onClick: () {
-                  return WalletScreen();
+                  return Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return WalletScreen();
+                    },
+                  ));
                 },
               ),
               SideBarButton(

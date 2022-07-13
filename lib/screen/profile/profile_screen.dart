@@ -1,6 +1,5 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/auth_filter.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 
@@ -175,9 +174,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ));
     }
 
-    return AuthFilter(
-      screen: screen(),
-      returnLoginPage: true,
-    );
+    // return AuthFilter(
+    //   screen: screen(),
+    //   returnLoginPage: true,
+    // );
+    return screen();
   }
 }

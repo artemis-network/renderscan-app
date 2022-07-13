@@ -6,13 +6,15 @@ import 'package:renderscan/constants.dart';
 class WalletTransactionList extends StatelessWidget {
   final String title;
   final String subTitle;
-  final String trailing;
+  final String time;
+  final String date;
 
   const WalletTransactionList(
       {Key? key,
       required this.title,
       required this.subTitle,
-      required this.trailing})
+      required this.time,
+      required this.date})
       : super(key: key);
 
   @override
@@ -25,28 +27,26 @@ class WalletTransactionList extends StatelessWidget {
           boxShadow: [
             BoxShadow(
                 spreadRadius: 0,
-                blurRadius: 100,
-                color: context
-                    .watch<ThemeProvider>()
-                    .getHighLightColor()
-                    .withOpacity(0.33),
+                blurRadius: 2,
+                color: context.watch<ThemeProvider>().getPriamryFontColor(),
                 offset: Offset(0, 0)),
           ]),
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          backgroundColor:
+              context.watch<ThemeProvider>().getSecondaryFontColor(),
           child: Icon(
-            Icons.receipt_outlined,
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
+            Icons.receipt,
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
           ),
         ),
         title: Text(
           title,
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
-              14,
-              FontWeight.normal),
+              16,
+              FontWeight.bold),
         ),
         subtitle: Text(
           subTitle,
@@ -55,13 +55,23 @@ class WalletTransactionList extends StatelessWidget {
               14,
               FontWeight.normal),
         ),
-        trailing: Text(
-          trailing,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getPriamryFontColor(),
-              14,
-              FontWeight.normal),
-        ),
+        trailing:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Text(
+            date,
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                14,
+                FontWeight.normal),
+          ),
+          Text(
+            time,
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                12,
+                FontWeight.bold),
+          )
+        ]),
       ),
     );
   }

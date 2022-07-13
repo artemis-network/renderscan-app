@@ -1,48 +1,3 @@
-var topMoversMock = [
-  {
-    "rank": 1,
-    "url":
-        "https://openseauserdata.com/files/c282067cf7532b2d51a50fd1f3f6b1e4.png",
-    "name": "Gonkeykong",
-    "price": 73.2
-  },
-  {
-    "rank": 2,
-    "url":
-        "https://openseauserdata.com/files/0948e6c6240b5ba16267629280e73135.jpg",
-    "name": "Troll-Town",
-    "price": 82.2
-  },
-  {
-    "rank": 3,
-    "url":
-        "https://openseauserdata.com/files/0d72aeb274ec71971bde72566dc58dba.jpg",
-    "name": "Yeah-Tigers",
-    "price": 12.2
-  },
-  {
-    "rank": 4,
-    "url":
-        "https://openseauserdata.com/files/2190b50e36996fd23e5afa19e14c74ab.png",
-    "name": "Nabilah Art",
-    "price": 122.2
-  },
-  {
-    "rank": 5,
-    "url":
-        "https://lh3.googleusercontent.com/SZui2Yu7cQjPK1LUIADqD3OQXFquaMXtwEAEWN_yigikOTl0ov7NjkWHD8e_oXXi37WpKAzH-Av07hAbAgkB6htnvAYSKXmq7MeRdQ",
-    "name": "Cyberpunk 2069",
-    "price": 9.2
-  },
-  {
-    "rank": 6,
-    "url":
-        "https://openseauserdata.com/files/0a46e7aca8ac2b0416072728624b6b97.jpg",
-    "name": "LowPolygons",
-    "price": 92.2
-  },
-];
-
 var mintNowMock = [
   {
     "url":
@@ -81,7 +36,6 @@ var mintNowMock = [
     "name": "devilvalley #3600"
   },
 ];
-
 var liveDropsMock = [
   {
     "url":

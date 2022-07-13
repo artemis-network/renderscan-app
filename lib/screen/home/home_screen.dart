@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/topbar/components/sidebar.dart';
+import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/screen/home/components/heading_widget.dart';
+
+import 'package:renderscan/screen/home/home_mock.dart';
+
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/components/topbar/topbar.dart';
+import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 
 import 'package:renderscan/screen/home/components/showcase_widget.dart';
 import 'package:renderscan/screen/home/components/trending_widget.dart';
-import 'package:renderscan/screen/home/components/notable_collection_widget.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/screen/home/components/unique_nft_widget.dart';
-import 'package:renderscan/screen/home/home_mock.dart';
+import 'package:renderscan/screen/home/components/notable_collection_widget.dart';
+import 'package:renderscan/screen/home/home_screen_api.dart';
+import 'package:renderscan/screen/home/models/trending_model.dart';
+
 import 'package:renderscan/screen/ranking/ranking_screen.dart';
+import 'package:renderscan/screen/home/components/home_banners.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -35,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Heading(text: "Trending"),
+                  HeadingWidget(text: "Trending"),
                   Padding(
                     padding: EdgeInsets.only(right: 20),
                     child: IconButton(
@@ -56,22 +63,33 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: 165,
                 width: 225,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: topMoversMock.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return TrendingWidget(
-                      rank: int.parse(topMoversMock[index]["rank"].toString()),
-                      name: topMoversMock[index]["name"].toString(),
-                      price: double.parse(
-                          topMoversMock[index]["price"].toString()),
-                      url: topMoversMock[index]["url"].toString(),
-                    );
+                child: FutureBuilder(
+                  future: HomeScreenApi().getTrendingCollections(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final List<Trending> trending =
+                          snapshot.data as List<Trending>;
+                      log.i(trending.length);
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: trending.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TrendingWidget(
+                            rank: index + 1,
+                            name: trending[index].name ?? "",
+                            price: trending[index].oneDayVolume ?? "",
+                            url: trending[index].logo ?? "",
+                            slug: trending[index].slug ?? "",
+                          );
+                        },
+                      );
+                    }
+                    return Text("LOADING");
                   },
                 ),
               ),
-              Banner(),
-              Heading(text: "Showcase"),
+              HomeBanner(),
+              HeadingWidget(text: "Showcase"),
               Container(
                 height: 120,
                 width: 225,
@@ -98,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              Heading(text: "Notable Collections"),
+              HeadingWidget(text: "Notable Collections"),
               Container(
                   height: 150,
                   width: 225,
@@ -119,90 +137,31 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              Heading(text: "Solona Items"),
-              RowWrapper(
+              HeadingWidget(text: "Solona Items"),
+              Container(
+                  height: 200,
+                  width: 225,
                   child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: mintNowMock.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return UniqueNFTWidget(
-                    id: index,
-                    url: mintNowMock[index]["url"].toString(),
-                    name:
-                        mintNowMock[index]["name"].toString().substring(0, 10) +
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mintNowMock.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return UniqueNFTWidget(
+                        id: index,
+                        url: mintNowMock[index]["url"].toString(),
+                        name: mintNowMock[index]["name"]
+                                .toString()
+                                .substring(0, 10) +
                             "...",
-                    price: 2,
-                  );
-                },
-              )),
+                        price: 2,
+                      );
+                    },
+                  )),
               SizedBox(
                 height: 20,
               )
             ],
           ),
           color: context.watch<ThemeProvider>().getBackgroundColor()),
-    );
-  }
-}
-
-class Heading extends StatelessWidget {
-  final String text;
-  Heading({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(30, 15, 0, 15),
-      child: Text(
-        text,
-        style: GoogleFonts.poppins(
-            fontSize: 22,
-            fontWeight: FontWeight.w800,
-            color: context.watch<ThemeProvider>().getPriamryFontColor()),
-      ),
-    );
-  }
-}
-
-class RowWrapper extends StatelessWidget {
-  final Widget child;
-  RowWrapper({required this.child});
-  @override
-  Widget build(BuildContext context) {
-    return Container(height: 200, width: 225, child: child);
-  }
-}
-
-class Banner extends StatefulWidget {
-  @override
-  State<Banner> createState() => _BannerState();
-}
-
-class _BannerState extends State<Banner> {
-  @override
-  Widget build(BuildContext context) {
-    final banners = [
-      "assets/images/banner_one.png",
-      "assets/images/banner_two.png",
-      "assets/images/banner_three.png",
-    ];
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
-      height: 130,
-      width: 350,
-      child: PageView.builder(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          controller: PageController(viewportFraction: 1, initialPage: 0),
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            return Image.asset(
-              banners[index],
-              width: 130,
-              fit: BoxFit.fitHeight,
-            );
-          }),
     );
   }
 }

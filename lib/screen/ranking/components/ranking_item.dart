@@ -45,136 +45,144 @@ class RankingItem extends StatelessWidget {
                   offset: Offset(0, 0)),
             ]),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: 10,
-            ),
-            Stack(
+            Row(
               children: [
-                CircleAvatar(
-                  radius: 36,
-                  backgroundColor:
-                      context.watch<ThemeProvider>().getBackgroundColor(),
-                  backgroundImage: NetworkImage(
-                    url,
+                Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 36,
+                      backgroundColor:
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                      backgroundImage: NetworkImage(
+                        url,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: CircleAvatar(
+                        radius: 12,
+                        backgroundColor:
+                            context.watch<ThemeProvider>().getForegroundColor(),
+                        child: Text(ranking),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  16,
+                                  FontWeight.bold),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  totalValue,
+                                  style: kPrimartFont(
+                                      context
+                                          .watch<ThemeProvider>()
+                                          .getPriamryFontColor(),
+                                      12,
+                                      FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Icon(
+                                  CryptoFontIcons.ETH,
+                                  size: 12,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                )
+                              ],
+                            )
+                          ])
+                    ],
                   ),
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: CircleAvatar(
-                    radius: 12,
-                    backgroundColor:
-                        context.watch<ThemeProvider>().getForegroundColor(),
-                    child: Text(ranking),
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            floor,
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                14,
+                                FontWeight.bold),
+                          ),
+                          Text(
+                            "Floor",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                14,
+                                FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            owners,
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                14,
+                                FontWeight.bold),
+                          ),
+                          Text(
+                            "Owners",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                14,
+                                FontWeight.normal),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 )
               ],
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(children: [
-                    Text(
-                      name,
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          16,
-                          FontWeight.bold),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          totalValue,
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              12,
-                              FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          CryptoFontIcons.ETH,
-                          size: 12,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getPriamryFontColor(),
-                        )
-                      ],
-                    )
-                  ])
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Container(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        floor,
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.bold),
-                      ),
-                      Text(
-                        "Floor",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.normal),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Container(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        floor,
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.bold),
-                      ),
-                      Text(
-                        "Owners",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.normal),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             )
           ],
         ));

@@ -99,23 +99,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
         ),
         Container(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
-          padding: EdgeInsets.fromLTRB(8, 20, 8, 20),
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SearchButton(),
-                Padding(
-                  padding: EdgeInsets.only(top: 5),
-                  child: IconButton(
-                      onPressed: () => showModal(context),
-                      icon: Icon(Icons.menu,
-                          size: 30,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getPriamryFontColor())),
-                )
-              ]),
+          padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
+          child: SearchButton(),
         ),
         Container(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
