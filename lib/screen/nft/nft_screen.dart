@@ -68,7 +68,8 @@ class NFTScreen extends StatelessWidget {
                           child: Column(children: [
                         InkWell(
                           child: Ink.image(
-                            image: AssetImage("assets/images/lion.png"),
+                            image: NetworkImage(
+                                "https://lh3.googleusercontent.com/pHD4QImjmQ8InBeVxlVUZ5HKgezcRIZWcNEWWs-Xs_RxY43PnQ-xaVUFF6-UZEa0dvE3f2H8RYcvbRpYj9Y1y1CYmJNgsVqr-QsJmWE=w600"),
                             height: 340,
                             fit: BoxFit.fitWidth,
                           ),
@@ -84,7 +85,7 @@ class NFTScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                             Text(
-                              "Doodle #3221",
+                              "Galz 🦾💓⚡ #4116",
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -93,7 +94,7 @@ class NFTScreen extends StatelessWidget {
                                   FontWeight.normal),
                             ),
                             Text(
-                              "2.2 ETH",
+                              "0.05 ETH",
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -104,7 +105,7 @@ class NFTScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "Owned by Bear",
+                                  "Owned by Godbleach2",
                                   style: kPrimartFont(
                                       context
                                           .watch<ThemeProvider>()
@@ -117,8 +118,8 @@ class NFTScreen extends StatelessWidget {
                                 ),
                                 CircleAvatar(
                                   radius: 16,
-                                  backgroundImage:
-                                      AssetImage("assets/images/lion.png"),
+                                  backgroundImage: NetworkImage(
+                                      "https://lh3.googleusercontent.com/Vi1FzP8MXqsgFxpYKitlmtpVb_pHNL8V6kAc-qfMEgE9TWZEfKGSwXcwFgdGlQ410i3DYFPOLeoesqIf3Puou4rAh-FYew3eMgM8=s168"),
                                 ),
                               ],
                             ),

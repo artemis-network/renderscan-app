@@ -210,7 +210,6 @@ class _SignUpScreenState extends State<SignUpScreen>
                               !isPasswordHasError &&
                               password.isNotEmpty;
 
-                          log.i(">> LOG :" + isValid.toString());
                           if (isValid) {
                             setState(() {
                               _isLoading = true;

@@ -25,11 +25,10 @@ class WalletButton extends StatelessWidget {
         },
         child: Container(
             child: FutureBuilder(
-                future: WalletApi().getWalletBalance(),
+                future: WalletApi().getBalance(),
+                initialData: BalanceDTO(ruby: 0, superRuby: 0),
                 builder: (context, snapshot) {
-                  dynamic data = snapshot.data;
-                  log.i(data);
-                  if (!snapshot.hasData) return Text("0");
+                  final data = snapshot.data as BalanceDTO;
                   return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -47,7 +46,7 @@ class WalletButton extends StatelessWidget {
                             SizedBox(
                               width: 2,
                             ),
-                            Text(data["superRuby"].toString(),
+                            Text(data.ruby.toString(),
                                 style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()
@@ -95,7 +94,7 @@ class WalletButton extends StatelessWidget {
                             SizedBox(
                               width: 2,
                             ),
-                            Text(data["ruby"].toString(),
+                            Text(data.superRuby.toString(),
                                 style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()

@@ -4,11 +4,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/screen/wallet/components/buy_ruby_modal.dart';
-import 'package:renderscan/screen/wallet/components/wallet_banner.dart';
-import 'package:renderscan/screen/wallet/components/wallet_rounded_button.dart';
 import 'package:renderscan/screen/wallet/components/wallet_transcation_list.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/wallet/wallet_api.dart';
+import 'package:skeletons/skeletons.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -18,6 +19,12 @@ class WalletScreen extends StatefulWidget {
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  @override
+  void initState() {
+    WalletApi().getTranscations().then((value) => log.i(value));
+    super.initState();
+  }
+
   topStatus(BuildContext context, Widget child) {
     return InkWell(
       onTap: () {
@@ -124,58 +131,6 @@ class _WalletScreenState extends State<WalletScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    var data = [
-      {
-        "title": "+ 3000",
-        "subTitle": "Signup Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 1000",
-        "subTitle": "Daily Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 500",
-        "subTitle": "Referal Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 1000",
-        "subTitle": "Daily Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 500",
-        "subTitle": "Referal Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 1000",
-        "subTitle": "Daily Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 500",
-        "subTitle": "Referal Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-      {
-        "title": "+ 1000",
-        "subTitle": "Daily Bonous",
-        "date": "24/2/01",
-        "time": "02:11"
-      },
-    ];
-
     var scaffoldKey = GlobalKey<ScaffoldState>();
 
     return SafeArea(
@@ -216,17 +171,51 @@ class _WalletScreenState extends State<WalletScreen> {
                     scrollDirection: Axis.vertical,
                     child: Container(
                         padding: EdgeInsets.symmetric(vertical: 15),
-                        child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: data.length,
-                            itemBuilder: (context, index) =>
-                                WalletTransactionList(
-                                    title: data[index]['title'].toString(),
-                                    date: data[index]['date'].toString(),
-                                    subTitle:
-                                        data[index]['subTitle'].toString(),
-                                    time: data[index]['time'].toString()))),
+                        child: FutureBuilder(
+                          future: WalletApi().getBalance(),
+                          initialData: [],
+                          builder: ((context, snapshot) {
+                            return FutureBuilder(
+                                future: WalletApi().getTranscations(),
+                                builder: ((context, snapshot) {
+                                  final data =
+                                      snapshot.data as List<TransactionDTO>;
+
+                                  return Skeleton(
+                                    isLoading: snapshot.hasData,
+                                    skeleton: SkeletonListView(
+                                      itemCount: 10,
+                                      itemBuilder: (context, index) {
+                                        return Text("OK");
+                                      },
+                                    ),
+                                    child: ListView.builder(
+                                        physics: const BouncingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: data.length,
+                                        itemBuilder: (context, index) {
+                                          var date = data[index]
+                                              .date
+                                              .toString()
+                                              .substring(0, 10);
+                                          var time = data[index]
+                                              .date
+                                              .toString()
+                                              .substring(11, 16);
+                                          return WalletTransactionList(
+                                              type: data[index].type,
+                                              title:
+                                                  data[index].amount.toString(),
+                                              date: date,
+                                              subTitle: data[index]
+                                                  .description
+                                                  .toString(),
+                                              time: time);
+                                        }),
+                                  );
+                                }));
+                          }),
+                        )),
                   ))
                 ],
               ),

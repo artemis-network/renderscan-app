@@ -1,4 +1,5 @@
 import 'package:path_provider/path_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/screen/login/login_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -15,6 +16,10 @@ class Storage {
 
   Future<String?> getItem(String key) async => await storage.read(key: key);
   Future<void> deleteItem(String key) async => await storage.delete(key: key);
+
+  check() async {
+    return await storage.readAll();
+  }
 
   void logout() async {
     await deleteItem("username").then((value) => null);

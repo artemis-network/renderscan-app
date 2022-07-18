@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/wallet/models/order.model.dart';
 
 class WalletApi {
@@ -31,15 +30,75 @@ class WalletApi {
     }
   }
 
-  Future<dynamic> getWalletBalance() async {
+  Future<List<TransactionDTO>> getTranscations() async {
     try {
-      final data = {"userId": "62ceac54ee2a42334ab6dc29"};
+      final userId = await Storage().getItem("userId");
+      final body = {"userId": userId.toString()};
+      final response = await http.post(
+          HttpServerConfig().getHost("/wallets/transactions"),
+          headers: HttpServerConfig().headers,
+          body: jsonEncode((body)));
+      var resp = jsonDecode(response.body);
+      resp = resp["transactions"];
+      List<TransactionDTO> transcations = [];
+      for (int i = 0; i < resp.length; i++) {
+        final transaction = TransactionDTO.jsonToObject(resp[i]);
+        transcations.add(transaction);
+      }
+      return transcations;
+    } on FormatException catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  Future<BalanceDTO> getBalance() async {
+    try {
+      final userId = await Storage().getItem("userId");
+      final body = {"userId": userId.toString()};
       final response = await http.post(
           HttpServerConfig().getHost("/wallets/balance"),
           headers: HttpServerConfig().headers,
-          body: jsonEncode((data)));
-      log.i(response);
-      return jsonDecode(response.body);
-    } catch (e) {}
+          body: jsonEncode((body)));
+      final resp = jsonDecode(response.body);
+      final dto = BalanceDTO.jsonToObject(resp);
+      return dto;
+    } catch (e) {
+      return BalanceDTO(ruby: 0, superRuby: 0);
+    }
   }
+}
+
+class BalanceDTO {
+  final int ruby;
+  final int superRuby;
+
+  BalanceDTO({required this.ruby, required this.superRuby});
+
+  BalanceDTO.jsonToObject(Map<String, dynamic> json)
+      : ruby = json['ruby'] ?? 0,
+        superRuby = json['superRuby'] ?? 0;
+}
+
+class TransactionDTO {
+  final int amount;
+  final String date;
+  final String description;
+  final String transactionId;
+
+  final String type;
+
+  TransactionDTO(
+      {required this.type,
+      required this.transactionId,
+      required this.amount,
+      required this.description,
+      required this.date});
+
+  TransactionDTO.jsonToObject(Map<String, dynamic> json)
+      : amount = json["amount"],
+        date = json["createdAt"],
+        description = json["description"] ?? "REWARD",
+        type = json["payment"] == "CREDIT" ? "+" : "-",
+        transactionId = json["_id"];
 }

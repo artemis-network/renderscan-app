@@ -57,7 +57,7 @@ class NFTSScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      "Akash Madduru",
+                      "Admin",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
                           18,

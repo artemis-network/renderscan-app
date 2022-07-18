@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/wallet/models/order.model.dart';
 import 'package:renderscan/screen/wallet/wallet_api.dart';
@@ -30,16 +31,14 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Do something when payment succeeds
-    final String userId = "62ceac54ee2a42334ab6dc29";
+    final userId = await Storage().getItem("userId");
     final Order order = new Order(
-      userId: userId,
+      userId: userId.toString(),
       orderId: response.orderId.toString(),
       amount: getAmount(),
       paymentId: response.paymentId.toString(),
       signature: response.signature.toString(),
-      description: "",
       notes: "",
-      currency: "INR",
     );
     final message = await WalletApi().completeOrder(order);
     log.i(message);
@@ -47,12 +46,9 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
-    log.i(response.code.toString());
-    log.i(response.message.toString());
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
-    log.i(response.walletName.toString());
     // Do something when an external wallet was selected
   }
 
@@ -157,25 +153,21 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                   ]),
               child: OutlinedButton(
                   onPressed: () async {
-                    final String userId = "62ceac54ee2a42334ab6dc29";
-                    log.i(">> userId:" + userId);
+                    final userId = await Storage().getItem("userId");
                     final Order order = Order(
                         amount: getAmount(),
-                        currency: "INR",
-                        description: "",
                         notes: "",
                         orderId: "",
                         paymentId: "",
                         signature: "",
-                        userId: userId);
+                        userId: userId.toString());
                     final result = await WalletApi().createOrder(order);
-                    log.i(">> result:" + result.toString());
                     var options = {
                       'key': 'rzp_test_VmSch4maQMZS9L',
                       'order_id': result["id"],
                       'amount': 100 * getAmount(),
-                      'name': 'Artemis Network',
-                      'description': 'Fine T-Shirt',
+                      'name': 'Renderscan',
+                      'description': 'Buy Ruby',
                       'prefill': {
                         'contact': '8888888888',
                         'email': 'test@razorpay.com'

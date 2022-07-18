@@ -49,7 +49,6 @@ class _ImportScreenState extends State<ImportScreen> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       ScanResponse resp = await ScanApi().cutImageFromServer(image);
       var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
-      log.i(resp.file);
       if (image == null) return;
       setState(() => img = fromBase64(url));
     } on PlatformException catch (e) {

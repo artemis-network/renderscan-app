@@ -8,13 +8,15 @@ class WalletTransactionList extends StatelessWidget {
   final String subTitle;
   final String time;
   final String date;
+  final String type;
 
   const WalletTransactionList(
       {Key? key,
       required this.title,
       required this.subTitle,
       required this.time,
-      required this.date})
+      required this.date,
+      required this.type})
       : super(key: key);
 
   @override
@@ -42,7 +44,7 @@ class WalletTransactionList extends StatelessWidget {
           ),
         ),
         title: Text(
-          title,
+          type + " " + title,
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
               16,
@@ -55,23 +57,25 @@ class WalletTransactionList extends StatelessWidget {
               14,
               FontWeight.normal),
         ),
-        trailing:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Text(
-            date,
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                14,
-                FontWeight.normal),
-          ),
-          Text(
-            time,
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                12,
-                FontWeight.bold),
-          )
-        ]),
+        trailing: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                time,
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    14,
+                    FontWeight.normal),
+              ),
+              Text(
+                date,
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    12,
+                    FontWeight.bold),
+              )
+            ]),
       ),
     );
   }

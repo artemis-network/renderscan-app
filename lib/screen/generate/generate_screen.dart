@@ -111,7 +111,6 @@ class _GenerateScreenState extends State<GenerateScreen>
                             isRequested = true;
                           });
                           var image = await GenerateApi().generate(search);
-                          log.i(">> HERE " + image.toString());
                           setState(() {
                             img = image;
                             isRequested = false;

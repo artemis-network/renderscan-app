@@ -69,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (snapshot.hasData) {
                       final List<Trending> trending =
                           snapshot.data as List<Trending>;
-                      log.i(trending.length);
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: trending.length,
