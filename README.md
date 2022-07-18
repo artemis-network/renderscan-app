@@ -1,6 +1,6 @@
 # renderscan
 
-A new Flutter project.
+Renderscan is a flutter based NFT application that allows you to Create, Generate, Design and Mint NFT's. The aim of the app is to empower a normal user to step into the world of NFTs and Metaverse
 
 ## Getting Started
 
