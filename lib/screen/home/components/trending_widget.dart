@@ -29,17 +29,6 @@ class TrendingWidget extends StatelessWidget {
                 builder: (context) => NFTCollectionScreen(slug: slug)));
       },
       child: Container(
-        decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            borderRadius: BorderRadius.circular(500),
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 4,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.4))
-            ]),
         margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

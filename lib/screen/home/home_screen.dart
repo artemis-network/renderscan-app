@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/screen/home/components/heading_widget.dart';
 
 import 'package:renderscan/screen/home/home_mock.dart';

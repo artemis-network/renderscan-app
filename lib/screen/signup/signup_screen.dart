@@ -32,6 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen>
 
   String confirmPassword = "";
 
+  String? referalCode = "153bf7e9f373c8d105f9bbacb6f157cdd974ad78";
   String username = "";
   String usernameError = "Username Required";
   bool isUsernameHasError = true;
@@ -111,6 +112,10 @@ class _SignUpScreenState extends State<SignUpScreen>
         passwordError = error;
       });
     }
+
+    void handleReferalCode(String _referalCode) => setState(() {
+          referalCode = _referalCode;
+        });
 
     void handleConfirmPassword(String _confirmPassword) {
       setState(() {
@@ -197,6 +202,14 @@ class _SignUpScreenState extends State<SignUpScreen>
                   text: "Confirm Password",
                   onChanged: (value) => handleConfirmPassword(value),
                 ),
+                InputField(
+                  isHidden: false,
+                  hasError: false,
+                  errorMessage: "",
+                  icon: Icons.person_add_outlined,
+                  labelText: "Referal Code",
+                  onChange: (value) => handleReferalCode(value),
+                ),
                 SizedBox(
                   height: size.height * 0.05,
                 ),
@@ -215,10 +228,10 @@ class _SignUpScreenState extends State<SignUpScreen>
                               _isLoading = true;
                             });
                             SignUpRequest signUpRequest = new SignUpRequest(
-                              username: username.trim(),
-                              email: email.trim(),
-                              password: password.trim(),
-                            );
+                                username: username.trim(),
+                                email: email.trim(),
+                                password: password.trim(),
+                                referalCode: referalCode ?? null);
                             SignUpApi()
                                 .registerUser(signUpRequest)
                                 .then((value) => handleRequest(value));

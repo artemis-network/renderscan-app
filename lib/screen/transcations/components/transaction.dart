@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
-class WalletTransactionList extends StatelessWidget {
+class Transaction extends StatelessWidget {
   final String title;
   final String subTitle;
   final String time;
   final String date;
   final String type;
 
-  const WalletTransactionList(
+  const Transaction(
       {Key? key,
       required this.title,
       required this.subTitle,

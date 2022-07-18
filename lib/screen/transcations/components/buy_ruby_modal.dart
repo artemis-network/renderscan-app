@@ -5,8 +5,8 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/wallet/models/order.model.dart';
-import 'package:renderscan/screen/wallet/wallet_api.dart';
+import 'package:renderscan/screen/transcations/models/order.model.dart';
+import 'package:renderscan/screen/transcations/transaction_api.dart';
 
 enum RUBY_PACK { RUBY_100, RUBY_200, RUBY_300 }
 
@@ -40,7 +40,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
       signature: response.signature.toString(),
       notes: "",
     );
-    final message = await WalletApi().completeOrder(order);
+    final message = await TransactionApi().completeOrder(order);
     log.i(message);
   }
 
@@ -161,7 +161,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                         paymentId: "",
                         signature: "",
                         userId: userId.toString());
-                    final result = await WalletApi().createOrder(order);
+                    final result = await TransactionApi().createOrder(order);
                     var options = {
                       'key': 'rzp_test_VmSch4maQMZS9L',
                       'order_id': result["id"],

@@ -3,6 +3,7 @@ import 'package:renderscan/screen/navigation/navigation_provider.dart';
 
 // provider
 import 'package:provider/provider.dart';
+import 'package:renderscan/screen/referal/referal_screen.dart';
 import 'package:renderscan/screen/scan/scan_provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 

@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
-import 'package:renderscan/screen/wallet/models/order.model.dart';
+import 'package:renderscan/screen/transcations/models/order.model.dart';
 
-class WalletApi {
+class TransactionApi {
   Future<dynamic> createOrder(Order order) async {
     try {
       final response = await http.post(
@@ -35,7 +34,7 @@ class WalletApi {
       final userId = await Storage().getItem("userId");
       final body = {"userId": userId.toString()};
       final response = await http.post(
-          HttpServerConfig().getHost("/wallets/transactions"),
+          HttpServerConfig().getHost("/users/transactions"),
           headers: HttpServerConfig().headers,
           body: jsonEncode((body)));
       var resp = jsonDecode(response.body);
@@ -47,8 +46,7 @@ class WalletApi {
       }
       return transcations;
     } on FormatException catch (e) {
-      print(e);
-      return [];
+      return [] as List<TransactionDTO>;
     }
   }
 
@@ -57,7 +55,7 @@ class WalletApi {
       final userId = await Storage().getItem("userId");
       final body = {"userId": userId.toString()};
       final response = await http.post(
-          HttpServerConfig().getHost("/wallets/balance"),
+          HttpServerConfig().getHost("/users/balance"),
           headers: HttpServerConfig().headers,
           body: jsonEncode((body)));
       final resp = jsonDecode(response.body);

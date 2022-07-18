@@ -3,14 +3,17 @@ class SignUpRequest {
   String? email;
   String? username;
   String? password;
+  String? referalCode;
 
-  SignUpRequest({this.name, this.email, this.username, this.password});
+  SignUpRequest(
+      {this.name, this.email, this.username, this.password, this.referalCode});
 
   SignUpRequest.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     email = json['email'];
     username = json['username'];
     password = json['password'];
+    referalCode = json['referalCode'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +22,7 @@ class SignUpRequest {
     data['email'] = email;
     data['username'] = username;
     data['password'] = password;
+    data['referalCode'] = referalCode;
     return data;
   }
 }

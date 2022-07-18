@@ -1,12 +1,12 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/auth_filter.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 
-import 'package:renderscan/screen/login/login_screen.dart';
 import 'package:renderscan/screen/navigation/navigation_provider.dart';
 import 'package:renderscan/screen/profile/component/profiile_buttons.dart';
 
@@ -28,19 +28,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     void logOut() {
       print("> Logging out");
       Storage().logout();
+      context.read<NavigationProvider>().setCurrentIndex(0);
       context.read<ScanProvider>().resetProvider();
-      context.read<NavigationProvider>().setCurrentIndex(2);
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) => LoginScreen(),
-        ),
-        (route) => false,
-      );
-    }
-
-    goToUpgradePage() {
-      context.read<NavigationProvider>().setCurrentIndex(4);
     }
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -100,37 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Dark Theme",
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
-                                    18,
-                                    FontWeight.bold),
-                              ),
-                              Switch(
-                                  value: context
-                                      .watch<ThemeProvider>()
-                                      .isDarkTheme(),
-                                  onChanged: (r) {
-                                    context.read<ThemeProvider>().setTheme(r);
-                                  })
-                            ]),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-                        child: ProfileButton(
-                          text: "Upgrade",
-                          icon: Icons.upgrade,
-                          onClick: goToUpgradePage,
-                        ),
-                      ),
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
@@ -174,10 +132,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ));
     }
 
-    // return AuthFilter(
-    //   screen: screen(),
-    //   returnLoginPage: true,
-    // );
-    return screen();
+    return AuthFilter(
+      screen: screen(),
+      returnLoginPage: true,
+    );
   }
 }
