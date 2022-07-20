@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
 
 class AuthFilter extends StatelessWidget {
   final Widget screen;
-  final bool returnLoginPage;
+  final Widget guestView;
 
-  AuthFilter({required this.screen, required this.returnLoginPage});
+  AuthFilter({required this.screen, required this.guestView});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +16,7 @@ class AuthFilter extends StatelessWidget {
         if (snapshot.connectionState.name == "done") {
           final isLoggedIn = snapshot.data as bool;
           if (isLoggedIn) return screen;
-
-          if (!isLoggedIn && returnLoginPage) return LoginScreen();
-          return Text("");
+          return guestView;
         }
         return Container(
           child: spinkit,

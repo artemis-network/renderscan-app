@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
+import 'package:renderscan/screen/home/home_provider.dart';
 import 'package:renderscan/screen/navigation/navigation_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<HomeProvider>().initializeHomePage();
     var future = Future.delayed(const Duration(milliseconds: 5000), () async {
       // var isUserLoggedIn = await Storage().getItem("username");
       // log.i(isUserLoggedIn);

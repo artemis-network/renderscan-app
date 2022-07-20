@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/nfts/nfts_mock.dart';
 import 'package:renderscan/screen/nfts_collection/components/nft_collection_activity.dart';
 import 'package:renderscan/screen/nfts_collection/components/nft_items_grid.dart';
-import 'package:renderscan/screen/nfts_collection/nft_collection_model.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class NFTCollectionScreen extends StatefulWidget {
@@ -20,24 +18,19 @@ class NFTCollectionScreen extends StatefulWidget {
 class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
   int tabIndex = 0;
 
-  final tabs = [
-    NFTCollectionGridTab(nftItems: nfts),
-    NFTCollectionActivityTab()
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            FutureBuilder(
-                future: NFTCollectionAPI().getNFTCollectionBySlug("slug"),
-                builder: ((context, snapshot) {
-                  final data = snapshot.data as NFTCollection;
+      child: Scaffold(
+        body: Container(
+          alignment: Alignment.center,
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          child: FutureBuilder(
+              future: NFTCollectionAPI().getNFTCollectionBySlug(widget.slug),
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  final NFTCollectionDTO nftCollectionDTO =
+                      snapshot.data as NFTCollectionDTO;
                   return Column(
                     children: [
                       Container(
@@ -46,9 +39,9 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                         clipBehavior: Clip.none,
                         children: [
                           Image.network(
-                            data.bannerUrl,
-                            height: 112,
-                            fit: BoxFit.fitWidth,
+                            nftCollectionDTO.bannerUrl,
+                            height: 140,
+                            fit: BoxFit.fill,
                           ),
                           Positioned(
                               top: 10,
@@ -73,8 +66,8 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                                         .getBackgroundColor(),
                                     boxShadow: [
                                       BoxShadow(
-                                          blurRadius: 10,
-                                          spreadRadius: 5,
+                                          blurRadius: 2,
+                                          spreadRadius: 0,
                                           color: context
                                               .watch<ThemeProvider>()
                                               .getBackgroundColor())
@@ -94,8 +87,8 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                                       children: [
                                         CircleAvatar(
                                           radius: 26,
-                                          backgroundImage:
-                                              NetworkImage(data.imageUrl),
+                                          backgroundImage: NetworkImage(
+                                              nftCollectionDTO.imageUrl),
                                         ),
                                       ],
                                     ),
@@ -104,147 +97,178 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                               ))
                         ],
                       )),
-                      Container(
-                        height: 15,
-                        width: double.infinity,
-                        decoration: BoxDecoration(boxShadow: [
-                          BoxShadow(
-                              blurRadius: 10,
-                              offset: Offset(-5, -5),
-                              spreadRadius: 10,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getBackgroundColor()
-                                  .withOpacity(0.88))
-                        ]),
+                      SizedBox(
+                        height: 10,
                       ),
-                      Container(
-                          padding: EdgeInsets.symmetric(horizontal: 30),
-                          alignment: Alignment.centerLeft,
+                      Expanded(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data.name,
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getSecondaryFontColor(),
-                                    16,
-                                    FontWeight.normal),
-                              ),
-                              Text(
-                                "by XV11",
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
-                                    14,
-                                    FontWeight.bold),
-                              ),
-                            ],
-                          )),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                        child: Text(
-                          data.description,
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              10,
-                              FontWeight.normal),
-                        ),
-                      ),
-                      CollectionStats(
-                        floor: data.stats.floor_price,
-                        items: data.stats.total_Supply,
-                        owners: data.stats.num_owners,
-                        volume: data.stats.one_day_volume,
-                      )
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 5,
+                                  offset: Offset(-2, -2),
+                                  spreadRadius: 5,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getBackgroundColor()
+                                      .withOpacity(0.88))
+                            ]),
+                          ),
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    nftCollectionDTO.name,
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getSecondaryFontColor(),
+                                        16,
+                                        FontWeight.normal),
+                                  ),
+                                  Text(
+                                    "by " + widget.slug,
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        14,
+                                        FontWeight.bold),
+                                  ),
+                                ],
+                              )),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 30),
+                            child: Text(
+                              nftCollectionDTO.description.length > 150
+                                  ? nftCollectionDTO.description
+                                          .substring(0, 150) +
+                                      "..."
+                                  : nftCollectionDTO.description,
+                              style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  10,
+                                  FontWeight.normal),
+                            ),
+                          ),
+                          CollectionStats(
+                            floor: nftCollectionDTO.stats.floor.toString(),
+                            items: nftCollectionDTO.stats.total_supply,
+                            owners: nftCollectionDTO.stats.num_owners,
+                            volume: nftCollectionDTO.stats.total_volume,
+                          ),
+                          Divider(thickness: 1),
+                          Container(
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        tabIndex = 0;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Items",
+                                          style: kPrimartFont(
+                                              tabIndex == 0
+                                                  ? context
+                                                      .watch<ThemeProvider>()
+                                                      .getHighLightColor()
+                                                  : Colors.black,
+                                              15,
+                                              FontWeight.normal),
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Icon(Icons.list_alt_outlined,
+                                            color: tabIndex == 0
+                                                ? context
+                                                    .watch<ThemeProvider>()
+                                                    .getHighLightColor()
+                                                : Colors.black),
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        tabIndex = 1;
+                                      });
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "Acitivity",
+                                          style: kPrimartFont(
+                                              tabIndex == 1
+                                                  ? context
+                                                      .watch<ThemeProvider>()
+                                                      .getHighLightColor()
+                                                  : Colors.black,
+                                              15,
+                                              FontWeight.normal),
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        Icon(Icons.history_outlined,
+                                            color: tabIndex == 1
+                                                ? context
+                                                    .watch<ThemeProvider>()
+                                                    .getHighLightColor()
+                                                : Colors.black),
+                                      ],
+                                    ),
+                                  )
+                                ]),
+                          ),
+                          Divider(thickness: 1),
+                          tabIndex == 0
+                              ? FutureBuilder(
+                                  future: NFTCollectionAPI()
+                                      .getNFTsBySlug(widget.slug),
+                                  builder: ((context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      final List<NFTDTO> nfts =
+                                          snapshot.data as List<NFTDTO>;
+                                      return NFTCollectionGridTab(
+                                          nftItems: nfts);
+                                    }
+                                    return Container(
+                                      child: CircularProgressIndicator(),
+                                      height: 60,
+                                      width: 60,
+                                      alignment: Alignment.center,
+                                    );
+                                  }))
+                              : NFTCollectionActivityTab()
+                        ],
+                      )),
                     ],
                   );
-                })),
-            Divider(thickness: 1),
-            Container(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          tabIndex = 0;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Items",
-                            style: kPrimartFont(
-                                tabIndex == 0
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : Colors.black,
-                                15,
-                                FontWeight.normal),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Icon(Icons.list_alt_outlined,
-                              color: tabIndex == 0
-                                  ? context
-                                      .watch<ThemeProvider>()
-                                      .getHighLightColor()
-                                  : Colors.black),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          tabIndex = 1;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Text(
-                            "Acitivity",
-                            style: kPrimartFont(
-                                tabIndex == 1
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : Colors.black,
-                                15,
-                                FontWeight.normal),
-                          ),
-                          SizedBox(
-                            width: 2,
-                          ),
-                          Icon(Icons.history_outlined,
-                              color: tabIndex == 1
-                                  ? context
-                                      .watch<ThemeProvider>()
-                                      .getHighLightColor()
-                                  : Colors.black),
-                        ],
-                      ),
-                    )
-                  ]),
-            ),
-            Divider(thickness: 1),
-            Expanded(
-              child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                  child: tabs[tabIndex]),
-            )
-          ],
+                }
+                return Container(
+                  height: 60,
+                  width: 60,
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                );
+              })),
         ),
       ),
-    ));
+    );
   }
 }
 
@@ -262,6 +286,7 @@ class CollectionStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var v = (volume / 1000).round().toString();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: Row(
@@ -334,7 +359,7 @@ class CollectionStats extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    volume.toString(),
+                    v + "k",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         14,

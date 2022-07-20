@@ -12,8 +12,7 @@ import 'package:renderscan/screen/home/components/showcase_widget.dart';
 import 'package:renderscan/screen/home/components/trending_widget.dart';
 import 'package:renderscan/screen/home/components/unique_nft_widget.dart';
 import 'package:renderscan/screen/home/components/notable_collection_widget.dart';
-import 'package:renderscan/screen/home/home_screen_api.dart';
-import 'package:renderscan/screen/home/models/trending_model.dart';
+import 'package:renderscan/screen/home/home_provider.dart';
 
 import 'package:renderscan/screen/ranking/ranking_screen.dart';
 import 'package:renderscan/screen/home/components/home_banners.dart';
@@ -60,78 +59,83 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               Container(
-                height: 165,
-                width: 225,
-                child: FutureBuilder(
-                  future: HomeScreenApi().getTrendingCollections(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final List<Trending> trending =
-                          snapshot.data as List<Trending>;
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: trending.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return TrendingWidget(
-                            rank: index + 1,
-                            name: trending[index].name ?? "",
-                            price: trending[index].oneDayVolume ?? "",
-                            url: trending[index].logo ?? "",
-                            slug: trending[index].slug ?? "",
-                          );
-                        },
-                      );
-                    }
-                    return Text("LOADING");
-                  },
-                ),
-              ),
+                  height: 165,
+                  width: 225,
+                  child: context.watch<HomeProvider>().trendingLoaded
+                      ? ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              context.watch<HomeProvider>().trending.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return TrendingWidget(
+                                trendingDTO: context
+                                    .watch<HomeProvider>()
+                                    .trending[index],
+                                index: index);
+                          },
+                        )
+                      : Container(
+                          child: CircularProgressIndicator(),
+                          height: 60,
+                          width: 60,
+                          alignment: Alignment.center,
+                        )),
               HomeBanner(),
               HeadingWidget(text: "Showcase"),
               Container(
-                height: 120,
-                width: 225,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: ShowcaseWidget(
-                        id: index,
-                        url: mintNowMock[index]["url"].toString(),
-                        name: mintNowMock[index]["name"]
-                                .toString()
-                                .substring(0, 10) +
-                            "...",
-                        price: 2,
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
+                  height: 125,
+                  width: 225,
+                  child: context.watch<HomeProvider>().showcaseLoaded
+                      ? ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              context.watch<HomeProvider>().showcase.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              child: ShowcaseWidget(
+                                showCaseDTO: context
+                                    .watch<HomeProvider>()
+                                    .showcase[index],
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                            );
+                          },
+                        )
+                      : Container(
+                          height: 60,
+                          width: 60,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator())),
               HeadingWidget(text: "Notable Collections"),
               Container(
                   height: 150,
                   width: 225,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: liveDropsMock.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return NotableCollectionWidget(
-                        id: index.toString(),
-                        banner: liveDropsMock[index]["banner"].toString(),
-                        collectionName:
-                            liveDropsMock[index]["collectionName"].toString(),
-                        name: liveDropsMock[index]["name"].toString(),
-                        url: liveDropsMock[index]["url"].toString(),
-                      );
-                    },
-                  )),
+                  child: context.watch<HomeProvider>().collectionsLoaded
+                      ? ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              context.watch<HomeProvider>().collections.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return NotableCollectionWidget(
+                              notableCollection: context
+                                  .watch<HomeProvider>()
+                                  .collections[index],
+                            );
+                          },
+                        )
+                      : Container(
+                          height: 60,
+                          width: 60,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(),
+                        )),
               SizedBox(
                 height: 30,
               ),
@@ -140,6 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 200,
                   width: 225,
                   child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemCount: mintNowMock.length,
                     itemBuilder: (BuildContext context, int index) {

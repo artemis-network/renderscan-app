@@ -150,12 +150,13 @@ class _RankingScreenState extends State<RankingScreen> {
                 future: HomeScreenApi().getTrendingCollections(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final trending = snapshot.data as List<Trending>;
+                    final trending = snapshot.data as List<TrendingDTO>;
                     return ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: trending.length,
                         itemBuilder: (context, index) => RankingItem(
+                            slug: trending[index].slug,
                             ranking: (index + 1).toString(),
                             url: trending[index].logo.toString(),
                             name: trending[index].name.toString().length < 12
@@ -184,7 +185,12 @@ class _RankingScreenState extends State<RankingScreen> {
                             owners: trending[index].numOwners.toString(),
                             volume: trending[index].floor.toString()));
                   }
-                  return Text("LOADING");
+                  return Container(
+                    child: CircularProgressIndicator(),
+                    height: 60,
+                    width: 60,
+                    alignment: Alignment.center,
+                  );
                 },
               ),
             ),

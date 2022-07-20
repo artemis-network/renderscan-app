@@ -1,53 +1,50 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
+import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class NFTCollectionGridTab extends StatelessWidget {
-  final nftItems;
+  final List<NFTDTO> nftItems;
 
   NFTCollectionGridTab({required this.nftItems});
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 1 / 1.25,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10),
-          itemCount: nftItems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return NFTCollectionItem(
-                name: nftItems[index]["name"],
-                price: nftItems[index]["price"],
-                url: nftItems[index]["url"]);
-          },
-        ));
+    return Expanded(
+        child: Container(
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      color: context.watch<ThemeProvider>().getBackgroundColor(),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1.35,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10),
+        itemCount: nftItems.length,
+        itemBuilder: (BuildContext context, int index) {
+          return NFTCollectionItem(
+            nftdto: nftItems[index],
+          );
+        },
+      ),
+    ));
   }
 }
 
 class NFTCollectionItem extends StatelessWidget {
-  final String url;
-  final String name;
-  final double price;
+  final NFTDTO nftdto;
 
   NFTCollectionItem({
-    required this.url,
-    required this.name,
-    required this.price,
+    required this.nftdto,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NFTScreen(id: 1)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NFTScreen(nftdto: nftdto)));
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 5),
@@ -70,9 +67,12 @@ class NFTCollectionItem extends StatelessWidget {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
               child: Image.network(
-                url,
+                nftdto.imageUrl,
                 fit: BoxFit.cover,
               ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
@@ -83,29 +83,16 @@ class NFTCollectionItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name.toString().substring(0, 10),
+                          nftdto.name.length > 14
+                              ? nftdto.name.substring(0, 14) + "..."
+                              : nftdto.name,
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              16,
-                              FontWeight.normal),
+                                  .getSecondaryFontColor(),
+                              14,
+                              FontWeight.bold),
                         ),
-                        Row(children: [
-                          Text(
-                            price.toString(),
-                            style: kPrimartFont(
-                                context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                14,
-                                FontWeight.bold),
-                          ),
-                          Icon(
-                            CryptoFontIcons.ETH,
-                            size: 14,
-                          )
-                        ]),
                       ],
                     ),
                   ],

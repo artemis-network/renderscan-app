@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/screen/home/home_provider.dart';
 import 'package:renderscan/screen/navigation/navigation_provider.dart';
 
 // provider
 import 'package:provider/provider.dart';
-import 'package:renderscan/screen/referal/referal_screen.dart';
 import 'package:renderscan/screen/scan/scan_provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 
@@ -14,6 +14,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => NavigationProvider()),

@@ -1,6 +1,5 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/auth_filter.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 
@@ -38,103 +37,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     void fun() => (null);
 
-    Widget screen() {
-      return DoubleBack(
-          condition: allowClose,
-          onConditionFail: () {
-            setState(() {
-              allowClose = !allowClose;
-            });
-          },
-          child: Scaffold(
-            key: scaffoldKey,
-            drawerEnableOpenDragGesture: false,
-            drawer: Drawer(
-              child: SideBar(),
-            ),
-            body: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Container(
-                  color: context.watch<ThemeProvider>().getBackgroundColor(),
-                  height: size.height,
-                  width: size.width,
-                  child: Column(
-                    children: [
-                      Topbar(
-                        popSideBar: () =>
-                            scaffoldKey.currentState?.openDrawer(),
+    return DoubleBack(
+        condition: allowClose,
+        onConditionFail: () {
+          setState(() {
+            allowClose = !allowClose;
+          });
+        },
+        child: Scaffold(
+          key: scaffoldKey,
+          drawerEnableOpenDragGesture: false,
+          drawer: Drawer(
+            child: SideBar(),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Container(
+                color: context.watch<ThemeProvider>().getBackgroundColor(),
+                height: size.height,
+                width: size.width,
+                child: Column(
+                  children: [
+                    Topbar(
+                      popSideBar: () => scaffoldKey.currentState?.openDrawer(),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/images/1.jpg'),
+                        radius: 50,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/images/1.jpg'),
-                          radius: 50,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+                      child: Column(
+                        children: [
+                          FutureBuilder(
+                              future: Storage().getItem('username'),
+                              builder: (context, snapshot) {
+                                return Text(snapshot.data.toString(),
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        18,
+                                        FontWeight.bold));
+                              }),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Column(
-                          children: [
-                            FutureBuilder(
-                                future: Storage().getItem('username'),
-                                builder: (context, snapshot) {
-                                  return Text(snapshot.data.toString(),
-                                      style: kPrimartFont(
-                                          context
-                                              .watch<ThemeProvider>()
-                                              .getPriamryFontColor(),
-                                          18,
-                                          FontWeight.bold));
-                                }),
-                          ],
-                        ),
+                    ),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
+                      child: Column(
+                        children: [
+                          ProfileButton(
+                            text: "Privacy",
+                            icon: Icons.privacy_tip_outlined,
+                            onClick: fun,
+                          ),
+                          SizedBox(height: 10),
+                          ProfileButton(
+                            text: "Help & Support",
+                            icon: Icons.help_center_outlined,
+                            onClick: fun,
+                          ),
+                          SizedBox(height: 10),
+                          ProfileButton(
+                            text: "Settings",
+                            icon: Icons.settings_outlined,
+                            onClick: fun,
+                          ),
+                          SizedBox(height: 10),
+                          ProfileButton(
+                            text: "Refer a Friend",
+                            icon: Icons.person_add_outlined,
+                            onClick: fun,
+                          ),
+                          SizedBox(height: 10),
+                          ProfileButton(
+                            text: "Log out",
+                            icon: Icons.logout_outlined,
+                            onClick: logOut,
+                          ),
+                        ],
                       ),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
-                        child: Column(
-                          children: [
-                            ProfileButton(
-                              text: "Privacy",
-                              icon: Icons.privacy_tip_outlined,
-                              onClick: fun,
-                            ),
-                            SizedBox(height: 10),
-                            ProfileButton(
-                              text: "Help & Support",
-                              icon: Icons.help_center_outlined,
-                              onClick: fun,
-                            ),
-                            SizedBox(height: 10),
-                            ProfileButton(
-                              text: "Settings",
-                              icon: Icons.settings_outlined,
-                              onClick: fun,
-                            ),
-                            SizedBox(height: 10),
-                            ProfileButton(
-                              text: "Refer a Friend",
-                              icon: Icons.person_add_outlined,
-                              onClick: fun,
-                            ),
-                            SizedBox(height: 10),
-                            ProfileButton(
-                              text: "Log out",
-                              icon: Icons.logout_outlined,
-                              onClick: logOut,
-                            ),
-                          ],
-                        ),
-                      ))
-                    ],
-                  )),
-            ),
-          ));
-    }
-
-    return AuthFilter(
-      screen: screen(),
-      returnLoginPage: true,
-    );
+                    ))
+                  ],
+                )),
+          ),
+        ));
   }
 }

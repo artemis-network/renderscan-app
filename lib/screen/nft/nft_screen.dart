@@ -2,13 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class NFTScreen extends StatelessWidget {
-  final int id;
-  NFTScreen({required this.id});
+  final NFTDTO nftdto;
+  NFTScreen({required this.nftdto});
 
   @override
   Widget build(BuildContext context) {
+    var details = [
+      {
+        "name": "Blockchain",
+        "value": "ethereum",
+        "pic": false,
+        "profile": nftdto.creator_profile_pic
+      },
+      {
+        "name": "Address",
+        "value": nftdto.contractAddress.toString(),
+        "pic": false,
+        "profile": nftdto.creator_profile_pic
+      },
+      {"name": "Token ID", "value": nftdto.tokenId.toString(), "pic": false},
+      {
+        "name": "Creator",
+        "value": nftdto.creator.toString().substring(0, 32) + "...",
+        "profile": nftdto.creator_profile_pic,
+        "pic": true
+      },
+    ];
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -38,7 +60,7 @@ class NFTScreen extends StatelessWidget {
                             },
                           ),
                           Text(
-                            "Doodles XIIV",
+                            nftdto.name,
                             style: kPrimartFont(
                                 context
                                     .watch<ThemeProvider>()
@@ -48,8 +70,7 @@ class NFTScreen extends StatelessWidget {
                           ),
                           CircleAvatar(
                             radius: 24,
-                            backgroundImage:
-                                AssetImage("assets/images/lion.png"),
+                            backgroundImage: NetworkImage(nftdto.imageUrl),
                           ),
                         ],
                       ),
@@ -68,8 +89,7 @@ class NFTScreen extends StatelessWidget {
                           child: Column(children: [
                         InkWell(
                           child: Ink.image(
-                            image: NetworkImage(
-                                "https://lh3.googleusercontent.com/pHD4QImjmQ8InBeVxlVUZ5HKgezcRIZWcNEWWs-Xs_RxY43PnQ-xaVUFF6-UZEa0dvE3f2H8RYcvbRpYj9Y1y1CYmJNgsVqr-QsJmWE=w600"),
+                            image: NetworkImage(nftdto.imageUrl),
                             height: 340,
                             fit: BoxFit.fitWidth,
                           ),
@@ -85,7 +105,7 @@ class NFTScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                             Text(
-                              "Galz 🦾💓⚡ #4116",
+                              nftdto.name,
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -94,7 +114,7 @@ class NFTScreen extends StatelessWidget {
                                   FontWeight.normal),
                             ),
                             Text(
-                              "0.05 ETH",
+                              nftdto.price.toString(),
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -105,7 +125,7 @@ class NFTScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "Owned by Godbleach2",
+                                  "Owned by " + nftdto.owner.username,
                                   style: kPrimartFont(
                                       context
                                           .watch<ThemeProvider>()
@@ -119,7 +139,7 @@ class NFTScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 16,
                                   backgroundImage: NetworkImage(
-                                      "https://lh3.googleusercontent.com/Vi1FzP8MXqsgFxpYKitlmtpVb_pHNL8V6kAc-qfMEgE9TWZEfKGSwXcwFgdGlQ410i3DYFPOLeoesqIf3Puou4rAh-FYew3eMgM8=s168"),
+                                      nftdto.owner.profile_img_url),
                                 ),
                               ],
                             ),
@@ -127,7 +147,7 @@ class NFTScreen extends StatelessWidget {
                               height: 15,
                             ),
                             Text(
-                              "Cyber Galz – The Customisable Female Humanoid from A.D. 2136 The genesis collection of 9,999 Galz features customisation via a crafting solution. Galz NFT holders can customise their NFT by adding, removing and changing a combination of Partz, the changeable attributes of Cyber Galz. NOTE: as the owner of Galz, you are entitled to a commercial license of Cyber Galz, which explained here: https://cybergalznft.com/legaloverview",
+                              nftdto.description,
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -207,9 +227,26 @@ class NFTScreen extends StatelessWidget {
                             ]),
                           ])),
                     ),
-                    NFTTraitsList(traitsList: temp),
+                    NFTDetailList(details: details),
                     SizedBox(
                       height: 15,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Traits",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            24,
+                            FontWeight.w500),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
+                      width: size.width * 0.45,
+                      child: NFTTraitlList(traits: nftdto.traits),
                     )
                   ]),
             ),
@@ -218,38 +255,90 @@ class NFTScreen extends StatelessWidget {
   }
 }
 
-var temp = [
-  {"name": "Blockchain", "value": "Polygon"},
-  {"name": "Address", "value": "0x06012c8cc2294xc29sca24c29ssc22"},
-  {"name": "Token ID", "value": "0x06012c8cc2294xc29sca24c2312cs"}
-];
-
-class NFTTraitsList extends StatelessWidget {
-  final traitsList;
-  NFTTraitsList({required this.traitsList});
+class NFTTraitlList extends StatelessWidget {
+  final List<NFTTrait> traits;
+  NFTTraitlList({required this.traits});
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: traitsList.length,
+        scrollDirection: Axis.vertical,
+        itemCount: traits.length,
         itemBuilder: (BuildContext context, int index) => Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+              padding: EdgeInsets.all(15),
+              margin: EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: context.watch<ThemeProvider>().getHighLightColor(),
+              ),
+              alignment: Alignment.centerLeft,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      traitsList[index]["value"].toString(),
+                      traits[index].value,
                       style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          16,
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                          14,
                           FontWeight.w700),
                     ),
                     SizedBox(
                       width: 12,
                     ),
                     Text(
-                      traitsList[index]["name"].toString(),
+                      traits[index].trait_type,
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getBackgroundColor(),
+                          14,
+                          FontWeight.w500),
+                    ),
+                  ]),
+            ));
+  }
+}
+
+class NFTDetailList extends StatelessWidget {
+  final details;
+  NFTDetailList({required this.details});
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: details.length,
+        itemBuilder: (BuildContext context, int index) => Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 30),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        details[index]["pic"]
+                            ? CircleAvatar(
+                                radius: 16,
+                                backgroundImage:
+                                    NetworkImage(details[index]["profile"]),
+                              )
+                            : Container(),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          details[index]["value"].toString(),
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              16,
+                              FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      details[index]["name"].toString(),
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
                           14,

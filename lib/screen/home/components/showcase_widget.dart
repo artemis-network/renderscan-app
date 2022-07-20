@@ -1,93 +1,63 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/screen/home/home_screen_api.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
+import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class ShowcaseWidget extends StatelessWidget {
-  final int id;
-  final String url;
-  final double price;
-  final String name;
+  final ShowCaseDTO showCaseDTO;
 
-  ShowcaseWidget(
-      {required this.id,
-      required this.url,
-      required this.name,
-      required this.price});
+  ShowcaseWidget({
+    required this.showCaseDTO,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        constraints: BoxConstraints(minWidth: size.width * 0.65),
-        decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
+    ImageGetter() {
+      try {
+        return ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.9),
-                  offset: Offset(0, 0)),
-            ]),
+            child: Image.network(showCaseDTO.imageUrl.toString(),
+                height: 96, fit: BoxFit.fitWidth));
+      } catch (e) {
+        return ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: SvgPicture.network(showCaseDTO.imageUrl.toString(),
+                height: 96, fit: BoxFit.fitWidth));
+      }
+    }
+
+    return Container(
+        decoration: BoxDecoration(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: GestureDetector(
-            child: Row(children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  url,
-                  height: 96,
-                  fit: BoxFit.fitWidth,
-                ),
-              ),
+            child: Column(children: [
+              ImageGetter(),
               SizedBox(
-                width: 10,
+                height: 5,
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     child: Text(
-                      name,
+                      showCaseDTO.name.toString().length > 14
+                          ? showCaseDTO.name.toString().substring(0, 14)
+                          : showCaseDTO.name.toString(),
                       style: GoogleFonts.poppins(
-                          fontSize: 18,
+                          fontSize: 8,
                           color: context
                               .watch<ThemeProvider>()
                               .getPriamryFontColor(),
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Container(
-                      child: Row(
-                    children: [
-                      Text(
-                        price.toString(),
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        CryptoFontIcons.ETH,
-                        size: 12,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor(),
-                      )
-                    ],
-                  )),
                 ],
               )
             ]),
@@ -95,7 +65,9 @@ class ShowcaseWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NFTScreen(id: id)))
+                          builder: (context) => NFTScreen(
+                                nftdto: NFTDTO.jsonToObject({}),
+                              )))
                 }));
   }
 }

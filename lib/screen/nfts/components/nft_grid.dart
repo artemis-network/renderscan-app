@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
+import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class NFTItem extends StatelessWidget {
   final String url;
@@ -76,7 +77,11 @@ class NFTItem extends StatelessWidget {
       ),
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NFTScreen(id: 1)));
+            context,
+            MaterialPageRoute(
+                builder: (context) => NFTScreen(
+                      nftdto: NFTDTO.jsonToObject({}),
+                    )));
       },
     );
   }

@@ -2,21 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/screen/home/home_screen_api.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class NotableCollectionWidget extends StatelessWidget {
-  final String id;
-  final String url;
-  final String banner;
-  final String name;
-  final String collectionName;
+  final NotableCollection notableCollection;
 
-  NotableCollectionWidget(
-      {required this.id,
-      required this.url,
-      required this.banner,
-      required this.name,
-      required this.collectionName});
+  NotableCollectionWidget({required this.notableCollection});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +17,8 @@ class NotableCollectionWidget extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NFTCollectionScreen(slug: id)));
+                  builder: (context) =>
+                      NFTCollectionScreen(slug: notableCollection.slug)));
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
@@ -40,7 +33,6 @@ class NotableCollectionWidget extends StatelessWidget {
                 .getHighLightColor()
                 .withOpacity(0.9),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Stack(
@@ -49,51 +41,52 @@ class NotableCollectionWidget extends StatelessWidget {
                   children: [
                     ClipRRect(
                       child: Image.network(
-                        banner,
-                        height: 65.0,
-                        width: 230.0,
+                        notableCollection.bannerUrl,
+                        height: 75,
+                        width: 195.0,
+                        fit: BoxFit.fill,
                       ),
                     ),
                     Positioned(
                         bottom: -20,
                         child: CircleAvatar(
-                          radius: 30,
+                          radius: 34,
                           backgroundColor: context
                               .watch<ThemeProvider>()
                               .getBackgroundColor(),
                           child: CircleAvatar(
-                            radius: 24,
-                            backgroundImage: NetworkImage(url),
+                            radius: 30,
+                            backgroundImage:
+                                NetworkImage(notableCollection.imageUrl),
                           ),
                         )),
                   ],
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 18,
                 ),
                 Container(
                   child: Text(
-                    name,
+                    notableCollection.slug,
                     style: GoogleFonts.poppins(
-                        fontSize: 16,
+                        fontSize: 12,
                         color:
                             context.watch<ThemeProvider>().getHighLightColor(),
                         fontWeight: FontWeight.bold),
                   ),
                   padding: EdgeInsets.only(left: 5),
                 ),
-                SizedBox(
-                  height: 2,
-                ),
                 Container(
                   child: Text(
-                    collectionName,
+                    notableCollection.name.toString().length > 14
+                        ? notableCollection.name.toString().substring(0, 14) +
+                            "..."
+                        : notableCollection.name.toString(),
                     style: GoogleFonts.poppins(
                         fontSize: 14,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor(),
-                        fontWeight: FontWeight.w800),
+                        color:
+                            context.watch<ThemeProvider>().getHighLightColor(),
+                        fontWeight: FontWeight.bold),
                   ),
                   padding: EdgeInsets.only(left: 5),
                 ),

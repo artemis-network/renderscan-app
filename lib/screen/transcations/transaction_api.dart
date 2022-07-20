@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/transcations/models/order.model.dart';
 
@@ -46,6 +47,7 @@ class TransactionApi {
       }
       return transcations;
     } on FormatException catch (e) {
+      log.i(e);
       return [] as List<TransactionDTO>;
     }
   }

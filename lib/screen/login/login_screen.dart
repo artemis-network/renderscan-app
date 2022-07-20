@@ -153,11 +153,27 @@ class _LoginScreenState extends State<LoginScreen> {
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
             child: Container(
+          height: size.height,
           color: context.watch<ThemeProvider>().getBackgroundColor(),
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Form(
               child: Column(
                 children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 30),
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_outlined,
+                          size: 30,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor(),
+                        )),
+                  ),
                   Image.asset(
                     "assets/images/no_bg_logo.png",
                     height: size.height * 0.25,

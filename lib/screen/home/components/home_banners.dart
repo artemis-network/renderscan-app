@@ -14,7 +14,7 @@ class Home_BannerState extends State<HomeBanner> {
       "assets/images/banner_three.png",
     ];
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20),
+      margin: EdgeInsets.symmetric(vertical: 10),
       height: 130,
       width: 350,
       child: PageView.builder(
@@ -24,10 +24,12 @@ class Home_BannerState extends State<HomeBanner> {
           controller: PageController(viewportFraction: 1, initialPage: 0),
           itemCount: 3,
           itemBuilder: (BuildContext context, int index) {
-            return Image.asset(
-              Homebanners[index],
-              width: 130,
-              fit: BoxFit.fitHeight,
+            return ClipRRect(
+              child: Image.asset(
+                Homebanners[index],
+                height: 65,
+                fit: BoxFit.fill,
+              ),
             );
           }),
     );

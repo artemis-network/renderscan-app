@@ -7,6 +7,8 @@ import 'package:renderscan/screen/explore/components/search_button.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/explore/explore_mock.dart';
+import 'package:renderscan/screen/nfts/components/nft_grid.dart';
+import 'package:renderscan/screen/nfts/nfts_mock.dart';
 
 class ExploreScreen extends StatefulWidget {
   @override
@@ -14,6 +16,13 @@ class ExploreScreen extends StatefulWidget {
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
+  int tabIndex = 0;
+
+  final tabs = [
+    NFTGrid(nftItems: nfts),
+    ExploreGrid(exploreItems: exploreMock),
+  ];
+
   showModal(context) {
     final size = MediaQuery.of(context).size;
     return showModalBottomSheet(
@@ -87,6 +96,24 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getChipBG(int index) {
+      return tabIndex == index
+          ? context.watch<ThemeProvider>().getHighLightColor()
+          : context.watch<ThemeProvider>().getBackgroundColor();
+    }
+
+    getChipShadow(int index) {
+      return tabIndex == index
+          ? context.watch<ThemeProvider>().getBackgroundColor()
+          : context.watch<ThemeProvider>().getHighLightColor();
+    }
+
+    getChipFontColor(int index) {
+      return tabIndex == index
+          ? context.watch<ThemeProvider>().getBackgroundColor()
+          : context.watch<ThemeProvider>().getPriamryFontColor();
+    }
+
     return Scaffold(
       key: scaffoldKey,
       drawerEnableOpenDragGesture: false,
@@ -107,24 +134,58 @@ class _ExploreScreenState extends State<ExploreScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Chip(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                avatar: const Icon(Icons.card_giftcard_outlined),
-                label: const Text('NFTs'),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    tabIndex = 0;
+                  });
+                },
+                child: Chip(
+                  backgroundColor: getChipBG(0),
+                  shadowColor: getChipShadow(0),
+                  elevation: 2,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  avatar: Icon(
+                    Icons.card_giftcard_outlined,
+                    color: getChipFontColor(0),
+                  ),
+                  label: Text(
+                    'NFTs',
+                    style:
+                        kPrimartFont(getChipFontColor(0), 16, FontWeight.bold),
+                  ),
+                ),
               ),
               SizedBox(
                 width: 30,
               ),
-              Chip(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                avatar: const Icon(Icons.collections_outlined),
-                label: const Text('Collections'),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    tabIndex = 1;
+                  });
+                },
+                child: Chip(
+                  backgroundColor: getChipBG(1),
+                  shadowColor: getChipShadow(1),
+                  elevation: 2,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  avatar: Icon(
+                    Icons.collections_outlined,
+                    color: getChipFontColor(1),
+                  ),
+                  label: Text(
+                    'Collections',
+                    style:
+                        kPrimartFont(getChipFontColor(1), 16, FontWeight.bold),
+                  ),
+                ),
               )
             ],
           ),
         ),
         Expanded(
-          child: ExploreGrid(exploreItems: exploreMock),
+          child: tabs[tabIndex],
         )
       ]),
     );

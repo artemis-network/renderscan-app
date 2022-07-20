@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/login/login_screen.dart';
 import 'package:renderscan/screen/transcations/components/buy_ruby_modal.dart';
 import 'package:renderscan/screen/transcations/transaction_api.dart';
 
@@ -11,13 +13,24 @@ class BalanceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () {
-          Navigator.of(context).push(PageTransition(
-              type: PageTransitionType.bottomToTop,
-              child: BuyRubyModal(),
-              ctx: context,
-              duration: Duration(milliseconds: 300),
-              childCurrent: this));
+        onTap: () async {
+          final bool isUserLoggedIn = await Storage().isLoggedIn();
+          if (isUserLoggedIn) {
+            Navigator.of(context).push(PageTransition(
+                type: PageTransitionType.bottomToTop,
+                child: BuyRubyModal(),
+                ctx: context,
+                duration: Duration(milliseconds: 300),
+                fullscreenDialog: true,
+                childCurrent: this));
+          } else
+            Navigator.of(context).push(PageTransition(
+                type: PageTransitionType.bottomToTop,
+                child: LoginScreen(),
+                ctx: context,
+                fullscreenDialog: true,
+                duration: Duration(milliseconds: 300),
+                childCurrent: this));
         },
         child: Container(
             child: FutureBuilder(

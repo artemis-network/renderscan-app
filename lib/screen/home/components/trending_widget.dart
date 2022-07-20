@@ -1,32 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screen/home/models/trending_model.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class TrendingWidget extends StatelessWidget {
-  final int rank;
-  final String url;
-  final String name;
-  final String price;
-  final String slug;
+  final TrendingDTO trendingDTO;
+  final int index;
 
-  TrendingWidget(
-      {required this.rank,
-      required this.url,
-      required this.name,
-      required this.price,
-      required this.slug}) {}
+  TrendingWidget({required this.trendingDTO, required this.index}) {}
 
   @override
   Widget build(BuildContext context) {
+    ImageGetter() {
+      try {
+        return CircleAvatar(
+          radius: 46,
+          backgroundImage: NetworkImage(trendingDTO.logo.toString()),
+        );
+      } catch (e) {
+        return Container(
+          height: 60,
+          width: 60,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: SvgPicture.network(trendingDTO.logo.toString())),
+        );
+      }
+    }
+
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NFTCollectionScreen(slug: slug)));
+                builder: (context) =>
+                    NFTCollectionScreen(slug: trendingDTO.slug.toString())));
       },
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
@@ -40,16 +52,13 @@ class TrendingWidget extends StatelessWidget {
                   radius: 50,
                   backgroundColor:
                       context.watch<ThemeProvider>().getSecondaryFontColor(),
-                  child: CircleAvatar(
-                    radius: 46,
-                    backgroundImage: NetworkImage(url),
-                  ),
+                  child: ImageGetter(),
                 ),
                 Positioned(
                     bottom: 6,
                     left: 0,
                     child: CircleAvatar(
-                      child: Text(rank.toString(),
+                      child: Text((index + 1).toString(),
                           style: GoogleFonts.poppins(
                               color: context
                                   .watch<ThemeProvider>()
@@ -63,7 +72,9 @@ class TrendingWidget extends StatelessWidget {
             ),
             Container(
               child: Text(
-                name.length < 10 ? name : name.substring(0, 10),
+                trendingDTO.name.toString().length < 10
+                    ? trendingDTO.name.toString()
+                    : trendingDTO.name.toString().substring(0, 10),
                 style: GoogleFonts.poppins(
                     fontSize: 10,
                     color: context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -72,9 +83,9 @@ class TrendingWidget extends StatelessWidget {
             ),
             Container(
               child: Text(
-                price.length < 4
-                    ? price.toString() + "M"
-                    : price.toString().substring(0, 5) + "M",
+                trendingDTO.oneDayVolume.toString().length < 4
+                    ? trendingDTO.oneDayVolume.toString() + "M"
+                    : trendingDTO.oneDayVolume.toString().substring(0, 5) + "M",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getHighLightColor(),
                     11,

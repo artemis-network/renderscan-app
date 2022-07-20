@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/screen/home/home_screen.dart';
+import 'package:renderscan/screen/login/login_screen.dart';
 import 'package:renderscan/screen/nfts/nfts_screen.dart';
 
 // pages
@@ -88,16 +91,23 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
                 label: "Profile"),
           ],
-          onTap: (index) {
-            context.read<NavigationProvider>().setCurrentIndex(index);
+          onTap: (index) async {
+            final bool isLoggedIn = await Storage().isLoggedIn();
+            if ((index == 3 || index == 4) && !isLoggedIn) {
+              Navigator.of(context).push(PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  child: LoginScreen(),
+                  ctx: context,
+                  fullscreenDialog: true,
+                  duration: Duration(milliseconds: 300),
+                  childCurrent: NavigationScreen()));
+              return;
+            }
+            return context.read<NavigationProvider>().setCurrentIndex(index);
           },
         ),
       )),
     );
-  }
-
-  NavigationProtectionWrapper(Size size) {
-    return home(size);
   }
 
   @override

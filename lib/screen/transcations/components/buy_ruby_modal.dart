@@ -200,10 +200,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
 
 showBuyRubyModal(BuildContext context) {
   return showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return BuyRubyModal();
-      });
+      context: context, builder: (context) => BuyRubyModal());
 }
 
 class RubyRadio extends StatelessWidget {

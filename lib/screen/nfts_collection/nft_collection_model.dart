@@ -11,10 +11,10 @@ class NFTCollectionStats {
       required this.one_day_volume});
 
   NFTCollectionStats.jsonToObject(Map<String, dynamic> json)
-      : num_owners = json["num_owners"],
-        total_Supply = json["total_supply"],
+      : num_owners = json["num_owners"] ?? 0,
+        total_Supply = json["total_supply"] ?? 0,
         floor_price = json["floor_price"] ?? "__",
-        one_day_volume = json["one_day_volume"];
+        one_day_volume = json["one_day_volume"] ?? 0.0;
 }
 
 class NFTCollection {

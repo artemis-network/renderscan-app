@@ -16,6 +16,12 @@ class Storage {
   Future<String?> getItem(String key) async => await storage.read(key: key);
   Future<void> deleteItem(String key) async => await storage.delete(key: key);
 
+  isUserLoggedIn() async {
+    final isUserLoggedIn = await this.getItem("userId");
+    if (isUserLoggedIn.toString() != null) return true;
+    return false;
+  }
+
   check() async {
     return await storage.readAll();
   }
