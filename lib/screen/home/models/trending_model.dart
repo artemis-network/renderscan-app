@@ -1,17 +1,17 @@
-class TrendingDTO {
+class TrendingModel {
   final String name;
   final String logo;
   final String slug;
   final String floor;
-  final int numOwners;
-  final double oneDayChange;
+  final String numOwners;
+  final String oneDayChange;
   final String oneDayVolume;
-  final double sevenDayChange;
+  final String sevenDayChange;
   final String sevenDayVolume;
-  final double thirtyDayChange;
+  final String thirtyDayChange;
   final String thirtyDayVolume;
 
-  TrendingDTO(
+  TrendingModel(
       {required this.name,
       required this.logo,
       required this.slug,
@@ -24,17 +24,17 @@ class TrendingDTO {
       required this.thirtyDayChange,
       required this.thirtyDayVolume});
 
-  TrendingDTO.jsonToObject(Map<String, dynamic> json)
+  TrendingModel.jsonToObject(Map<String, dynamic> json)
       : name = json['name'] ?? "--",
         logo = json['logo'] ??
             "https://openseauserdata.com/files/041c953eabd1f9381cdca769bdf3f49c.png",
         slug = json['slug'] ?? "--",
         floor = json['floor'] ?? "--",
-        numOwners = json['numOwners'].toInt() ?? 0,
-        oneDayChange = json['oneDayChange'].toDouble() ?? 0.0,
+        numOwners = json['numOwners'] ?? "--",
+        oneDayChange = json['oneDayChange'] ?? "--",
         oneDayVolume = json['oneDayVolume'] ?? "--",
-        sevenDayChange = json['sevenDayChange'].toDouble() ?? 0.0,
+        sevenDayChange = json['sevenDayChange'] ?? "--",
         sevenDayVolume = json['sevenDayVolume'] ?? "--",
-        thirtyDayChange = json['thirtyDayChange'].toDouble() ?? 0.0,
+        thirtyDayChange = json['thirtyDayChange'] ?? "--",
         thirtyDayVolume = json['thirtyDayVolume'] ?? "--";
 }

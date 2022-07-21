@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:renderscan/screen/home/home_screen_api.dart';
+import 'package:renderscan/screen/home/models/notable_collection.model.dart';
 import 'package:renderscan/screen/home/models/trending_model.dart';
+import 'package:renderscan/screen/nfts_collection/models/nft.model.dart';
 
 class HomeProvider extends ChangeNotifier {
-  List<ShowCaseDTO> _showcase = [];
-  List<TrendingDTO> _trending = [];
-  List<NotableCollection> _collections = [];
+  List<NFTModel> _showcase = [];
+  List<TrendingModel> _trending = [];
+  List<NotableCollectionModel> _collections = [];
   bool _isShowcaseLoaded = false;
   bool _isTrendingLoaded = false;
   bool _isCollectionsLoaded = false;

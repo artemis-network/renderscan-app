@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/services.dart';
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/screen/home/models/notable_collection.model.dart';
 import 'package:renderscan/screen/home/models/trending_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:renderscan/screen/nfts_collection/models/nft.model.dart';
 
 class HomeScreenApi {
   String getPrettyJSONString(jsonObject) {
@@ -11,61 +14,60 @@ class HomeScreenApi {
     return encoder.convert(jsonObject);
   }
 
-  Future<List<TrendingDTO>> getTrendingCollections() async {
-    // final String response =
-    //     await rootBundle.loadString('assets/mock/trending.json');
-    // final json = await jsonDecode(response);
-    // final List<dynamic> collection = json["collections"];
-    // List<Trending> trending = [];
-    // for (int i = 0; i < collection.length; i++) {
-    //   final Trending trend = Trending.jsonToObject(collection[i]);
-    //   trending.add(trend);
-    // }
-    // return trending;
-
+  Future<List<TrendingModel>> getTrendingCollections() async {
     var headers = {'Content-Type': 'application/json'};
     var body =
-        json.encode({"category": "art", "chain": "ethereum", "count": "30"});
+        jsonEncode({"category": "art", "chain": "ethereum", "count": "30"});
 
     var response = await http.post(
         HttpServerConfig().getHost("/marketplace/gettrendingcollections"),
         headers: headers,
         body: body);
 
-    log.i(response.statusCode);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       final List<dynamic> collection = json["collections"];
-      List<TrendingDTO> trending = [];
+      List<TrendingModel> trending = [];
+      log.i("trending collections api with status 200");
       for (int i = 0; i < collection.length; i++) {
-        final TrendingDTO trend = TrendingDTO.jsonToObject(collection[i]);
+        final TrendingModel trend = TrendingModel.jsonToObject(collection[i]);
         trending.add(trend);
       }
       return trending;
     }
-    return [];
+
+    final String response_ =
+        await rootBundle.loadString('assets/mock/trending.json');
+    final json = await jsonDecode(response_);
+    final List<dynamic> collection = json["collections"];
+    List<TrendingModel> trending = [];
+    for (int i = 0; i < collection.length; i++) {
+      final TrendingModel trend = TrendingModel.jsonToObject(collection[i]);
+      trending.add(trend);
+    }
+    return trending;
   }
 
-  Future<List<ShowCaseDTO>> showCaseNFTs() async {
+  Future<List<NFTModel>> showCaseNFTs() async {
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"limit": "10"});
+    var body = jsonEncode({"limit": "10", "chain": "ethereum"});
 
     var response = await http.post(
         HttpServerConfig().getHost("/marketplace/getshowcasenfts"),
         headers: headers,
         body: body);
 
-    var json = jsonDecode(response.body);
-    final List<dynamic> showcaseNFts = json["ShowcaseNFTs"];
-    List<ShowCaseDTO> showCase = [];
-    for (int i = 0; i < showcaseNFts.length; i++) {
-      final ShowCaseDTO dto = ShowCaseDTO.jsonToObject(showcaseNFts[i]);
-      showCase.add(dto);
+    if (response.statusCode == 200) {
+      log.i("showcase nfts api with status 200");
+
+      var json = jsonDecode(response.body);
+      final List<dynamic> showcaseNFts = json["ShowcaseNFTs"];
+      return NFTModel.mapNFTs(showcaseNFts);
     }
-    return showCase;
+    return [];
   }
 
-  Future<List<NotableCollection>> getNotableCollections() async {
+  Future<List<NotableCollectionModel>> getNotableCollections() async {
     var headers = {'Content-Type': 'application/json'};
     var body = jsonEncode({"limit": "10"});
 
@@ -73,40 +75,19 @@ class HomeScreenApi {
         HttpServerConfig().getHost("/marketplace/getnotablecollections"),
         headers: headers,
         body: body);
+    if (response.statusCode == 200) {
+      log.i("notable collections api with status 200");
+      var json = jsonDecode(response.body);
+      json = json["NotableCollections"] as List;
 
-    var json = jsonDecode(response.body);
-    json = json["NotableCollections"] as List;
-
-    List<NotableCollection> notableCollection = [];
-    for (int i = 0; i < json.length; i++) {
-      final NotableCollection dto = NotableCollection.jsonToObject(json[i]);
-      notableCollection.add(dto);
+      List<NotableCollectionModel> notableCollection = [];
+      for (int i = 0; i < json.length; i++) {
+        final NotableCollectionModel collection =
+            NotableCollectionModel.jsonToObject(json[i]);
+        notableCollection.add(collection);
+      }
+      return notableCollection;
     }
-    return notableCollection;
+    return [];
   }
-}
-
-class ShowCaseDTO {
-  String? name;
-  String? imageUrl;
-  ShowCaseDTO.jsonToObject(Map<String, dynamic> json) {
-    imageUrl = json["imageUrl"] ??
-        "https://openseauserdata.com/files/041c953eabd1f9381cdca769bdf3f49c.png";
-    name = json["name"] ?? "no name";
-  }
-}
-
-class NotableCollection {
-  String name;
-  String slug;
-  String imageUrl;
-  String bannerUrl;
-  double oneDayChange;
-
-  NotableCollection.jsonToObject(Map<String, dynamic> json)
-      : name = json["name"],
-        slug = json["slug"] ?? "no_slug",
-        imageUrl = json["imageUrl"].toString(),
-        bannerUrl = json["bannerUrl"].toString(),
-        oneDayChange = 0;
 }

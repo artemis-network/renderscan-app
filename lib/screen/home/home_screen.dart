@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               context.watch<HomeProvider>().trending.length,
                           itemBuilder: (BuildContext context, int index) {
                             return TrendingWidget(
-                                trendingDTO: context
+                                trending: context
                                     .watch<HomeProvider>()
                                     .trending[index],
                                 index: index);
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
               HomeBanner(),
               HeadingWidget(text: "Showcase"),
               Container(
-                  height: 125,
+                  height: 145,
                   width: 225,
                   child: context.watch<HomeProvider>().showcaseLoaded
                       ? ListView.builder(
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return Container(
                               margin: EdgeInsets.symmetric(vertical: 5),
                               child: ShowcaseWidget(
-                                showCaseDTO: context
+                                nftdto: context
                                     .watch<HomeProvider>()
                                     .showcase[index],
                               ),

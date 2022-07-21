@@ -3,10 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/home/home_screen_api.dart';
+import 'package:renderscan/screen/home/models/notable_collection.model.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class NotableCollectionWidget extends StatelessWidget {
-  final NotableCollection notableCollection;
+  final NotableCollectionModel notableCollection;
 
   NotableCollectionWidget({required this.notableCollection});
 

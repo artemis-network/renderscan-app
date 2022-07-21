@@ -8,28 +8,26 @@ import 'package:renderscan/screen/home/models/trending_model.dart';
 import 'package:renderscan/screen/nfts_collection/nfts_collection_screen.dart';
 
 class TrendingWidget extends StatelessWidget {
-  final TrendingDTO trendingDTO;
+  final TrendingModel trending;
   final int index;
 
-  TrendingWidget({required this.trendingDTO, required this.index}) {}
+  TrendingWidget({required this.trending, required this.index}) {}
 
   @override
   Widget build(BuildContext context) {
     ImageGetter() {
-      try {
-        return CircleAvatar(
-          radius: 46,
-          backgroundImage: NetworkImage(trendingDTO.logo.toString()),
-        );
-      } catch (e) {
-        return Container(
-          height: 60,
-          width: 60,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: SvgPicture.network(trendingDTO.logo.toString())),
-        );
-      }
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(60),
+        child: Image.network(
+          trending.logo.toString(),
+          errorBuilder: ((context, error, stackTrace) {
+            return CircleAvatar(
+              radius: 46,
+              child: SvgPicture.network(trending.logo.toString()),
+            );
+          }),
+        ),
+      );
     }
 
     return InkWell(
@@ -38,7 +36,7 @@ class TrendingWidget extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    NFTCollectionScreen(slug: trendingDTO.slug.toString())));
+                    NFTCollectionScreen(slug: trending.slug.toString())));
       },
       child: Container(
         margin: EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 10),
@@ -49,7 +47,7 @@ class TrendingWidget extends StatelessWidget {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 50,
+                  radius: 48,
                   backgroundColor:
                       context.watch<ThemeProvider>().getSecondaryFontColor(),
                   child: ImageGetter(),
@@ -72,9 +70,9 @@ class TrendingWidget extends StatelessWidget {
             ),
             Container(
               child: Text(
-                trendingDTO.name.toString().length < 10
-                    ? trendingDTO.name.toString()
-                    : trendingDTO.name.toString().substring(0, 10),
+                trending.name.toString().length < 10
+                    ? trending.name.toString()
+                    : trending.name.toString().substring(0, 10),
                 style: GoogleFonts.poppins(
                     fontSize: 10,
                     color: context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -83,9 +81,9 @@ class TrendingWidget extends StatelessWidget {
             ),
             Container(
               child: Text(
-                trendingDTO.oneDayVolume.toString().length < 4
-                    ? trendingDTO.oneDayVolume.toString() + "M"
-                    : trendingDTO.oneDayVolume.toString().substring(0, 5) + "M",
+                trending.oneDayVolume.toString().length < 4
+                    ? trending.oneDayVolume.toString() + "M"
+                    : trending.oneDayVolume.toString().substring(0, 5) + "M",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getHighLightColor(),
                     11,

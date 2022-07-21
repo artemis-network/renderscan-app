@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
-import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
 
 class UniqueNFTWidget extends StatelessWidget {
   final int id;
@@ -91,7 +90,8 @@ class UniqueNFTWidget extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => NFTScreen(
-                            nftdto: NFTDTO.jsonToObject({}),
+                            contractAddress: "",
+                            tokenId: "",
                           )))
             });
   }

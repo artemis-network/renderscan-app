@@ -1,33 +1,34 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/screen/home/home_screen_api.dart';
 import 'package:renderscan/screen/nft/nft_screen.dart';
-import 'package:renderscan/screen/nfts_collection/nfts_collection_api.dart';
+import 'package:renderscan/screen/nfts_collection/models/nft.model.dart';
 
 class ShowcaseWidget extends StatelessWidget {
-  final ShowCaseDTO showCaseDTO;
+  final NFTModel nftdto;
 
   ShowcaseWidget({
-    required this.showCaseDTO,
+    required this.nftdto,
   });
 
   @override
   Widget build(BuildContext context) {
     ImageGetter() {
-      try {
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(showCaseDTO.imageUrl.toString(),
-                height: 96, fit: BoxFit.fitWidth));
-      } catch (e) {
-        return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SvgPicture.network(showCaseDTO.imageUrl.toString(),
-                height: 96, fit: BoxFit.fitWidth));
-      }
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            nftdto.imageUrl.toString(),
+            height: 96,
+            fit: BoxFit.fitWidth,
+            errorBuilder: (context, error, stackTrace) => SvgPicture.network(
+              nftdto.imageUrl.toString(),
+              height: 96,
+              fit: BoxFit.fitWidth,
+            ),
+          ));
     }
 
     return Container(
@@ -47,16 +48,36 @@ class ShowcaseWidget extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      showCaseDTO.name.toString().length > 14
-                          ? showCaseDTO.name.toString().substring(0, 14)
-                          : showCaseDTO.name.toString(),
+                      nftdto.name.toString().length > 14
+                          ? nftdto.name.toString().substring(0, 14)
+                          : nftdto.name.toString(),
                       style: GoogleFonts.poppins(
-                          fontSize: 8,
+                          fontSize: 10,
                           color: context
                               .watch<ThemeProvider>()
                               .getPriamryFontColor(),
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.normal),
                     ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        nftdto.lastPrice.toString(),
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Icon(
+                        CryptoFontIcons.ETH,
+                        color: context
+                            .watch<ThemeProvider>()
+                            .getPriamryFontColor(),
+                        size: 14,
+                      )
+                    ],
                   ),
                 ],
               )
@@ -66,7 +87,8 @@ class ShowcaseWidget extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => NFTScreen(
-                                nftdto: NFTDTO.jsonToObject({}),
+                                contractAddress: nftdto.contract,
+                                tokenId: nftdto.tokenId,
                               )))
                 }));
   }

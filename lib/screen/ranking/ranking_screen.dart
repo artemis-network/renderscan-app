@@ -150,7 +150,7 @@ class _RankingScreenState extends State<RankingScreen> {
                 future: HomeScreenApi().getTrendingCollections(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final trending = snapshot.data as List<TrendingDTO>;
+                    final trending = snapshot.data as List<TrendingModel>;
                     return ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,

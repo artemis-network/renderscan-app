@@ -18,7 +18,7 @@ class Storage {
 
   isUserLoggedIn() async {
     final isUserLoggedIn = await this.getItem("userId");
-    if (isUserLoggedIn.toString() != null) return true;
+    if (isUserLoggedIn.toString().isNotEmpty) return true;
     return false;
   }
 
