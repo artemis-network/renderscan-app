@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/screen/home/home_provider.dart';
-import 'package:renderscan/screen/navigation/navigation_provider.dart';
 
 // provider
 import 'package:provider/provider.dart';
-import 'package:renderscan/screen/nft/nft_screen.dart';
-import 'package:renderscan/screen/scan/scan_provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
-import 'package:renderscan/screen/welcome/welcome_screen.dart';
+import 'package:renderscan/static_screen/home/home_provider.dart';
+import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
+import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
+import 'package:renderscan/transistion_screen/welcome/welcome_screen.dart';
 
 void main() async {
   runApp(

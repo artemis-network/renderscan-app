@@ -6,11 +6,12 @@ import 'package:renderscan/common/components/topbar/components/sidebar_button.da
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
-import 'package:renderscan/screen/navigation/navigation_provider.dart';
-import 'package:renderscan/screen/referal/referal_screen.dart';
-import 'package:renderscan/screen/scan/scan_provider.dart';
-import 'package:renderscan/screen/transcations/transaction_screen.dart';
+
+import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
+import 'package:renderscan/transistion_screen/login/login_screen.dart';
+import 'package:renderscan/transistion_screen/referal/referal_screen.dart';
+import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
+import 'package:renderscan/transistion_screen/transcations/transaction_screen.dart';
 
 class SideBar extends StatelessWidget {
   @override

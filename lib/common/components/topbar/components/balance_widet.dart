@@ -5,9 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screen/login/login_screen.dart';
-import 'package:renderscan/screen/transcations/components/buy_ruby_modal.dart';
-import 'package:renderscan/screen/transcations/transaction_api.dart';
+
+import 'package:renderscan/transistion_screen/login/login_screen.dart';
+import 'package:renderscan/transistion_screen/transcations/components/buy_ruby_modal.dart';
+import 'package:renderscan/transistion_screen/transcations/transaction_api.dart';
 
 class BalanceWidget extends StatelessWidget {
   @override
