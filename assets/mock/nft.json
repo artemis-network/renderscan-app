@@ -1,0 +1,144 @@
+{
+  "NFTInfo": {
+    "collectionName": "CryptoNinja Partners",
+    "collectionSlug": "cryptoninjapartners",
+    "collectionImageUrl": "https://openseauserdata.com/files/87dd212a122c6235b943dce974041208.gif",
+    "description": "From the largest DAO in Japan\n\nOfficial Website : https://en.ninja-dao.com/cnp \n\nCryptoNinja Partners (CNP) is a 22,222-piece collection starring CryptoNinja sub-characters. \n\nBecome an owner and step into the exciting world of Ninja!  \n",
+    "name": "Leelee #00003",
+    "imageUrl": "https://lh3.googleusercontent.com/a_PhQzzkcETh_cuuQVtxP-05nb5o5vmvaGtDfqpVRvgmIBsmZsNtMjqAS2fyirekAtsCSLEl5PpON1sBn21weWl91Hmn5mPrUcxZ",
+    "lastPrice": "0",
+    "openSeaUrl": "https://opensea.io/assets/ethereum/0x845a007d9f283614f403a24e3eb3455f720559ca/3",
+    "numSales": "0",
+    "totalSupply": "22222",
+    "traits": [
+      {
+        "trait_type": "NINJUTSU",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "17733",
+        "order": "null"
+      },
+      {
+        "trait_type": "WEAPON(BACK)",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "10167",
+        "order": "null"
+      },
+      {
+        "trait_type": "COSPLAY",
+        "value": "CNP Origins",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "296",
+        "order": "null"
+      },
+      {
+        "trait_type": "ACCESSORIES(BODY)",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "4023",
+        "order": "null"
+      },
+      {
+        "trait_type": "ACCESSORIES(HEAD)",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "4501",
+        "order": "null"
+      },
+      {
+        "trait_type": "ACCESSORIES(FACE)",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "21095",
+        "order": "null"
+      },
+      {
+        "trait_type": "WEAPON(FRONT)",
+        "value": "None",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "3933",
+        "order": "null"
+      },
+      {
+        "trait_type": "MOKUTON",
+        "value": "1",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "2488",
+        "order": "null"
+      },
+      {
+        "trait_type": "KATON",
+        "value": "1",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "2584",
+        "order": "null"
+      },
+      {
+        "trait_type": "DOTON",
+        "value": "1",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "2555",
+        "order": "null"
+      },
+      {
+        "trait_type": "KINTON",
+        "value": "1",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "2649",
+        "order": "null"
+      },
+      {
+        "trait_type": "SUITON",
+        "value": "1",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "2572",
+        "order": "null"
+      },
+      {
+        "trait_type": "CHARACTER",
+        "value": "Leelee",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "5384",
+        "order": "null"
+      },
+      {
+        "trait_type": "CLAN",
+        "value": "Koka",
+        "display_type": "null",
+        "max_value": "null",
+        "trait_count": "5384",
+        "order": "null"
+      }
+    ],
+    "creator": {
+      "user": {
+        "username": "NinjaDAO-CNP-PJ"
+      },
+      "profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/22.png",
+      "address": "0x1bf41851e4bd044022dfa7e9c678809f5197a56f",
+      "config": "verified"
+    },
+    "owner": {
+      "user": {
+        "username": "NinjaDAO-CNP-PJ2"
+      },
+      "profile_img_url": "https://storage.googleapis.com/opensea-static/opensea-profile/20.png",
+      "address": "0x0a2c099044c088a431b78a0d6bb5a137a5663297",
+      "config": ""
+    }
+  }
+}

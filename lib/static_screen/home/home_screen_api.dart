@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:http/http.dart' as http;
@@ -15,42 +14,37 @@ class HomeScreenApi {
   }
 
   Future<List<TrendingModel>> getTrendingCollections() async {
-    var headers = {'Content-Type': 'application/json'};
-    var body =
-        jsonEncode({"category": "art", "chain": "ethereum", "count": "30"});
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var body =
+          jsonEncode({"category": "art", "chain": "ethereum", "count": "20"});
 
-    var response = await http.post(
-        HttpServerConfig().getHost("/marketplace/gettrendingcollections"),
-        headers: headers,
-        body: body);
+      var response = await http.post(
+          HttpServerConfig().getHost("/marketplace/gettrendingcollections"),
+          headers: headers,
+          body: body);
 
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      final List<dynamic> collection = json["collections"];
-      List<TrendingModel> trending = [];
-      log.i("trending collections api with status 200");
-      for (int i = 0; i < collection.length; i++) {
-        final TrendingModel trend = TrendingModel.jsonToObject(collection[i]);
-        trending.add(trend);
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        final List<dynamic> collection = json["collections"];
+        List<TrendingModel> trending = [];
+        log.i("trending collections api with status 200");
+        for (int i = 0; i < collection.length; i++) {
+          final TrendingModel trend = TrendingModel.jsonToObject(collection[i]);
+          trending.add(trend);
+        }
+        return trending;
       }
-      return trending;
+    } catch (e) {
+      log.e(e);
+      return [];
     }
-
-    final String response_ =
-        await rootBundle.loadString('assets/mock/trending.json');
-    final json = await jsonDecode(response_);
-    final List<dynamic> collection = json["collections"];
-    List<TrendingModel> trending = [];
-    for (int i = 0; i < collection.length; i++) {
-      final TrendingModel trend = TrendingModel.jsonToObject(collection[i]);
-      trending.add(trend);
-    }
-    return trending;
+    return [];
   }
 
-  Future<List<NFTModel>> showCaseNFTs() async {
+  Future<List<NFTModel>> showCaseNFTs([String chain = "ethereum"]) async {
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"limit": "10", "chain": "ethereum"});
+    var body = jsonEncode({"limit": "10", "chain": chain});
 
     var response = await http.post(
         HttpServerConfig().getHost("/marketplace/getshowcasenfts"),

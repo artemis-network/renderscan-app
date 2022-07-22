@@ -10,8 +10,6 @@ import 'package:renderscan/static_screen/home/components/home_banners.dart';
 import 'package:renderscan/static_screen/home/components/notable_collection_widget.dart';
 import 'package:renderscan/static_screen/home/components/showcase_widget.dart';
 import 'package:renderscan/static_screen/home/components/trending_widget.dart';
-import 'package:renderscan/static_screen/home/components/unique_nft_widget.dart';
-import 'package:renderscan/static_screen/home/home_mock.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/transistion_screen/ranking/ranking_screen.dart';
 
@@ -96,9 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             return Container(
                               margin: EdgeInsets.symmetric(vertical: 5),
                               child: ShowcaseWidget(
-                                nftdto: context
+                                nft: context
                                     .watch<HomeProvider>()
                                     .showcase[index],
+                                chain: CHAIN.eth,
                               ),
                               padding: EdgeInsets.symmetric(horizontal: 10),
                             );
@@ -137,27 +136,35 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              HeadingWidget(text: "Solona Items"),
+              HeadingWidget(text: "Solana NFTs"),
               Container(
-                  height: 200,
+                  height: 145,
                   width: 225,
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: mintNowMock.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return UniqueNFTWidget(
-                        id: index,
-                        url: mintNowMock[index]["url"].toString(),
-                        name: mintNowMock[index]["name"]
-                                .toString()
-                                .substring(0, 10) +
-                            "...",
-                        price: 2,
-                      );
-                    },
-                  )),
+                  child: context.watch<HomeProvider>().solanaNFTsLoaded
+                      ? ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
+                              context.watch<HomeProvider>().solanaNFts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 5),
+                              child: ShowcaseWidget(
+                                nft: context
+                                    .watch<HomeProvider>()
+                                    .solanaNFts[index],
+                                chain: CHAIN.solana,
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                            );
+                          },
+                        )
+                      : Container(
+                          height: 60,
+                          width: 60,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator())),
               SizedBox(
                 height: 20,
               )

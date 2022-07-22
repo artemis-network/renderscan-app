@@ -6,25 +6,33 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
+import 'package:cryptocoins_icons/cryptocoins_icons.dart';
+
+enum CHAIN { solana, eth }
 
 class ShowcaseWidget extends StatelessWidget {
-  final NFTModel nftdto;
+  final NFTModel nft;
+  final CHAIN chain;
 
-  ShowcaseWidget({
-    required this.nftdto,
-  });
+  ShowcaseWidget({required this.nft, required this.chain});
 
   @override
   Widget build(BuildContext context) {
+    IconData getSymbol() {
+      if (chain == CHAIN.eth) return CryptoFontIcons.ETH;
+      if (chain == CHAIN.solana) return CryptoCoinIcons.SCOT;
+      return CryptoCoinIcons.USDT;
+    }
+
     ImageGetter() {
       return ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.network(
-            nftdto.imageUrl.toString(),
+            nft.imageUrl.toString(),
             height: 96,
             fit: BoxFit.fitWidth,
             errorBuilder: (context, error, stackTrace) => SvgPicture.network(
-              nftdto.imageUrl.toString(),
+              nft.imageUrl.toString(),
               height: 96,
               fit: BoxFit.fitWidth,
             ),
@@ -48,9 +56,9 @@ class ShowcaseWidget extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      nftdto.name.toString().length > 14
-                          ? nftdto.name.toString().substring(0, 14)
-                          : nftdto.name.toString(),
+                      nft.name.toString().length > 14
+                          ? nft.name.toString().substring(0, 14)
+                          : nft.name.toString(),
                       style: GoogleFonts.poppins(
                           fontSize: 10,
                           color: context
@@ -62,7 +70,7 @@ class ShowcaseWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        nftdto.lastPrice.toString(),
+                        nft.lastPrice.toString(),
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             color: context
@@ -70,8 +78,11 @@ class ShowcaseWidget extends StatelessWidget {
                                 .getPriamryFontColor(),
                             fontWeight: FontWeight.bold),
                       ),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Icon(
-                        CryptoFontIcons.ETH,
+                        getSymbol(),
                         color: context
                             .watch<ThemeProvider>()
                             .getPriamryFontColor(),
@@ -83,13 +94,16 @@ class ShowcaseWidget extends StatelessWidget {
               )
             ]),
             onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NFTScreen(
-                                contractAddress: nftdto.contract,
-                                tokenId: nftdto.tokenId,
-                              )))
+                  if (chain == CHAIN.eth)
+                    {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NFTScreen(
+                                    contractAddress: nft.contract,
+                                    tokenId: nft.tokenId,
+                                  )))
+                    }
                 }));
   }
 }

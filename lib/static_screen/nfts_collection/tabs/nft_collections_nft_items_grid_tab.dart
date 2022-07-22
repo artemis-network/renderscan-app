@@ -16,6 +16,9 @@ class NFTCollectionNFTItemsGridTab extends StatelessWidget {
       mainAxisSpacing: 20,
       crossAxisSpacing: 20,
       itemCount: nftItems.length,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return NFTCollectionScreenNFTItem(
           nft: nftItems[index],

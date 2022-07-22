@@ -28,7 +28,7 @@ class NFTCollectionTabSwitch extends StatelessWidget {
                 style: kPrimartFont(
                     tabIndex == 0
                         ? context.watch<ThemeProvider>().getHighLightColor()
-                        : Colors.black,
+                        : context.watch<ThemeProvider>().getPriamryFontColor(),
                     15,
                     FontWeight.normal),
               ),
@@ -38,7 +38,7 @@ class NFTCollectionTabSwitch extends StatelessWidget {
               Icon(Icons.list_alt_outlined,
                   color: tabIndex == 0
                       ? context.watch<ThemeProvider>().getHighLightColor()
-                      : Colors.black),
+                      : context.watch<ThemeProvider>().getPriamryFontColor()),
             ],
           ),
         ),
@@ -53,7 +53,7 @@ class NFTCollectionTabSwitch extends StatelessWidget {
                 style: kPrimartFont(
                     tabIndex == 1
                         ? context.watch<ThemeProvider>().getHighLightColor()
-                        : Colors.black,
+                        : context.watch<ThemeProvider>().getPriamryFontColor(),
                     15,
                     FontWeight.normal),
               ),
@@ -63,7 +63,7 @@ class NFTCollectionTabSwitch extends StatelessWidget {
               Icon(Icons.history_outlined,
                   color: tabIndex == 1
                       ? context.watch<ThemeProvider>().getHighLightColor()
-                      : Colors.black),
+                      : context.watch<ThemeProvider>().getPriamryFontColor()),
             ],
           ),
         )

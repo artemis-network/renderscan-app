@@ -42,8 +42,6 @@ class NFTCollectionAPI {
     var body = jsonEncode(
         {"contract": contract, "token_id": tokenId, "chain": "ethereum"});
 
-    log.i(body);
-
     var response = await http.post(
         HttpServerConfig().getHost("/marketplace/getnftfromcontract"),
         headers: headers,

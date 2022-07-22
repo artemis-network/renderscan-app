@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_detail.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_api.dart';
 import 'package:renderscan/transistion_screen/nft/components/nft_body.dart';
@@ -19,7 +20,7 @@ class NFTScreen extends StatelessWidget {
   });
 
   detailsBuilder(
-      String profilePic, String contract, String tokenId, String owner) {
+      String profilePic, String contract, String tokenId, String creator) {
     return [
       {
         "name": "Blockchain",
@@ -28,13 +29,16 @@ class NFTScreen extends StatelessWidget {
       },
       {
         "name": "Address",
-        "value": contract.toString().substring(0, 22) + "...",
+        "value": contractAddress.length > 30
+            ? contractAddress.substring(0, 30) + "..."
+            : contractAddress.toString(),
         "pic": false,
       },
-      {"name": "Token ID", "value": tokenId.toString(), "pic": false},
+      {"name": "Token ID", "value": tokenId, "pic": false},
       {
         "name": "Creator",
-        "value": owner.substring(0, 22) + "...",
+        "value":
+            creator.length > 12 ? creator.substring(0, 12) + "..." : creator,
         "profile": profilePic,
         "pic": true
       },
@@ -43,6 +47,7 @@ class NFTScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log.i(tokenId);
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -62,26 +67,30 @@ class NFTScreen extends StatelessWidget {
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                        NFTHeader(
-                            collectionName: nft.collectionName,
-                            collectionSlug: nft.collectionSlug,
-                            collectionImageUrl: nft.collectionImageUrl),
+                        NFTHeader(),
                         NFTBody(
-                            imageUrl: nft.imageUrl,
-                            name: nft.name,
-                            lastPrice: nft.lastPrice.toString(),
-                            owner: nft.owner.username,
-                            profile_img_url: nft.owner.profile_img_url,
-                            description: nft.description),
+                          name: nft.name,
+                          imageUrl: nft.imageUrl,
+                          owner: nft.owner.username,
+                          description: nft.description,
+                          lastPrice: nft.lastPrice.toString(),
+                          collectionName: nft.collectionName,
+                          collectionSlug: nft.collectionSlug,
+                          collectionImageUrl: nft.collectionImageUrl,
+                          profile_img_url: nft.owner.profile_img_url,
+                        ),
                         NFTTitles(title: "Details", icon: Icons.menu_outlined),
                         NFTDetailList(
                             details: detailsBuilder(
-                                nft.creator_profile_pic,
-                                nft.contractAddress,
-                                nft.tokenId,
-                                nft.owner.username)),
+                                nft.creator.profile_img_url,
+                                contractAddress,
+                                tokenId,
+                                nft.creator.username)),
                         NFTTitles(title: "Traits", icon: Icons.menu_outlined),
-                        NFTTraitList(traits: nft.traits)
+                        NFTTraitList(
+                          traits: nft.traits,
+                          totalSupply: nft.totalSupply,
+                        )
                       ]));
                 }
 

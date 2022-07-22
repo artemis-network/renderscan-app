@@ -6,11 +6,14 @@ import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 
 class HomeProvider extends ChangeNotifier {
   List<NFTModel> _showcase = [];
+  List<NFTModel> _solonaNFTs = [];
   List<TrendingModel> _trending = [];
   List<NotableCollectionModel> _collections = [];
-  bool _isShowcaseLoaded = false;
+
   bool _isTrendingLoaded = false;
+  bool _isShowcaseLoaded = false;
   bool _isCollectionsLoaded = false;
+  bool _isSolanaNFTsLoaded = false;
 
   initializeHomePage() async {
     _trending = await HomeScreenApi().getTrendingCollections();
@@ -25,6 +28,10 @@ class HomeProvider extends ChangeNotifier {
     if (_collections.isNotEmpty) {
       _isCollectionsLoaded = true;
     }
+    _solonaNFTs = await HomeScreenApi().showCaseNFTs("solana");
+    if (_solonaNFTs.isNotEmpty) {
+      _isSolanaNFTsLoaded = true;
+    }
     notifyListeners();
   }
 
@@ -36,4 +43,7 @@ class HomeProvider extends ChangeNotifier {
 
   get collections => _collections;
   get collectionsLoaded => _isCollectionsLoaded;
+
+  get solanaNFts => _solonaNFTs;
+  get solanaNFTsLoaded => _isSolanaNFTsLoaded;
 }

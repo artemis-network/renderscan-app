@@ -19,14 +19,14 @@ class ThemeColors {
 
 class ThemeProvider extends ChangeNotifier {
   ThemeColors? theme = new ThemeColors(
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.blueGrey,
-      primaryFontColor: Colors.black,
-      secondaryFontColor: Colors.blueGrey.shade700,
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.grey.shade400,
+      primaryFontColor: Colors.white,
+      secondaryFontColor: Colors.blueGrey.shade200,
       highLightColor: Colors.blueAccent.shade400,
       favouriteColor: Colors.redAccent.shade400);
 
-  bool _isDark = false;
+  bool _isDark = true;
 
   setTheme(bool isDark) {
     _isDark = isDark;
