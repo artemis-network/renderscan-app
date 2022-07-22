@@ -12,6 +12,7 @@ import 'package:renderscan/static_screen/home/components/showcase_widget.dart';
 import 'package:renderscan/static_screen/home/components/trending_widget.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/transistion_screen/ranking/ranking_screen.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -73,9 +74,37 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         )
                       : Container(
-                          child: CircularProgressIndicator(),
-                          height: 60,
-                          width: 60,
+                          height: 165,
+                          width: 225,
+                          margin: EdgeInsets.only(left: 20),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                              ]),
                           alignment: Alignment.center,
                         )),
               HomeBanner(),
@@ -104,10 +133,38 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         )
                       : Container(
-                          height: 60,
-                          width: 60,
+                          height: 145,
+                          width: 225,
                           alignment: Alignment.center,
-                          child: CircularProgressIndicator())),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                              ]),
+                        )),
               HeadingWidget(text: "Notable Collections"),
               Container(
                   height: 150,
@@ -128,14 +185,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         )
                       : Container(
-                          height: 60,
-                          width: 60,
+                          height: 150,
+                          width: 225,
                           alignment: Alignment.center,
-                          child: CircularProgressIndicator(),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 136,
+                                      height: 116),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 136,
+                                      height: 116),
+                                ),
+                              ]),
                         )),
-              SizedBox(
-                height: 30,
-              ),
               HeadingWidget(text: "Solana NFTs"),
               Container(
                   height: 145,
@@ -161,10 +234,38 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         )
                       : Container(
-                          height: 60,
-                          width: 60,
+                          height: 145,
+                          width: 225,
                           alignment: Alignment.center,
-                          child: CircularProgressIndicator())),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                                SizedBox(width: 24),
+                                SkeletonAvatar(
+                                  style: SkeletonAvatarStyle(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      width: 96,
+                                      height: 96),
+                                ),
+                              ]),
+                        )),
               SizedBox(
                 height: 20,
               )

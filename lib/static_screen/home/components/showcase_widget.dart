@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
-import 'package:cryptocoins_icons/cryptocoins_icons.dart';
+import 'package:renderscan/transistion_screen/sol_nft/sol_nft_screen.dart';
 
 enum CHAIN { solana, eth }
 
@@ -20,8 +20,8 @@ class ShowcaseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     IconData getSymbol() {
       if (chain == CHAIN.eth) return CryptoFontIcons.ETH;
-      if (chain == CHAIN.solana) return CryptoCoinIcons.SCOT;
-      return CryptoCoinIcons.USDT;
+      if (chain == CHAIN.solana) return CryptoFontIcons.USDT;
+      return CryptoFontIcons.USDT;
     }
 
     ImageGetter() {
@@ -94,16 +94,23 @@ class ShowcaseWidget extends StatelessWidget {
               )
             ]),
             onTap: () => {
-                  if (chain == CHAIN.eth)
+                  if (chain == CHAIN.solana)
                     {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NFTScreen(
-                                    contractAddress: nft.contract,
-                                    tokenId: nft.tokenId,
+                              builder: (context) => NFTSolScreen(
+                                    contract: nft.contract,
                                   )))
                     }
+                  else
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NFTScreen(
+                                  contractAddress: nft.contract,
+                                  tokenId: nft.tokenId,
+                                )))
                 }));
   }
 }

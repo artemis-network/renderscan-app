@@ -7,7 +7,6 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
-import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
 import 'package:renderscan/transistion_screen/welcome/welcome_screen.dart';
 
@@ -57,6 +56,11 @@ class _MyAppState extends State<MyApp> {
                 });
               },
               child: WelcomeScreen(),
+              // child: NFTScreen(
+              //   contractAddress: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
+              //   tokenId:
+              //       "108106047680392530126901775778300423889446504647977261612367594080961297289170",
+              // ),
               waitForSecondBackPress: 3, // default 2
               textStyle: TextStyle(
                 fontSize: 13,

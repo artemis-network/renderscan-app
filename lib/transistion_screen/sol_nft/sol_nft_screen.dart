@@ -1,50 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/static_screen/nfts_collection/models/nft_detail.model.dart';
+import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/static_screen/nfts_collection/models/nft_sol.modal.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_api.dart';
-import 'package:renderscan/transistion_screen/nft/components/nft_body.dart';
 import 'package:renderscan/transistion_screen/nft/components/nft_details.dart';
 import 'package:renderscan/transistion_screen/nft/components/nft_header.dart';
 import 'package:renderscan/transistion_screen/nft/components/nft_titles.dart';
-import 'package:renderscan/transistion_screen/nft/components/nft_traits.dart';
+import 'package:renderscan/transistion_screen/sol_nft/components/nft_sol_body.dart';
+import 'package:renderscan/transistion_screen/sol_nft/components/nft_sol_traits.dart';
 
-class NFTScreen extends StatelessWidget {
-  final String contractAddress;
-  final String tokenId;
+class NFTSolScreen extends StatelessWidget {
+  final String contract;
 
-  NFTScreen({
-    required this.contractAddress,
-    required this.tokenId,
+  NFTSolScreen({
+    required this.contract,
   });
 
-  detailsBuilder(
-      String profilePic, String contract, String tokenId, String creator) {
+  detailsBuilder(String contract, String creator, String share) {
     return [
       {
         "name": "Blockchain",
-        "value": "ethereum",
+        "value": "solana",
         "pic": false,
-      },
-      {
-        "name": "Address",
-        "value": contractAddress.length > 30
-            ? contractAddress.substring(0, 30) + "..."
-            : contractAddress.toString(),
-        "pic": false,
-      },
-      {
-        "name": "Token ID",
-        "value":
-            tokenId.length > 30 ? tokenId.substring(0, 30) + "..." : tokenId,
-        "pic": false
       },
       {
         "name": "Creator",
         "value":
             creator.length > 12 ? creator.substring(0, 12) + "..." : creator,
-        "profile": profilePic,
+        "profile": creator,
         "pic": true
+      },
+      {
+        "name": "Share",
+        "value": share.length > 12 ? share.substring(0, 12) + "..." : share,
+        "pic": false
       },
     ];
   }
@@ -52,6 +42,8 @@ class NFTScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    log.i(contract);
 
     return SafeArea(
       child: Scaffold(
@@ -62,39 +54,32 @@ class NFTScreen extends StatelessWidget {
           color: context.watch<ThemeProvider>().getBackgroundColor(),
           child: SingleChildScrollView(
             child: FutureBuilder(
-                future: NFTCollectionAPI()
-                    .getNFTByContract(contractAddress, tokenId),
+                future: NFTCollectionAPI().getSolNFTByContract(contract, ""),
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
-                    final NFTDetailModel nft = snapshot.data as NFTDetailModel;
+                    final NFTSolDetailModel nft =
+                        snapshot.data as NFTSolDetailModel;
+                    log.i(nft);
                     return SingleChildScrollView(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                           NFTHeader(),
-                          NFTBody(
-                            name: nft.name,
-                            imageUrl: nft.imageUrl,
-                            owner: nft.owner.username,
-                            description: nft.description,
-                            lastPrice: nft.lastPrice.toString(),
-                            collectionName: nft.collectionName,
-                            collectionSlug: nft.collectionSlug,
-                            collectionImageUrl: nft.collectionImageUrl,
-                            profile_img_url: nft.owner.profile_img_url,
-                          ),
+                          NFTSolBody(
+                              name: nft.name,
+                              imageUrl: nft.imageUrl,
+                              collectionName: nft.collectionName,
+                              owner: nft.owner),
                           NFTTitles(
                               title: "Details", icon: Icons.menu_outlined),
                           NFTDetailList(
                               details: detailsBuilder(
-                                  nft.creator.profile_img_url,
-                                  contractAddress,
-                                  tokenId,
-                                  nft.creator.username)),
+                                  nft.owner,
+                                  nft.creators[0].address,
+                                  nft.creators[0].share)),
                           NFTTitles(title: "Traits", icon: Icons.menu_outlined),
-                          NFTTraitList(
+                          NFTSolTraitList(
                             traits: nft.traits,
-                            totalSupply: nft.totalSupply,
                           )
                         ]));
                   }

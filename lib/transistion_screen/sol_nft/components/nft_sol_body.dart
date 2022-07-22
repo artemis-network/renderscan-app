@@ -1,31 +1,21 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 
-class NFTBody extends StatelessWidget {
-  final String imageUrl;
+class NFTSolBody extends StatelessWidget {
   final String name;
-  final String lastPrice;
-  final String owner;
-  final String profile_img_url;
   final String collectionName;
-  final String collectionImageUrl;
-  final String collectionSlug;
-  final String description;
+  final String imageUrl;
+  final String owner;
 
-  NFTBody(
-      {required this.imageUrl,
-      required this.name,
-      required this.lastPrice,
-      required this.owner,
-      required this.profile_img_url,
-      required this.description,
+  NFTSolBody(
+      {required this.name,
       required this.collectionName,
-      required this.collectionSlug,
-      required this.collectionImageUrl});
+      required this.imageUrl,
+      required this.owner});
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -54,13 +44,6 @@ class NFTBody extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundImage: NetworkImage(collectionImageUrl),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
                   Text(
                     collectionName.length > 14
                         ? collectionName.substring(0, 14)
@@ -85,49 +68,13 @@ class NFTBody extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    lastPrice.toString(),
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        18,
-                        FontWeight.bold),
-                  ),
-                  Icon(
-                    CryptoFontIcons.ETH,
-                    size: 18,
-                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundImage: NetworkImage(profile_img_url),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    owner,
+                    "owned by " + owner.substring(0, 24) + "...",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),
                         14,
                         FontWeight.bold),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                description,
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getSecondaryFontColor(),
-                    12,
-                    FontWeight.w400),
               ),
             ],
           ),

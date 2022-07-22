@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/static_screen/home/components/showcase_widget.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 
 class NFTItem extends StatelessWidget {

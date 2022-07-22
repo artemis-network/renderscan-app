@@ -10,6 +10,8 @@ class NFTCollectionActivityTab extends StatelessWidget {
     return ListView.builder(
         itemCount: 10,
         scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        physics: BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return Container(
               decoration: BoxDecoration(

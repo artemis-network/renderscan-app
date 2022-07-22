@@ -5,6 +5,7 @@ import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_collection.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_detail.model.dart';
+import 'package:renderscan/static_screen/nfts_collection/models/nft_sol.modal.dart';
 
 class NFTCollectionAPI {
   String getPrettyJSONString(jsonObject) {
@@ -52,5 +53,23 @@ class NFTCollectionAPI {
       return NFTDetailModel.jsonToObject(json["NFTInfo"]);
     }
     return NFTDetailModel.jsonToObject({});
+  }
+
+  Future<NFTSolDetailModel> getSolNFTByContract(
+      String contract, String tokenId) async {
+    var headers = {'Content-Type': 'application/json'};
+    var body = jsonEncode(
+        {"contract": contract, "token_id": tokenId, "chain": "solana"});
+
+    var response = await http.post(
+        HttpServerConfig().getHost("/marketplace/getnftfromcontract"),
+        headers: headers,
+        body: body);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      log.i("sol nft api status 200");
+      return NFTSolDetailModel.jsonToObject(json["NFTInfo"]);
+    }
+    return NFTSolDetailModel.jsonToObject({});
   }
 }
