@@ -20,7 +20,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     context.read<HomeProvider>().initializeHomePage();
     var future = Future.delayed(const Duration(milliseconds: 5000), () async {
-      final value = await Storage().isFirstTime().toString();
+      final value = await Storage().isFirstTime();
       if (value.toString() == "true") {
         return Navigator.push(context,
             MaterialPageRoute(builder: (context) => NavigationScreen()));
