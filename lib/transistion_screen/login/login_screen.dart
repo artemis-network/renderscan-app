@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
@@ -32,7 +33,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   bool isLoading = false;
   bool isPasswordVisible = false;
   String username = "";
@@ -63,6 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
       isPasswordVisible = !isPasswordVisible;
     });
   }
+
+  GlobalKey<FormState> formkey = GlobalKey<FormState>(debugLabel: "login");
 
   @override
   Widget build(BuildContext context) {
@@ -146,10 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
         child: new AppExitDialogWrapper(
       child: Scaffold(
-        key: scaffoldKey,
-        drawer:
-            Container(width: size.width, child: Drawer(child: SignUpScreen())),
-        drawerEnableOpenDragGesture: false,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
             child: Container(
@@ -157,6 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
           color: context.watch<ThemeProvider>().getBackgroundColor(),
           padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Form(
+              key: formkey,
               child: Column(
                 children: <Widget>[
                   Container(
@@ -212,7 +211,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                        Container(
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: SignUpScreen(),
+                                ctx: context,
+                                duration: Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                childCurrent: LoginScreen()));
+                          },
                           child: Text(
                             " Sign Up",
                             style: TextStyle(
@@ -233,8 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: size.height * 0.1,
                   )
                 ],
-              ),
-              key: formkey),
+              )),
         )),
       ),
     ));

@@ -8,6 +8,7 @@ class NFTCollectionActivityTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        cacheExtent: 9999,
         itemCount: 10,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,

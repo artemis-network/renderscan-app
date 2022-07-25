@@ -42,8 +42,8 @@ class NFTBody extends StatelessWidget {
             height: 340,
             fit: BoxFit.fill,
             errorBuilder: (context, stacktrace, obj) {
-              return SvgPicture.network(
-                imageUrl.toString(),
+              return SvgPicture.asset(
+                "assets/images/default_img.svg",
                 fit: BoxFit.fill,
               );
             },
@@ -111,7 +111,7 @@ class NFTBody extends StatelessWidget {
                     width: 12,
                   ),
                   Text(
-                    owner,
+                    owner.length > 18 ? owner.substring(0, 18) + "..." : owner,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),
                         14,

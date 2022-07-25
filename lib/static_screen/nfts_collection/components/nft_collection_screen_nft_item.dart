@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/static_screen/home/components/showcase_widget.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 
@@ -31,8 +30,8 @@ class NFTCollectionScreenNFTItem extends StatelessWidget {
         return ClipRRect(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-          child: SvgPicture.network(
-            nft.imageUrl,
+          child: SvgPicture.asset(
+            "assets/images/default_img.svg",
             fit: BoxFit.cover,
           ),
         );

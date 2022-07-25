@@ -97,6 +97,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 return CircularProgressIndicator();
                               }
                               return ListView.builder(
+                                  cacheExtent: 9999,
                                   physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: data.length,

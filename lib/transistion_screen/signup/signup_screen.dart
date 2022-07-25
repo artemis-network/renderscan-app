@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
@@ -26,10 +25,7 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen>
-    with TickerProviderStateMixin {
-  final GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
+class _SignUpScreenState extends State<SignUpScreen> {
   String confirmPassword = "";
 
   String? referalCode = "153bf7e9f373c8d105f9bbacb6f157cdd974ad78";
@@ -46,6 +42,14 @@ class _SignUpScreenState extends State<SignUpScreen>
   bool isPasswordHasError = true;
 
   bool _isLoading = false;
+
+  late GlobalKey<FormState> formkey;
+
+  @override
+  void initState() {
+    formkey = new GlobalKey<FormState>(debugLabel: "signup");
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,14 +170,30 @@ class _SignUpScreenState extends State<SignUpScreen>
       });
     }
 
-    return AppExitDialogWrapper(
-      child: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 120, 20, 0),
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
           child: Form(
-            key: formkey,
             child: Column(
               children: <Widget>[
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 40),
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 32,
+                      color:
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                    ),
+                  ),
+                ),
                 InputField(
                   isHidden: false,
                   hasError: isUsernameHasError,
@@ -262,40 +282,9 @@ class _SignUpScreenState extends State<SignUpScreen>
                         },
                       ),
                 SizedBox(height: size.height * 0.03),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getSecondaryFontColor(),
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      Container(
-                        child: Text(
-                          " Sign In",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getSecondaryFontColor(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
               ],
             ),
+            key: formkey,
           ),
         ),
       ),

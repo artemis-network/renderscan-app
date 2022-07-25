@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_detail.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_api.dart';
@@ -25,6 +26,7 @@ class NFTScreen extends StatelessWidget {
         "name": "Blockchain",
         "value": "ethereum",
         "pic": false,
+        "canCopy": false
       },
       {
         "name": "Address",
@@ -32,19 +34,22 @@ class NFTScreen extends StatelessWidget {
             ? contractAddress.substring(0, 30) + "..."
             : contractAddress.toString(),
         "pic": false,
+        "canCopy": true
       },
       {
         "name": "Token ID",
         "value":
             tokenId.length > 30 ? tokenId.substring(0, 30) + "..." : tokenId,
-        "pic": false
+        "pic": false,
+        "canCopy": true
       },
       {
         "name": "Creator",
         "value":
-            creator.length > 12 ? creator.substring(0, 12) + "..." : creator,
+            creator.length > 24 ? creator.substring(0, 24) + "..." : creator,
         "profile": profilePic,
-        "pic": true
+        "pic": true,
+        "canCopy": false
       },
     ];
   }
@@ -60,60 +65,45 @@ class NFTScreen extends StatelessWidget {
           height: size.height,
           width: size.width,
           color: context.watch<ThemeProvider>().getBackgroundColor(),
-          child: SingleChildScrollView(
-            child: FutureBuilder(
-                future: NFTCollectionAPI()
-                    .getNFTByContract(contractAddress, tokenId),
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    final NFTDetailModel nft = snapshot.data as NFTDetailModel;
-                    return SingleChildScrollView(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                          NFTHeader(),
-                          NFTBody(
-                            name: nft.name,
-                            imageUrl: nft.imageUrl,
-                            owner: nft.owner.username,
-                            description: nft.description,
-                            lastPrice: nft.lastPrice.toString(),
-                            collectionName: nft.collectionName,
-                            collectionSlug: nft.collectionSlug,
-                            collectionImageUrl: nft.collectionImageUrl,
-                            profile_img_url: nft.owner.profile_img_url,
-                          ),
-                          NFTTitles(
-                              title: "Details", icon: Icons.menu_outlined),
-                          NFTDetailList(
-                              details: detailsBuilder(
-                                  nft.creator.profile_img_url,
-                                  contractAddress,
-                                  tokenId,
-                                  nft.creator.username)),
-                          NFTTitles(title: "Traits", icon: Icons.menu_outlined),
-                          NFTTraitList(
-                            traits: nft.traits,
-                            totalSupply: nft.totalSupply,
-                          )
-                        ]));
-                  }
+          child: FutureBuilder(
+              future:
+                  NFTCollectionAPI().getNFTByContract(contractAddress, tokenId),
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  final NFTDetailModel nft = snapshot.data as NFTDetailModel;
+                  return SingleChildScrollView(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                        NFTHeader(),
+                        NFTBody(
+                          name: nft.name,
+                          imageUrl: nft.imageUrl,
+                          owner: nft.owner.address,
+                          description: nft.description,
+                          lastPrice: nft.lastPrice.toString(),
+                          collectionName: nft.collectionName,
+                          collectionSlug: nft.collectionSlug,
+                          collectionImageUrl: nft.collectionImageUrl,
+                          profile_img_url: nft.owner.profile_img_url,
+                        ),
+                        NFTTitles(title: "Details", icon: Icons.menu_outlined),
+                        NFTDetailList(
+                            details: detailsBuilder(nft.creator.profile_img_url,
+                                contractAddress, tokenId, nft.creator.address)),
+                        NFTTitles(title: "Traits", icon: Icons.menu_outlined),
+                        NFTTraitList(
+                          traits: nft.traits,
+                          totalSupply: nft.totalSupply,
+                        )
+                      ]));
+                }
 
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      CircularProgressIndicator(),
-                      SizedBox(
-                        height: 30,
-                      )
-                    ],
-                  );
-                })),
-          ),
+                return Container(
+                  alignment: Alignment.center,
+                  child: spinkit,
+                );
+              })),
         ),
       ),
     );

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
+import 'package:renderscan/transistion_screen/welcome/slides/slide_one.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -18,12 +20,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     context.read<HomeProvider>().initializeHomePage();
     var future = Future.delayed(const Duration(milliseconds: 5000), () async {
-      // var isUserLoggedIn = await Storage().getItem("username");
-      // log.i(isUserLoggedIn);
-      // return Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      final value = await Storage().isFirstTime().toString();
+      if (value.toString() == "true") {
+        return Navigator.push(context,
+            MaterialPageRoute(builder: (context) => NavigationScreen()));
+      }
       return Navigator.push(
-          context, MaterialPageRoute(builder: (context) => NavigationScreen()));
+          context, MaterialPageRoute(builder: (context) => SlideOne()));
     });
 
     future.then((value) {});

@@ -16,8 +16,7 @@ class HomeScreenApi {
   Future<List<TrendingModel>> getTrendingCollections() async {
     try {
       var headers = {'Content-Type': 'application/json'};
-      var body =
-          jsonEncode({"category": "art", "chain": "ethereum", "count": "20"});
+      var body = jsonEncode({"category": "", "chain": "", "count": "20"});
 
       var response = await http.post(
           HttpServerConfig().getHost("/marketplace/gettrendingcollections"),

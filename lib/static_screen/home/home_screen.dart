@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 225,
                   child: context.watch<HomeProvider>().trendingLoaded
                       ? ListView.builder(
+                          cacheExtent: 9999,
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -114,6 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 225,
                   child: context.watch<HomeProvider>().showcaseLoaded
                       ? ListView.builder(
+                          cacheExtent: 9999,
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -171,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 225,
                   child: context.watch<HomeProvider>().collectionsLoaded
                       ? ListView.builder(
+                          cacheExtent: 9999,
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
@@ -215,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 225,
                   child: context.watch<HomeProvider>().solanaNFTsLoaded
                       ? ListView.builder(
+                          cacheExtent: 9999,
                           physics: const BouncingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,

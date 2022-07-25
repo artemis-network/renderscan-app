@@ -9,6 +9,7 @@ class NFTDetailList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        cacheExtent: 9999,
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: details.length,

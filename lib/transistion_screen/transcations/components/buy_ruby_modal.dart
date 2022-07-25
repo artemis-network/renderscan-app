@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/transistion_screen/login/login_screen.dart';
 import 'package:renderscan/transistion_screen/transcations/models/order.model.dart';
 import 'package:renderscan/transistion_screen/transcations/transaction_api.dart';
 
@@ -153,27 +155,43 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                   ]),
               child: OutlinedButton(
                   onPressed: () async {
-                    final userId = await Storage().getItem("userId");
-                    final Order order = Order(
-                        amount: getAmount(),
-                        notes: "",
-                        orderId: "",
-                        paymentId: "",
-                        signature: "",
-                        userId: userId.toString());
-                    final result = await TransactionApi().createOrder(order);
-                    var options = {
-                      'key': 'rzp_test_VmSch4maQMZS9L',
-                      'order_id': result["id"],
-                      'amount': 100 * getAmount(),
-                      'name': 'Renderscan',
-                      'description': 'Buy Ruby',
-                      'prefill': {
-                        'contact': '8888888888',
-                        'email': 'test@razorpay.com'
-                      },
-                    };
-                    _razorpay.open(options);
+                    final bool isUserLoggedIn = await Storage().isLoggedIn();
+                    if (isUserLoggedIn) {
+                      try {
+                        final userId = await Storage().getItem("userId");
+                        final Order order = Order(
+                            amount: getAmount(),
+                            notes: "",
+                            orderId: "",
+                            paymentId: "",
+                            signature: "",
+                            userId: userId.toString());
+                        final result =
+                            await TransactionApi().createOrder(order);
+                        log.i(result);
+                        var options = {
+                          'key': 'rzp_test_VmSch4maQMZS9L',
+                          'order_id': result["id"],
+                          'amount': 100 * getAmount(),
+                          'name': 'Renderscan',
+                          'description': 'Buy Ruby',
+                          'prefill': {
+                            'contact': '8888888888',
+                            'email': 'test@razorpay.com'
+                          },
+                        };
+                        _razorpay.open(options);
+                      } catch (e) {
+                        log.e(e);
+                      }
+                    } else
+                      Navigator.of(context).push(PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          child: LoginScreen(),
+                          ctx: context,
+                          fullscreenDialog: true,
+                          duration: Duration(milliseconds: 300),
+                          childCurrent: BuyRubyModal()));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -221,38 +239,43 @@ class RubyRadio extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    final themeBg = groupValue == value
+    final themeBg = groupValue != value
         ? context.watch<ThemeProvider>().getBackgroundColor()
         : context.watch<ThemeProvider>().getPriamryFontColor();
 
-    final themeFont = groupValue != value
+    final themeFont = groupValue == value
         ? context.watch<ThemeProvider>().getBackgroundColor()
         : context.watch<ThemeProvider>().getPriamryFontColor();
 
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      width: size.width * 0.7,
-      decoration: BoxDecoration(
-          color: themeBg,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [BoxShadow(blurRadius: 1, color: themeFont)]),
-      child: ListTile(
-          title: Column(children: [
-            Text(
-              label,
-              style: kPrimartFont(themeFont, 22, FontWeight.bold),
-            ),
-            Text(
-              discountLabel,
-              style: kPrimartFont(themeFont, 16, FontWeight.normal),
-            )
-          ]),
-          leading: Radio<RUBY_PACK>(
-            activeColor: themeFont,
-            value: value,
-            groupValue: groupValue,
-            onChanged: (RUBY_PACK? value) => onChange(value),
-          )),
+    return GestureDetector(
+      onTap: () {
+        onChange(value);
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        width: size.width * 0.7,
+        decoration: BoxDecoration(
+            color: themeBg,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [BoxShadow(blurRadius: 1, color: themeFont)]),
+        child: ListTile(
+            title: Column(children: [
+              Text(
+                label,
+                style: kPrimartFont(themeFont, 22, FontWeight.bold),
+              ),
+              Text(
+                discountLabel,
+                style: kPrimartFont(themeFont, 16, FontWeight.normal),
+              )
+            ]),
+            leading: Radio<RUBY_PACK>(
+              activeColor: themeFont,
+              value: value,
+              groupValue: groupValue,
+              onChanged: (RUBY_PACK? value) => onChange(value),
+            )),
+      ),
     );
   }
 }

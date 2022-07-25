@@ -13,6 +13,12 @@ class Storage {
     storage.write(key: "accessToken", value: response.accessToken);
   }
 
+  Future<void> setFirstTime(bool setFirstTime) async {
+    await storage.write(key: "isFirstTime", value: setFirstTime.toString());
+  }
+
+  Future<String?> isFirstTime() async => await storage.read(key: "isFirstTime");
+
   Future<String?> getItem(String key) async => await storage.read(key: key);
   Future<void> deleteItem(String key) async => await storage.delete(key: key);
 

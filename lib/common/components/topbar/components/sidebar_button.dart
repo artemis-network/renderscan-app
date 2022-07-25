@@ -28,45 +28,28 @@ class _SideBarButtonState extends State<SideBarButton> {
           duration: Duration(milliseconds: 250),
           padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
           child: Container(
-              width: size.width,
-              padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        widget.icon,
-                        size: 24,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor(),
-                      )),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        widget.text,
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            14,
-                            FontWeight.normal),
-                      ))
-                ],
-              ),
-              decoration: BoxDecoration(
-                  color: context.watch<ThemeProvider>().getBackgroundColor(),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                        spreadRadius: 0,
-                        blurRadius: 100,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getHighLightColor()
-                            .withOpacity(0.22),
-                        offset: Offset(0, 0)),
-                  ]))),
+            width: size.width,
+            padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  widget.icon,
+                  size: 22,
+                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  widget.text,
+                  style: kPrimartFont(
+                      context.watch<ThemeProvider>().getPriamryFontColor(),
+                      16,
+                      FontWeight.w500),
+                )
+              ],
+            ),
+          )),
     );
   }
 }

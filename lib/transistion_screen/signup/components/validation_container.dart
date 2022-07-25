@@ -17,6 +17,7 @@ class _ValidationContainerState extends State<ValidationContainer> {
       physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
       child: ListView.builder(
+          cacheExtent: 9999,
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.errors.length,

@@ -31,8 +31,8 @@ class ShowcaseWidget extends StatelessWidget {
             nft.imageUrl.toString(),
             height: 96,
             fit: BoxFit.fitWidth,
-            errorBuilder: (context, error, stackTrace) => SvgPicture.network(
-              nft.imageUrl.toString(),
+            errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
+              "assets/images/default_img.svg",
               height: 96,
               fit: BoxFit.fitWidth,
             ),

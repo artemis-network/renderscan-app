@@ -1,26 +1,13 @@
-// now
--> buy page
-	-> bottom slider
-		-> payment integration
-
-	get started pages
-	-> 3 slides
-		-> Explore the app.create account
-
-
 // later
 fix_google_oauth
 firebase_instance
 
+// imp
+// add copy function for nft screen
+// instead username -> use addresses
+// instead creator -> use addresses
 
-{
-	transcations
-}
-
-// login
-// email is not verified data
-
-
-collection_page => nfts_substr_10
-trending_ranking => to_collection_page
-login_page => exit => pop_ever
+//
+// profile, nfts page action trigger -> login 
+// dots for banner auto scroll for time interval
+// signup issue

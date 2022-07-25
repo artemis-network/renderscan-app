@@ -11,138 +11,96 @@ import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
 import 'package:renderscan/transistion_screen/login/login_screen.dart';
 import 'package:renderscan/transistion_screen/referal/referal_screen.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
+import 'package:renderscan/transistion_screen/transcations/components/buy_ruby_modal.dart';
 import 'package:renderscan/transistion_screen/transcations/transaction_screen.dart';
 
 class SideBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    screen() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 32,
-            backgroundImage: AssetImage("assets/images/lion.png"),
-          ),
-          SizedBox(width: 12),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FutureBuilder(
-                  future: Storage().getItem("username"),
-                  builder: ((context, snapshot) {
-                    return Text(
-                      snapshot.data.toString(),
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          18,
-                          FontWeight.normal),
-                    );
-                  })),
-              Text(
-                "x92wss...",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    14,
-                    FontWeight.w200),
-              ),
-            ],
-          )
-        ],
-      );
+    operatePage(Function fn) async {
+      final bool isUserLoggedIn = await Storage().isLoggedIn();
+      if (isUserLoggedIn) {
+        fn();
+      } else
+        Navigator.of(context).push(PageTransition(
+            type: PageTransitionType.bottomToTop,
+            child: LoginScreen(),
+            ctx: context,
+            fullscreenDialog: true,
+            duration: Duration(milliseconds: 300),
+            childCurrent: SideBar()));
     }
 
-    guestView() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 32,
-            backgroundImage: AssetImage("assets/images/lion.png"),
-          ),
-          SizedBox(width: 20),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "My Account",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    18,
-                    FontWeight.normal),
-              ),
-              InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: LoginScreen(),
-                        ctx: context,
-                        fullscreenDialog: true,
-                        duration: Duration(milliseconds: 300),
-                        childCurrent: this));
-                  },
-                  child: Text(
-                    "Login / Signup",
-                    style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      14,
-                      FontWeight.w600,
-                    ),
-                  )),
-            ],
-          )
-        ],
-      );
-    }
-
-    actionsForUser() {
-      return Column(
+    return Container(
+      color: context.watch<ThemeProvider>().getBackgroundColor(),
+      padding: EdgeInsets.only(top: 50),
+      child: Column(
         children: [
           SideBarButton(
+            text: "Account",
+            icon: Icons.person_rounded,
+            onClick: () => operatePage(
+                () => context.read<NavigationProvider>().currentIndex(3)),
+          ),
+          SideBarButton(
             text: "Transcations",
-            icon: Icons.wallet_membership_outlined,
+            icon: Icons.monetization_on_rounded,
             onClick: () {
-              return Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) {
-                  return TransactionScreen();
-                },
-              ));
+              operate() {
+                return Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return TransactionScreen();
+                  },
+                ));
+              }
+
+              operatePage(operate);
             },
           ),
           SideBarButton(
             text: "Refer & Earn",
             icon: Icons.money_outlined,
             onClick: () {
-              return Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) {
-                  return ReferalScreen();
-                },
-              ));
+              operate() {
+                return Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return ReferalScreen();
+                  },
+                ));
+              }
+
+              operatePage(operate);
             },
           ),
-        ],
-      );
-    }
-
-    return Container(
-      color: context.watch<ThemeProvider>().getBackgroundColor(),
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: [
-          AuthFilter(screen: screen(), guestView: guestView()),
           Divider(
-              height: 50,
+              height: 30,
               color: context
                   .watch<ThemeProvider>()
                   .getHighLightColor()
                   .withOpacity(0.33),
               thickness: 2,
               indent: 4),
-          AuthFilter(screen: actionsForUser(), guestView: Container()),
+          SideBarButton(
+            text: "Buy Ruby",
+            icon: Icons.money_outlined,
+            onClick: () {
+              Navigator.of(context).push(PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  child: BuyRubyModal(),
+                  ctx: context,
+                  duration: Duration(milliseconds: 300),
+                  fullscreenDialog: true,
+                  childCurrent: this));
+            },
+          ),
+          Divider(
+              height: 30,
+              color: context
+                  .watch<ThemeProvider>()
+                  .getHighLightColor()
+                  .withOpacity(0.33),
+              thickness: 2,
+              indent: 4),
           AuthFilter(
               screen: Divider(
                   height: 30,
@@ -155,6 +113,16 @@ class SideBar extends StatelessWidget {
               guestView: Container()),
           SideBarButton(
             text: "Terms of Use",
+            icon: Icons.document_scanner_outlined,
+            onClick: () {},
+          ),
+          SideBarButton(
+            text: "Privacy Policy",
+            icon: Icons.document_scanner_outlined,
+            onClick: () {},
+          ),
+          SideBarButton(
+            text: "Feedback & Support",
             icon: Icons.document_scanner_outlined,
             onClick: () {},
           ),
@@ -188,22 +156,50 @@ class SideBar extends StatelessWidget {
                   .withOpacity(0.33),
               thickness: 2,
               indent: 4),
-          Container(
-            alignment: Alignment.center,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                "Dark Theme",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    18,
-                    FontWeight.bold),
-              ),
-              Switch(
-                  value: context.watch<ThemeProvider>().isDarkTheme(),
-                  onChanged: (r) {
-                    context.read<ThemeProvider>().setTheme(r);
-                  })
-            ]),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Music",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              12,
+                              FontWeight.bold),
+                        ),
+                        Switch(
+                            value: context.watch<ThemeProvider>().isDarkTheme(),
+                            onChanged: (r) {
+                              context.read<ThemeProvider>().setTheme(r);
+                            })
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Dark Theme",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              12,
+                              FontWeight.bold),
+                        ),
+                        Switch(
+                            value: context.watch<ThemeProvider>().isDarkTheme(),
+                            onChanged: (r) {
+                              context.read<ThemeProvider>().setTheme(r);
+                            })
+                      ],
+                    )
+                  ]),
+            ),
           )
         ],
       ),

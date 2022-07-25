@@ -86,6 +86,7 @@ class ReferalScreen extends StatelessWidget {
                   if (!snapshot.hasData) return CircularProgressIndicator();
                   dynamic data = snapshot.data;
                   return ListView.builder(
+                    cacheExtent: 9999,
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: data.length,

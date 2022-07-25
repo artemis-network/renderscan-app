@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 
 class HomeBanner extends StatefulWidget {
   @override
@@ -6,8 +9,24 @@ class HomeBanner extends StatefulWidget {
 }
 
 class Home_BannerState extends State<HomeBanner> {
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    // const oneSec = Duration(seconds: 3);
+    // Timer.periodic(oneSec, (Timer t) {
+    //   if (currentIndex >= 2) {
+    //     setState(() {
+    //       currentIndex = 0;
+    //     });
+    //     return;
+    //   }
+    //   setState(() {
+    //     currentIndex += 1;
+    //   });
+    //   return;
+    // });
+
     final Homebanners = [
       "assets/images/banner_one.png",
       "assets/images/banner_two.png",
@@ -17,21 +36,63 @@ class Home_BannerState extends State<HomeBanner> {
       margin: EdgeInsets.symmetric(vertical: 10),
       height: 130,
       width: 350,
-      child: PageView.builder(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          controller: PageController(viewportFraction: 1, initialPage: 0),
-          itemCount: 3,
-          itemBuilder: (BuildContext context, int index) {
-            return ClipRRect(
-              child: Image.asset(
-                Homebanners[index],
-                height: 65,
-                fit: BoxFit.fill,
-              ),
-            );
-          }),
+      child: Stack(alignment: Alignment.center, children: [
+        PageView.builder(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            controller: PageController(viewportFraction: 1, initialPage: 0),
+            onPageChanged: (int index) {
+              log.i(index);
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            itemCount: 3,
+            itemBuilder: (BuildContext context, int index) {
+              return ClipRRect(
+                child: Image.asset(
+                  Homebanners[currentIndex],
+                  height: 65,
+                  fit: BoxFit.fill,
+                ),
+              );
+            }),
+        Positioned(
+            bottom: 10,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.circle,
+                  color: currentIndex == 0
+                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      : context.watch<ThemeProvider>().getBackgroundColor(),
+                  size: 10,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.circle,
+                  color: currentIndex == 1
+                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      : context.watch<ThemeProvider>().getBackgroundColor(),
+                  size: 10,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.circle,
+                  color: currentIndex == 2
+                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      : context.watch<ThemeProvider>().getBackgroundColor(),
+                  size: 10,
+                )
+              ],
+            ))
+      ]),
     );
   }
 }

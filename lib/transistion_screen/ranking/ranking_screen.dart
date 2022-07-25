@@ -152,6 +152,7 @@ class _RankingScreenState extends State<RankingScreen> {
                   if (snapshot.hasData) {
                     final trending = snapshot.data as List<TrendingModel>;
                     return ListView.builder(
+                        cacheExtent: 9999,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: trending.length,
