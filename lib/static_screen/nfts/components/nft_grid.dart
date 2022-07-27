@@ -1,15 +1,15 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 
 class NFTItem extends StatelessWidget {
-  final String url;
-  final String name;
-  final double price;
+  final NFTModel nftModel;
 
-  NFTItem({required this.url, required this.name, required this.price});
+  NFTItem({required this.nftModel});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class NFTItem extends StatelessWidget {
             InkWell(
               child: Ink.image(
                 height: 170,
-                image: NetworkImage(url),
+                image: NetworkImage(nftModel.imageUrl),
                 fit: BoxFit.fitWidth,
               ),
             ),
@@ -41,7 +41,9 @@ class NFTItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          name,
+                          nftModel.name.length > 10
+                              ? nftModel.name.substring(0, 10)
+                              : nftModel.name,
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -49,26 +51,28 @@ class NFTItem extends StatelessWidget {
                               16,
                               FontWeight.normal),
                         ),
-                        Text(
-                          price.toString() + " ETH",
-                          style: kPrimartFont(
-                              context
+                        Row(
+                          children: [
+                            Text(
+                              nftModel.lastPrice.toString(),
+                              style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  14,
+                                  FontWeight.bold),
+                            ),
+                            Icon(
+                              CryptoFontIcons.ETH,
+                              color: context
                                   .watch<ThemeProvider>()
                                   .getPriamryFontColor(),
-                              14,
-                              FontWeight.bold),
-                        ),
+                              size: 18,
+                            )
+                          ],
+                        )
                       ],
                     ),
-                    IconButton(
-                        onPressed: () => {},
-                        icon: Icon(
-                          Icons.favorite_outline,
-                          size: 30,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getFavouriteColor(),
-                        ))
                   ],
                 ))
           ],
@@ -79,8 +83,8 @@ class NFTItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => NFTScreen(
-                      contractAddress: "",
-                      tokenId: "",
+                      contractAddress: nftModel.contract,
+                      tokenId: nftModel.tokenId,
                     )));
       },
     );
@@ -88,7 +92,7 @@ class NFTItem extends StatelessWidget {
 }
 
 class NFTGrid extends StatelessWidget {
-  final nftItems;
+  final List<NFTModel> nftItems;
   NFTGrid({required this.nftItems});
   @override
   Widget build(BuildContext context) {
@@ -105,9 +109,7 @@ class NFTGrid extends StatelessWidget {
           itemCount: nftItems.length,
           itemBuilder: (BuildContext context, int index) {
             return NFTItem(
-              name: nftItems[index]["name"].toString().substring(0, 10) + "...",
-              price: nftItems[index]["price"],
-              url: nftItems[index]["url"],
+              nftModel: nftItems[index],
             );
           },
         ));

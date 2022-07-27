@@ -1,7 +1,5 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
@@ -9,7 +7,7 @@ import 'package:renderscan/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
-import 'package:renderscan/static_screen/profile/component/profiile_buttons.dart';
+import 'package:renderscan/static_screen/profile/component/profile_input.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -30,11 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context.read<ScanProvider>().resetProvider();
     }
 
-    var scaffoldKey = GlobalKey<ScaffoldState>();
-
     bool allowClose = true;
-
-    void fun() => (null);
 
     return DoubleBack(
         condition: allowClose,
@@ -44,11 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           });
         },
         child: Scaffold(
-          key: scaffoldKey,
-          drawerEnableOpenDragGesture: false,
-          drawer: Drawer(
-            child: SideBar(),
-          ),
           body: Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Container(
@@ -57,9 +46,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: size.width,
                 child: Column(
                   children: [
-                    Topbar(
-                      popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-                    ),
+                    Text("Edit Your Profile",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            18,
+                            FontWeight.bold)),
                     const Padding(
                       padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: CircleAvatar(
@@ -85,40 +78,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     ),
+                    TextButton(onPressed: () {}, child: Text("Choose a photo")),
                     Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
+                        child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                       child: Column(
                         children: [
-                          ProfileButton(
-                            text: "Privacy",
-                            icon: Icons.privacy_tip_outlined,
-                            onClick: fun,
+                          ProfileInput(
+                            labelText: "Username",
+                            icon: Icons.person,
+                            onChange: () {},
                           ),
-                          SizedBox(height: 10),
-                          ProfileButton(
-                            text: "Help & Support",
-                            icon: Icons.help_center_outlined,
-                            onClick: fun,
+                          ProfileInput(
+                            labelText: "Display name",
+                            icon: Icons.display_settings,
+                            onChange: () {},
                           ),
-                          SizedBox(height: 10),
-                          ProfileButton(
-                            text: "Settings",
-                            icon: Icons.settings_outlined,
-                            onClick: fun,
+                          ProfileInput(
+                            labelText: "Link",
+                            icon: Icons.link,
+                            onChange: () {},
                           ),
-                          SizedBox(height: 10),
-                          ProfileButton(
-                            text: "Refer a Friend",
-                            icon: Icons.person_add_outlined,
-                            onClick: fun,
-                          ),
-                          SizedBox(height: 10),
-                          ProfileButton(
-                            text: "Log out",
-                            icon: Icons.logout_outlined,
-                            onClick: logOut,
-                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text("save"),
+                                  style: ButtonStyle(
+                                      textStyle: MaterialStateProperty.all(
+                                          kPrimartFont(
+                                              context
+                                                  .watch<ThemeProvider>()
+                                                  .getPriamryFontColor(),
+                                              18,
+                                              FontWeight.normal)),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(context
+                                              .watch<ThemeProvider>()
+                                              .getPriamryFontColor())),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextButton(
+                                    onPressed: () => logOut(),
+                                    style: ButtonStyle(
+                                        textStyle: MaterialStateProperty.all(
+                                            kPrimartFont(
+                                                context
+                                                    .watch<ThemeProvider>()
+                                                    .getPriamryFontColor(),
+                                                18,
+                                                FontWeight.normal)),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(context
+                                                .watch<ThemeProvider>()
+                                                .getPriamryFontColor())),
+                                    child: Text("logout")),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ))

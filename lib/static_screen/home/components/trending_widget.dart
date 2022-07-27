@@ -82,8 +82,8 @@ class TrendingWidget extends StatelessWidget {
             Container(
               child: Text(
                 trending.oneDayVolume.toString().length < 4
-                    ? trending.oneDayVolume.toString() + "M"
-                    : trending.oneDayVolume.toString().substring(0, 5) + "M",
+                    ? trending.oneDayVolume.toString()
+                    : trending.oneDayVolume.toString().substring(0, 5),
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getHighLightColor(),
                     11,

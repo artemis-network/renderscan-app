@@ -18,10 +18,18 @@ class ShowcaseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    IconData getSymbol() {
-      if (chain == CHAIN.eth) return CryptoFontIcons.ETH;
-      if (chain == CHAIN.solana) return CryptoFontIcons.USDT;
-      return CryptoFontIcons.USDT;
+    getSymbol() {
+      if (chain == CHAIN.eth)
+        return Icon(
+          CryptoFontIcons.ETH,
+          color: context.watch<ThemeProvider>().getPriamryFontColor(),
+          size: 14,
+        );
+      return Image.asset(
+        "assets/images/sol.png",
+        height: 14,
+        width: 14,
+      );
     }
 
     ImageGetter() {
@@ -81,13 +89,7 @@ class ShowcaseWidget extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                      Icon(
-                        getSymbol(),
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor(),
-                        size: 14,
-                      )
+                      getSymbol()
                     ],
                   ),
                 ],

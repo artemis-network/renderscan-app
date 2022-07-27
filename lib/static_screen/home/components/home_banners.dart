@@ -66,7 +66,7 @@ class Home_BannerState extends State<HomeBanner> {
                 Icon(
                   Icons.circle,
                   color: currentIndex == 0
-                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      ? Colors.white
                       : context.watch<ThemeProvider>().getBackgroundColor(),
                   size: 10,
                 ),
@@ -76,7 +76,7 @@ class Home_BannerState extends State<HomeBanner> {
                 Icon(
                   Icons.circle,
                   color: currentIndex == 1
-                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      ? Colors.white
                       : context.watch<ThemeProvider>().getBackgroundColor(),
                   size: 10,
                 ),
@@ -86,7 +86,7 @@ class Home_BannerState extends State<HomeBanner> {
                 Icon(
                   Icons.circle,
                   color: currentIndex == 2
-                      ? context.watch<ThemeProvider>().getHighLightColor()
+                      ? Colors.white
                       : context.watch<ThemeProvider>().getBackgroundColor(),
                   size: 10,
                 )

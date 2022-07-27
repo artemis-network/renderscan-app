@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
+import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_screen.dart';
 
 class RankingItem extends StatelessWidget {
@@ -11,7 +12,7 @@ class RankingItem extends StatelessWidget {
   final String url;
   final String volume;
   final String totalValue;
-  final String floor;
+  final String change;
   final String owners;
   final String slug;
 
@@ -22,7 +23,7 @@ class RankingItem extends StatelessWidget {
       required this.url,
       required this.volume,
       required this.totalValue,
-      required this.floor,
+      required this.change,
       required this.slug,
       required this.owners})
       : super(key: key);
@@ -30,6 +31,28 @@ class RankingItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    var o = (double.parse(owners) / 1000).toStringAsFixed(1) + "K";
+    var color = Colors.green;
+    if (change != "--") {
+      final changed = double.parse(change);
+      if (changed < 0) {
+        color = Colors.red;
+      }
+      if (change == 0) {
+        color = Colors.grey;
+      }
+    }
+    final changed = double.parse(change).toStringAsFixed(2);
+
+    getCurrentTimeFrame() {
+      final String timeFrame =
+          context.watch<HomeProvider>().currentTrendingrankingSortByTime;
+      if (timeFrame == "daily") return "1d";
+      if (timeFrame == "weekly") return "1w";
+      if (timeFrame == "monthly") return "1m";
+      return "";
+    }
+
     return InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
@@ -140,16 +163,11 @@ class RankingItem extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                floor,
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
-                                    14,
-                                    FontWeight.bold),
+                                changed + "%",
+                                style: kPrimartFont(color, 14, FontWeight.bold),
                               ),
                               Text(
-                                "Floor",
+                                getCurrentTimeFrame(),
                                 style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()
@@ -171,7 +189,7 @@ class RankingItem extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                owners,
+                                o,
                                 style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()

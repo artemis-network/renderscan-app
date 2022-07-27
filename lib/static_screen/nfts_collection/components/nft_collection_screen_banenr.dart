@@ -16,22 +16,37 @@ class NFTCollectScreenBanner extends StatelessWidget {
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
-        Image.network(
-          bannerUrl,
-          fit: BoxFit.fitWidth,
+        Container(
+          constraints: BoxConstraints(minHeight: 160),
+          child: Image.network(
+            bannerUrl,
+            fit: BoxFit.fill,
+          ),
         ),
         Positioned(
-            top: 10,
-            left: 10,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_circle_left,
-                  color: context.watch<ThemeProvider>().getBackgroundColor(),
-                  size: 50,
-                ))),
+          top: 10,
+          left: 10,
+          child: InkWell(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return RadialGradient(
+                  center: Alignment.topLeft,
+                  radius: 1.0,
+                  colors: [Colors.greenAccent, Colors.blueAccent],
+                  tileMode: TileMode.mirror,
+                ).createShader(bounds);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                size: 50,
+                color: context.watch<ThemeProvider>().getHighLightColor(),
+              ),
+            ),
+          ),
+        ),
         Positioned(
             bottom: 0,
             child: Container(

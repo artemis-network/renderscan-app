@@ -2,21 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/static_screen/home/models/notable_collection.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_screen.dart';
 
-class LiveDropItem extends StatelessWidget {
-  final String banner;
-  final String url;
-  final String name;
-  final String collectionName;
-  final String category;
+class Collections extends StatelessWidget {
+  final NotableCollectionModel collection;
 
-  LiveDropItem(
-      {required this.banner,
-      required this.url,
-      required this.category,
-      required this.collectionName,
-      required this.name});
+  Collections({required this.collection});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +33,7 @@ class LiveDropItem extends StatelessWidget {
                 InkWell(
                   child: Ink.image(
                     height: 80,
-                    image: NetworkImage(banner),
+                    image: NetworkImage(collection.bannerUrl),
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -53,7 +45,7 @@ class LiveDropItem extends StatelessWidget {
                           context.watch<ThemeProvider>().getBackgroundColor(),
                       child: CircleAvatar(
                         radius: 44,
-                        backgroundImage: NetworkImage(url),
+                        backgroundImage: NetworkImage(collection.imageUrl),
                       ),
                     ))
               ],
@@ -63,7 +55,7 @@ class LiveDropItem extends StatelessWidget {
             ),
             Container(
               child: Text(
-                name,
+                collection.slug,
                 style: GoogleFonts.poppins(
                   fontSize: 18,
                   color: context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -76,7 +68,7 @@ class LiveDropItem extends StatelessWidget {
             ),
             Container(
               child: Text(
-                collectionName,
+                collection.name,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   color: context.watch<ThemeProvider>().getSecondaryFontColor(),
@@ -95,7 +87,7 @@ class LiveDropItem extends StatelessWidget {
                 color: context.watch<ThemeProvider>().getBackgroundColor(),
               ),
               child: Text(
-                category,
+                collection.oneDayChange,
                 style: GoogleFonts.poppins(
                     fontSize: 14,
                     color: context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -111,7 +103,7 @@ class LiveDropItem extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) => NFTCollectionScreen(
-                      slug: "",
+                      slug: collection.slug,
                     )));
       },
     );
@@ -119,7 +111,7 @@ class LiveDropItem extends StatelessWidget {
 }
 
 class ExploreGrid extends StatelessWidget {
-  final exploreItems;
+  final List<NotableCollectionModel> exploreItems;
   ExploreGrid({required this.exploreItems});
   @override
   Widget build(BuildContext context) {
@@ -136,12 +128,8 @@ class ExploreGrid extends StatelessWidget {
             ),
             itemCount: exploreItems.length,
             itemBuilder: (BuildContext context, int index) {
-              return LiveDropItem(
-                banner: exploreItems[index]["banner"],
-                name: exploreItems[index]["name"],
-                collectionName: exploreItems[index]["collectionName"],
-                url: exploreItems[index]["url"],
-                category: exploreItems[index]["category"],
+              return Collections(
+                collection: exploreItems[index],
               );
             }));
   }

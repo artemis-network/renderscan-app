@@ -8,8 +8,6 @@ import 'package:renderscan/static_screen/nfts_collection/components/nft_collecti
 import 'package:renderscan/static_screen/nfts_collection/models/nft_collection.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/nfts_collection_api.dart';
 
-import 'package:renderscan/static_screen/nfts_collection/tabs/nft_collection_activity_tab.dart';
-import 'package:renderscan/static_screen/nfts_collection/tabs/nft_collection_tabs_switch.dart';
 import 'package:renderscan/static_screen/nfts_collection/tabs/nft_collections_nft_items_grid_tab.dart';
 
 class NFTCollectionScreen extends StatefulWidget {
@@ -21,7 +19,7 @@ class NFTCollectionScreen extends StatefulWidget {
 }
 
 class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
-  int tabIndex = 0;
+  bool showDesription = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +35,29 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                   if (snapshot.hasData) {
                     final NFTCollectionModel nftCollection =
                         snapshot.data as NFTCollectionModel;
+
+                    descriptionFetcher() {
+                      if (showDesription) {
+                        return Text(
+                          nftCollection.description,
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              10,
+                              FontWeight.normal),
+                        );
+                      }
+                      return Text(
+                        nftCollection.description.substring(0, 150) + "...",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            10,
+                            FontWeight.normal),
+                      );
+                    }
 
                     return Column(children: [
                       NFTCollectScreenBanner(
@@ -72,19 +93,28 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                             ],
                           )),
                       Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                        child: Text(
-                          nftCollection.description.length > 150
-                              ? nftCollection.description.substring(0, 150) +
-                                  "..."
-                              : nftCollection.description,
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              10,
-                              FontWeight.normal),
+                        padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                        child: descriptionFetcher(),
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(left: 30),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              showDesription = !showDesription;
+                            });
+                          },
+                          child: Text(
+                            !showDesription ? "view more" : "hide",
+                            textAlign: TextAlign.left,
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                10,
+                                FontWeight.bold),
+                          ),
                         ),
                       ),
                       NFTCollectionScreenStats(
@@ -94,28 +124,13 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                         volume: nftCollection.totalVolume,
                       ),
                       Divider(thickness: 1),
-                      NFTCollectionTabSwitch(
-                          tabIndex: tabIndex,
-                          setTabOne: () {
-                            setState(() {
-                              tabIndex = 0;
-                            });
-                          },
-                          setTabTwo: () {
-                            setState(() {
-                              tabIndex = 1;
-                            });
-                          }),
-                      Divider(thickness: 1),
-                      tabIndex == 0
-                          ? Container(
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              child: NFTCollectionNFTItemsGridTab(
-                                nftItems: nftCollection.nfts,
-                              ),
-                            )
-                          : NFTCollectionActivityTab(),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: NFTCollectionNFTItemsGridTab(
+                          nftItems: nftCollection.nfts,
+                        ),
+                      )
                     ]);
                   }
                   return Container(

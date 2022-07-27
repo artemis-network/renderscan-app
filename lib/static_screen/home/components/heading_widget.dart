@@ -10,7 +10,7 @@ class HeadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(30, 15, 0, 15),
+      padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
       child: Text(
         text,
         style: GoogleFonts.poppins(

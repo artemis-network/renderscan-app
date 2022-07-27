@@ -6,7 +6,6 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/nfts/components/nft_grid.dart';
 import 'package:renderscan/static_screen/nfts/components/nft_tag_row.dart';
-import 'package:renderscan/static_screen/nfts/nfts_mock.dart';
 
 class NFTSScreen extends StatelessWidget {
   @override
@@ -99,7 +98,7 @@ class NFTSScreen extends StatelessWidget {
               ),
               NFTTagRow(),
               Expanded(
-                child: NFTGrid(nftItems: nfts),
+                child: NFTGrid(nftItems: []),
               )
             ],
           )),

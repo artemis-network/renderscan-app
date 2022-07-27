@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -71,34 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
     Size size = MediaQuery.of(context).size;
 
     void handleError(String? argMessage, bool? argError) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          action: SnackBarAction(
-            label: "Close",
-            textColor: Colors.white,
-            onPressed: () {
-              setState(() {
-                isPasswordVisible = false;
-                username = "";
-                password = "";
-                error = argError ?? error;
-                message = "";
-              });
-            },
-          ),
-          content: Text(argMessage ?? message),
-          duration: const Duration(milliseconds: 3500),
-          backgroundColor: argError ?? error ? Colors.red : Colors.green,
-          width: size.width * 0.9, // Width of the SnackBar.
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0, // Inner padding for SnackBar content.
-          ),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
+      ElegantNotification(
+        title: Text(argMessage ?? message),
+        description: Text(""),
+        icon: Icon(
+          Icons.warning_amber,
+          color: Colors.orange,
         ),
-      );
+        progressIndicatorColor: Colors.orange,
+      ).show(context);
     }
 
     void handleSuccess(AuthResponse response) {

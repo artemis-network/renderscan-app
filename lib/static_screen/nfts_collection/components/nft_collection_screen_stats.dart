@@ -2,6 +2,7 @@ import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 
 class NFTCollectionScreenStats extends StatelessWidget {
@@ -18,7 +19,17 @@ class NFTCollectionScreenStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var v = (double.parse(volume) / 1000).round().toString();
+    var f = "--";
+    if (floorPrice != "--") {
+      f = double.parse(floorPrice).toStringAsFixed(2);
+    }
+    final v = double.parse(volume).toStringAsFixed(0);
+    final i = (double.parse(totalSupply) / 1000.00).toStringAsFixed(1) + "K";
+    final o = (double.parse(owners) / 1000.00).toStringAsFixed(1) + "K";
+    log.i(v);
+    log.i(f);
+    log.i(i);
+    log.i(o);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: Row(
@@ -27,7 +38,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
           Column(
             children: [
               Text(
-                totalSupply.toString(),
+                i,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     14,
@@ -45,7 +56,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
           Column(
             children: [
               Text(
-                owners.toString(),
+                o,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     14,
@@ -64,17 +75,21 @@ class NFTCollectionScreenStats extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
                   Text(
-                    floorPrice.toString(),
+                    f,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         14,
                         FontWeight.bold),
                   ),
-                  Icon(
-                    CryptoFontIcons.ETH,
-                    size: 12,
-                  )
                 ],
               ),
               Text(
@@ -90,17 +105,21 @@ class NFTCollectionScreenStats extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
                   Text(
-                    v + "k",
+                    v,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         14,
                         FontWeight.bold),
                   ),
-                  Icon(
-                    CryptoFontIcons.ETH,
-                    size: 12,
-                  )
                 ],
               ),
               Text(

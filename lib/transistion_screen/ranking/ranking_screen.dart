@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/static_screen/home/home_screen_api.dart';
+import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/static_screen/home/models/trending_model.dart';
 import 'package:renderscan/transistion_screen/ranking/components/ranking_item.dart';
 
@@ -147,49 +148,58 @@ class _RankingScreenState extends State<RankingScreen> {
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 15),
               child: FutureBuilder(
-                future: HomeScreenApi().getTrendingCollections(),
+                future: context.watch<HomeProvider>().sortByTrending,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData &&
+                      context.watch<HomeProvider>().sortByTrendingLoaded) {
                     final trending = snapshot.data as List<TrendingModel>;
                     return ListView.builder(
                         cacheExtent: 9999,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: trending.length,
-                        itemBuilder: (context, index) => RankingItem(
-                            slug: trending[index].slug,
-                            ranking: (index + 1).toString(),
-                            url: trending[index].logo.toString(),
-                            name: trending[index].name.toString().length < 12
-                                ? trending[index].name.toString()
-                                : trending[index]
-                                        .name
-                                        .toString()
-                                        .substring(0, 12) +
-                                    "...",
-                            floor: trending[index].floor.toString().length < 4
-                                ? trending[index].floor.toString()
-                                : trending[index]
-                                    .floor
-                                    .toString()
-                                    .substring(0, 4),
-                            totalValue: trending[index]
-                                        .oneDayVolume
-                                        .toString()
-                                        .length <
-                                    7
-                                ? trending[index].oneDayVolume.toString()
-                                : trending[index]
-                                    .oneDayVolume
-                                    .toString()
-                                    .substring(0, 7),
-                            owners: trending[index].numOwners.toString(),
-                            volume: trending[index].floor.toString()));
+                        itemBuilder: (context, index) {
+                          getChange() {
+                            final change = context
+                                .watch<HomeProvider>()
+                                .currentTrendingrankingSortByTime;
+                            if (change == "daily")
+                              return trending[index].oneDayChange;
+                            if (change == "weekly")
+                              return trending[index].sevenDayChange;
+                            if (change == "monthly")
+                              return trending[index].thirtyDayChange;
+                            return "";
+                          }
+
+                          return RankingItem(
+                              slug: trending[index].slug,
+                              ranking: (index + 1).toString(),
+                              url: trending[index].logo.toString(),
+                              name: trending[index].name.toString().length < 12
+                                  ? trending[index].name.toString()
+                                  : trending[index]
+                                          .name
+                                          .toString()
+                                          .substring(0, 12) +
+                                      "...",
+                              change: getChange(),
+                              totalValue: trending[index]
+                                          .oneDayVolume
+                                          .toString()
+                                          .length <
+                                      7
+                                  ? trending[index].oneDayVolume.toString()
+                                  : trending[index]
+                                      .oneDayVolume
+                                      .toString()
+                                      .substring(0, 7),
+                              owners: trending[index].numOwners.toString(),
+                              volume: trending[index].floor.toString());
+                        });
                   }
                   return Container(
-                    child: CircularProgressIndicator(),
-                    height: 60,
-                    width: 60,
+                    child: spinkit,
                     alignment: Alignment.center,
                   );
                 },
@@ -215,9 +225,21 @@ class RankSortByTimeFrame extends StatelessWidget {
           mainAxisSpacing: 10,
           childAspectRatio: 5 / 2,
           children: [
-            RankSortByTag(text: "Daily"),
-            RankSortByTag(text: "Weekly"),
-            RankSortByTag(text: "Monthly"),
+            RankSortByTag(
+              text: "Daily",
+              exec: () =>
+                  context.read<HomeProvider>().rankingSortByTimeFun("daily"),
+            ),
+            RankSortByTag(
+              text: "Weekly",
+              exec: () =>
+                  context.read<HomeProvider>().rankingSortByTimeFun("weekly"),
+            ),
+            RankSortByTag(
+              text: "Monthly",
+              exec: () =>
+                  context.read<HomeProvider>().rankingSortByTimeFun("monthly"),
+            ),
           ],
         ));
   }
@@ -236,11 +258,51 @@ class RankFliterByCategory extends StatelessWidget {
           mainAxisSpacing: 10,
           childAspectRatio: 5 / 2,
           children: [
-            RankSortByTag(text: "Art"),
-            RankSortByTag(text: "Collectable"),
-            RankSortByTag(text: "Gamified"),
-            RankSortByTag(text: "Music"),
-            RankSortByTag(text: "Science"),
+            RankSortByTag(
+              text: "New",
+              exec: () => context.read<HomeProvider>().filterByCategory("new"),
+            ),
+            RankSortByTag(
+              text: "Art",
+              exec: () => context.read<HomeProvider>().filterByCategory("art"),
+            ),
+            RankSortByTag(
+              text: "Collectibles",
+              exec: () =>
+                  context.read<HomeProvider>().filterByCategory("collectibles"),
+            ),
+            RankSortByTag(
+              text: "Domains",
+              exec: () =>
+                  context.read<HomeProvider>().filterByCategory("domain-names"),
+            ),
+            RankSortByTag(
+              text: "Music",
+              exec: () =>
+                  context.read<HomeProvider>().filterByCategory("music"),
+            ),
+            RankSortByTag(
+              text: "Photography",
+              exec: () => context
+                  .read<HomeProvider>()
+                  .filterByCategory("photography-category"),
+            ),
+            RankSortByTag(
+              text: "Sports",
+              exec: () =>
+                  context.read<HomeProvider>().filterByCategory("sports"),
+            ),
+            RankSortByTag(
+              text: "Trading Cards",
+              exec: () => context
+                  .read<HomeProvider>()
+                  .filterByCategory("trading-cards"),
+            ),
+            RankSortByTag(
+              text: "Utility",
+              exec: () =>
+                  context.read<HomeProvider>().filterByCategory("utility"),
+            ),
           ],
         ));
   }
@@ -248,26 +310,33 @@ class RankFliterByCategory extends StatelessWidget {
 
 class RankSortByTag extends StatelessWidget {
   final String text;
+  final Function exec;
 
-  RankSortByTag({required this.text}) {}
+  RankSortByTag({required this.text, required this.exec}) {}
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 20,
-        width: 50,
-        padding: EdgeInsets.all(10),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getBackgroundColor(),
-              12,
-              FontWeight.bold),
-        ),
-        decoration: BoxDecoration(
-          color: context.watch<ThemeProvider>().getPriamryFontColor(),
-          borderRadius: BorderRadius.circular(15),
-        ));
+    return InkWell(
+      onTap: () {
+        exec();
+        Navigator.of(context).pop();
+      },
+      child: Container(
+          height: 20,
+          width: 50,
+          padding: EdgeInsets.all(10),
+          alignment: Alignment.center,
+          child: Text(
+            text,
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getBackgroundColor(),
+                12,
+                FontWeight.bold),
+          ),
+          decoration: BoxDecoration(
+            color: context.watch<ThemeProvider>().getPriamryFontColor(),
+            borderRadius: BorderRadius.circular(15),
+          )),
+    );
   }
 }

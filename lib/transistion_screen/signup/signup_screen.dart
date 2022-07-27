@@ -1,3 +1,4 @@
+import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
@@ -144,30 +145,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
       bool? hasError = response.hasError;
       Color bgColor = hasError! ? Colors.red : Colors.green;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          action: SnackBarAction(
-            label: "Close",
-            onPressed: () {},
+      if (!hasError) {
+        ElegantNotification.success(
+          title: Text(response.message.toString()),
+          description: Text("Verification email has been sent"),
+          background: bgColor,
+        ).show(context);
+        var future =
+            Future.delayed(const Duration(seconds: 1), () => redirectToLogin());
+        future.then((value) => null).catchError((err) {
+          log.e(err);
+        });
+      } else {
+        ElegantNotification(
+          title: Text(response.message.toString()),
+          description: Text(response.status.toString()),
+          icon: Icon(
+            Icons.warning_amber,
+            color: Colors.orange,
           ),
-          backgroundColor: bgColor,
-          content: Text(response.message.toString()),
-          duration: const Duration(milliseconds: 5000),
-          width: size.width * 0.9, // Width of the SnackBar.
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0, // Inner padding for SnackBar content.
-          ),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-      );
-      var future =
-          Future.delayed(const Duration(seconds: 1), () => redirectToLogin());
-      future.then((value) => null).catchError((err) {
-        log.e(err);
-      });
+          progressIndicatorColor: Colors.orange,
+        ).show(context);
+      }
     }
 
     return Scaffold(
@@ -256,28 +255,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 .registerUser(signUpRequest)
                                 .then((value) => handleRequest(value));
                           } else {
-                            Color bgColor = Colors.red;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                action: SnackBarAction(
-                                  label: "Close",
-                                  onPressed: () {},
-                                ),
-                                backgroundColor: bgColor,
-                                content: Text("Invalid credentails"),
-                                duration: const Duration(milliseconds: 3000),
-                                width:
-                                    size.width * 0.9, // Width of the SnackBar.
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal:
-                                      24.0, // Inner padding for SnackBar content.
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
+                            ElegantNotification(
+                              title: Text("Invalid credentials"),
+                              description: Text("enter credentials"),
+                              icon: Icon(
+                                Icons.warning_amber,
+                                color: Colors.orange,
                               ),
-                            );
+                              progressIndicatorColor: Colors.orange,
+                            ).show(context);
                           }
                         },
                       ),

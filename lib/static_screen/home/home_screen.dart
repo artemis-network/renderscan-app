@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  HeadingWidget(text: "Trending"),
+                  HeadingWidget(text: "🔥 Trending"),
                   Padding(
                     padding: EdgeInsets.only(right: 20),
                     child: IconButton(
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.center,
                         )),
               HomeBanner(),
-              HeadingWidget(text: "Showcase"),
+              HeadingWidget(text: "Ξ Ethereum"),
               Container(
                   height: 145,
                   width: 225,
@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ]),
                         )),
-              HeadingWidget(text: "Notable Collections"),
+              HeadingWidget(text: "🎖️ Notable Collections"),
               Container(
                   height: 150,
                   width: 225,
