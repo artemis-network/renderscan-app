@@ -212,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ]),
                         )),
-              HeadingWidget(text: "Solana NFTs"),
+              HeadingWidget(text: "◎ Solana NFTs"),
               Container(
                   height: 145,
                   width: 225,

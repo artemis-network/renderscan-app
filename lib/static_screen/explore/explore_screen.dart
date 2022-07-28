@@ -45,6 +45,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     search = s;
                   });
                 },
+                label: tabIndex == 0 ? "Search NFTs" : "Search Collections",
               ),
               ExploreSearchButton(
                   submit: submit,

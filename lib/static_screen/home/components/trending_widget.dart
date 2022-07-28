@@ -1,3 +1,4 @@
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -80,14 +81,26 @@ class TrendingWidget extends StatelessWidget {
               ),
             ),
             Container(
-              child: Text(
-                trending.oneDayVolume.toString().length < 4
-                    ? trending.oneDayVolume.toString()
-                    : trending.oneDayVolume.toString().substring(0, 5),
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getHighLightColor(),
-                    11,
-                    FontWeight.w800),
+              child: Row(
+                children: [
+                  Text(
+                    trending.oneDayVolume.toString().length < 4
+                        ? trending.oneDayVolume.toString()
+                        : trending.oneDayVolume.toString().substring(0, 5),
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getHighLightColor(),
+                        11,
+                        FontWeight.w800),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  )
+                ],
               ),
             ),
           ],

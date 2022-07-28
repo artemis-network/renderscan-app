@@ -5,10 +5,9 @@ import 'package:renderscan/constants.dart';
 
 class ExploreSearchInput extends StatelessWidget {
   final Function onChange;
+  final String label;
 
-  ExploreSearchInput({
-    required this.onChange,
-  });
+  ExploreSearchInput({required this.onChange, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class ExploreSearchInput extends StatelessWidget {
             borderSide: BorderSide(
                 color: context.watch<ThemeProvider>().getHighLightColor()),
             borderRadius: BorderRadius.circular(20)),
-        hintText: "Search",
+        hintText: label,
         hintStyle: kPrimartFont(
             context.watch<ThemeProvider>().getForegroundColor(),
             18,

@@ -12,7 +12,6 @@ class SignUpApi {
           HttpServerConfig().getHost("/users/register"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(request.toJson()));
-      print(response.body);
       return SignUpResponse.fromJson(jsonDecode(response.body));
     } on SocketException {
       return SignUpResponse(

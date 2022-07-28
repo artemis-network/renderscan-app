@@ -3,19 +3,16 @@ import 'package:page_transition/page_transition.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 
-// pages
-
 // home provider
 import 'package:provider/provider.dart';
 
-//
 import 'package:renderscan/common/components/exit_dialog.dart';
 import 'package:renderscan/static_screen/create/create_screen.dart';
 import 'package:renderscan/static_screen/explore/explore_screen.dart';
 import 'package:renderscan/static_screen/home/home_screen.dart';
 import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
 import 'package:renderscan/static_screen/nfts/nfts_screen.dart';
-import 'package:renderscan/static_screen/profile/profile_screen.dart';
+import 'package:renderscan/static_screen/profile/user_screen.dart';
 import 'package:renderscan/transistion_screen/login/login_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -31,7 +28,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     ExploreScreen(),
     CreateScreen(),
     NFTSScreen(),
-    const ProfileScreen(),
+    UserScreen()
   ];
 
   home(Size size) {

@@ -1,5 +1,6 @@
 import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
@@ -159,7 +160,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         ElegantNotification(
           title: Text(response.message.toString()),
-          description: Text(response.status.toString()),
+          description: Text(""),
           icon: Icon(
             Icons.warning_amber,
             color: Colors.orange,
@@ -179,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 40),
+                  margin: EdgeInsets.symmetric(vertical: 20),
                   alignment: Alignment.centerLeft,
                   child: IconButton(
                     onPressed: () {
@@ -191,6 +192,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       color:
                           context.watch<ThemeProvider>().getPriamryFontColor(),
                     ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("Sign Up",
+                          style: GoogleFonts.poppins(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w800,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor())),
+                      Text("Now",
+                          style: GoogleFonts.poppins(
+                              fontSize: 24,
+                              fontWeight: FontWeight.normal,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor()))
+                    ],
                   ),
                 ),
                 InputField(

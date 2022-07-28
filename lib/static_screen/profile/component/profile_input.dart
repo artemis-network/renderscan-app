@@ -6,14 +6,15 @@ import 'package:renderscan/constants.dart';
 
 class ProfileInput extends StatelessWidget {
   final String labelText;
+  final TextEditingController controller;
   final IconData icon;
-  final Function onChange;
 
-  ProfileInput(
-      {Key? key,
-      required this.labelText,
-      required this.icon,
-      required this.onChange});
+  ProfileInput({
+    Key? key,
+    required this.labelText,
+    required this.icon,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +34,8 @@ class ProfileInput extends StatelessWidget {
                       .withOpacity(0.22),
                   offset: Offset(0, 0)),
             ]),
-        child: TextField(
-          onChanged: (value) => onChange(value),
+        child: TextFormField(
+          controller: controller,
           cursorColor: kPrimaryLightColor,
           style: GoogleFonts.poppins(
             decoration: TextDecoration.none,

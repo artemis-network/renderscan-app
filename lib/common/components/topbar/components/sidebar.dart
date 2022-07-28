@@ -33,173 +33,198 @@ class SideBar extends StatelessWidget {
 
     return Container(
       color: context.watch<ThemeProvider>().getBackgroundColor(),
-      padding: EdgeInsets.only(top: 50),
+      padding: EdgeInsets.only(top: 10),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SideBarButton(
-            text: "Account",
-            icon: Icons.person_rounded,
-            onClick: () => operatePage(
-                () => context.read<NavigationProvider>().currentIndex(3)),
-          ),
-          SideBarButton(
-            text: "Transcations",
-            icon: Icons.monetization_on_rounded,
-            onClick: () {
-              operate() {
-                return Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return TransactionScreen();
-                  },
-                ));
-              }
-
-              operatePage(operate);
-            },
-          ),
-          SideBarButton(
-            text: "Refer & Earn",
-            icon: Icons.money_outlined,
-            onClick: () {
-              operate() {
-                return Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return ReferalScreen();
-                  },
-                ));
-              }
-
-              operatePage(operate);
-            },
-          ),
-          Divider(
-              height: 30,
-              color: context
-                  .watch<ThemeProvider>()
-                  .getHighLightColor()
-                  .withOpacity(0.33),
-              thickness: 2,
-              indent: 4),
-          SideBarButton(
-            text: "Buy Ruby",
-            icon: Icons.money_outlined,
-            onClick: () {
-              Navigator.of(context).push(PageTransition(
-                  type: PageTransitionType.bottomToTop,
-                  child: BuyRubyModal(),
-                  ctx: context,
-                  duration: Duration(milliseconds: 300),
-                  fullscreenDialog: true,
-                  childCurrent: this));
-            },
-          ),
-          Divider(
-              height: 30,
-              color: context
-                  .watch<ThemeProvider>()
-                  .getHighLightColor()
-                  .withOpacity(0.33),
-              thickness: 2,
-              indent: 4),
-          AuthFilter(
-              screen: Divider(
-                  height: 30,
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Welcome!",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          18,
+                          FontWeight.bold),
+                    ),
+                    FutureBuilder(
+                        future: Storage().getItem("username"),
+                        builder: ((context, snapshot) {
+                          final String username =
+                              (snapshot.data ?? "") as String;
+                          if (snapshot.hasData) {
+                            return Text(
+                              username,
+                              style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  18,
+                                  FontWeight.bold),
+                            );
+                          }
+                          return Text("");
+                        }))
+                  ],
+                ),
+              ),
+              Divider(
+                  height: 8,
                   color: context
                       .watch<ThemeProvider>()
-                      .getHighLightColor()
+                      .getPriamryFontColor()
                       .withOpacity(0.33),
-                  thickness: 2,
-                  indent: 4),
-              guestView: Container()),
-          SideBarButton(
-            text: "Terms of Use",
-            icon: Icons.document_scanner_outlined,
-            onClick: () {},
-          ),
-          SideBarButton(
-            text: "Privacy Policy",
-            icon: Icons.document_scanner_outlined,
-            onClick: () {},
-          ),
-          SideBarButton(
-            text: "Feedback & Support",
-            icon: Icons.document_scanner_outlined,
-            onClick: () {},
-          ),
-          SideBarButton(
-            text: "Help & FAQ",
-            icon: Icons.help_center_outlined,
-            onClick: () {},
-          ),
-          SideBarButton(
-            text: "Rate Us",
-            icon: Icons.star_outlined,
-            onClick: () {},
-          ),
-          AuthFilter(
-              screen: SideBarButton(
-                text: "Logout",
-                icon: Icons.logout_outlined,
+                  thickness: 1,
+                  indent: 1),
+              SideBarButton(
+                text: "Account",
+                icon: Icons.person_rounded,
+                onClick: () => operatePage(
+                    () => context.read<NavigationProvider>().currentIndex(3)),
+              ),
+              SideBarButton(
+                text: "Transcations",
+                icon: Icons.monetization_on_rounded,
                 onClick: () {
-                  print("> Logging out");
-                  Storage().logout();
-                  context.read<NavigationProvider>().setCurrentIndex(0);
-                  context.read<ScanProvider>().resetProvider();
+                  operate() {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return TransactionScreen();
+                      },
+                    ));
+                  }
+
+                  operatePage(operate);
                 },
               ),
-              guestView: Container()),
-          Divider(
-              height: 30,
-              color: context
-                  .watch<ThemeProvider>()
-                  .getHighLightColor()
-                  .withOpacity(0.33),
-              thickness: 2,
-              indent: 4),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "Music",
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              12,
-                              FontWeight.bold),
-                        ),
-                        Switch(
-                            value: context.watch<ThemeProvider>().isDarkTheme(),
-                            onChanged: (r) {
-                              context.read<ThemeProvider>().setTheme(r);
-                            })
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          "Dark Theme",
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              12,
-                              FontWeight.bold),
-                        ),
-                        Switch(
-                            value: context.watch<ThemeProvider>().isDarkTheme(),
-                            onChanged: (r) {
-                              context.read<ThemeProvider>().setTheme(r);
-                            })
-                      ],
-                    )
-                  ]),
-            ),
+              SideBarButton(
+                text: "Refer & Earn",
+                icon: Icons.money_outlined,
+                onClick: () {
+                  operate() {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return ReferalScreen();
+                      },
+                    ));
+                  }
+
+                  operatePage(operate);
+                },
+              ),
+              Divider(
+                  height: 8,
+                  color: context
+                      .watch<ThemeProvider>()
+                      .getPriamryFontColor()
+                      .withOpacity(0.33),
+                  thickness: 1,
+                  indent: 1),
+              SideBarButton(
+                text: "Buy Ruby",
+                icon: Icons.money_outlined,
+                onClick: () {
+                  Navigator.of(context).push(PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      child: BuyRubyModal(),
+                      ctx: context,
+                      duration: Duration(milliseconds: 300),
+                      fullscreenDialog: true,
+                      childCurrent: this));
+                },
+              ),
+              Divider(
+                  height: 8,
+                  color: context
+                      .watch<ThemeProvider>()
+                      .getPriamryFontColor()
+                      .withOpacity(0.33),
+                  thickness: 1,
+                  indent: 1),
+              SideBarButton(
+                text: "Terms of Use",
+                icon: Icons.document_scanner_outlined,
+                onClick: () {},
+              ),
+              SideBarButton(
+                text: "Privacy Policy",
+                icon: Icons.document_scanner_outlined,
+                onClick: () {},
+              ),
+              SideBarButton(
+                text: "Feedback & Support",
+                icon: Icons.document_scanner_outlined,
+                onClick: () {},
+              ),
+              SideBarButton(
+                text: "Help & FAQ",
+                icon: Icons.help_center_outlined,
+                onClick: () {},
+              ),
+              SideBarButton(
+                text: "Rate Us",
+                icon: Icons.star_outlined,
+                onClick: () {},
+              ),
+              AuthFilter(
+                  screen: SideBarButton(
+                    text: "Logout",
+                    icon: Icons.logout_outlined,
+                    onClick: () {
+                      print("> Logging out");
+                      Storage().logout();
+                      context.read<NavigationProvider>().setCurrentIndex(0);
+                      context.read<ScanProvider>().resetProvider();
+                    },
+                  ),
+                  guestView: Container())
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Music",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            12,
+                            FontWeight.bold),
+                      ),
+                      Switch(
+                          value: context.watch<ThemeProvider>().isDarkTheme(),
+                          onChanged: (r) {})
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Dark Theme",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            12,
+                            FontWeight.bold),
+                      ),
+                      Switch(
+                          value: context.watch<ThemeProvider>().isDarkTheme(),
+                          onChanged: (r) {
+                            context.read<ThemeProvider>().setTheme(r);
+                          })
+                    ],
+                  )
+                ]),
           )
         ],
       ),
