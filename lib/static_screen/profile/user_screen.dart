@@ -135,7 +135,7 @@ class _UserScreenState extends State<UserScreen> {
                                 text: "Edit Profile",
                                 press: () {
                                   Navigator.of(context).push(PageTransition(
-                                      type: PageTransitionType.bottomToTop,
+                                      type: PageTransitionType.leftToRight,
                                       child: ProfileScreen(),
                                       ctx: context,
                                       duration: Duration(milliseconds: 300),
