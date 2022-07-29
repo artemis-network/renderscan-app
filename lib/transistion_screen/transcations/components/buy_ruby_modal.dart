@@ -166,12 +166,13 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                             paymentId: "",
                             signature: "",
                             userId: userId.toString());
+                        log.i(order.toString());
                         final result =
                             await TransactionApi().createOrder(order);
                         log.i(result);
                         var options = {
                           'key': 'rzp_test_VmSch4maQMZS9L',
-                          'order_id': result["id"],
+                          'order_id': result["id"].toString(),
                           'amount': 100 * getAmount(),
                           'name': 'Renderscan',
                           'description': 'Buy Ruby',

@@ -7,6 +7,7 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
 import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
+import 'package:renderscan/static_screen/profile/profile_provider.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
 import 'package:renderscan/transistion_screen/welcome/welcome_screen.dart';
 
@@ -15,6 +16,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => NavigationProvider()),

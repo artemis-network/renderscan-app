@@ -20,22 +20,20 @@ class NFTSolScreen extends StatelessWidget {
 
   detailsBuilder(String contract, String creator, String share) {
     return [
-      {
-        "name": "Blockchain",
-        "value": "solana",
-        "pic": false,
-      },
+      {"name": "Blockchain", "value": "solana", "pic": false, "canCopy": false},
       {
         "name": "Creator",
         "value":
             creator.length > 12 ? creator.substring(0, 12) + "..." : creator,
         "profile": creator,
-        "pic": true
+        "pic": true,
+        "canCopy": true
       },
       {
         "name": "Share",
         "value": share.length > 12 ? share.substring(0, 12) + "..." : share,
-        "pic": false
+        "pic": false,
+        "canCopy": false
       },
     ];
   }

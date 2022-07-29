@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
+import 'package:renderscan/common/components/topbar/components/sidebar.dart';
+import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
 import 'package:renderscan/static_screen/profile/profile_api.dart';
+import 'package:renderscan/static_screen/profile/profile_provider.dart';
 import 'package:renderscan/static_screen/profile/profile_screen.dart';
+import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
+import 'package:renderscan/transistion_screen/transcations/transaction_screen.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -15,11 +21,29 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  String displayName = "";
+  String language = "";
+  String region = "";
+
+  @override
+  void initState() {
+    ProfileApi().getProfile().then((value) {
+      setState(() {
+        displayName = value.displayName;
+        language = value.language;
+        region = value.region;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
     bool allowClose = true;
+
+    var scaffoldKey = GlobalKey<ScaffoldState>();
     return Container(
         child: DoubleBack(
             condition: allowClose,
@@ -29,6 +53,9 @@ class _UserScreenState extends State<UserScreen> {
               });
             },
             child: Scaffold(
+              key: scaffoldKey,
+              drawerEnableOpenDragGesture: false,
+              drawer: Drawer(child: SideBar()),
               body: Container(
                   color: context.watch<ThemeProvider>().getBackgroundColor(),
                   padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -36,6 +63,9 @@ class _UserScreenState extends State<UserScreen> {
                   width: size.width,
                   child: Column(
                     children: [
+                      Topbar(
+                          popSideBar: () =>
+                              scaffoldKey.currentState?.openDrawer()),
                       Text("Profile",
                           style: kPrimartFont(
                               context
@@ -86,39 +116,16 @@ class _UserScreenState extends State<UserScreen> {
                                             label: "Username",
                                             value: snapshot.data.toString());
                                       }),
-                                  FutureBuilder(
-                                      initialData: Profile(
-                                        displayName: "",
-                                        language: "",
-                                        region: "",
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RowItem(
+                                        label: "Display Name",
+                                        value: displayName,
                                       ),
-                                      future: ProfileApi().getProfile(),
-                                      builder: ((context, snapshot) {
-                                        var profile = snapshot.data as Profile;
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RowItem(
-                                              label: "Display Name",
-                                              value: profile.displayName,
-                                            ),
-                                            RowItem(
-                                              label: "Language",
-                                              value: profile.language,
-                                            ),
-                                            RowItem(
-                                              label: "Country",
-                                              value: profile.region,
-                                            ),
-                                          ],
-                                        );
-                                      })),
-                                  Container(
-                                    padding: EdgeInsets.only(top: 5),
-                                    child: BalanceWidget(),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -134,6 +141,13 @@ class _UserScreenState extends State<UserScreen> {
                             RowButtons(
                                 text: "Edit Profile",
                                 press: () {
+                                  Profile profile = Profile(
+                                      displayName: displayName,
+                                      region: region,
+                                      language: language);
+                                  context
+                                      .read<ProfileProvider>()
+                                      .setProfile(profile);
                                   Navigator.of(context).push(PageTransition(
                                       type: PageTransitionType.leftToRight,
                                       child: ProfileScreen(),
@@ -150,6 +164,49 @@ class _UserScreenState extends State<UserScreen> {
                           ],
                         ),
                       ),
+                      Container(
+                        alignment: Alignment.center,
+                        width: size.width * 0.8,
+                        margin: EdgeInsets.symmetric(vertical: 30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ColumnButtons(
+                                text: "Terms & Conditions",
+                                press: () {},
+                                icon: Icons.rule),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ColumnButtons(
+                                text: "Privacy Policy",
+                                press: () {},
+                                icon: Icons.privacy_tip_outlined),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ColumnButtons(
+                                text: "Help & FAQ",
+                                press: () {},
+                                icon: Icons.help_center_outlined),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ColumnButtons(
+                                text: "Logout",
+                                press: () {
+                                  print("> Logging out");
+                                  Storage().logout();
+                                  context
+                                      .read<NavigationProvider>()
+                                      .setCurrentIndex(0);
+                                  context.read<ScanProvider>().resetProvider();
+                                },
+                                icon: Icons.logout)
+                          ],
+                        ),
+                      )
                     ],
                   )),
             )));
@@ -204,7 +261,7 @@ class RowButtons extends StatelessWidget {
     return GestureDetector(
       onTap: () => press(),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
             color: context.watch<ThemeProvider>().getBackgroundColor(),
             borderRadius: BorderRadius.circular(40),
@@ -225,15 +282,74 @@ class RowButtons extends StatelessWidget {
             color: context.watch<ThemeProvider>().getPriamryFontColor(),
           ),
           SizedBox(
-            width: 4,
+            width: 10,
           ),
           Text(
             text,
             textAlign: TextAlign.center,
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getSecondaryFontColor(),
-                14,
+                18,
                 FontWeight.bold),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+class ColumnButtons extends StatelessWidget {
+  final String text;
+  final Function press;
+  final IconData icon;
+  const ColumnButtons({
+    Key? key,
+    required this.text,
+    required this.press,
+    required this.icon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => press(),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                  spreadRadius: 0,
+                  blurRadius: 100,
+                  color: context
+                      .watch<ThemeProvider>()
+                      .getHighLightColor()
+                      .withOpacity(0.22),
+                  offset: Offset(0, 0)),
+            ]),
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Icon(
+              icon,
+              size: 28,
+              color: context.watch<ThemeProvider>().getPriamryFontColor(),
+            ),
+          ),
+          SizedBox(
+            width: 24,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              text,
+              textAlign: TextAlign.center,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  20,
+                  FontWeight.w600),
+            ),
           )
         ]),
       ),

@@ -180,6 +180,7 @@ class SideBar extends StatelessWidget {
                       Storage().logout();
                       context.read<NavigationProvider>().setCurrentIndex(0);
                       context.read<ScanProvider>().resetProvider();
+                      Navigator.of(context).pop();
                     },
                   ),
                   guestView: Container())

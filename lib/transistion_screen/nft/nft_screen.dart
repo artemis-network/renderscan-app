@@ -49,7 +49,7 @@ class NFTScreen extends StatelessWidget {
             creator.length > 24 ? creator.substring(0, 24) + "..." : creator,
         "profile": profilePic,
         "pic": true,
-        "canCopy": false
+        "canCopy": true
       },
     ];
   }

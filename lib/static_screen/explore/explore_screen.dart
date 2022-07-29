@@ -4,7 +4,6 @@ import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/static_screen/explore/components/explore_collection_search.dart';
 import 'package:renderscan/static_screen/explore/components/explore_nfts_search_grid.dart';
 import 'package:renderscan/static_screen/explore/components/explore_search_buttond.dart';
@@ -74,12 +73,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                           context.read<HomeProvider>().exploreSearchNFTs(s);
                         });
                       }
-
-                      log.i(tabIndex);
-
                       if (tabIndex == 1) {
                         final s = search;
-                        log.i(s + " in compon");
                         setState(() {
                           controller.clear();
                           submit = true;

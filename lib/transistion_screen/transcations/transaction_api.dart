@@ -9,7 +9,7 @@ class TransactionApi {
   Future<dynamic> createOrder(Order order) async {
     try {
       final response = await http.post(
-          HttpServerConfig().getHost("/orders/create"),
+          HttpServerConfig().getHost("/payments/create"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(order.toJson()));
       return jsonDecode(response.body);
@@ -21,7 +21,7 @@ class TransactionApi {
   Future<Map<String, dynamic>> completeOrder(Order order) async {
     try {
       final response = await http.post(
-          HttpServerConfig().getHost("/orders/complete"),
+          HttpServerConfig().getHost("/payments/complete"),
           headers: HttpServerConfig().headers,
           body: jsonEncode(order.toJson()));
       return jsonDecode(response.body);

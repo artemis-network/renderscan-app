@@ -11,24 +11,14 @@ class ExploreSearchButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return !submit
-        ? Container(
-            child: IconButton(
-                color: context.watch<ThemeProvider>().getHighLightColor(),
-                icon: Icon(
-                  Icons.search,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  size: 30,
-                ),
-                onPressed: () => search()))
-        : Container(
-            child: IconButton(
-                color: context.watch<ThemeProvider>().getHighLightColor(),
-                icon: Icon(
-                  Icons.cancel,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  size: 30,
-                ),
-                onPressed: () => cancel()));
+    return Container(
+        child: IconButton(
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+            icon: Icon(
+              Icons.search,
+              color: context.watch<ThemeProvider>().getPriamryFontColor(),
+              size: 30,
+            ),
+            onPressed: () => search()));
   }
 }
