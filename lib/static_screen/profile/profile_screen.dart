@@ -23,8 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Profile profile =
         Provider.of<ProfileProvider>(context, listen: false).profile;
     String displayName = profile.displayName;
-    String language = profile.language;
-    String region = profile.region;
 
     final size = MediaQuery.of(context).size;
 

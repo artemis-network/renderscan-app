@@ -44,7 +44,7 @@ class HomeScreenApi {
 
   Future<List<NFTModel>> showCaseNFTs([String chain = "ethereum"]) async {
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"limit": "10", "chain": chain});
+    var body = jsonEncode({"limit": "12", "chain": chain});
 
     var response = await http.post(
         HttpServerConfig().getHost("/marketplace/getshowcasenfts"),

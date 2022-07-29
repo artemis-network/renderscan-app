@@ -82,11 +82,12 @@ class SideBar extends StatelessWidget {
                   thickness: 1,
                   indent: 1),
               SideBarButton(
-                text: "Account",
-                icon: Icons.person_rounded,
-                onClick: () => operatePage(
-                    () => context.read<NavigationProvider>().currentIndex(3)),
-              ),
+                  text: "Account",
+                  icon: Icons.person_rounded,
+                  onClick: () {
+                    Navigator.of(context).pop();
+                    context.read<NavigationProvider>().currentIndex(4);
+                  }),
               SideBarButton(
                 text: "Transcations",
                 icon: Icons.monetization_on_rounded,

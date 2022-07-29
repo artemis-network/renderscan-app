@@ -2,7 +2,6 @@ import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
@@ -13,7 +12,6 @@ import 'package:renderscan/static_screen/profile/profile_api.dart';
 import 'package:renderscan/static_screen/profile/profile_provider.dart';
 import 'package:renderscan/static_screen/profile/profile_screen.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
-import 'package:renderscan/transistion_screen/transcations/transaction_screen.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -66,13 +64,6 @@ class _UserScreenState extends State<UserScreen> {
                       Topbar(
                           popSideBar: () =>
                               scaffoldKey.currentState?.openDrawer()),
-                      Text("Profile",
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              24,
-                              FontWeight.bold)),
                       Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 20),
