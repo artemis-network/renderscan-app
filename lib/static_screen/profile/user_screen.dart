@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
@@ -22,14 +23,16 @@ class _UserScreenState extends State<UserScreen> {
   String displayName = "";
   String language = "";
   String region = "";
+  String email = "";
 
   @override
   void initState() {
-    ProfileApi().getProfile().then((value) {
+    ProfileApi().getProfile().then((value) async {
       setState(() {
         displayName = value.displayName;
         language = value.language;
         region = value.region;
+        email = value.email;
       });
     });
     super.initState();
@@ -95,28 +98,64 @@ class _UserScreenState extends State<UserScreen> {
                               width: 20,
                             ),
                             Container(
-                              alignment: Alignment.centerLeft,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text(
+                                    displayName,
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        18,
+                                        FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
                                   FutureBuilder(
                                       future: Storage().getItem('username'),
                                       builder: (context, snapshot) {
-                                        return RowItem(
-                                            label: "Username",
-                                            value: snapshot.data.toString());
+                                        return Text(
+                                          "@" + snapshot.data.toString(),
+                                          style: kPrimartFont(
+                                              context
+                                                  .watch<ThemeProvider>()
+                                                  .getSecondaryFontColor(),
+                                              16,
+                                              FontWeight.normal),
+                                        );
                                       }),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RowItem(
-                                        label: "Display Name",
-                                        value: displayName,
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: context
+                                            .watch<ThemeProvider>()
+                                            .getBackgroundColor(),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 0),
+                                              blurRadius: 2,
+                                              color: context
+                                                  .watch<ThemeProvider>()
+                                                  .getHighLightColor())
+                                        ]),
+                                    child: Text(
+                                      "0xc20d....ac1",
+                                      style: kPrimartFont(
+                                          context
+                                              .watch<ThemeProvider>()
+                                              .getSecondaryFontColor(),
+                                          15,
+                                          FontWeight.normal),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -135,7 +174,8 @@ class _UserScreenState extends State<UserScreen> {
                                   Profile profile = Profile(
                                       displayName: displayName,
                                       region: region,
-                                      language: language);
+                                      language: language,
+                                      email: email);
                                   context
                                       .read<ProfileProvider>()
                                       .setProfile(profile);
@@ -214,13 +254,6 @@ class RowItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          label,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getSecondaryFontColor(),
-              15,
-              FontWeight.normal),
-        ),
         SizedBox(
           width: 4,
         ),

@@ -1,4 +1,3 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +16,7 @@ import 'package:renderscan/common/components/loader.dart';
 
 // logger
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
 import 'package:renderscan/transistion_screen/login/components/google_login_button.dart';
 import 'package:renderscan/transistion_screen/login/components/input_field.dart';
@@ -71,16 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    void handleError(String? argMessage, bool? argError) {
-      ElegantNotification(
-        title: Text(argMessage ?? message),
-        description: Text(""),
-        icon: Icon(
-          Icons.warning_amber,
-          color: Colors.orange,
-        ),
-        progressIndicatorColor: Colors.orange,
-      ).show(context);
+    void handleError(String argMessage, bool argError) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: argError ? Colors.redAccent : Colors.greenAccent,
+          content: Text(
+            argMessage,
+            style: kPrimartFont(Colors.black, 14, FontWeight.bold),
+          )));
     }
 
     void handleSuccess(AuthResponse response) {
@@ -100,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } else {
-        handleError(null, null);
+        handleError("Internal Serveer Error", false);
       }
     }
 

@@ -21,6 +21,36 @@ checkallflows[pending]
 backend changes
 remove slugs with corrupted img data[pending]
 
+tasks
 
+backend
+	explore data changes 
+	collection page seperate api
+	update profile image
 
+frontend
+	frontend loading long [x]
+	create page buttons alignment [x] 
+	logout message snackbar [x]
+	change all notifications to snackbar [x]
+	nfts bar to visible[x]
+	nfts page same as profile[x]
+	display wallet address in profie page[x]
+	add displayname in signup form [x]
+	scan page loader [x]
+	scan page button [x]
+	generate page build [x]
+	import page flow [x]
+	avatar image[x]
+	email updation[x]
 
+backend
+	blockchain wallet[x] 
+		userId
+		walletAddress
+		chain 
+		isActive
+	create blockchain wallet for user in verfication controller [x]
+	add gallery to app[x]
+	apk generate -> store -> renderverse.io [x]
+	warmup queries -> 4 basnet, nftport, blockdemon, marketplace server [x]

@@ -62,7 +62,7 @@ class CreateScreen extends StatelessWidget {
                   FontWeight.bold),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               child: Text(
                 "Select an image from camera roll or gallery or generate random nfts from text input",
                 textAlign: TextAlign.center,
@@ -72,23 +72,27 @@ class CreateScreen extends StatelessWidget {
                     FontWeight.w500),
               ),
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            Expanded(
+    child: Column(
                 children: [
                   SubButton(
                       buttonLabel: "Scan", onClick: () => goToScanScreen()),
+                  SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: 25,
                   ),
                   SubButton(
                       buttonLabel: "Import", onClick: () => goToImportScreen()),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(vertical: 20),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SubButton(
+                      buttonLabel: "Generate",
+                      onClick: () => goToGenerateScreen()),
+                ]),
             ),
-            MainButton(
-                buttonLabel: "Generate", onClick: () => goToGenerateScreen()),
           ],
         ),
       ),
@@ -107,48 +111,12 @@ class SubButton extends StatelessWidget {
     return InkWell(
       onTap: () => onClick(),
       child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           child: Text(
             buttonLabel,
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
-                20,
-                FontWeight.bold),
-          ),
-          decoration: BoxDecoration(
-              color: context.watch<ThemeProvider>().getBackgroundColor(),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                    spreadRadius: 0,
-                    blurRadius: 100,
-                    color: context
-                        .watch<ThemeProvider>()
-                        .getHighLightColor()
-                        .withOpacity(0.22),
-                    offset: Offset(0, 0)),
-              ])),
-    );
-  }
-}
-
-class MainButton extends StatelessWidget {
-  final String buttonLabel;
-  final Function onClick;
-
-  MainButton({required this.buttonLabel, required this.onClick});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onClick(),
-      child: Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-          child: Text(
-            buttonLabel,
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                26,
+                24,
                 FontWeight.bold),
           ),
           decoration: BoxDecoration(

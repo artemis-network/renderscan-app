@@ -9,6 +9,7 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
 import 'package:renderscan/transistion_screen/scan/scan_api.dart';
 import 'package:renderscan/transistion_screen/scan/scan_modal.dart';
 
@@ -18,6 +19,8 @@ class ImportScreen extends StatefulWidget {
 }
 
 class _ImportScreenState extends State<ImportScreen> {
+  String filename = "";
+
   List<Step> getSteps() => [
         Step(
             isActive: currentStep >= 0,
@@ -28,13 +31,13 @@ class _ImportScreenState extends State<ImportScreen> {
         Step(
             isActive: currentStep >= 1,
             state: currentStep >= 1 ? StepState.complete : StepState.indexed,
-            content: Container(),
+            content: stepTwo(context),
             title: Text("Save",
                 style: kPrimartFont(Colors.black, 18, FontWeight.normal))),
         Step(
             isActive: currentStep >= 2,
             state: currentStep >= 2 ? StepState.complete : StepState.indexed,
-            content: Container(),
+            content: stepThree(context),
             title: Text("Mint",
                 style: kPrimartFont(Colors.black, 18, FontWeight.normal))),
       ];
@@ -50,7 +53,29 @@ class _ImportScreenState extends State<ImportScreen> {
       ScanResponse resp = await ScanApi().cutImageFromServer(image);
       var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
       if (image == null) return;
-      setState(() => img = fromBase64(url));
+      setState(() {
+        img = fromBase64(url);
+        filename = resp.filename.toString();
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.greenAccent,
+        content: Text("Image Cropped",
+            style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
+      ));
+    } on PlatformException catch (e) {
+      log.e(e);
+    }
+  }
+
+  Future saveImage() async {
+    try {
+      await ScanApi().save(filename).then((value) {
+        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.greenAccent,
+          content: Text("File Saved",
+              style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
+        ));
+      });
     } on PlatformException catch (e) {
       log.e(e);
     }
@@ -59,6 +84,7 @@ class _ImportScreenState extends State<ImportScreen> {
   StepOne(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
         alignment: Alignment.topLeft,
         child: Column(
           children: [
@@ -92,10 +118,74 @@ class _ImportScreenState extends State<ImportScreen> {
             ),
             InkWell(
               onTap: pickImage,
-              child: Text("Upload"),
+              child: Text("Upload",
+                  style: kPrimartFont(
+                      context.watch<ThemeProvider>().getPriamryFontColor(),
+                      22,
+                      FontWeight.bold)),
             )
           ],
         ));
+  }
+
+  stepTwo(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            "Save Image",
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                24,
+                FontWeight.bold),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
+            height: 350,
+            width: 420,
+            child: getRes(),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [],
+            ),
+          ),
+          InkWell(
+            onTap: saveImage,
+            child: Text("Save",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    22,
+                    FontWeight.bold)),
+          )
+        ],
+      ),
+    );
+  }
+
+  stepThree(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Text(
+            "Minted as NFT",
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                24,
+                FontWeight.bold),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
+            height: 350,
+            width: 420,
+            child: getRes(),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   getRes() {
@@ -120,6 +210,8 @@ class _ImportScreenState extends State<ImportScreen> {
         child: Scaffold(
             key: scaffoldKey,
             drawerEnableOpenDragGesture: false,
+            backgroundColor:
+                context.watch<ThemeProvider>().getBackgroundColor(),
             drawer: Drawer(
               child: SideBar(),
             ),
@@ -128,8 +220,15 @@ class _ImportScreenState extends State<ImportScreen> {
               steps: getSteps(),
               elevation: 200,
               currentStep: currentStep,
-              onStepContinue: () =>
-                  setState(() => {if (currentStep < 3) currentStep += 1}),
+              onStepContinue: () {
+                if (currentStep == 2) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationScreen()));
+                }
+                setState(() => {if (currentStep < 3) currentStep += 1});
+              },
               onStepCancel: () =>
                   setState(() => {if (currentStep > 0) currentStep -= 1}),
               onStepTapped: (int index) => setState(() => currentStep = index),

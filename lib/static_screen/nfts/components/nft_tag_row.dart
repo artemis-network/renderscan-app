@@ -12,22 +12,25 @@ class NFTTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      padding: EdgeInsets.fromLTRB(20, 2, 20, 0),
+      decoration: BoxDecoration(
+          color: context.watch<ThemeProvider>().getHighLightColor(),
+          borderRadius: BorderRadius.circular(20)),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Row(
         children: [
           Icon(icon,
               size: 30,
-              color: context.watch<ThemeProvider>().getPriamryFontColor()),
+              color: context.watch<ThemeProvider>().getBackgroundColor()),
           SizedBox(
             width: 15,
           ),
           Text(
             tag,
             style: kPrimartFont(
-                context.watch<ThemeProvider>().getSecondaryFontColor(),
+                context.watch<ThemeProvider>().getBackgroundColor(),
                 16,
-                FontWeight.normal),
+                FontWeight.bold),
           ),
         ],
       ),
@@ -54,9 +57,9 @@ class NFTTagRow extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
+              NFTTag(tag: "Created", icon: Icons.create_outlined),
               NFTTag(tag: "All NFTs", icon: Icons.insert_photo_outlined),
               NFTTag(tag: "Collected", icon: Icons.collections_outlined),
-              NFTTag(tag: "Created", icon: Icons.create_outlined),
               NFTTag(tag: "Imported", icon: Icons.import_export_outlined),
               NFTTag(
                   tag: "Generated", icon: Icons.settings_applications_outlined),

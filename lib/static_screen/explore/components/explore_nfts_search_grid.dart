@@ -4,7 +4,7 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/home/home_provider.dart';
-import 'package:renderscan/static_screen/nfts/components/nft_grid.dart';
+import 'package:renderscan/static_screen/explore/components/nft_grid.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 
 class ExploreNFTsSearchGrid extends StatelessWidget {

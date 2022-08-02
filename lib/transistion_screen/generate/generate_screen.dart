@@ -50,6 +50,7 @@ class _GenerateScreenState extends State<GenerateScreen>
         child: SideBar(),
       ),
       body: Container(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
           alignment: Alignment.center,
           child: Column(
             children: [
@@ -60,6 +61,10 @@ class _GenerateScreenState extends State<GenerateScreen>
                 child: Column(
                   children: [
                     Card(
+                      shadowColor:
+                          context.watch<ThemeProvider>().getHighLightColor(),
+                      color:
+                          context.watch<ThemeProvider>().getBackgroundColor(),
                       margin:
                           EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       child: Padding(
@@ -79,6 +84,16 @@ class _GenerateScreenState extends State<GenerateScreen>
                       child: Form(
                         key: fKey,
                         child: TextField(
+                          decoration: InputDecoration(
+                              focusColor: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor(),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3,
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getPriamryFontColor()))),
                           enabled: !isRequested,
                           onChanged: ((value) => setState(() {
                                 search = value;
@@ -90,20 +105,29 @@ class _GenerateScreenState extends State<GenerateScreen>
                       height: 30,
                     ),
                     InkWell(
-                      child: Card(
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            child: Text(
-                              "Generate",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  22,
-                                  FontWeight.bold),
-                            )),
-                      ),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getBackgroundColor(),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 1,
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor())
+                              ]),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Text(
+                            "Generate",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                22,
+                                FontWeight.bold),
+                          )),
                       onTap: () async {
                         if (!isRequested) {
                           setState(() {

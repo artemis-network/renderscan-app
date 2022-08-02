@@ -25,7 +25,7 @@ kSecondaryFont(
   );
 }
 
-var kprimaryNeuDark = Color(0xff080213).withOpacity(0.5);
+var kprimaryNeuDark = Colors.blue.shade400;
 var kprimaryNeuLight = Color(0xff5D18DC).withOpacity(0.5);
 var kprimaryLoaderColor = Color(0xff170538).withOpacity(0.8);
 var kprimaryBottomBarColor = Color(0xff170538);

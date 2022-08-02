@@ -12,6 +12,7 @@ import 'package:renderscan/common/components/loader.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/static_screen/mint/mint_screen.dart';
+import 'package:renderscan/transistion_screen/scan/components/activate_button.dart';
 import 'package:renderscan/transistion_screen/scan/scan_api.dart';
 import 'package:renderscan/transistion_screen/scan/scan_modal.dart';
 import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
@@ -156,7 +157,7 @@ class _ScanScreenState extends State<ScanScreen> {
                         future: setupCameras(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState.name == "done")
+                          if (snapshot.connectionState.name != "done")
                             return Container(
                                 color: context
                                     .watch<ThemeProvider>()
@@ -214,43 +215,22 @@ class _ScanScreenState extends State<ScanScreen> {
                                                   children: [
                                                     Container(
                                                       width: size.width * 0.65,
-                                                      child: TextButton(
-                                                        onPressed: ScanImage,
-                                                        child: Text(
-                                                          "Scan",
-                                                          style: kPrimartFont(
-                                                              context
-                                                                  .watch<
-                                                                      ThemeProvider>()
-                                                                  .getPriamryFontColor(),
-                                                              24,
-                                                              FontWeight.bold),
-                                                        ),
-                                                      ),
-                                                      constraints:
-                                                          BoxConstraints(
-                                                              minHeight: 80),
-                                                      decoration: BoxDecoration(
-                                                          color: context
-                                                              .watch<
-                                                                  ThemeProvider>()
-                                                              .getBackgroundColor(),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                spreadRadius: 0,
-                                                                blurRadius: 100,
-                                                                color: context
-                                                                    .watch<
-                                                                        ThemeProvider>()
-                                                                    .getHighLightColor()
-                                                                    .withOpacity(
-                                                                        0.66),
-                                                                offset: Offset(
-                                                                    0, 0)),
-                                                          ]),
+                                                      child: ActivateButton(
+                                                          text: "Scan",
+                                                          press: ScanImage),
+                                                      // child: TextButton(
+                                                      //   onPressed: ScanImage,
+                                                      //   child: Text(
+                                                      //     "Scan",
+                                                      //     style: kPrimartFont(
+                                                      //         context
+                                                      //             .watch<
+                                                      //                 ThemeProvider>()
+                                                      //             .getPriamryFontColor(),
+                                                      //         24,
+                                                      //         FontWeight.bold),
+                                                      //   ),
+                                                      // ),
                                                     ),
                                                   ],
                                                 ),
@@ -344,8 +324,8 @@ class _ScanScreenState extends State<ScanScreen> {
                                   ],
                                 ));
                           return Container(
+                            padding: EdgeInsets.only(top: 60),
                             child: spinkit,
-                            alignment: Alignment.center,
                           );
                         })
                   ],

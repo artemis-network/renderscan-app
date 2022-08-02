@@ -3,7 +3,7 @@ import 'package:renderscan/static_screen/profile/profile_api.dart';
 
 class ProfileProvider extends ChangeNotifier {
   Profile _profile =
-      Profile(displayName: "...", region: "...", language: "...");
+      Profile(displayName: "...", region: "...", language: "...", email: "...");
 
   setProfile(Profile profile) {
     _profile = profile;
@@ -14,7 +14,9 @@ class ProfileProvider extends ChangeNotifier {
     Profile profile = Profile(
         displayName: displayName,
         region: _profile.region,
-        language: _profile.language);
+        language: _profile.language,
+        email: _profile.email);
+
     _profile = profile;
     notifyListeners();
   }
@@ -23,7 +25,8 @@ class ProfileProvider extends ChangeNotifier {
     Profile profile = Profile(
         displayName: _profile.displayName,
         region: region,
-        language: _profile.language);
+        language: _profile.language,
+        email: _profile.email);
     _profile = profile;
     notifyListeners();
   }
@@ -32,7 +35,19 @@ class ProfileProvider extends ChangeNotifier {
     Profile profile = Profile(
         displayName: _profile.displayName,
         region: _profile.region,
-        language: language);
+        language: language,
+        email: _profile.email);
+
+    _profile = profile;
+    notifyListeners();
+  }
+
+  setEmail(String email) {
+    Profile profile = Profile(
+        displayName: _profile.displayName,
+        region: _profile.region,
+        language: _profile.language,
+        email: email);
     _profile = profile;
     notifyListeners();
   }

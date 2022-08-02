@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/static_screen/nfts/components/nft_grid.dart';
+import 'package:renderscan/static_screen/nfts/components/gallery.dart';
 import 'package:renderscan/static_screen/nfts/components/nft_tag_row.dart';
+import 'package:renderscan/static_screen/nfts/nft_api.dart';
 
-class NFTSScreen extends StatelessWidget {
+class NFTSScreen extends StatefulWidget {
+  @override
+  State<NFTSScreen> createState() => _NFTSScreenState();
+}
+
+class _NFTSScreenState extends State<NFTSScreen> {
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -26,6 +33,9 @@ class NFTSScreen extends StatelessWidget {
             children: [
               Topbar(
                 popSideBar: () => scaffoldKey.currentState?.openDrawer(),
+              ),
+              SizedBox(
+                height: 20,
               ),
               Container(
                 child: Stack(
@@ -97,9 +107,18 @@ class NFTSScreen extends StatelessWidget {
                 ),
               ),
               NFTTagRow(),
-              Expanded(
-                child: NFTGrid(nftItems: []),
-              )
+              FutureBuilder(
+                  future: NFTApi().getGallery(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.hasData) {
+                      final urls = snapshot.data as List<String>;
+                      return Expanded(
+                        child: NFTGalleryGrid(images: urls),
+                      );
+                    }
+                    return Container(
+                        alignment: Alignment.center, child: spinkit);
+                  }))
             ],
           )),
     );

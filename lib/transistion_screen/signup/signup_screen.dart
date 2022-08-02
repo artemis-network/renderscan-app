@@ -1,10 +1,10 @@
-import 'package:elegant_notification/elegant_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/constants.dart';
 
 // components
 
@@ -30,10 +30,14 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   String confirmPassword = "";
 
-  String? referalCode = "153bf7e9f373c8d105f9bbacb6f157cdd974ad78";
+  String referalCode = "";
   String username = "";
   String usernameError = "Username Required";
   bool isUsernameHasError = true;
+
+  String name = "";
+  String nameError = "Name Required";
+  bool isNameHasError = true;
 
   String email = "";
   String emailError = "Email Required";
@@ -66,6 +70,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
           },
         ),
       );
+    }
+
+    void handleName(String _name) {
+      String error = SignupValidations().nameValidations(_name)!;
+      if (error == "") {
+        setState(() {
+          isNameHasError = false;
+        });
+      } else {
+        setState(() {
+          isNameHasError = true;
+        });
+      }
+      setState(() {
+        name = _name;
+        nameError = error;
+      });
     }
 
     void handleUsername(String _username) {
@@ -145,28 +166,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _isLoading = false;
       });
       bool? hasError = response.hasError;
-      Color bgColor = hasError! ? Colors.red : Colors.green;
+      Color bgColor = hasError! ? Colors.redAccent : Colors.greenAccent;
       if (!hasError) {
-        ElegantNotification.success(
-          title: Text(response.message.toString()),
-          description: Text("Verification email has been sent"),
-          background: bgColor,
-        ).show(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: bgColor,
+            content: Text(
+              response.message ?? "Internal server error!",
+              style: kPrimartFont(Colors.black, 14, FontWeight.bold),
+            )));
         var future =
             Future.delayed(const Duration(seconds: 1), () => redirectToLogin());
         future.then((value) => null).catchError((err) {
           log.e(err);
         });
       } else {
-        ElegantNotification(
-          title: Text(response.message.toString()),
-          description: Text(""),
-          icon: Icon(
-            Icons.warning_amber,
-            color: Colors.orange,
-          ),
-          progressIndicatorColor: Colors.orange,
-        ).show(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: bgColor,
+            content: Text(
+              response.message ?? "Internal server error!",
+              style: kPrimartFont(Colors.black, 14, FontWeight.bold),
+            )));
       }
     }
 
@@ -217,6 +236,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   .getPriamryFontColor()))
                     ],
                   ),
+                ),
+                InputField(
+                  isHidden: false,
+                  hasError: isNameHasError,
+                  errorMessage: nameError,
+                  icon: Icons.person_add_alt_1,
+                  labelText: "Name",
+                  onChange: (value) => handleName(value),
                 ),
                 InputField(
                   isHidden: false,
@@ -272,23 +299,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               _isLoading = true;
                             });
                             SignUpRequest signUpRequest = new SignUpRequest(
+                                name: name,
                                 username: username.trim(),
                                 email: email.trim(),
                                 password: password.trim(),
-                                referalCode: referalCode ?? null);
+                                referalCode: referalCode);
                             SignUpApi()
                                 .registerUser(signUpRequest)
                                 .then((value) => handleRequest(value));
                           } else {
-                            ElegantNotification(
-                              title: Text("Invalid credentials"),
-                              description: Text("enter credentials"),
-                              icon: Icon(
-                                Icons.warning_amber,
-                                color: Colors.orange,
-                              ),
-                              progressIndicatorColor: Colors.orange,
-                            ).show(context);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                backgroundColor: Colors.redAccent,
+                                content: Text(
+                                  "Invalid credentials",
+                                  style: kPrimartFont(
+                                      Colors.black, 14, FontWeight.bold),
+                                )));
                           }
                         },
                       ),

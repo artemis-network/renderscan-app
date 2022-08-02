@@ -4,20 +4,27 @@ import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
-import 'package:renderscan/static_screen/nfts/nft_models.dart';
 
 class NFTApi {
-  Future<ImageList> callImages() async {
+  Future<List<String>> getGallery() async {
     try {
       var username = await Storage().getItem("username");
+      username = username.toString() + "/";
       final response = await http.post(
           HttpServerConfig().getHost("/images/gallery"),
           headers: HttpServerConfig().headers,
-          body: jsonEncode({'username': username.toString()}));
-      return ImageList.fromJson(jsonDecode(response.body));
+          body: jsonEncode({'username': username}));
+      var body = jsonDecode(response.body);
+      log.i(body);
+      final resp = body["images"] as List;
+      List<String> imgs = [];
+      for (int i = 0; i < resp.length; i++) {
+        imgs.add(resp[i]);
+      }
+      return imgs.reversed.toList();
     } catch (e) {
       log.e(e);
-      return ImageList(images: []);
+      return [];
     }
   }
 

@@ -1,15 +1,18 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/utils/logger.dart';
 
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
 import 'package:renderscan/static_screen/profile/component/profile_input.dart';
 import 'package:renderscan/static_screen/profile/profile_api.dart';
 import 'package:renderscan/static_screen/profile/profile_provider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -23,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Profile profile =
         Provider.of<ProfileProvider>(context, listen: false).profile;
     String displayName = profile.displayName;
+    String email = profile.email;
 
     final size = MediaQuery.of(context).size;
 
@@ -50,6 +54,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ProfileApi()
           .updateProfile(changedProfile)
           .then((value) => handleRepsonse(value));
+    }
+
+    handleEmailUpdate(ProfileResponse profile) async {
+      print("> Logging out");
+      log.i(profile.error);
+      log.i(profile.message);
+
+      var color = profile.error ? Colors.redAccent : Colors.greenAccent;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: color,
+          content: Text(
+            profile.message,
+            style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold),
+          )));
+      if (!profile.error) {
+        var future =
+            Future.delayed(const Duration(milliseconds: 3000), () async {
+          Storage().logout();
+          context.read<NavigationProvider>().setCurrentIndex(0);
+          context.read<ScanProvider>().resetProvider();
+        });
+        future.then((value) {});
+      }
+    }
+
+    updateEmail(context) async {
+      Profile changedProfile =
+          Provider.of<ProfileProvider>(context, listen: false).profile;
+
+      ProfileApi()
+          .updateEmail(changedProfile.email)
+          .then((value) => handleEmailUpdate(value));
     }
 
     bool allowClose = true;
@@ -134,6 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             onPressed: () async {
                               final XFile? image = await _picker.pickImage(
                                   source: ImageSource.gallery);
+                              await ProfileApi().updateAvatar(image);
                             },
                             child: Text("Choose a photo")),
                         Expanded(
@@ -156,41 +193,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(vertical: 20),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    TextButton(
-                                      onPressed: () => submit(context),
-                                      child: Text("Save"),
-                                      style: ButtonStyle(
-                                          textStyle: MaterialStateProperty.all(
-                                              kPrimartFont(
-                                                  context
-                                                      .watch<ThemeProvider>()
-                                                      .getPriamryFontColor(),
-                                                  24,
-                                                  FontWeight.bold)),
-                                          elevation:
-                                              MaterialStateProperty.all(10),
-                                          padding: MaterialStateProperty.all(
-                                              EdgeInsets.symmetric(
-                                                  horizontal: 20,
-                                                  vertical: 10)),
-                                          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                                child: TextButton(
+                                  onPressed: () => submit(context),
+                                  child: Text("Save"),
+                                  style: ButtonStyle(
+                                      textStyle: MaterialStateProperty.all(
+                                          kPrimartFont(
+                                              context
+                                                  .watch<ThemeProvider>()
+                                                  .getPriamryFontColor(),
+                                              24,
+                                              FontWeight.bold)),
+                                      elevation: MaterialStateProperty.all(10),
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10)),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(20))),
-                                          backgroundColor:
-                                              MaterialStateProperty.all(context
-                                                  .watch<ThemeProvider>()
-                                                  .getBackgroundColor())),
-                                    ),
-                                  ],
+                                      backgroundColor:
+                                          MaterialStateProperty.all(context
+                                              .watch<ThemeProvider>()
+                                              .getBackgroundColor())),
                                 ),
-                              )
+                              ),
+                              ProfileInput(
+                                defaultValue: email,
+                                labelText: "Update Email",
+                                icon: Icons.display_settings,
+                                onChange: (e) =>
+                                    context.read<ProfileProvider>().setEmail(e),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                child: TextButton(
+                                  onPressed: () => updateEmail(context),
+                                  child: Text("Update Email"),
+                                  style: ButtonStyle(
+                                      textStyle: MaterialStateProperty.all(
+                                          kPrimartFont(
+                                              context
+                                                  .watch<ThemeProvider>()
+                                                  .getPriamryFontColor(),
+                                              24,
+                                              FontWeight.bold)),
+                                      elevation: MaterialStateProperty.all(10),
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10)),
+                                      shape: MaterialStateProperty.all(
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(context
+                                              .watch<ThemeProvider>()
+                                              .getBackgroundColor())),
+                                ),
+                              ),
                             ],
                           ),
-                        ))
+                        )),
                       ],
                     )),
               ),
