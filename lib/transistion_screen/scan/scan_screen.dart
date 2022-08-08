@@ -157,7 +157,7 @@ class _ScanScreenState extends State<ScanScreen> {
                         future: setupCameras(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.connectionState.name != "done")
+                          if (snapshot.connectionState.name == "done")
                             return Container(
                                 color: context
                                     .watch<ThemeProvider>()

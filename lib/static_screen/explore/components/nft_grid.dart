@@ -1,5 +1,6 @@
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
@@ -97,21 +98,22 @@ class NFTGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: GridView.builder(
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            childAspectRatio: 1 / 1.4,
-          ),
-          itemCount: nftItems.length,
-          itemBuilder: (BuildContext context, int index) {
-            return NFTItem(
-              nftModel: nftItems[index],
-            );
-          },
-        ));
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      color: context.watch<ThemeProvider>().getBackgroundColor(),
+      child: MasonryGridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        itemCount: nftItems.length,
+        shrinkWrap: true,
+        scrollDirection: Axis.vertical,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          return NFTItem(
+            nftModel: nftItems[index],
+          );
+        },
+      ),
+    );
   }
 }

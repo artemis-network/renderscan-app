@@ -18,6 +18,7 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
+import 'package:renderscan/transistion_screen/forgot_password/forgot_password_screen.dart';
 import 'package:renderscan/transistion_screen/login/components/google_login_button.dart';
 import 'package:renderscan/transistion_screen/login/components/input_field.dart';
 import 'package:renderscan/transistion_screen/login/components/input_password_field.dart';
@@ -173,6 +174,47 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       : spinkit,
                   SizedBox(height: size.height * 0.02),
+                  TextButton(
+                    onPressed: () {
+                      scaffoldKey.currentState?.openDrawer();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "forgot Password ?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getSecondaryFontColor(),
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: ForgotPassword(),
+                                ctx: context,
+                                duration: Duration(milliseconds: 300),
+                                fullscreenDialog: true,
+                                childCurrent: LoginScreen()));
+                          },
+                          child: Text(
+                            " Click here",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getSecondaryFontColor(),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       scaffoldKey.currentState?.openDrawer();

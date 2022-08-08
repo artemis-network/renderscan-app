@@ -44,6 +44,11 @@ frontend
 	avatar image[x]
 	email updation[x]
 
+	generate page => https://hotpot.ai/art-maker?s=nft-generator[x]
+	create -> change images ->[x]
+	import alignments[x]
+	scan button[x]
+
 backend
 	blockchain wallet[x] 
 		userId
@@ -54,3 +59,11 @@ backend
 	add gallery to app[x]
 	apk generate -> store -> renderverse.io [x]
 	warmup queries -> 4 basnet, nftport, blockdemon, marketplace server [x]
+
+frontend
+nft gallery page slider highlight underline
+
+design -> shadows -> loader
+
+change password backend and frontend -> 4 to 5 hour
+feedback frontend -> 1 hour

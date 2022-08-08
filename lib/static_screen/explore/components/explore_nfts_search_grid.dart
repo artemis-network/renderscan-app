@@ -23,7 +23,9 @@ class ExploreNFTsSearchGrid extends StatelessWidget {
           if (snapshot.hasData) {
             List<NFTModel> nfts = snapshot.data as List<NFTModel>;
             if (nfts.length > 0)
-              return NFTGrid(nftItems: nfts);
+              return SingleChildScrollView(
+                child: NFTGrid(nftItems: nfts),
+              );
             else
               return Container(
                 alignment: Alignment.center,

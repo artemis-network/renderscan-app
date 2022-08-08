@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/common/config/http_config.dart';
 import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_collection.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_detail.model.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft_sol.modal.dart';
@@ -14,20 +15,46 @@ class NFTCollectionAPI {
   }
 
   Future<NFTCollectionModel> getNFTCollectionBySlug(String slug) async {
+    var body = jsonEncode({"slug": slug});
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"slug": slug, "limit": 20});
     try {
       var response = await http.post(
-          HttpServerConfig().getHost("/marketplace/getcollectionfromSlug"),
+          HttpServerConfig().getHost("/marketplace/getcollectioninfo"),
           headers: headers,
           body: body);
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
+        log.i(json);
         log.i("nft collection api status 200");
-        final nfts = json["CollectionNFTs"];
         final collectionInfo = json["CollectionInfo"];
-        return NFTCollectionModel.jsonToObject(collectionInfo, nfts);
+        return NFTCollectionModel.jsonToObject(collectionInfo);
+      }
+      throw Error();
+    } on SocketException catch (e) {
+      log.e("failed to get nft collection info from api");
+      log.e(e);
+      throw e;
+    }
+  }
+
+  Future<List<NFTModel>> getNFTCollectionNFTsBySlug(String slug) async {
+    var headers = {'Content-Type': 'application/json'};
+    var body = jsonEncode({"slug": slug, "offset": 1});
+    try {
+      var response = await http.post(
+          HttpServerConfig().getHost("/marketplace/getcollectionnfts"),
+          headers: headers,
+          body: body);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+        final nfts = json["CollectionNFTs"] as List;
+        List<NFTModel> nftsList = [];
+        for (int i = 0; i < nfts.length; i++) {
+          nftsList.add(NFTModel.jsonToObject(nfts[i]));
+        }
+        return nftsList;
       }
       throw Error();
     } on SocketException catch (e) {

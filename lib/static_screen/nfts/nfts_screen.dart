@@ -4,6 +4,7 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/nfts/components/gallery.dart';
 import 'package:renderscan/static_screen/nfts/components/nft_tag_row.dart';
@@ -38,28 +39,25 @@ class _NFTSScreenState extends State<NFTSScreen> {
                 height: 20,
               ),
               Container(
-                child: Stack(
-                  children: [
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(80),
-                        child: Image.asset(
-                          "assets/images/lion.png",
-                          height: 100,
-                          width: 100,
-                        )),
-                    Positioned(
-                        bottom: 0,
-                        child: CircleAvatar(
-                          radius: 16,
-                          child: IconButton(
-                              onPressed: () => {},
-                              icon: Icon(
-                                Icons.create_outlined,
-                                size: 16,
-                              )),
-                        ))
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: Storage().getItem("username"),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        final username = snapshot.data as String;
+                        var url =
+                            "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                username +
+                                '.png';
+                        return CircleAvatar(
+                          backgroundImage: NetworkImage(url),
+                          radius: 48,
+                        );
+                      }
+                      return CircleAvatar(
+                        backgroundImage: AssetImage("assets/images/lion.png"),
+                        radius: 48,
+                      );
+                    })),
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10),

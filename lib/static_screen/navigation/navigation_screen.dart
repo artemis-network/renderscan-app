@@ -39,54 +39,56 @@ class _NavigationScreenState extends State<NavigationScreen> {
           child: screens[context.watch<NavigationProvider>().currentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          backgroundColor: context.watch<ThemeProvider>().getNavbarColor(),
           elevation: 10,
           type: BottomNavigationBarType.fixed,
           unselectedItemColor:
-              context.watch<ThemeProvider>().getForegroundColor(),
+              context.watch<ThemeProvider>().getHighLightColor(),
           unselectedIconTheme: IconThemeData(
-              color: context.watch<ThemeProvider>().getForegroundColor()),
+              color: context.watch<ThemeProvider>().getSecondaryFontColor()),
           selectedIconTheme: IconThemeData(
               color: context.watch<ThemeProvider>().getHighLightColor()),
           selectedItemColor: context.watch<ThemeProvider>().getHighLightColor(),
           currentIndex: context.watch<NavigationProvider>().currentIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home_outlined,
-                  size: 24,
-                ),
-                label: "Home"),
+              icon: Icon(
+                Icons.home_outlined,
+                size: 24,
+              ),
+              label: "",
+            ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.search_outlined,
-                  size: 24,
-                ),
-                label: "Explore"),
+              icon: Icon(
+                Icons.search_outlined,
+                size: 24,
+              ),
+              label: "",
+            ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.add_circle,
-                  size: 34,
-                  color: context.watch<ThemeProvider>().getForegroundColor(),
-                ),
-                activeIcon: Icon(
-                  Icons.add_circle,
-                  size: 34,
-                  color: context.watch<ThemeProvider>().getHighLightColor(),
-                ),
-                label: "Create"),
+              icon: Icon(
+                Icons.add_circle,
+                size: 34,
+                color: context.watch<ThemeProvider>().getFavouriteColor(),
+              ),
+              label: "",
+            ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.library_books_outlined,
-                  size: 24,
-                ),
-                label: "NFTs"),
+              icon: Icon(
+                Icons.library_books_outlined,
+                size: 24,
+              ),
+              label: "",
+            ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.person_outline_outlined,
-                  size: 24,
-                ),
-                label: "Profile"),
+              icon: Icon(
+                Icons.person_outline_outlined,
+                size: 24,
+              ),
+              label: "",
+            ),
           ],
           onTap: (index) async {
             final bool isLoggedIn = await Storage().isLoggedIn();

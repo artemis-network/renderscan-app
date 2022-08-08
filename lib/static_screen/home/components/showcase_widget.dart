@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/static_screen/home/home_screen_api.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 import 'package:renderscan/transistion_screen/sol_nft/sol_nft_screen.dart';
@@ -33,24 +34,39 @@ class ShowcaseWidget extends StatelessWidget {
     }
 
     ImageGetter() {
-      return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            nft.imageUrl.toString(),
-            height: 96,
-            fit: BoxFit.fitWidth,
-            errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
-              "assets/images/default_img.svg",
+      return Container(
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
+          BoxShadow(
+            offset: Offset(1, 1),
+            blurRadius: 2,
+            color: context.watch<ThemeProvider>().getBackgroundColor(),
+          ),
+          BoxShadow(
+            offset: Offset(-1, -1),
+            color: context.watch<ThemeProvider>().getForegroundColor(),
+            blurRadius: 2,
+          ),
+        ]),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              nft.imageUrl.toString(),
               height: 96,
               fit: BoxFit.fitWidth,
-            ),
-          ));
+              errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
+                "assets/images/default_img.svg",
+                height: 96,
+                fit: BoxFit.fitWidth,
+              ),
+            )),
+      );
     }
 
     return Container(
         decoration: BoxDecoration(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(1),
         ),
         child: GestureDetector(
             child: Column(children: [
@@ -78,7 +94,7 @@ class ShowcaseWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        nft.lastPrice.toString(),
+                        "0",
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             color: context

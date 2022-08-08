@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class ThemeColors {
-  Color backgroundColor = Colors.white;
+  Color backgroundColor = Color(0xff1e003c);
   Color foregroundColor = Colors.grey.shade400;
-  Color primaryFontColor = Colors.black;
-  Color secondaryFontColor = Colors.blueGrey.shade700;
-  Color highLightColor = Colors.blueAccent.shade400;
-  Color favouriteColor = Colors.redAccent.shade400;
+
+  Color primaryFontColor = Colors.white;
+  Color secondaryFontColor = Colors.blueGrey.shade200;
+  Color highLightColor = Color(0xff9900ff);
+  Color favouriteColor = Color(0xff00ff99);
+  Color navbarColor = Colors.black;
+  Color navbarIconColor = Colors.white;
 
   ThemeColors(
       {required this.backgroundColor,
@@ -14,17 +17,21 @@ class ThemeColors {
       required this.primaryFontColor,
       required this.secondaryFontColor,
       required this.highLightColor,
-      required this.favouriteColor});
+      required this.navbarIconColor,
+      required this.favouriteColor,
+      required this.navbarColor});
 }
 
 class ThemeProvider extends ChangeNotifier {
   ThemeColors? theme = new ThemeColors(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff1e003c),
       foregroundColor: Colors.grey.shade400,
       primaryFontColor: Colors.white,
       secondaryFontColor: Colors.blueGrey.shade200,
-      highLightColor: Colors.blueAccent.shade400,
-      favouriteColor: Colors.redAccent.shade400);
+      highLightColor: Color(0xff9900ff),
+      favouriteColor: Color(0xff00ff99),
+      navbarColor: Colors.black,
+      navbarIconColor: Colors.white);
 
   bool _isDark = true;
 
@@ -32,21 +39,25 @@ class ThemeProvider extends ChangeNotifier {
     _isDark = isDark;
     if (!isDark) {
       ThemeColors light = ThemeColors(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xffeaeaea),
           foregroundColor: Colors.blueGrey,
           primaryFontColor: Colors.black,
           secondaryFontColor: Colors.blueGrey.shade900,
-          highLightColor: Colors.blueAccent.shade400,
-          favouriteColor: Colors.redAccent.shade400);
+          highLightColor: Color(0xff9900ff),
+          favouriteColor: Color(0xff00ff99),
+          navbarColor: Colors.white,
+          navbarIconColor: Colors.black);
       this.theme = light;
     } else {
       ThemeColors dark = ThemeColors(
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xff1e003c),
           foregroundColor: Colors.grey.shade400,
           primaryFontColor: Colors.white,
           secondaryFontColor: Colors.blueGrey.shade200,
-          highLightColor: Colors.blueAccent.shade400,
-          favouriteColor: Colors.redAccent.shade400);
+          highLightColor: Color(0xff9900ff),
+          favouriteColor: Color(0xff00ff99),
+          navbarIconColor: Colors.black,
+          navbarColor: Colors.white);
       this.theme = dark;
     }
     notifyListeners();
@@ -58,5 +69,8 @@ class ThemeProvider extends ChangeNotifier {
   getSecondaryFontColor() => theme?.secondaryFontColor ?? Colors.white;
   getHighLightColor() => theme?.highLightColor ?? Colors.white;
   getFavouriteColor() => theme?.favouriteColor ?? Colors.white;
+
+  getNavbarColor() => theme?.navbarColor ?? Colors.white;
+  getNavbarIconColor() => theme?.navbarIconColor ?? Colors.white;
   isDarkTheme() => _isDark;
 }

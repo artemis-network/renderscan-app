@@ -17,7 +17,7 @@ kPrimartFont(Color? color, double? fontSize, FontWeight? weight) {
 
 kSecondaryFont(
     Color color, Color backgruond, double fontSize, FontWeight weight) {
-  return GoogleFonts.quicksand(
+  return GoogleFonts.mouseMemoirs(
     color: color,
     backgroundColor: backgruond,
     fontSize: fontSize,

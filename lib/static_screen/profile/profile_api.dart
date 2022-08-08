@@ -87,9 +87,10 @@ class ProfileApi {
     try {
       var data = await file.readAsBytes();
       var userId = await Storage().getItem("userId");
+      userId = userId.toString();
       var request = http.MultipartRequest(
           'POST', HttpServerConfig().getHost("/users/set-avatar"));
-      request.fields['username'] = userId.toString();
+      request.fields['userId'] = userId;
       var pic =
           http.MultipartFile.fromBytes('avatar', data, filename: file.path);
       request.files.add(pic);

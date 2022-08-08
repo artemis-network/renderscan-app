@@ -141,12 +141,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     .getPriamryFontColor(),
                                 24,
                                 FontWeight.bold)),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
-                          child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/images/1.jpg'),
-                            radius: 50,
-                          ),
+                          child: FutureBuilder(
+                              future: Storage().getItem("username"),
+                              builder: ((context, snapshot) {
+                                if (snapshot.hasData) {
+                                  final username = snapshot.data as String;
+                                  var url =
+                                      "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                          username +
+                                          '.png';
+                                  log.i(url);
+                                  return CircleAvatar(
+                                    backgroundImage: NetworkImage(url),
+                                    radius: 48,
+                                  );
+                                }
+                                return CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage("assets/images/lion.png"),
+                                  radius: 48,
+                                );
+                              })),
                         ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),

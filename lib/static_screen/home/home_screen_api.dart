@@ -26,6 +26,7 @@ class HomeScreenApi {
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
+        log.i(json);
         final List<dynamic> collection = json["collections"];
         List<TrendingModel> trending = [];
         log.i("trending collections api with status 200");
@@ -83,5 +84,20 @@ class HomeScreenApi {
       return notableCollection;
     }
     return [];
+  }
+
+  Future<String> getNFTPrice(String contract, String tokenId) async {
+    var headers = {'Content-Type': 'application/json'};
+    var body = jsonEncode({"contract": contract, "tokenId": tokenId});
+
+    var response = await http.post(
+        HttpServerConfig().getHost("/marketplace/getnftlatestprice"),
+        headers: headers,
+        body: body);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return json["price"] as String;
+    }
+    return "0";
   }
 }

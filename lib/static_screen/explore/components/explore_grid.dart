@@ -12,12 +12,14 @@ class Collections extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final oneDayChange = double.parse(collection.oneDayChange);
+    final color = oneDayChange > 0 ? Colors.greenAccent : Colors.redAccent;
     return InkWell(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         clipBehavior: Clip.antiAlias,
         color: context.watch<ThemeProvider>().getBackgroundColor(),
-        elevation: 2,
+        elevation: 12,
         shadowColor: context
             .watch<ThemeProvider>()
             .getHighLightColor()
@@ -87,11 +89,9 @@ class Collections extends StatelessWidget {
                 color: context.watch<ThemeProvider>().getBackgroundColor(),
               ),
               child: Text(
-                collection.oneDayChange,
+                oneDayChange.toStringAsFixed(2) + "%",
                 style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                    fontWeight: FontWeight.bold),
+                    fontSize: 14, color: color, fontWeight: FontWeight.bold),
               ),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             ),
@@ -116,7 +116,7 @@ class ExploreGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: GridView.builder(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),

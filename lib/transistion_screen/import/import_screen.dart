@@ -215,23 +215,30 @@ class _ImportScreenState extends State<ImportScreen> {
             drawer: Drawer(
               child: SideBar(),
             ),
-            body: Stepper(
-              type: StepperType.horizontal,
-              steps: getSteps(),
-              elevation: 200,
-              currentStep: currentStep,
-              onStepContinue: () {
-                if (currentStep == 2) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NavigationScreen()));
-                }
-                setState(() => {if (currentStep < 3) currentStep += 1});
-              },
-              onStepCancel: () =>
-                  setState(() => {if (currentStep > 0) currentStep -= 1}),
-              onStepTapped: (int index) => setState(() => currentStep = index),
+            body: Theme(
+              data: ThemeData(
+                  primarySwatch: Colors.blue,
+                  colorScheme: ColorScheme.light(
+                      primary: Colors.black, secondary: Colors.black)),
+              child: Stepper(
+                type: StepperType.horizontal,
+                steps: getSteps(),
+                elevation: 200,
+                currentStep: currentStep,
+                onStepContinue: () {
+                  if (currentStep == 2) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NavigationScreen()));
+                  }
+                  setState(() => {if (currentStep < 3) currentStep += 1});
+                },
+                onStepCancel: () =>
+                    setState(() => {if (currentStep > 0) currentStep -= 1}),
+                onStepTapped: (int index) =>
+                    setState(() => currentStep = index),
+              ),
             )));
   }
 }

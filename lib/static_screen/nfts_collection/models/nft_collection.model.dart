@@ -1,5 +1,3 @@
-import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
-
 class NFTCollectionModel {
   final String name;
   final String description;
@@ -12,9 +10,8 @@ class NFTCollectionModel {
   final String contractAddress;
   final String twitter;
   final String externalUrl;
-  final List<NFTModel> nfts;
 
-  NFTCollectionModel.jsonToObject(Map<String, dynamic> json, List<dynamic> nfts)
+  NFTCollectionModel.jsonToObject(Map<String, dynamic> json)
       : name = json["name"] ?? "--",
         description = json["description"] ?? "",
         bannerUrl = json["bannerUrl"] ??
@@ -27,6 +24,5 @@ class NFTCollectionModel {
         totalVolume = json["totalVolume"] ?? "--",
         contractAddress = json['contractAddress'] ?? "--",
         twitter = json["twitter"] ?? "--",
-        externalUrl = json['externalUrl'] ?? "--",
-        nfts = NFTModel.mapNFTs(nfts);
+        externalUrl = json['externalUrl'] ?? "--";
 }
