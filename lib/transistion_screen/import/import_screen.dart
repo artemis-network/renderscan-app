@@ -117,27 +117,51 @@ class _ImportScreenState extends State<ImportScreen> {
               ),
             ),
             InkWell(
-              onTap: pickImage,
-              child: Text("Upload",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      22,
-                      FontWeight.bold)),
-            )
+                onTap: pickImage,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Text("Upload",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          22,
+                          FontWeight.bold)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 1,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getFavouriteColor())
+                      ]),
+                ))
           ],
         ));
   }
 
   stepTwo(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      color: context.watch<ThemeProvider>().getBackgroundColor(),
+      alignment: Alignment.topLeft,
       child: Column(
         children: [
-          Text(
-            "Save Image",
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                24,
-                FontWeight.bold),
+          Row(
+            children: [
+              Icon(Icons.save,
+                  size: 30,
+                  color: context.watch<ThemeProvider>().getPriamryFontColor()),
+              SizedBox(
+                width: 15,
+              ),
+              Text(
+                "Save Image",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    24,
+                    FontWeight.bold),
+              ),
+            ],
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
@@ -150,13 +174,24 @@ class _ImportScreenState extends State<ImportScreen> {
             ),
           ),
           InkWell(
-            onTap: saveImage,
-            child: Text("Save",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    22,
-                    FontWeight.bold)),
-          )
+              onTap: saveImage,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Text("Save",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        22,
+                        FontWeight.bold)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 1,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getFavouriteColor())
+                    ]),
+              ))
         ],
       ),
     );
@@ -164,14 +199,27 @@ class _ImportScreenState extends State<ImportScreen> {
 
   stepThree(BuildContext context) {
     return Container(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      color: context.watch<ThemeProvider>().getBackgroundColor(),
+      alignment: Alignment.topLeft,
       child: Column(
         children: [
-          Text(
-            "Minted as NFT",
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                24,
-                FontWeight.bold),
+          Row(
+            children: [
+              Icon(Icons.currency_bitcoin,
+                  size: 30,
+                  color: context.watch<ThemeProvider>().getPriamryFontColor()),
+              SizedBox(
+                width: 15,
+              ),
+              Text(
+                "Mint NFT",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    24,
+                    FontWeight.bold),
+              ),
+            ],
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),

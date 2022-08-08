@@ -41,6 +41,7 @@ class _GenerateScreenState extends State<GenerateScreen>
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
+    final size = MediaQuery.of(context).size;
 
     return SafeArea(
         child: Scaffold(
@@ -52,6 +53,7 @@ class _GenerateScreenState extends State<GenerateScreen>
             body: SingleChildScrollView(
               child: Container(
                   color: context.watch<ThemeProvider>().getBackgroundColor(),
+                  height: size.height,
                   alignment: Alignment.center,
                   child: Column(
                     children: [
@@ -113,16 +115,39 @@ class _GenerateScreenState extends State<GenerateScreen>
                               child: Form(
                                 key: fKey,
                                 child: TextField(
+                                  cursorColor: context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor(),
+                                  cursorWidth: 2,
                                   decoration: InputDecoration(
-                                      focusColor: context
-                                          .watch<ThemeProvider>()
-                                          .getHighLightColor(),
-                                      border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              width: 3,
-                                              color: context
-                                                  .watch<ThemeProvider>()
-                                                  .getPriamryFontColor()))),
+                                    hintText: "Enter item",
+                                    hintStyle: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        18,
+                                        FontWeight.normal),
+                                    fillColor: context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            width: 3,
+                                            color: context
+                                                .watch<ThemeProvider>()
+                                                .getHighLightColor())),
+                                    enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            width: 3,
+                                            color: context
+                                                .watch<ThemeProvider>()
+                                                .getHighLightColor())),
+                                    focusColor: context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor(),
+                                  ),
                                   enabled: !isRequested,
                                   onChanged: ((value) => setState(() {
                                         search = value;
