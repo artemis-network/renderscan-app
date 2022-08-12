@@ -45,8 +45,6 @@ class ScanApi {
   Future<SaveResponse> save(String filename) async {
     try {
       var username = await Storage().getItem("username");
-      log.i(">> Username " + username.toString());
-      log.i(">> filename " + filename);
       final response = await http.post(
           HttpServerConfig().getHost("/images/save"),
           headers: HttpServerConfig().headers,

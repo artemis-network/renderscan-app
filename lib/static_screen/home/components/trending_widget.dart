@@ -16,6 +16,31 @@ class TrendingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Color> colors = [
+      Colors.greenAccent,
+      Colors.blueAccent,
+      Colors.cyan,
+      Colors.deepOrange,
+      Colors.teal,
+      Colors.deepPurple,
+      Colors.lightGreen,
+      Colors.blueGrey,
+      Colors.black,
+      Colors.tealAccent,
+      Colors.indigoAccent,
+      Colors.purpleAccent,
+      Colors.cyanAccent,
+      Colors.deepOrangeAccent,
+      Colors.deepPurpleAccent,
+      Colors.pinkAccent,
+      Colors.lightGreenAccent,
+      Colors.blue,
+      Colors.green,
+      Colors.amber,
+      Colors.pink,
+      Colors.brown,
+    ];
+
     ImageGetter() {
       return ClipRRect(
         borderRadius: BorderRadius.circular(60),
@@ -59,13 +84,10 @@ class TrendingWidget extends StatelessWidget {
                     child: CircleAvatar(
                       child: Text((index + 1).toString(),
                           style: GoogleFonts.poppins(
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getBackgroundColor(),
+                              color: Colors.white,
                               fontWeight: FontWeight.bold)),
                       radius: 16,
-                      backgroundColor:
-                          context.watch<ThemeProvider>().getHighLightColor(),
+                      backgroundColor: colors[index],
                     )),
               ],
             ),

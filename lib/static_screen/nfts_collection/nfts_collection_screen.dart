@@ -132,7 +132,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                       }
                       return Container(
                         alignment: Alignment.center,
-                        child: spinkit,
+                        child: spinkit(),
                       );
                     })),
                 FutureBuilder(
@@ -148,7 +148,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                         );
                       }
                       return Container(
-                        child: spinkit,
+                        child: spinkit(),
                         alignment: Alignment.center,
                       );
                     }))

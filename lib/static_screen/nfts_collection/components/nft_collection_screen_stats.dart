@@ -2,7 +2,6 @@ import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 
 class NFTCollectionScreenStats extends StatelessWidget {
@@ -26,10 +25,6 @@ class NFTCollectionScreenStats extends StatelessWidget {
     final v = double.parse(volume).toStringAsFixed(0);
     final i = (double.parse(totalSupply) / 1000.00).toStringAsFixed(1) + "K";
     final o = (double.parse(owners) / 1000.00).toStringAsFixed(1) + "K";
-    log.i(v);
-    log.i(f);
-    log.i(i);
-    log.i(o);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
       child: Row(

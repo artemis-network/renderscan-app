@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -54,6 +56,20 @@ class _UserScreenState extends State<UserScreen> {
     final size = MediaQuery.of(context).size;
 
     bool allowClose = true;
+    final List<String> images = [
+      "assets/avtars/1.png",
+      "assets/avtars/2.png",
+      "assets/avtars/3.png",
+      "assets/avtars/4.png",
+      "assets/avtars/5.png",
+      "assets/avtars/6.png",
+      "assets/avtars/7.png",
+      "assets/avtars/8.png",
+      "assets/avtars/9.png",
+      "assets/avtars/10.png",
+    ];
+
+    final random = new Random().nextInt(11);
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
     return Container(
@@ -119,8 +135,8 @@ class _UserScreenState extends State<UserScreen> {
                                         );
                                       }
                                       return CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            "assets/images/lion.png"),
+                                        backgroundImage:
+                                            AssetImage(images[random]),
                                         radius: 48,
                                       );
                                     })),
@@ -240,12 +256,6 @@ class _UserScreenState extends State<UserScreen> {
                                       launchPage();
                                     },
                                     icon: Icons.rule),
-                                ColumnButtons(
-                                    text: "Privacy Policy",
-                                    press: () {
-                                      launchPage();
-                                    },
-                                    icon: Icons.privacy_tip_outlined),
                                 ColumnButtons(
                                     text: "Help & FAQ",
                                     press: () {

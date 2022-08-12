@@ -20,7 +20,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   bool submit = false;
   int tabIndex = 0;
   String search = "";
-
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

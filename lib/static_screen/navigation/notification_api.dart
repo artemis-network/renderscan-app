@@ -43,7 +43,6 @@ class NotificationApi {
           HttpServerConfig().getHost("/payments/notifications"),
           body: body);
       var json = jsonDecode(response.body);
-      log.i(json);
       return NotificationC.jsonToObject(json);
     } catch (e) {
       log.e(e);

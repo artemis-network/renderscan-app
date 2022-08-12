@@ -25,7 +25,6 @@ class NFTCollectionAPI {
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        log.i(json);
         log.i("nft collection api status 200");
         final collectionInfo = json["CollectionInfo"];
         return NFTCollectionModel.jsonToObject(collectionInfo);

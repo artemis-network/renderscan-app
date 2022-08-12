@@ -199,7 +199,7 @@ class _RankingScreenState extends State<RankingScreen> {
                         });
                   }
                   return Container(
-                    child: spinkit,
+                    child: spinkit(),
                     alignment: Alignment.center,
                   );
                 },

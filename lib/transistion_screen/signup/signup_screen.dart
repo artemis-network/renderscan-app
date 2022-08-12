@@ -285,7 +285,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: size.height * 0.05,
                 ),
                 _isLoading
-                    ? spinkit
+                    ? spinkit()
                     : SignUpButton(
                         text: "Sign Up",
                         press: () {

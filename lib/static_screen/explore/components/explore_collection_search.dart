@@ -17,7 +17,7 @@ class ExploreCollectionSearchGrid extends StatelessWidget {
             return Container(
               alignment: Alignment.center,
               color: context.watch<ThemeProvider>().getBackgroundColor(),
-              child: spinkit,
+              child: spinkit(),
             );
           }
           if (snapshot.hasData) {
@@ -41,7 +41,7 @@ class ExploreCollectionSearchGrid extends StatelessWidget {
           return Container(
             alignment: Alignment.center,
             color: context.watch<ThemeProvider>().getBackgroundColor(),
-            child: spinkit,
+            child: spinkit(),
           );
         }));
   }

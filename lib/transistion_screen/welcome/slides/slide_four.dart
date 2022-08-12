@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
 import 'package:renderscan/transistion_screen/welcome/slides/slide_three.dart';
+import 'package:renderscan/transistion_screen/welcome/slides/slides_five.dart';
 
 class SlideFour extends StatelessWidget {
   @override
@@ -20,14 +20,7 @@ class SlideFour extends StatelessWidget {
             height: 120,
           ),
           Text(
-            "Cashout &",
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                22,
-                FontWeight.bold),
-          ),
-          Text(
-            "Earn Real",
+            "Buy & Sell NFTs",
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
                 22,
@@ -45,67 +38,62 @@ class SlideFour extends StatelessWidget {
           SizedBox(
             height: 40,
           ),
-          TextButton(
-              onPressed: () async {
-                await Storage().setFirstTime(true);
-                Navigator.of(context).push(PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: NavigationScreen(),
-                    ctx: context,
-                    duration: Duration(milliseconds: 300),
-                    fullscreenDialog: true,
-                    childCurrent: this));
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor())
-                    ]),
-                alignment: Alignment.center,
-                child: Text("Next",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        34,
-                        FontWeight.bold)),
-              )),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: SlideThree(),
-                    ctx: context,
-                    duration: Duration(milliseconds: 300),
-                    fullscreenDialog: true,
-                    childCurrent: this));
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor())
-                    ]),
-                alignment: Alignment.center,
-                child: Text("Back",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        34,
-                        FontWeight.bold)),
-              ))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: SlideThree(),
+                        ctx: context,
+                        duration: Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        childCurrent: this));
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    size: 32,
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
+                  )),
+              Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.white,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+              IconButton(
+                  onPressed: () async {
+                    await Storage().setFirstTime(true);
+                    Navigator.of(context).push(PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: SlideFive(),
+                        ctx: context,
+                        duration: Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        childCurrent: this));
+                  },
+                  icon: Icon(
+                    Icons.arrow_forward,
+                    size: 32,
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
+                  )),
+            ],
+          )
         ]),
       ),
     ));

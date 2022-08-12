@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
@@ -116,16 +117,13 @@ class ExploreGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
         color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: GridView.builder(
+        child: MasonryGridView.count(
             padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-              childAspectRatio: 1 / .82,
-            ),
+            crossAxisCount: 1,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
             itemCount: exploreItems.length,
             itemBuilder: (BuildContext context, int index) {
               return Collections(

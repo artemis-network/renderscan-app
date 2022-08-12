@@ -26,7 +26,6 @@ class HomeScreenApi {
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
-        log.i(json);
         final List<dynamic> collection = json["collections"];
         List<TrendingModel> trending = [];
         log.i("trending collections api with status 200");

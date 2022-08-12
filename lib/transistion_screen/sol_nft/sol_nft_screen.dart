@@ -42,8 +42,6 @@ class NFTSolScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    log.i(contract);
-
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false, // set it to false
@@ -81,7 +79,7 @@ class NFTSolScreen extends StatelessWidget {
                       ]));
                 }
 
-                return Container(alignment: Alignment.center, child: spinkit);
+                return Container(alignment: Alignment.center, child: spinkit());
               })),
         ),
       ),

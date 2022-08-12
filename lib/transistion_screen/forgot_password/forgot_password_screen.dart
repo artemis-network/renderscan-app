@@ -4,7 +4,6 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/transistion_screen/forgot_password/components/reset_button.dart';
 import 'package:renderscan/transistion_screen/forgot_password/forgot_password_api.dart';
-import 'package:renderscan/transistion_screen/login/login_screen.dart';
 import './components/input_field.dart';
 
 class ForgotPassword extends StatefulWidget {

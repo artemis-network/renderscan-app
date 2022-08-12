@@ -19,7 +19,7 @@ class AuthFilter extends StatelessWidget {
           return guestView;
         }
         return Container(
-          child: spinkit,
+          child: spinkit(),
           alignment: Alignment.center,
         );
       },

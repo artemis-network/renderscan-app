@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/utils/logger.dart';
@@ -90,6 +92,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     bool allowClose = true;
 
+    final List<String> images = [
+      "assets/avtars/1.png",
+      "assets/avtars/2.png",
+      "assets/avtars/3.png",
+      "assets/avtars/4.png",
+      "assets/avtars/5.png",
+      "assets/avtars/6.png",
+      "assets/avtars/7.png",
+      "assets/avtars/8.png",
+      "assets/avtars/9.png",
+      "assets/avtars/10.png",
+    ];
+
+    final random = new Random().nextInt(11);
+
     return SafeArea(
         child: DoubleBack(
             condition: allowClose,
@@ -159,8 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   );
                                 }
                                 return CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/images/lion.png"),
+                                  backgroundImage: AssetImage(images[random]),
                                   radius: 48,
                                 );
                               })),
@@ -185,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         TextButton(
                             onPressed: () async {
-                              final XFile? image = await _picker.pickImage(
+                              final image = await _picker.getImage(
                                   source: ImageSource.gallery);
                               await ProfileApi().updateAvatar(image);
                             },

@@ -38,6 +38,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         width: size.width,
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+          Image.asset(
+            "assets/images/main_logo.png",
+            height: 240,
+            width: 240,
+          ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
             child: Text(

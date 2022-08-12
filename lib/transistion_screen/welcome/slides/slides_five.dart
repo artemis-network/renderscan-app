@@ -3,11 +3,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/transistion_screen/welcome/slides/slide_one.dart';
-import 'package:renderscan/transistion_screen/welcome/slides/slide_three.dart';
+import 'package:renderscan/static_screen/navigation/navigation_screen.dart';
+import 'package:renderscan/transistion_screen/welcome/slides/slide_four.dart';
 
-class SlideTwo extends StatelessWidget {
+class SlideFive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +20,7 @@ class SlideTwo extends StatelessWidget {
             height: 120,
           ),
           Text(
-            "Create + Design NFTs",
+            "Remove Background",
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
                 22,
@@ -41,10 +42,10 @@ class SlideTwo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               IconButton(
-                  onPressed: () async {
+                  onPressed: () {
                     Navigator.of(context).push(PageTransition(
                         type: PageTransitionType.leftToRight,
-                        child: SlideOne(),
+                        child: SlideFour(),
                         ctx: context,
                         duration: Duration(milliseconds: 300),
                         fullscreenDialog: true,
@@ -59,27 +60,28 @@ class SlideTwo extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.circle,
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.circle,
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.circle,
                     color: Colors.white,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    color: Colors.grey,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    color: Colors.grey,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    color: Colors.grey,
                   ),
                 ],
               ),
               IconButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await Storage().setFirstTime(true);
                     Navigator.of(context).push(PageTransition(
                         type: PageTransitionType.leftToRight,
-                        child: SlideThree(),
+                        child: NavigationScreen(),
                         ctx: context,
                         duration: Duration(milliseconds: 300),
                         fullscreenDialog: true,
@@ -91,7 +93,7 @@ class SlideTwo extends StatelessWidget {
                     color: context.watch<ThemeProvider>().getFavouriteColor(),
                   )),
             ],
-          ),
+          )
         ]),
       ),
     ));

@@ -48,11 +48,7 @@ class _ScanScreenState extends State<ScanScreen> {
       var pictureFile = await controller.takePicture();
       print("> Processing image");
       ScanResponse resp = await ScanApi().cutImageFromServer(pictureFile);
-      log.i("HERE");
-      log.i(resp.file);
-      log.i(resp.isError);
-      log.i(resp.isError);
-      log.i("END HERE");
+
       if (resp.isError == true) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -78,7 +74,6 @@ class _ScanScreenState extends State<ScanScreen> {
       log.i(">> Setting scan state");
       log.i(">> Filename " + resp.filename.toString());
       var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
-      log.i(url);
       context
           .read<ScanProvider>()
           .setScanStatus(fromBase64(url), resp.filename.toString());
@@ -125,16 +120,20 @@ class _ScanScreenState extends State<ScanScreen> {
       var scale = deviceRatio * camera.aspectRatio;
       // to prevent scaling down, invert the value
       if (scale < 1) scale = 1 / scale;
-      return Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-        clipBehavior: Clip.antiAlias,
-        child: Transform.scale(
-          scale: scale,
-          child: Center(
-            child: CameraPreview(controller),
-          ),
-        ),
-      );
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+          child: Card(
+            color: Colors.green,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
+            clipBehavior: Clip.antiAlias,
+            child: Transform.scale(
+              scale: scale,
+              child: Center(
+                child: CameraPreview(controller),
+              ),
+            ),
+          ));
     }
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -167,39 +166,32 @@ class _ScanScreenState extends State<ScanScreen> {
                                     SizedBox(
                                       height: size.height * 0.045,
                                     ),
-                                    Container(
-                                      width: size.width * 0.9,
-                                      height: size.height * 0.625,
-                                      child: Stack(
-                                        children: [
-                                          cameraWidget(context),
-                                          Positioned(
-                                            top: size.height * .15,
-                                            width: size.width * 1,
-                                            child: Container(
-                                                child: context
-                                                            .watch<
-                                                                ScanProvider>()
-                                                            .isFetched ==
-                                                        true
-                                                    ? Image.memory(
-                                                        context
-                                                            .watch<
-                                                                ScanProvider>()
-                                                            .imageSource,
-                                                      )
-                                                    : context
-                                                            .watch<
-                                                                ScanProvider>()
-                                                            .isLoading
-                                                        ? spinkit
-                                                        : null),
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        cameraWidget(context),
+                                        Positioned(
+                                          child: Container(
+                                            child: context
+                                                        .watch<ScanProvider>()
+                                                        .isFetched ==
+                                                    true
+                                                ? Image.memory(
+                                                    context
+                                                        .watch<ScanProvider>()
+                                                        .imageSource,
+                                                  )
+                                                : context
+                                                        .watch<ScanProvider>()
+                                                        .isLoading
+                                                    ? spinkit()
+                                                    : null,
                                           ),
-                                        ],
-                                      ),
+                                        )
+                                      ],
                                     ),
                                     SizedBox(
-                                      height: size.height * 0.05,
+                                      height: size.height * 0.03,
                                     ),
                                     Container(
                                         alignment: Alignment.bottomCenter,
@@ -218,19 +210,6 @@ class _ScanScreenState extends State<ScanScreen> {
                                                       child: ActivateButton(
                                                           text: "Scan",
                                                           press: ScanImage),
-                                                      // child: TextButton(
-                                                      //   onPressed: ScanImage,
-                                                      //   child: Text(
-                                                      //     "Scan",
-                                                      //     style: kPrimartFont(
-                                                      //         context
-                                                      //             .watch<
-                                                      //                 ThemeProvider>()
-                                                      //             .getPriamryFontColor(),
-                                                      //         24,
-                                                      //         FontWeight.bold),
-                                                      //   ),
-                                                      // ),
                                                     ),
                                                   ],
                                                 ),
@@ -325,7 +304,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                 ));
                           return Container(
                             padding: EdgeInsets.only(top: 60),
-                            child: spinkit,
+                            child: spinkit(),
                           );
                         })
                   ],

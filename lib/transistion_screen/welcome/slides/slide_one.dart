@@ -25,86 +25,95 @@ class _SlideOneState extends State<SlideOne> {
     return SafeArea(
         child: Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: Container(
+      body: SingleChildScrollView(
+          child: Container(
         margin: EdgeInsets.symmetric(vertical: 50),
-        child: Column(children: [
-          Text(
-            "You want to...",
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                22,
-                FontWeight.bold),
-          ),
-          Text(
-            "(Select all that apply)",
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                16,
-                FontWeight.bold),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Column(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Selector(
-                  sub: Icons.abc_outlined,
-                  selected: buttonState[0],
-                  text: "Play NFT Games",
-                  onClick: () => setStateButton(0),
-                  main: Icons.cast_sharp),
-              Selector(
-                  sub: Icons.abc_outlined,
-                  selected: buttonState[1],
-                  text: "Trade NFTs",
-                  onClick: () => setStateButton(1),
-                  main: Icons.cast_sharp),
-              Selector(
-                  sub: Icons.abc_outlined,
-                  selected: buttonState[2],
-                  text: "Create & Sell NFTs",
-                  onClick: () => setStateButton(2),
-                  main: Icons.cast_sharp),
-              Selector(
-                  sub: Icons.abc_outlined,
-                  onClick: () => setStateButton(3),
-                  selected: buttonState[3],
-                  text: "Buy Unique NFTs",
-                  main: Icons.cast_sharp)
-            ],
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: SlideTwo(),
-                    ctx: context,
-                    duration: Duration(milliseconds: 300),
-                    fullscreenDialog: true,
-                    childCurrent: SlideOne()));
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
-                padding: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor())
-                    ]),
-                alignment: Alignment.center,
-                child: Text("Next",
+              Column(
+                children: [
+                  SizedBox(
+                    height: 70,
+                  ),
+                  Text(
+                    "You want to...",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
-                        34,
-                        FontWeight.bold)),
-              )),
-        ]),
-      ),
+                        22,
+                        FontWeight.bold),
+                  ),
+                  Text(
+                    "(Select all that apply)",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        16,
+                        FontWeight.bold),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Column(
+                children: [
+                  Selector(
+                      selected: buttonState[0],
+                      text: "Create + Design NFTs",
+                      onClick: () => setStateButton(0),
+                      main: "assets/images/create_design.png"),
+                  Selector(
+                      selected: buttonState[1],
+                      text: "Import + Mint NFTs",
+                      onClick: () => setStateButton(1),
+                      main: "assets/images/import_mint.png"),
+                  Selector(
+                      selected: buttonState[2],
+                      text: "Buy & Sell NFTs",
+                      onClick: () => setStateButton(2),
+                      main: "assets/images/buy_sell.png"),
+                  Selector(
+                      onClick: () => setStateButton(3),
+                      selected: buttonState[3],
+                      text: "Remove Background",
+                      main: "assets/images/no_bg.png")
+                ],
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: SlideTwo(),
+                        ctx: context,
+                        duration: Duration(milliseconds: 300),
+                        fullscreenDialog: true,
+                        childCurrent: SlideOne()));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color:
+                            context.watch<ThemeProvider>().getBackgroundColor(),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 10,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor())
+                        ]),
+                    alignment: Alignment.center,
+                    child: Text("Get Started",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            34,
+                            FontWeight.bold)),
+                  )),
+            ]),
+      )),
     ));
   }
 }
@@ -112,13 +121,11 @@ class _SlideOneState extends State<SlideOne> {
 class Selector extends StatefulWidget {
   final bool selected;
   final String text;
-  final IconData main;
-  final IconData sub;
+  final String main;
   final Function onClick;
 
   Selector(
-      {required this.sub,
-      required this.onClick,
+      {required this.onClick,
       required this.selected,
       required this.text,
       required this.main});
@@ -138,36 +145,24 @@ class _SelectorState extends State<Selector> {
             color: context.watch<ThemeProvider>().getBackgroundColor(),
             boxShadow: [
               BoxShadow(
-                  blurRadius: 8,
+                  blurRadius: 3,
                   color: !widget.selected
                       ? context.watch<ThemeProvider>().getPriamryFontColor()
                       : context.watch<ThemeProvider>().getHighLightColor())
             ]),
-        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 00),
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         duration: Duration(milliseconds: 400),
         alignment: Alignment.center,
         child: Row(
           children: [
             SizedBox(
-              width: 18,
+              width: 0,
             ),
-            Row(
-              children: [
-                Icon(Icons.abc,
-                    size: 30,
-                    color:
-                        context.watch<ThemeProvider>().getPriamryFontColor()),
-                Text(" + ",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        18,
-                        FontWeight.bold)),
-                Icon(Icons.abc,
-                    size: 30,
-                    color:
-                        context.watch<ThemeProvider>().getPriamryFontColor()),
-              ],
+            Image.asset(
+              widget.main,
+              height: 48,
+              width: 48,
             ),
             SizedBox(
               width: 40,
@@ -180,7 +175,7 @@ class _SelectorState extends State<Selector> {
                   widget.text,
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),
-                      14,
+                      18,
                       FontWeight.bold),
                 )
               ],

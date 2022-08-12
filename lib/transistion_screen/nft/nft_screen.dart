@@ -101,7 +101,7 @@ class NFTScreen extends StatelessWidget {
 
                 return Container(
                   alignment: Alignment.center,
-                  child: spinkit,
+                  child: spinkit(),
                 );
               })),
         ),

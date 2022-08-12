@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
@@ -18,6 +20,21 @@ class NFTSScreen extends StatefulWidget {
 class _NFTSScreenState extends State<NFTSScreen> {
   @override
   Widget build(BuildContext context) {
+    final List<String> images = [
+      "assets/avtars/1.png",
+      "assets/avtars/2.png",
+      "assets/avtars/3.png",
+      "assets/avtars/4.png",
+      "assets/avtars/5.png",
+      "assets/avtars/6.png",
+      "assets/avtars/7.png",
+      "assets/avtars/8.png",
+      "assets/avtars/9.png",
+      "assets/avtars/10.png",
+    ];
+
+    final random = new Random().nextInt(11);
+
     var scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -54,7 +71,7 @@ class _NFTSScreenState extends State<NFTSScreen> {
                         );
                       }
                       return CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/lion.png"),
+                        backgroundImage: AssetImage(images[random]),
                         radius: 48,
                       );
                     })),
@@ -115,7 +132,7 @@ class _NFTSScreenState extends State<NFTSScreen> {
                       );
                     }
                     return Container(
-                        alignment: Alignment.center, child: spinkit);
+                        alignment: Alignment.center, child: spinkit());
                   }))
             ],
           )),

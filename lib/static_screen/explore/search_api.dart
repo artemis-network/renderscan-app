@@ -46,7 +46,6 @@ class SearchAPI {
   Future<List<NotableCollectionModel>> searchCollections(
       String collection) async {
     var headers = {'Content-Type': 'application/json'};
-    log.i(collection);
     try {
       var request = http.Request(
           'POST',
@@ -61,14 +60,12 @@ class SearchAPI {
         List<NotableCollectionModel> notableCollection = [];
         final data = await response.stream.bytesToString();
         var json = jsonDecode(data);
-        log.i(json);
         json = json["Collections"] as List;
         for (int i = 0; i < json.length; i++) {
           final NotableCollectionModel collection =
               NotableCollectionModel.jsonToObject(json[i]);
           notableCollection.add(collection);
         }
-        log.i(notableCollection);
         return notableCollection;
       } else {
         print(response.reasonPhrase);

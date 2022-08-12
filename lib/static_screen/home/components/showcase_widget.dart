@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/static_screen/home/home_screen_api.dart';
 import 'package:renderscan/static_screen/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/transistion_screen/nft/nft_screen.dart';
 import 'package:renderscan/transistion_screen/sol_nft/sol_nft_screen.dart';

@@ -35,6 +35,7 @@ dependencies:
   http: ^0.13.4
   camera: ^0.9.6
   logger: ^1.1.0
+  image: any
   lottie: ^1.2.0
   provider: ^6.0.2
   skeletons: ^0.0.3
@@ -51,8 +52,11 @@ dependencies:
   crypto_font_icons: ^1.0.1
   double_back_to_close: ^2.0.0
   flutter_secure_storage: ^5.0.2
+  image_editor: ^1.0.2
   flutter_launcher_icons: ^0.9.2
   flutter_staggered_grid_view: ^0.6.1
+  extended_image: ^4.0.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +92,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/mock/
+    - assets/avtars/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

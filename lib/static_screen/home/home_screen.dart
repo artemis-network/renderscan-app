@@ -5,7 +5,6 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/static_screen/home/components/heading_widget.dart';
 import 'package:renderscan/static_screen/home/components/home_banners.dart';
@@ -370,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         return Container(
             alignment: Alignment.center,
-            child: spinkit,
+            child: spinkit(),
             color: context.watch<ThemeProvider>().getBackgroundColor());
       },
     );

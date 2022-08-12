@@ -49,7 +49,7 @@ class _ImportScreenState extends State<ImportScreen> {
 
   Future pickImage() async {
     try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final image = await ImagePicker().getImage(source: ImageSource.gallery);
       ScanResponse resp = await ScanApi().cutImageFromServer(image);
       var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
       if (image == null) return;

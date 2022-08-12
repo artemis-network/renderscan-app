@@ -67,7 +67,6 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
 
           _googleSignin.signIn().then((user) {
             user = user as GoogleSignInAccount;
-            log.i(user.displayName);
             LoginApi().googleLogin(user.email).then((value) {
               bool error = value.error ?? false;
               if (!error) {

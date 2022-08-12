@@ -15,7 +15,6 @@ class NFTApi {
           headers: HttpServerConfig().headers,
           body: jsonEncode({'username': username}));
       var body = jsonDecode(response.body);
-      log.i(body);
       final resp = body["images"] as List;
       List<String> imgs = [];
       for (int i = 0; i < resp.length; i++) {

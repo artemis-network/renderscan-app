@@ -172,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           text: "LOGIN",
                           press: authenticate,
                         )
-                      : spinkit,
+                      : spinkit(),
                   SizedBox(height: size.height * 0.02),
                   TextButton(
                     onPressed: () {

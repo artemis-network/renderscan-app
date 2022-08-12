@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 
 class HomeBanner extends StatefulWidget {
   @override
@@ -43,7 +42,6 @@ class Home_BannerState extends State<HomeBanner> {
             scrollDirection: Axis.horizontal,
             controller: PageController(viewportFraction: 1, initialPage: 0),
             onPageChanged: (int index) {
-              log.i(index);
               setState(() {
                 currentIndex = index;
               });

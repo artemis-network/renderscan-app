@@ -166,7 +166,6 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                             paymentId: "",
                             signature: "",
                             userId: userId.toString());
-                        log.i(order.toString());
                         final result =
                             await TransactionApi().createOrder(order);
                         log.i(result);

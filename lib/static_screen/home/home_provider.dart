@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/static_screen/explore/search_api.dart';
 import 'package:renderscan/static_screen/home/home_screen_api.dart';
 import 'package:renderscan/static_screen/home/models/notable_collection.model.dart';
@@ -50,7 +49,9 @@ class HomeProvider extends ChangeNotifier {
     _collections = await HomeScreenApi().getNotableCollections();
     if (_collections.isNotEmpty) {
       _exploreCollections = collections;
-      _isCollectionsLoaded = true;
+      if (_exploreCollections.isNotEmpty) {
+        _isCollectionsLoaded = true;
+      }
     }
     _solonaNFTs = await HomeScreenApi().showCaseNFTs("solana");
     if (_solonaNFTs.isNotEmpty) {
@@ -65,7 +66,6 @@ class HomeProvider extends ChangeNotifier {
     if (_exploreNFTs.isNotEmpty) {
       _exploreNFTSearchDone = true;
     }
-    log.i(_exploreNFTs);
     notifyListeners();
   }
 
@@ -79,7 +79,6 @@ class HomeProvider extends ChangeNotifier {
   }
 
   exploreSearchCollection(String search) async {
-    log.i(search + "in prov");
     _exploreCollectionSearchDone = false;
     _exploreCollections = await SearchAPI().searchCollections(search);
     if (_exploreCollections.isNotEmpty) {

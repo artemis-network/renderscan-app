@@ -40,39 +40,66 @@ class SideBar extends StatelessWidget {
           Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Welcome!",
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          18,
-                          FontWeight.bold),
-                    ),
-                    FutureBuilder(
-                        future: Storage().getItem("username"),
-                        builder: ((context, snapshot) {
-                          final String username =
-                              (snapshot.data ?? "") as String;
-                          if (snapshot.hasData) {
-                            return Text(
-                              username,
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  18,
-                                  FontWeight.bold),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome ",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                18,
+                                FontWeight.bold),
+                          ),
+                          FutureBuilder(
+                              future: Storage().getItem("username"),
+                              builder: ((context, snapshot) {
+                                final String username =
+                                    (snapshot.data ?? "") as String;
+                                if (snapshot.hasData) {
+                                  return Text(
+                                    username + "!",
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        18,
+                                        FontWeight.bold),
+                                  );
+                                }
+                                return Text("User");
+                              })),
+                        ],
+                      ),
+                      FutureBuilder(
+                          future: Storage().getItem("username"),
+                          builder: ((context, snapshot) {
+                            if (snapshot.hasData) {
+                              final username = snapshot.data as String;
+                              var url =
+                                  "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                      username +
+                                      '.png';
+                              return CircleAvatar(
+                                backgroundImage: NetworkImage(url),
+                                radius: 42,
+                              );
+                            }
+                            return CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/images/lion.png"),
+                              radius: 42,
                             );
-                          }
-                          return Text("");
-                        }))
-                  ],
-                ),
-              ),
+                          })),
+                    ],
+                  )),
               Divider(
                   height: 8,
                   color: context
@@ -147,26 +174,6 @@ class SideBar extends StatelessWidget {
                       .withOpacity(0.33),
                   thickness: 1,
                   indent: 1),
-              SideBarButton(
-                text: "Terms of Use",
-                icon: Icons.document_scanner_outlined,
-                onClick: () {},
-              ),
-              SideBarButton(
-                text: "Privacy Policy",
-                icon: Icons.document_scanner_outlined,
-                onClick: () {},
-              ),
-              SideBarButton(
-                text: "Feedback & Support",
-                icon: Icons.document_scanner_outlined,
-                onClick: () {},
-              ),
-              SideBarButton(
-                text: "Help & FAQ",
-                icon: Icons.help_center_outlined,
-                onClick: () {},
-              ),
               SideBarButton(
                 text: "Rate Us",
                 icon: Icons.star_outlined,
