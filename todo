@@ -70,3 +70,20 @@ feedback frontend -> 1 hour
 
 bug in frontend issue -> scan issue
 add frames to images
+
+frontend
+	upgrade page[changes] from teams 
+	success page[upgrade] from teams
+	failure page[upgrade] from teams
+	rotation, flip, scale []
+	profile -> create screens
+	feedback example from teams
+	t&c  modal
+	help & faq page from teams 
+	ratesus redirect to app store profiles
+	add feedback in sidebar
+
+backend
+	explorepage collections not loading on first call [bug]
+
+

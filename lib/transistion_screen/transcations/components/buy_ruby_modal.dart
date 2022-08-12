@@ -6,6 +6,7 @@ import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/transistion_screen/edit/edit_screen.dart';
 import 'package:renderscan/transistion_screen/login/login_screen.dart';
 import 'package:renderscan/transistion_screen/transcations/models/order.model.dart';
 import 'package:renderscan/transistion_screen/transcations/transaction_api.dart';
@@ -83,28 +84,48 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
               ),
             ),
             SizedBox(
-              height: 70,
+              height: 20,
             ),
             Container(
-              child: Column(children: [
-                Text(
-                  "Buy Ruby",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getSecondaryFontColor(),
-                      48,
-                      FontWeight.bold),
-                ),
-                Text(
-                  "to mint NFTs!",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getSecondaryFontColor(),
-                      32,
-                      FontWeight.bold),
-                ),
-              ]),
-            ),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                child: Image.asset(
+                  "assets/images/lion.png",
+                  height: 160,
+                  width: 160,
+                )),
             SizedBox(
-              height: 50,
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Buy",
+                  style: kPrimartFont(
+                      context.watch<ThemeProvider>().getPriamryFontColor(),
+                      30,
+                      FontWeight.bold),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    "RUBY",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getBackgroundColor(),
+                        12,
+                        FontWeight.bold),
+                  ),
+                )
+              ],
             ),
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,7 +135,6 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     value: RUBY_PACK.RUBY_100,
                     groupValue: ruby_pack_scheme,
                     label: "100 RUBY",
-                    discountLabel: "10% off only for 90₹",
                     onChange: (value) => setRubyPackScheme(value),
                   ),
                   SizedBox(
@@ -124,7 +144,6 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     value: RUBY_PACK.RUBY_200,
                     groupValue: ruby_pack_scheme,
                     label: "200 RUBY",
-                    discountLabel: "20% off only for 160₹",
                     onChange: (value) => setRubyPackScheme(value),
                   ),
                   SizedBox(
@@ -134,7 +153,6 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     value: RUBY_PACK.RUBY_300,
                     groupValue: ruby_pack_scheme,
                     label: "300 RUBY",
-                    discountLabel: "30% off only for 210₹",
                     onChange: (value) => setRubyPackScheme(value),
                   )
                 ]),
@@ -142,10 +160,11 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
               height: 70,
             ),
             Container(
-              width: size.width * 0.6,
+              width: size.width * 0.8,
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                   color: context.watch<ThemeProvider>().getBackgroundColor(),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(6),
                   boxShadow: [
                     BoxShadow(
                         blurRadius: 1,
@@ -197,12 +216,12 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Get Ruby",
+                        "unlock premium features".toUpperCase(),
                         style: kPrimartFont(
                             context
                                 .watch<ThemeProvider>()
                                 .getPriamryFontColor(),
-                            32,
+                            18,
                             FontWeight.bold),
                       ),
                     ],
@@ -225,14 +244,12 @@ class RubyRadio extends StatelessWidget {
   final RUBY_PACK value;
   final RUBY_PACK groupValue;
   final String label;
-  final String discountLabel;
   final Function onChange;
 
   RubyRadio(
       {required this.value,
       required this.groupValue,
       required this.label,
-      required this.discountLabel,
       required this.onChange});
 
   @override
@@ -253,7 +270,7 @@ class RubyRadio extends StatelessWidget {
       },
       child: AnimatedContainer(
         duration: Duration(milliseconds: 500),
-        width: size.width * 0.7,
+        width: size.width * 0.3,
         decoration: BoxDecoration(
             color: themeBg,
             borderRadius: BorderRadius.circular(10),
@@ -264,10 +281,6 @@ class RubyRadio extends StatelessWidget {
                 label,
                 style: kPrimartFont(themeFont, 22, FontWeight.bold),
               ),
-              Text(
-                discountLabel,
-                style: kPrimartFont(themeFont, 16, FontWeight.normal),
-              )
             ]),
             leading: Radio<RUBY_PACK>(
               activeColor: themeFont,
@@ -275,6 +288,37 @@ class RubyRadio extends StatelessWidget {
               groupValue: groupValue,
               onChanged: (RUBY_PACK? value) => onChange(value),
             )),
+      ),
+    );
+  }
+}
+
+class Features extends StatelessWidget {
+  final String text;
+  final IconData icon;
+
+  Features({required this.icon, required this.text});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(icon,
+              size: 24,
+              color: context.watch<ThemeProvider>().getPriamryFontColor()),
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            text,
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                14,
+                FontWeight.normal),
+          ),
+        ],
       ),
     );
   }

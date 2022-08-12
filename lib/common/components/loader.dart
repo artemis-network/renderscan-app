@@ -15,18 +15,23 @@ spinkit() {
     '“Keep calm & create your NFTs“ - RenderVerse'
   ];
   final rand = new Random().nextInt(5);
-  print(quotes[rand]);
   return WillPopScope(
       child: Container(
           alignment: Alignment.center,
           child: (Column(
             children: [
-              Text(
-                quotes[rand],
-                textAlign: TextAlign.center,
-                style: kPrimartFont(Colors.amberAccent, 24, FontWeight.bold),
+              SizedBox(
+                height: 100,
               ),
-              SpinKitDoubleBounce(color: Colors.amber, size: 150)
+              SpinKitDoubleBounce(color: Colors.amber, size: 100),
+              Container(
+                child: Text(
+                  quotes[rand],
+                  textAlign: TextAlign.center,
+                  style: kPrimartFont(Colors.amberAccent, 18, FontWeight.w600),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 30),
+              ),
             ],
           ))),
       onWillPop: () async => false);
