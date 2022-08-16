@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/screens/home/models/notable_collection.model.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
@@ -38,7 +37,6 @@ class SearchAPI {
         return [];
       }
     } catch (e) {
-      log.i(e);
       return [];
     }
   }

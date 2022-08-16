@@ -1,5 +1,3 @@
-import 'package:renderscan/common/utils/logger.dart';
-
 class NFTOwnerModel {
   final String username;
   final String address;
@@ -9,7 +7,6 @@ class NFTOwnerModel {
     try {
       return json["user"]["username"].toString();
     } catch (e) {
-      log.e(e);
       return "--";
     }
   }

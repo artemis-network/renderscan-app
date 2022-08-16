@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/welcome/slides/slide_three.dart';
 import 'package:renderscan/screens/welcome/slides/slides_five.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class SlideFour extends StatelessWidget {
   @override

@@ -5,8 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/common/components/loader.dart';
 
@@ -16,6 +14,8 @@ import 'package:renderscan/screens/scan/components/activate_button.dart';
 import 'package:renderscan/screens/scan/scan_api.dart';
 import 'package:renderscan/screens/scan/scan_modal.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/logger.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);

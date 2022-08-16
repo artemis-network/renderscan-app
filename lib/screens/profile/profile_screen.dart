@@ -2,13 +2,10 @@ import 'dart:math';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/utils/logger.dart';
 
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/profile/component/profile_input.dart';
 import 'package:renderscan/screens/profile/profile_api.dart';
@@ -16,6 +13,8 @@ import 'package:renderscan/screens/profile/profile_provider.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -61,8 +60,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     handleEmailUpdate(ProfileResponse profile) async {
       print("> Logging out");
-      log.i(profile.error);
-      log.i(profile.message);
 
       var color = profile.error ? Colors.redAccent : Colors.greenAccent;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -170,7 +167,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
                                           username +
                                           '.png';
-                                  log.i(url);
                                   return CircleAvatar(
                                     backgroundImage: NetworkImage(url),
                                     radius: 48,

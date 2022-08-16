@@ -1,5 +1,3 @@
-import 'package:renderscan/common/utils/logger.dart';
-
 class SignupValidations {
   nameValidations(String name) => name.isEmpty ? "*Name Required" : "";
 
@@ -21,7 +19,6 @@ class SignupValidations {
   usernameValidations(String username) {
     final bool hasSpecialChars =
         RegExp(r'^(?!\s*$)[a-zA-Z0-9- ]{1,20}$').hasMatch(username);
-    log.d(">> Has Special :" + hasSpecialChars.toString());
     if (username.isEmpty) {
       return "*Username required";
     } else if (username.length < 5) {

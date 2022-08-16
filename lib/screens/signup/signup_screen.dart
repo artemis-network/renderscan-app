@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/login/components/input_password_field.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
@@ -12,6 +10,7 @@ import 'package:renderscan/screens/signup/components/signup_button.dart';
 import 'package:renderscan/screens/signup/signup_api.dart';
 import 'package:renderscan/screens/signup/signup_model.dart';
 import 'package:renderscan/screens/signup/signup_validations.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 // components
 
@@ -175,9 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             )));
         var future =
             Future.delayed(const Duration(seconds: 1), () => redirectToLogin());
-        future.then((value) => null).catchError((err) {
-          log.e(err);
-        });
+        future.then((value) => null).catchError((err) {});
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: bgColor,

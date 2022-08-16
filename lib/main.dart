@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // provider
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
@@ -10,6 +9,7 @@ import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
 import 'package:renderscan/screens/welcome/welcome_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 void main() async {
   runApp(

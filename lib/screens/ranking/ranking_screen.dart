@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/home/models/trending_model.dart';
 import 'package:renderscan/screens/ranking/components/ranking_item.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class RankingScreen extends StatefulWidget {
   const RankingScreen({Key? key}) : super(key: key);

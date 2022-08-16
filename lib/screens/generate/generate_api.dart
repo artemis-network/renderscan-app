@@ -1,5 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/utils/logger.dart';
 
 class GenerateApi {
   generate(String input) async {
@@ -25,7 +24,6 @@ class GenerateApi {
           await request.send().timeout(Duration(minutes: 2));
       if (response.statusCode == 200) return;
     } catch (e) {
-      log.e(e.toString());
     } finally {
       final t =
           Future.delayed(Duration(minutes: 1), () => http.get(Uri.parse(url)));

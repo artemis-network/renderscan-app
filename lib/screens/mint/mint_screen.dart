@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
 import 'package:renderscan/screens/mint/mint_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class MintScreen extends StatefulWidget {
   final Uint8List imageSource;
@@ -26,7 +25,6 @@ class _MintScreenState extends State<MintScreen> {
     back() => Navigator.of(context).pop();
 
     drop() {
-      log.i(">> Log Drop", widget.filename);
       MintApi().drop(widget.filename).then((value) {
         print(value);
         print(value.statusCode);

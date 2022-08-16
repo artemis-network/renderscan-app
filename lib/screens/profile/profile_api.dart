@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/config/http_config.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class ProfileResponse {
   final String message;
@@ -45,7 +44,6 @@ class ProfileApi {
       final json = jsonDecode(request.body);
       return Profile.jsonToObject(json);
     } catch (e) {
-      log.e(e);
       return new Profile(email: "", displayName: "", language: "", region: "");
     }
   }
@@ -64,7 +62,6 @@ class ProfileApi {
       final json = jsonDecode(request.body);
       return ProfileResponse.jsonToObject(json);
     } catch (e) {
-      log.e(e);
       return new ProfileResponse(message: "Internal Server Error", error: true);
     }
   }
@@ -96,9 +93,7 @@ class ProfileApi {
       request.files.add(pic);
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-      log.i(response.body);
-    } on Exception {
-      log.i(">> error heer");
-    }
+      print(response);
+    } on Exception {}
   }
 }

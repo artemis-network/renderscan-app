@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft_collection.model.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft_detail.model.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft_sol.modal.dart';
+import 'package:renderscan/utils/logger.dart';
 
 class NFTCollectionAPI {
   String getPrettyJSONString(jsonObject) {

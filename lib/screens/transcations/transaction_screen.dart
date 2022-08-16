@@ -3,11 +3,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
 import 'package:renderscan/screens/transcations/components/transaction.dart';
 import 'package:renderscan/screens/transcations/transaction_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({Key? key}) : super(key: key);

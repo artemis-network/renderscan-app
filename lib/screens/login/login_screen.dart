@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/exit_dialog.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 
 // utils
-import 'package:renderscan/common/utils/storage.dart';
 
 //components
 import 'package:renderscan/common/components/loader.dart';
@@ -15,7 +13,6 @@ import 'package:renderscan/common/components/loader.dart';
 // api
 
 // logger
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/forgot_password/forgot_password_screen.dart';
 import 'package:renderscan/screens/login/components/google_login_button.dart';
@@ -26,6 +23,8 @@ import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/scan/components/input_field.dart';
 import 'package:renderscan/screens/signup/components/input_password_field.dart';
 import 'package:renderscan/screens/signup/signup_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -109,12 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
             AuthRequest(username: username, password: password);
         Future<AuthResponse> response = LoginApi().authenticateUser(request);
         response.then((resp) {
-          log.i("> Handling Response");
-          log.i("> Logged in username :" + resp.username.toString());
           setIsLoading(false);
           handleSuccess(resp);
         }).catchError((err) {
-          log.e("> Handling Error :" + err);
           handleError(err, true);
           setIsLoading(false);
         });

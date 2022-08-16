@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/config/http_config.dart';
+import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/signup/signup_model.dart';
 
 class SignUpApi {

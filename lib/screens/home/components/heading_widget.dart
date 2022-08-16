@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class HeadingWidget extends StatelessWidget {
   final String text;

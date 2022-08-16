@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
+
 import 'package:renderscan/screens/login/log_api.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class GoogleLoginButton extends StatefulWidget {
   @override
@@ -82,13 +82,8 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
               }
             }).catchError((err) {
               print(err);
-              log.e(">> Error");
-              log.e(err);
             });
-          }).catchError((err) {
-            log.e(">> ERROR");
-            log.e(err);
-          });
+          }).catchError((err) {});
         },
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/nfts_collection/nfts_collection_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class RankingItem extends StatelessWidget {
   final String name;

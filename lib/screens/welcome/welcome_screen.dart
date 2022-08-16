@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/welcome/slides/slide_one.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

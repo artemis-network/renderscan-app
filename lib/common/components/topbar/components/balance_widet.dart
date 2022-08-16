@@ -2,10 +2,10 @@ import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
 import 'package:renderscan/screens/transcations/transaction_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class BalanceWidget extends StatelessWidget {
   @override

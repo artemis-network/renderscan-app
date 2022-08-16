@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/transcations/components/success_screen.dart';
 import 'package:renderscan/screens/transcations/models/order.model.dart';
 import 'package:renderscan/screens/transcations/transaction_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 enum RUBY_PACK { RUBY_100, RUBY_200, RUBY_300 }
 
@@ -44,7 +43,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
       notes: "",
     );
     final message = await TransactionApi().completeOrder(order);
-    log.i(message);
+    print(message);
     Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
       return SuccessScreen();
     })));
@@ -207,7 +206,6 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                             userId: userId.toString());
                         final result =
                             await TransactionApi().createOrder(order);
-                        log.i(result);
                         var options = {
                           'key': 'rzp_test_VmSch4maQMZS9L',
                           'order_id': result["id"].toString(),
@@ -220,9 +218,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                           },
                         };
                         _razorpay.open(options);
-                      } catch (e) {
-                        log.e(e);
-                      }
+                      } catch (e) {}
                     } else
                       Navigator.of(context).push(PageTransition(
                           type: PageTransitionType.bottomToTop,

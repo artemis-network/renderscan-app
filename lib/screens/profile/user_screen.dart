@@ -6,9 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
+
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
@@ -16,6 +14,8 @@ import 'package:renderscan/screens/profile/profile_api.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
 import 'package:renderscan/screens/profile/profile_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -32,7 +32,6 @@ class _UserScreenState extends State<UserScreen> {
   final String webUrl = "https://www.renderverse.io";
 
   Future<void> launchPage() async {
-    log.i(webUrl);
     if (await canLaunchUrl(Uri.parse(webUrl))) {
       await launchUrl(Uri.parse(webUrl));
     }
@@ -129,7 +128,6 @@ class _UserScreenState extends State<UserScreen> {
                                             "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
                                                 username +
                                                 '.png';
-                                        log.i(url);
                                         return CircleAvatar(
                                           backgroundImage: NetworkImage(url),
                                           radius: 48,

@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/config/http_config.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class GalleryApi {
   Future<List<String>> getGallery() async {
@@ -22,7 +21,6 @@ class GalleryApi {
       }
       return imgs.reversed.toList();
     } catch (e) {
-      log.e(e);
       return [];
     }
   }

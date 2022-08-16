@@ -3,13 +3,13 @@ import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screens/explore/components/explore_collection_search.dart';
 import 'package:renderscan/screens/explore/components/explore_nfts_search_grid.dart';
 import 'package:renderscan/screens/explore/components/explore_search_buttond.dart';
 import 'package:renderscan/screens/explore/components/explore_search_input.dart';
 import 'package:renderscan/screens/explore/components/explore_switch.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class ExploreScreen extends StatefulWidget {
   @override

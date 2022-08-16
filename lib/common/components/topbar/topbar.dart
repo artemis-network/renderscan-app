@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class Topbar extends StatelessWidget {
   final Function popSideBar;

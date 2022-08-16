@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 
 // home provider
 import 'package:provider/provider.dart';
@@ -14,6 +12,8 @@ import 'package:renderscan/screens/home/home_screen.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/profile/user_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);

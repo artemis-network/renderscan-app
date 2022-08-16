@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:http/http.dart' as http;
+import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/home/models/notable_collection.model.dart';
 import 'package:renderscan/screens/home/models/trending_model.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
+import 'package:renderscan/utils/logger.dart';
 
 class HomeScreenApi {
   String getPrettyJSONString(jsonObject) {

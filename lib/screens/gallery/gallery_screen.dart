@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/gallery/components/gallery_grid.dart';
 import 'package:renderscan/screens/gallery/components/gallery_tags_row.dart';
 import 'package:renderscan/screens/gallery/gallery_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class GalleryScreen extends StatefulWidget {
   @override

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class NFTSolBody extends StatelessWidget {
   final String name;

@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/scan/scan_api.dart';
 import 'package:renderscan/screens/scan/scan_modal.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/logger.dart';
 
 class ImportScreen extends StatefulWidget {
   @override

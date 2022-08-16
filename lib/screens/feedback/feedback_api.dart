@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:renderscan/config/http_config.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class FeedbackResponse {
   final bool error;
@@ -33,7 +32,6 @@ class FeedbackApi {
       var json = jsonDecode(response.body);
       return FeedbackResponse.jsonToObject(json);
     } catch (e) {
-      log.e(e);
       return FeedbackResponse(error: true, message: "something went wrong");
     }
   }

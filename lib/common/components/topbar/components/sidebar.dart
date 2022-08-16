@@ -5,10 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/auth_filter.dart';
+import 'package:renderscan/common/filters/auth_filter.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar_button.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
@@ -17,6 +15,8 @@ import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
 import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
 import 'package:renderscan/screens/transcations/transaction_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class SideBar extends StatefulWidget {
   @override

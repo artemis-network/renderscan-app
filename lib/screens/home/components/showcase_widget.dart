@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screens/nft/nft_screen.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/screens/sol_nft/sol_nft_screen.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 enum CHAIN { solana, eth }
 

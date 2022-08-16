@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:renderscan/common/config/http_config.dart';
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/scan/scan_modal.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class ScanApi {
   Future<ScanResponse> cutImageFromServer(file) async {
@@ -21,7 +20,6 @@ class ScanApi {
       var response = await http.Response.fromStream(streamedResponse);
       return ScanResponse.fromJson(jsonDecode(response.body));
     } on Exception {
-      log.i(">> error heer");
       return ScanResponse(file: "", filename: "", isError: true);
     }
   }
@@ -36,7 +34,6 @@ class ScanApi {
               {'username': username.toString(), 'code': code.toString()}));
       return ScanProtectionResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
-      log.e(e);
       return ScanProtectionResponse(
           hasError: true, isActivated: false, message: "Internal server error");
     }
@@ -52,7 +49,6 @@ class ScanApi {
               {'username': username.toString(), 'filename': filename}));
       return SaveResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
-      log.e(e);
       return SaveResponse(message: "Internal Server Error");
     }
   }

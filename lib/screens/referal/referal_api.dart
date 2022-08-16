@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/config/http_config.dart';
-import 'package:renderscan/common/utils/storage.dart';
+import 'package:renderscan/config/http_config.dart';
+import 'package:renderscan/utils/storage.dart';
 
 class ReferalApi {
   Future<String> getReferalCode() async {

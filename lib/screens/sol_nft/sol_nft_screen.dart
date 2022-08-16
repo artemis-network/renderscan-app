@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
-import 'package:renderscan/common/utils/logger.dart';
 import 'package:renderscan/screens/nft/components/nft_details.dart';
 import 'package:renderscan/screens/nft/components/nft_header.dart';
 import 'package:renderscan/screens/nft/components/nft_titles.dart';
@@ -10,6 +8,7 @@ import 'package:renderscan/screens/nfts_collection/models/nft_sol.modal.dart';
 import 'package:renderscan/screens/nfts_collection/nfts_collection_api.dart';
 import 'package:renderscan/screens/sol_nft/components/nft_sol_body.dart';
 import 'package:renderscan/screens/sol_nft/components/nft_sol_traits.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class NFTSolScreen extends StatelessWidget {
   final String contract;
@@ -55,7 +54,6 @@ class NFTSolScreen extends StatelessWidget {
                 if (snapshot.hasData) {
                   final NFTSolDetailModel nft =
                       snapshot.data as NFTSolDetailModel;
-                  log.i(nft);
                   return SingleChildScrollView(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

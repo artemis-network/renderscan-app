@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
-import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/screens/nft/components/nft_body.dart';
 import 'package:renderscan/screens/nft/components/nft_details.dart';
 import 'package:renderscan/screens/nft/components/nft_header.dart';
@@ -9,6 +8,7 @@ import 'package:renderscan/screens/nft/components/nft_titles.dart';
 import 'package:renderscan/screens/nft/components/nft_traits.dart';
 import 'package:renderscan/screens/nfts_collection/models/nft_detail.model.dart';
 import 'package:renderscan/screens/nfts_collection/nfts_collection_api.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class NFTScreen extends StatelessWidget {
   final String contractAddress;

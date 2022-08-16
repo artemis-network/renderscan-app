@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/utils/logger.dart';
-import 'package:renderscan/common/config/http_config.dart';
+import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/login/login_model.dart';
 
 class LoginApi {
@@ -15,7 +14,6 @@ class LoginApi {
       return AuthResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       print(e);
-      log.e(e);
       return AuthResponse(
           error: true,
           message: "Internal Server Error, Please try after some time");

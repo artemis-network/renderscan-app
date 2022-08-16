@@ -1,8 +1,7 @@
 import 'dart:convert';
 
-import 'package:renderscan/common/config/http_config.dart';
 import 'package:http/http.dart' as http;
-import 'package:renderscan/common/utils/logger.dart';
+import 'package:renderscan/config/http_config.dart';
 
 class ForGotPasswordApi {
   Future<ForgotPasswordModel> sendForgotPasswordRequest(String email) async {
@@ -10,10 +9,8 @@ class ForGotPasswordApi {
       var body = {"email": email};
       final uri = HttpServerConfig().getHost("/users/forgot-password/request");
       final response = await http.post(uri, body: body);
-      log.i(response.body);
       return ForgotPasswordModel.jsonToOBject(jsonDecode(response.body));
     } catch (e) {
-      log.e(e);
       throw e;
     }
   }
