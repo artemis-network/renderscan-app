@@ -86,7 +86,7 @@ class InputField extends StatelessWidget {
         child: TextField(
           obscureText: isHidden,
           onChanged: (value) => onChange(value),
-          cursorColor: kPrimaryLightColor,
+          cursorColor: context.watch<ThemeProvider>().getPriamryFontColor(),
           style: GoogleFonts.poppins(
               decoration: TextDecoration.none,
               decorationThickness: 0,

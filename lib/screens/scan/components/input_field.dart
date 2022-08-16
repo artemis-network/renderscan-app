@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/theme/theme_provider.dart';
 
 class InputField extends StatelessWidget {
   final String labelText;
@@ -19,38 +21,42 @@ class InputField extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: Container(
         decoration: BoxDecoration(
-            color: kprimaryAuthNeuFGColor,
+            color: context.watch<ThemeProvider>().getHighLightColor(),
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
                   spreadRadius: -5,
                   blurRadius: 8,
-                  color: kprimaryAuthNeuDarkColor,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(-5, -5)),
               BoxShadow(
                   spreadRadius: -2,
                   blurRadius: 4,
-                  color: kprimaryAuthNeuLightColor,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(1, 1)),
             ]),
         child: TextField(
           onChanged: (value) => onChange(value),
-          cursorColor: kPrimaryLightColor,
+          cursorColor: context.watch<ThemeProvider>().getHighLightColor(),
           style: GoogleFonts.poppins(
               decoration: TextDecoration.none,
               decorationThickness: 0,
-              decorationColor: kprimaryAuthNeuFGColor,
+              decorationColor:
+                  context.watch<ThemeProvider>().getHighLightColor(),
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: kPrimaryLightColor),
+              color: context.watch<ThemeProvider>().getFavouriteColor()),
           decoration: InputDecoration(
               prefixIcon: Icon(
                 icon,
-                color: kPrimaryLightColor,
+                color: context.watch<ThemeProvider>().getFavouriteColor(),
               ),
               label: Text(
                 labelText,
-                style: kPrimartFont(kPrimaryLightColor, 15, FontWeight.normal),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getFavouriteColor(),
+                    15,
+                    FontWeight.normal),
                 maxLines: 1,
               ),
               border: InputBorder.none,

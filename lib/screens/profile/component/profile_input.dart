@@ -37,7 +37,7 @@ class ProfileInput extends StatelessWidget {
             ]),
         child: TextFormField(
           onChanged: (e) => onChange(e),
-          cursorColor: kPrimaryLightColor,
+          cursorColor: context.watch<ThemeProvider>().getPriamryFontColor(),
           initialValue: defaultValue,
           style: GoogleFonts.poppins(
             decoration: TextDecoration.none,

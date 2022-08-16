@@ -67,7 +67,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       child: Row(
                     children: [
                       Container(
-                        decoration: BoxDecoration(color: kPrimaryColor),
+                        decoration: BoxDecoration(
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getHighLightColor()),
                         alignment: Alignment.centerRight,
                       ),
                     ],
