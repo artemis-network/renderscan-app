@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/auth_filter.dart';
@@ -6,15 +10,40 @@ import 'package:renderscan/common/components/topbar/components/sidebar_button.da
 import 'package:renderscan/common/theme/theme_provider.dart';
 import 'package:renderscan/common/utils/storage.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/feedback/feedback_screen.dart';
+import 'package:renderscan/screens/login/login_screen.dart';
+import 'package:renderscan/screens/navigation/navigation_provider.dart';
+import 'package:renderscan/screens/referal/referal_screen.dart';
+import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
+import 'package:renderscan/screens/transcations/transaction_screen.dart';
 
-import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
-import 'package:renderscan/transistion_screen/login/login_screen.dart';
-import 'package:renderscan/transistion_screen/referal/referal_screen.dart';
-import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
-import 'package:renderscan/transistion_screen/transcations/components/buy_ruby_modal.dart';
-import 'package:renderscan/transistion_screen/transcations/transaction_screen.dart';
+class SideBar extends StatefulWidget {
+  @override
+  State<SideBar> createState() => _SideBarState();
+}
 
-class SideBar extends StatelessWidget {
+class _SideBarState extends State<SideBar> {
+  AudioPlayer player = AudioPlayer();
+  final String audioasset = "assets/audio/music.mp3";
+
+  void loadMusic() async {
+    ByteData bytes = await rootBundle.load(audioasset); //load audio from assets
+    Uint8List audiobytes =
+        bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+    if (context.watch<ThemeProvider>().IsMusic()) {
+      await player.playBytes(audiobytes);
+    } else {
+      await player.stop();
+    }
+  }
+
+  @override
+  void initState() {
+    loadMusic();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     operatePage(Function fn) async {
@@ -45,7 +74,6 @@ class SideBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -74,7 +102,15 @@ class SideBar extends StatelessWidget {
                                         FontWeight.bold),
                                   );
                                 }
-                                return Text("User");
+                                return Text(
+                                  "User",
+                                  style: kPrimartFont(
+                                      context
+                                          .watch<ThemeProvider>()
+                                          .getPriamryFontColor(),
+                                      18,
+                                      FontWeight.bold),
+                                );
                               })),
                         ],
                       ),
@@ -163,7 +199,7 @@ class SideBar extends StatelessWidget {
                       ctx: context,
                       duration: Duration(milliseconds: 300),
                       fullscreenDialog: true,
-                      childCurrent: this));
+                      childCurrent: SideBar()));
                 },
               ),
               Divider(
@@ -174,6 +210,51 @@ class SideBar extends StatelessWidget {
                       .withOpacity(0.33),
                   thickness: 1,
                   indent: 1),
+              SideBarButton(
+                text: "Feedback",
+                icon: Icons.feedback_outlined,
+                onClick: () {
+                  operate() {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FeedbackScreen();
+                      },
+                    ));
+                  }
+
+                  operatePage(operate);
+                },
+              ),
+              SideBarButton(
+                text: "Terms of use",
+                icon: Icons.feedback_outlined,
+                onClick: () {
+                  operate() {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FeedbackScreen();
+                      },
+                    ));
+                  }
+
+                  operatePage(operate);
+                },
+              ),
+              SideBarButton(
+                text: "FAQ",
+                icon: Icons.feedback_outlined,
+                onClick: () {
+                  operate() {
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FeedbackScreen();
+                      },
+                    ));
+                  }
+
+                  operatePage(operate);
+                },
+              ),
               SideBarButton(
                 text: "Rate Us",
                 icon: Icons.star_outlined,
@@ -191,7 +272,31 @@ class SideBar extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  guestView: Container())
+                  guestView: Container()),
+              AuthFilter(
+                  screen: Container(),
+                  guestView: Column(
+                    children: [
+                      Divider(
+                          height: 8,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor()
+                              .withOpacity(0.33),
+                          thickness: 1,
+                          indent: 1),
+                      SideBarButton(
+                        text: "Login in",
+                        icon: Icons.logout_outlined,
+                        onClick: () {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: ((context) {
+                            return LoginScreen();
+                          })));
+                        },
+                      )
+                    ],
+                  ))
             ],
           ),
           Container(
@@ -211,8 +316,8 @@ class SideBar extends StatelessWidget {
                             FontWeight.bold),
                       ),
                       Switch(
-                          value: context.watch<ThemeProvider>().isDarkTheme(),
-                          onChanged: (r) {})
+                          value: context.watch<ThemeProvider>().IsMusic(),
+                          onChanged: (r) async {})
                     ],
                   ),
                   Row(

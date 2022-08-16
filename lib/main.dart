@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/theme/theme_provider.dart';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
-import 'package:renderscan/static_screen/home/home_provider.dart';
-import 'package:renderscan/static_screen/navigation/navigation_provider.dart';
-import 'package:renderscan/static_screen/profile/profile_provider.dart';
-import 'package:renderscan/transistion_screen/scan/scan_provider.dart';
-import 'package:renderscan/transistion_screen/welcome/welcome_screen.dart';
+import 'package:renderscan/screens/home/home_provider.dart';
+import 'package:renderscan/screens/navigation/navigation_provider.dart';
+import 'package:renderscan/screens/profile/profile_provider.dart';
+import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/screens/welcome/welcome_screen.dart';
 
 void main() async {
   runApp(

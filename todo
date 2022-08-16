@@ -72,18 +72,43 @@ bug in frontend issue -> scan issue
 add frames to images
 
 frontend
+
+// done
 	upgrade page[changes] from teams 
 	success page[upgrade] from teams
 	failure page[upgrade] from teams
-	rotation, flip, scale []
+	add feedback in sidebar
+
+//  partially done
+	rotation, flip, 
+	
+// skipped
+	scale []
+
+// 
 	profile -> create screens
-	feedback example from teams
+
+// p1 
 	t&c  modal
 	help & faq page from teams 
+	feedback example from teams
 	ratesus redirect to app store profiles
-	add feedback in sidebar
+
+
 
 backend
 	explorepage collections not loading on first call [bug]
 
 
+backend
+-> use the latest scrapper 
+
+frontend
+
+-> done
+-> filters 
+-> color palatte -> roney
+-> sidebar from sticky
+-> welcome user in sidebar
+-> music added
+-> assets add splash
