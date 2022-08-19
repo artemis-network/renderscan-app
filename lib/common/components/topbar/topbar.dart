@@ -16,13 +16,6 @@ class Topbar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
-        border: Border(
-            bottom: BorderSide(
-                width: 0.5,
-                color: context
-                    .watch<ThemeProvider>()
-                    .getHighLightColor()
-                    .withOpacity(0.33))),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         InkWell(

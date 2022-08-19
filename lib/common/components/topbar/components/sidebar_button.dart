@@ -6,7 +6,7 @@ import 'package:renderscan/theme/theme_provider.dart';
 
 class SideBarButton extends StatefulWidget {
   final String text;
-  final IconData icon;
+  final String icon;
   final Function onClick;
 
   SideBarButton(
@@ -29,13 +29,12 @@ class _SideBarButtonState extends State<SideBarButton> {
           padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
           child: Container(
             width: size.width,
-            padding: const EdgeInsets.fromLTRB(5, 7, 5, 7),
             child: Row(
               children: <Widget>[
-                Icon(
+                Image.asset(
                   widget.icon,
-                  size: 22,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  height: 40,
+                  width: 40,
                 ),
                 SizedBox(
                   width: 20,
@@ -45,7 +44,7 @@ class _SideBarButtonState extends State<SideBarButton> {
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),
                       16,
-                      FontWeight.w500),
+                      FontWeight.bold),
                 )
               ],
             ),

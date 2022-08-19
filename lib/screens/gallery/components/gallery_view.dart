@@ -66,10 +66,43 @@ class _GalleryViewState extends State<GalleryView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return (EditScreen(
+                        image: _Gallery,
+                      ));
+                    }));
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text(
+                      "Edit",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          32,
+                          FontWeight.bold),
+                    ),
+                    decoration: BoxDecoration(
+                        color:
+                            context.watch<ThemeProvider>().getBackgroundColor(),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              offset: Offset(0, 0),
+                              blurRadius: 2,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor()),
+                        ]),
+                  ),
+                ),
+                GestureDetector(
+                    child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Text(
-                    "Edit",
+                    "Mint",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         32,
@@ -87,43 +120,7 @@ class _GalleryViewState extends State<GalleryView> {
                                 .watch<ThemeProvider>()
                                 .getHighLightColor()),
                       ]),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return (EditScreen(
-                          image: _Gallery,
-                          url: widget.url,
-                        ));
-                      }));
-                    },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      child: Text(
-                        "Mint",
-                        style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            32,
-                            FontWeight.bold),
-                      ),
-                      decoration: BoxDecoration(
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getBackgroundColor(),
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 2,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getHighLightColor()),
-                          ]),
-                    ))
+                ))
               ],
             )
           ],

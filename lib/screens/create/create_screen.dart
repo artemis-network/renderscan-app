@@ -36,69 +36,66 @@ class CreateScreen extends StatelessWidget {
       drawer: Drawer(
         child: SideBar(),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height,
-          width: size.width,
-          color: context.watch<ThemeProvider>().getBackgroundColor(),
-          child: Column(
-            children: [
-              Topbar(
-                popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 50),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      'assets/images/lion.png',
-                      height: 225,
-                      width: 225,
-                    )),
-              ),
-              Text(
-                "Create your own NFTs",
+      body: Container(
+        height: size.height,
+        width: size.width,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
+        child: Column(
+          children: [
+            Topbar(
+              popSideBar: () => scaffoldKey.currentState?.openDrawer(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    'assets/icons/create.png',
+                    height: 120,
+                    width: 120,
+                  )),
+            ),
+            Text(
+              "Create your own NFTs",
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  24,
+                  FontWeight.bold),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+              child: Text(
+                "Select an image from camera roll or gallery or generate random nfts from text input",
+                textAlign: TextAlign.center,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
-                    22,
-                    FontWeight.bold),
+                    14,
+                    FontWeight.w500),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                child: Text(
-                  "Select an image from camera roll or gallery or generate random nfts from text input",
-                  textAlign: TextAlign.center,
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      14,
-                      FontWeight.w500),
+            ),
+            Expanded(
+              child: Column(children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              Expanded(
-                child: Column(children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SubButton(
-                      buttonLabel: "Scan", onClick: () => goToScanScreen()),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 25,
-                  ),
-                  SubButton(
-                      buttonLabel: "Import", onClick: () => goToImportScreen()),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SubButton(
-                      buttonLabel: "Generate",
-                      onClick: () => goToGenerateScreen()),
-                ]),
-              ),
-            ],
-          ),
+                SubButton(buttonLabel: "Scan", onClick: () => goToScanScreen()),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 25,
+                ),
+                SubButton(
+                    buttonLabel: "Import", onClick: () => goToImportScreen()),
+                SizedBox(
+                  height: 20,
+                ),
+                SubButton(
+                    buttonLabel: "Generate",
+                    onClick: () => goToGenerateScreen()),
+              ]),
+            ),
+          ],
         ),
       ),
     );

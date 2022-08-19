@@ -25,7 +25,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 15),
+        padding: EdgeInsets.only(top: 5),
         child: Container(
             child: TextFormField(
               obscureText: isPasswordHidden,

@@ -25,66 +25,84 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 45),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Enter your email",
-                textAlign: TextAlign.center,
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getHighLightColor(),
-                    24,
-                    FontWeight.bold),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              InputField(
-                icon: Icons.email,
-                labelText: "Email",
-                onChange: (email) => handleEmailInput(email),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Text(
-                  "password reset link will be sent to your mail",
-                  textAlign: TextAlign.center,
+        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Container(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                )),
+          ),
+          Container(
+            child: Image.asset(
+              "assets/images/lion.png",
+              height: 220,
+              width: 220,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            alignment: Alignment.topLeft,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Forgot",
+                  textAlign: TextAlign.left,
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getHighLightColor(),
-                      18,
-                      FontWeight.normal),
+                      24,
+                      FontWeight.bold),
                 ),
-              ),
-              Text(
-                "password reset link will be sent to your mail",
-                textAlign: TextAlign.center,
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getHighLightColor(),
-                    18,
-                    FontWeight.normal),
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              ResetButton(
-                  text: "Reset Password",
-                  press: () {
-                    ForGotPasswordApi().sendForgotPasswordRequest(email).then(
-                      (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "password reset link has been sent to mail",
-                                style: kPrimartFont(
-                                    Colors.white, 14, FontWeight.bold))));
-                      },
-                    );
-                  })
-            ]),
+                Text(
+                  "Password?",
+                  textAlign: TextAlign.left,
+                  style: kPrimartFont(
+                      context.watch<ThemeProvider>().getHighLightColor(),
+                      24,
+                      FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Text(
+              "password reset link will be sent to your mail",
+              textAlign: TextAlign.left,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getHighLightColor(),
+                  18,
+                  FontWeight.normal),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 30),
+          ),
+          InputField(
+            icon: Icons.email,
+            labelText: "Email",
+            onChange: (email) => handleEmailInput(email),
+          ),
+          ResetButton(
+              text: "Submit",
+              press: () {
+                ForGotPasswordApi().sendForgotPasswordRequest(email).then(
+                  (value) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "password reset link has been sent to mail",
+                            style: kPrimartFont(
+                                Colors.white, 14, FontWeight.bold))));
+                  },
+                );
+              })
+        ]),
       ),
     ));
   }

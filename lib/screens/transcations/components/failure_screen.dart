@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
@@ -14,24 +15,6 @@ class SuccessScreen extends StatelessWidget {
           child: Column(
         children: [
           SizedBox(
-            height: 20,
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return NavigationScreen();
-                  }));
-                },
-                icon: (Icon(
-                  Icons.cancel_rounded,
-                  size: 30,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                ))),
-          ),
-          SizedBox(
             height: 120,
           ),
           Container(
@@ -39,8 +22,8 @@ class SuccessScreen extends StatelessWidget {
             child: Column(children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  "assets/images/lion.png",
+                child: Lottie.asset(
+                  "assets/lottie/error.json",
                   height: 300,
                   width: 300,
                 ),

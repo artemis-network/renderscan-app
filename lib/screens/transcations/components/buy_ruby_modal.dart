@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -65,119 +66,69 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    return Material(
-      child: Container(
+    return SafeArea(
+        child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        actions: [],
+        title: Text(
+          "Pricing Plan",
+          style: kPrimartFont(
+              context.watch<ThemeProvider>().getPriamryFontColor(),
+              24,
+              FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        height: size.height,
         alignment: Alignment.center,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: Icon(
-                  Icons.cancel_outlined,
-                  size: 48,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
             Container(
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: Image.asset(
-                  "assets/images/lion.png",
-                  height: 160,
-                  width: 160,
+                  "assets/icons/wallet.png",
+                  height: 120,
+                  width: 120,
                 )),
-            SizedBox(
-              height: 30,
-            ),
-            Text(
-              "Pricing Plan",
-              style: kPrimartFont(
-                  context.watch<ThemeProvider>().getPriamryFontColor(),
-                  24,
-                  FontWeight.bold),
-            ),
             Text(
               "Choose a subscription plan to unlock all the functionality of the applications.",
               textAlign: TextAlign.center,
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
-                  16,
-                  FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Buy",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      30,
-                      FontWeight.bold),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: context.watch<ThemeProvider>().getFavouriteColor(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    "RUBY",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getBackgroundColor(),
-                        12,
-                        FontWeight.bold),
-                  ),
-                )
-              ],
+                  14,
+                  FontWeight.normal),
             ),
             Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RubyRadio(
                     value: RUBY_PACK.RUBY_100,
                     groupValue: ruby_pack_scheme,
-                    label: "100R/mo",
-                    main: "Unlimited Plan",
-                    sub: "100R billed",
+                    label: "90",
+                    main: "100 Ruby",
                     onChange: (value) => setRubyPackScheme(value),
                   ),
                   RubyRadio(
                     value: RUBY_PACK.RUBY_200,
                     groupValue: ruby_pack_scheme,
-                    main: "Yearly Plan",
-                    label: "200R/mo",
-                    sub: "200R billed",
+                    main: "250 Ruby",
+                    label: "180",
                     onChange: (value) => setRubyPackScheme(value),
                   ),
                   RubyRadio(
                     value: RUBY_PACK.RUBY_300,
-                    main: "Monthly Plan",
-                    sub: "",
+                    main: "500 Ruby",
                     groupValue: ruby_pack_scheme,
-                    label: "200R/mo",
+                    label: "270",
                     onChange: (value) => setRubyPackScheme(value),
                   )
                 ]),
-            SizedBox(
-              height: 70,
-            ),
             Container(
               width: size.width * 0.8,
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -232,7 +183,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Continue".toUpperCase(),
+                        "buy ".toUpperCase(),
                         style: kPrimartFont(
                             context
                                 .watch<ThemeProvider>()
@@ -242,12 +193,12 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                       ),
                     ],
                   )),
-            )
+            ),
           ],
         ),
         color: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
-    );
+    ));
   }
 }
 
@@ -262,12 +213,10 @@ class RubyRadio extends StatelessWidget {
   final String label;
   final Function onChange;
   final String main;
-  final String sub;
 
   RubyRadio(
       {required this.value,
       required this.main,
-      required this.sub,
       required this.groupValue,
       required this.label,
       required this.onChange});
@@ -289,10 +238,10 @@ class RubyRadio extends StatelessWidget {
         onChange(value);
       },
       child: AnimatedContainer(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         margin: EdgeInsets.symmetric(vertical: 10),
-        duration: Duration(milliseconds: 500),
-        width: size.width * 0.8,
+        duration: Duration(milliseconds: 250),
+        width: size.width * 0.75,
         decoration: BoxDecoration(
             color: themeBg,
             borderRadius: BorderRadius.circular(20),
@@ -301,54 +250,31 @@ class RubyRadio extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  Text(
-                    main,
-                    style: kPrimartFont(themeFont, 12, FontWeight.bold),
-                  ),
-                  Text(
-                    sub,
-                    style: kPrimartFont(themeFont, 10, FontWeight.bold),
-                  ),
-                ],
+              Image.asset(
+                "assets/icons/pruby.png",
+                height: 36,
+                width: 36,
               ),
               Text(
-                label,
-                style: kPrimartFont(themeFont, 16, FontWeight.bold),
+                main,
+                style: kPrimartFont(themeFont, 20, FontWeight.bold),
+              ),
+              Row(
+                children: [
+                  Text(
+                    label,
+                    style: kPrimartFont(themeFont, 18, FontWeight.bold),
+                  ),
+                  Text(
+                    "₹",
+                    style: GoogleFonts.openSans(
+                        color: themeFont,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ]),
-      ),
-    );
-  }
-}
-
-class Features extends StatelessWidget {
-  final String text;
-  final IconData icon;
-
-  Features({required this.icon, required this.text});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Icon(icon,
-              size: 24,
-              color: context.watch<ThemeProvider>().getPriamryFontColor()),
-          SizedBox(
-            width: 20,
-          ),
-          Text(
-            text,
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                14,
-                FontWeight.normal),
-          ),
-        ],
       ),
     );
   }

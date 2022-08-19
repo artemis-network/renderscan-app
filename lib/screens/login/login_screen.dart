@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:provider/provider.dart';
+import 'package:renderscan/constants.dart';
+import 'package:renderscan/utils/storage.dart';
+import 'package:renderscan/theme/theme_provider.dart';
+
+import 'package:renderscan/screens/signup/signup_screen.dart';
+import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/forgot_password/forgot_password_screen.dart';
+
+import 'package:page_transition/page_transition.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/exit_dialog.dart';
 
-// utils
-
-//components
-import 'package:renderscan/common/components/loader.dart';
-
-// dto
-
-// api
-
-// logger
-import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/forgot_password/forgot_password_screen.dart';
-import 'package:renderscan/screens/login/components/google_login_button.dart';
-import 'package:renderscan/screens/login/components/login_button.dart';
 import 'package:renderscan/screens/login/log_api.dart';
 import 'package:renderscan/screens/login/login_model.dart';
-import 'package:renderscan/screens/navigation/navigation_screen.dart';
-import 'package:renderscan/screens/scan/components/input_field.dart';
-import 'package:renderscan/screens/signup/components/input_password_field.dart';
-import 'package:renderscan/screens/signup/signup_screen.dart';
-import 'package:renderscan/theme/theme_provider.dart';
-import 'package:renderscan/utils/storage.dart';
+import 'package:renderscan/screens/login/components/input_field.dart';
+import 'package:renderscan/screens/login/components/login_button.dart';
+import 'package:renderscan/screens/login/components/google_login_button.dart';
+import 'package:renderscan/screens/login/components/input_password_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -121,29 +115,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
 
-    return SafeArea(
-        child: new AppExitDialogWrapper(
+    return new AppExitDialogWrapper(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: SingleChildScrollView(
-            child: Container(
-          height: size.height,
+        body: Container(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
-          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+          padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
           child: Form(
               key: formkey,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 30),
+                    margin: EdgeInsets.only(top: 0),
                     alignment: Alignment.centerLeft,
                     child: IconButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                         icon: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 30,
+                          Icons.cancel_outlined,
+                          size: 42,
                           color: context
                               .watch<ThemeProvider>()
                               .getPriamryFontColor(),
@@ -151,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Image.asset(
                     "assets/images/no_bg_logo.png",
-                    height: size.height * 0.25,
+                    height: size.height * 0.2,
                   ),
                   InputField(
                     icon: Icons.email,
@@ -162,31 +153,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Password",
                     onChanged: (password) => handlePasswordInput(password),
                   ),
-                  SizedBox(height: size.height * 0.03),
-                  !isLoading
-                      ? LoginButton(
-                          text: "LOGIN",
-                          press: authenticate,
-                        )
-                      : spinkit(),
-                  SizedBox(height: size.height * 0.02),
                   TextButton(
                     onPressed: () {
                       scaffoldKey.currentState?.openDrawer();
                     },
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          "forgot Password ?",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getSecondaryFontColor(),
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(PageTransition(
@@ -198,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 childCurrent: LoginScreen()));
                           },
                           child: Text(
-                            " Click here",
+                            "forgot Password ?",
                             style: TextStyle(
                               fontSize: 16,
                               color: context
@@ -211,6 +184,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
+                  !isLoading
+                      ? LoginButton(
+                          text: "LOGIN",
+                          press: authenticate,
+                        )
+                      : spinkit(),
+                  GoogleLoginButton(),
                   TextButton(
                     onPressed: () {
                       scaffoldKey.currentState?.openDrawer();
@@ -252,15 +232,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: size.height * 0.02),
-                  GoogleLoginButton(),
-                  SizedBox(
-                    height: size.height * 0.1,
-                  )
                 ],
               )),
-        )),
+        ),
       ),
-    ));
+    );
   }
 }

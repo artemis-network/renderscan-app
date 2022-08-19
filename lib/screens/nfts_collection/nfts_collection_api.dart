@@ -88,7 +88,7 @@ class NFTCollectionAPI {
         {"contract": contract, "token_id": tokenId, "chain": "solana"});
 
     var response = await http.post(
-        HttpServerConfig().getHost("/marketplace/getnftfromcontract"),
+        HttpServerConfig().getHost("/marketplace/getnftinfo"),
         headers: headers,
         body: body);
     if (response.statusCode == 200) {

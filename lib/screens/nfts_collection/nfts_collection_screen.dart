@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/nfts_collection/components/nft_collection_screen_banenr.dart';
 import 'package:renderscan/screens/nfts_collection/components/nft_collection_screen_stats.dart';
@@ -9,6 +8,7 @@ import 'package:renderscan/screens/nfts_collection/models/nft_collection.model.d
 import 'package:renderscan/screens/nfts_collection/nfts_collection_api.dart';
 import 'package:renderscan/screens/nfts_collection/tabs/nft_collections_nft_items_grid_tab.dart';
 import 'package:renderscan/theme/theme_provider.dart';
+import 'package:skeletons/skeletons.dart';
 
 class NFTCollectionScreen extends StatefulWidget {
   final String slug;
@@ -130,8 +130,53 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                         ]);
                       }
                       return Container(
-                        alignment: Alignment.center,
-                        child: spinkit(),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 0),
+                        child: SkeletonItem(
+                            child: Column(
+                          children: [
+                            SkeletonAvatar(
+                              style: SkeletonAvatarStyle(
+                                width: double.infinity,
+                                minHeight:
+                                    MediaQuery.of(context).size.height / 8,
+                                maxHeight:
+                                    MediaQuery.of(context).size.height / 3,
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            SkeletonParagraph(
+                              style: SkeletonParagraphStyle(
+                                  lines: 3,
+                                  spacing: 6,
+                                  lineStyle: SkeletonLineStyle(
+                                    randomLength: true,
+                                    height: 10,
+                                    borderRadius: BorderRadius.circular(2),
+                                    minLength:
+                                        MediaQuery.of(context).size.width / 2,
+                                  )),
+                            ),
+                            SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                        width: 50, height: 50)),
+                                SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                        width: 50, height: 50)),
+                                SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                        width: 50, height: 50)),
+                                SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                        width: 50, height: 50)),
+                              ],
+                            )
+                          ],
+                        )),
                       );
                     })),
                 FutureBuilder(
@@ -147,8 +192,79 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                         );
                       }
                       return Container(
-                        child: spinkit(),
-                        alignment: Alignment.center,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                      borderRadius: BorderRadius.circular(30),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  child: SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                      borderRadius: BorderRadius.circular(30),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                      borderRadius: BorderRadius.circular(30),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Container(
+                                  child: SkeletonAvatar(
+                                    style: SkeletonAvatarStyle(
+                                      borderRadius: BorderRadius.circular(30),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       );
                     }))
               ],

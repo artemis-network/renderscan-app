@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
-import 'package:renderscan/screens/mint/mint_api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class MintScreen extends StatefulWidget {
@@ -23,14 +23,6 @@ class _MintScreenState extends State<MintScreen> {
   @override
   Widget build(BuildContext context) {
     back() => Navigator.of(context).pop();
-
-    drop() {
-      MintApi().drop(widget.filename).then((value) {
-        print(value);
-        print(value.statusCode);
-        print(value.body);
-      }).catchError((onError) => (null));
-    }
 
     final size = MediaQuery.of(context).size;
 
@@ -115,6 +107,14 @@ class _MintScreenState extends State<MintScreen> {
     }
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
+    goToEditScreen() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => EditScreen(
+                    image: widget.imageSource,
+                  )));
+    }
 
     return SafeArea(
         child: Scaffold(
@@ -212,7 +212,7 @@ class _MintScreenState extends State<MintScreen> {
                                                 ]),
                                             child: TextButton(
                                                 child: Text("Edit"),
-                                                onPressed: drop),
+                                                onPressed: goToEditScreen),
                                           ))
                                     ])),
                           ],

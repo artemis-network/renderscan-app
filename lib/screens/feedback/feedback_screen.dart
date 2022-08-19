@@ -11,121 +11,153 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
-  String category = "UI";
   double ratings = 3;
-  String message = "";
   String feedback = "";
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
+      appBar: AppBar(
+          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          actions: [],
+          centerTitle: true,
+          title: Text(
+            "Feedback",
+            textAlign: TextAlign.center,
+            style: kPrimartFont(
+                context.watch<ThemeProvider>().getPriamryFontColor(),
+                26,
+                FontWeight.bold),
+          )),
+      backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      body: SingleChildScrollView(
+          child: Container(
+        padding: EdgeInsets.symmetric(vertical: 30),
         child: Column(
           children: [
+            Image.asset(
+              "assets/images/lion.png",
+              height: 150,
+              width: 150,
+            ),
+            SizedBox(
+              height: 30,
+            ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              child: Text(
-                "Feedback",
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    32,
-                    FontWeight.bold),
-              ),
-            ),
-            DropDown(
-              category: category,
-              onChange: (s) {
-                setState(() {
-                  setState(() {
-                    category = s;
-                  });
-                });
-              },
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            FormField(
-              label: "label",
-              noLines: 1,
-              onChange: (s) {
-                setState(() {
-                  message = s;
-                });
-              },
-            ),
-            FormField(
-              onChange: (s) {
-                feedback = s;
-              },
-              label: "feedback",
-              noLines: 5,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            RatingBar.builder(
-              initialRating: ratings,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating) {
-                setState(() {
-                  ratings = rating;
-                });
-              },
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            OutlinedButton(
-                onPressed: () {
-                  FeedbackApi()
-                      .sendFeedBack(
-                          category, ratings.toStringAsFixed(2), feedback)
-                      .then((value) {
-                    setState(() {
-                      category = "UI";
-                      ratings = 0;
-                      message = "";
-                      feedback = "";
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.greenAccent,
-                        content: Text(
-                          value.message,
-                          style: kPrimartFont(
-                              Colors.blueGrey, 22, FontWeight.bold),
-                        )));
-                  });
-                },
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      context.watch<ThemeProvider>().getPriamryFontColor()),
-                  elevation: MaterialStateProperty.all(30),
-                ),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  child: Text(
-                    "Submit",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getBackgroundColor(),
-                        20,
-                        FontWeight.bold),
-                  ),
-                ))
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              decoration: BoxDecoration(
+                  color: context.watch<ThemeProvider>().getBackgroundColor(),
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 1,
+                        color:
+                            context.watch<ThemeProvider>().getHighLightColor())
+                  ]),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Pleas rate your experience",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          14,
+                          FontWeight.normal),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: RatingBar.builder(
+                        initialRating: ratings,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        unratedColor: Colors.blueGrey,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getHighLightColor(),
+                        ),
+                        onRatingUpdate: (rating) {
+                          setState(() {
+                            ratings = rating;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Additional Comments",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          14,
+                          FontWeight.normal),
+                    ),
+                    FormField(
+                      onChange: (s) {
+                        feedback = s;
+                      },
+                      label: "feedback",
+                      noLines: 3,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                          onTap: () {
+                            FeedbackApi()
+                                .sendFeedBack(
+                                    "", ratings.toStringAsFixed(2), feedback)
+                                .then((value) {
+                              setState(() {
+                                ratings = 0;
+                                feedback = "";
+                              });
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                      backgroundColor: Colors.greenAccent,
+                                      content: Text(
+                                        value.message,
+                                        style: kPrimartFont(Colors.blueGrey, 22,
+                                            FontWeight.bold),
+                                      )));
+                            });
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor(),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            child: Text(
+                              "Submit",
+                              style: kPrimartFont(
+                                  Colors.white, 20, FontWeight.bold),
+                            ),
+                          )),
+                    ),
+                  ]),
+            )
           ],
         ),
-      ),
+      )),
     ));
   }
 }
@@ -149,7 +181,7 @@ class FormField extends StatelessWidget {
         ));
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: TextFormField(
           onChanged: ((value) => onChange),
           minLines: noLines,
@@ -160,11 +192,6 @@ class FormField extends StatelessWidget {
               FontWeight.bold),
           decoration: InputDecoration(
             focusColor: context.watch<ThemeProvider>().getFavouriteColor(),
-            labelText: label,
-            labelStyle: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                18,
-                FontWeight.bold),
             focusedBorder: style,
             enabledBorder: style,
           )),

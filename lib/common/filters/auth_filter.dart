@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/utils/storage.dart';
 
 class AuthFilter extends StatelessWidget {
@@ -19,7 +18,6 @@ class AuthFilter extends StatelessWidget {
           return guestView;
         }
         return Container(
-          child: spinkit(),
           alignment: Alignment.center,
         );
       },

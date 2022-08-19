@@ -34,6 +34,7 @@ class ShowcaseWidget extends StatelessWidget {
 
     ImageGetter() {
       return Container(
+        constraints: BoxConstraints(maxHeight: 96, maxWidth: 96),
         decoration:
             BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
           BoxShadow(
@@ -51,12 +52,12 @@ class ShowcaseWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             child: Image.network(
               nft.imageUrl.toString(),
+              width: 96,
               height: 96,
-              fit: BoxFit.fitWidth,
+              cacheWidth: 96,
+              cacheHeight: 96,
               errorBuilder: (context, error, stackTrace) => SvgPicture.asset(
                 "assets/images/default_img.svg",
-                height: 96,
-                fit: BoxFit.fitWidth,
               ),
             )),
       );

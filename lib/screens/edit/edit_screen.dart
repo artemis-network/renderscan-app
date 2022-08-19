@@ -9,10 +9,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class EditScreen extends StatefulWidget {
-  final String url;
   final Uint8List image;
 
-  EditScreen({required this.url, required this.image});
+  EditScreen({required this.image});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -37,6 +36,19 @@ class _EditScreenState extends State<EditScreen> {
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+          appBar: AppBar(
+            actions: [],
+            backgroundColor:
+                context.watch<ThemeProvider>().getBackgroundColor(),
+            centerTitle: true,
+            title: Text(
+              "Edit",
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  30,
+                  FontWeight.bold),
+            ),
+          ),
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
           body: Container(
             padding: EdgeInsets.symmetric(
@@ -44,22 +56,6 @@ class _EditScreenState extends State<EditScreen> {
             ),
             child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                      icon: Icon(Icons.arrow_back,
-                          size: 30,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getFavouriteColor()),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
                 inEditMode
                     ? Expanded(
                         child: ExtendedImage.memory(

@@ -93,6 +93,7 @@ flutter:
     - assets/images/
     - assets/lottie/
     - assets/mock/
+    - assets/icons/
     - assets/avtars/
     - assets/audio/
     - assets/splash/

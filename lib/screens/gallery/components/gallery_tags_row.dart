@@ -28,7 +28,7 @@ class GalleryTagRow extends StatelessWidget {
                 isActive: true,
               ),
               GalleryTag(
-                tag: "All Gallerys",
+                tag: "Gallery",
                 icon: Icons.insert_photo_outlined,
                 isActive: false,
               ),
@@ -48,7 +48,7 @@ class GalleryTagRow extends StatelessWidget {
                 isActive: false,
               ),
               GalleryTag(
-                tag: "Acitivity",
+                tag: "Activity",
                 icon: Icons.history_outlined,
                 isActive: false,
               ),

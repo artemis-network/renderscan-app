@@ -30,9 +30,12 @@ class SubButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                    spreadRadius: 4,
-                    blurRadius: 2,
-                    color: context.watch<ThemeProvider>().getFavouriteColor(),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    color: context
+                        .watch<ThemeProvider>()
+                        .getFavouriteColor()
+                        .withOpacity(0.45),
                     offset: Offset(0, 0)),
               ])),
     );

@@ -114,6 +114,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               });
             },
             child: Scaffold(
+              appBar: AppBar(
+                  backgroundColor:
+                      context.watch<ThemeProvider>().getBackgroundColor(),
+                  actions: [],
+                  title: Text("Edit Your Profile",
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          24,
+                          FontWeight.bold)),
+                  centerTitle: true),
               body: SingleChildScrollView(
                 child: Container(
                     color: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -122,40 +132,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: size.width,
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 10),
-                          alignment: Alignment.centerLeft,
-                          child: InkWell(
-                            onTap: () => Navigator.of(context).pop(),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(200),
-                                  color: context
-                                      .watch<ThemeProvider>()
-                                      .getBackgroundColor(),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 10,
-                                    )
-                                  ]),
-                              child: Icon(
-                                Icons.arrow_back_outlined,
-                                size: 36,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Text("Edit Your Profile",
-                            style: kPrimartFont(
-                                context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                24,
-                                FontWeight.bold)),
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
                           child: FutureBuilder(

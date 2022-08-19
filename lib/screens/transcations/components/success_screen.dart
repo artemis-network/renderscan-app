@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
@@ -39,8 +40,8 @@ class SuccessScreen extends StatelessWidget {
             child: Column(children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  "assets/images/lion.png",
+                child: Lottie.asset(
+                  "assets/lottie/success.json",
                   height: 300,
                   width: 300,
                 ),

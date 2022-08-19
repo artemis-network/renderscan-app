@@ -3,10 +3,10 @@ fix_google_oauth
 firebase_instance
 
 sol symobl[done]
-Lang + Region[done] 
-Signup header[done] 
+Lang + Region[done]
+Signup header[done]
 profile end to end[done]
-change explore page to home[done] 
+change explore page to home[done]
 back button in collectionpage[done]
 homepage trending collection eth symobl[done]
 invalid referal code error null in signup[done]
@@ -24,41 +24,41 @@ remove slugs with corrupted img data[pending]
 tasks
 
 backend
-	explore data changes 
-	collection page seperate api
-	update profile image
+explore data changes
+collection page seperate api
+update profile image
 
 frontend
-	frontend loading long [x]
-	create page buttons alignment [x] 
-	logout message snackbar [x]
-	change all notifications to snackbar [x]
-	nfts bar to visible[x]
-	nfts page same as profile[x]
-	display wallet address in profie page[x]
-	add displayname in signup form [x]
-	scan page loader [x]
-	scan page button [x]
-	generate page build [x]
-	import page flow [x]
-	avatar image[x]
-	email updation[x]
+frontend loading long [x]
+create page buttons alignment [x]
+logout message snackbar [x]
+change all notifications to snackbar [x]
+nfts bar to visible[x]
+nfts page same as profile[x]
+display wallet address in profie page[x]
+add displayname in signup form [x]
+scan page loader [x]
+scan page button [x]
+generate page build [x]
+import page flow [x]
+avatar image[x]
+email updation[x]
 
-	generate page => https://hotpot.ai/art-maker?s=nft-generator[x]
-	create -> change images ->[x]
-	import alignments[x]
-	scan button[x]
+    generate page => https://hotpot.ai/art-maker?s=nft-generator[x]
+    create -> change images ->[x]
+    import alignments[x]
+    scan button[x]
 
 backend
-	blockchain wallet[x] 
-		userId
-		walletAddress
-		chain 
-		isActive
-	create blockchain wallet for user in verfication controller [x]
-	add gallery to app[x]
-	apk generate -> store -> renderverse.io [x]
-	warmup queries -> 4 basnet, nftport, blockdemon, marketplace server [x]
+blockchain wallet[x]
+userId
+walletAddress
+chain
+isActive
+create blockchain wallet for user in verfication controller [x]
+add gallery to app[x]
+apk generate -> store -> renderverse.io [x]
+warmup queries -> 4 basnet, nftport, blockdemon, marketplace server [x]
 
 frontend
 nft gallery page slider highlight underline
@@ -74,41 +74,56 @@ add frames to images
 frontend
 
 // done
-	upgrade page[changes] from teams 
-	success page[upgrade] from teams
-	failure page[upgrade] from teams
-	add feedback in sidebar
+upgrade page[changes] from teams
+success page[upgrade] from teams
+failure page[upgrade] from teams
+add feedback in sidebar
 
-//  partially done
-	rotation, flip, 
-	
+// partially done
+rotation, flip,
 // skipped
-	scale []
+scale []
 
-// 
-	profile -> create screens
+//
+profile -> create screens
 
-// p1 
-	t&c  modal
-	help & faq page from teams 
-	feedback example from teams
-	ratesus redirect to app store profiles
-
-
+// p1
+t&c modal
+help & faq page from teams
+feedback example from teams
+ratesus redirect to app store profiles
 
 backend
-	explorepage collections not loading on first call [bug]
-
+explorepage collections not loading on first call [bug]
 
 backend
--> use the latest scrapper 
+-> use the latest scrapper
 
 frontend
 
 -> done
--> filters 
+-> filters
 -> color palatte -> roney
 -> sidebar from sticky
 -> welcome user in sidebar
 -> music added
 -> assets add splash
+
+// telegram
+-> bottom bar change search plugins
+
+done  
+-> buy button
+-> rupee change
+-> fonts changing
+-> remove scrolling buy page
+-> generate page lo quotes loader
+-> generate page load image on top of asset image when image recieved
+-> make create screen unscrollable
+-> create page buttons change buttons
+-> , comma remove if doesnot login
+-> login page, signup page styling fix
+
+min width fix
+
+feedback unscroll

@@ -38,10 +38,10 @@ class _LoginButtonState extends State<LoginButton> {
         margin: EdgeInsets.all(10),
         duration: Duration(milliseconds: 100),
         padding: EdgeInsets.all(20),
-        width: size.width * 0.6,
+        width: size.width * 0.8,
         decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            borderRadius: BorderRadius.circular(40),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,

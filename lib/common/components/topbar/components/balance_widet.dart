@@ -1,4 +1,3 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -33,71 +32,17 @@ class BalanceWidget extends StatelessWidget {
                           padding: EdgeInsets.only(
                               top: 2, bottom: 2, left: 3, right: 2),
                           child: Row(children: [
-                            Icon(
-                              CryptoFontIcons.ETH,
-                              size: 14,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getBackgroundColor(),
+                            Image.asset(
+                              "assets/icons/bruby.png",
+                              height: 18,
+                              width: 18,
                             ),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Text(data.ruby.toString(),
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getBackgroundColor(),
-                                    14,
-                                    FontWeight.w800)),
                             SizedBox(
                               width: 4,
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: context
-                                      .watch<ThemeProvider>()
-                                      .getBackgroundColor(),
-                                  borderRadius: BorderRadius.circular(4)),
-                              child: Icon(
-                                Icons.add_rounded,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getHighLightColor(),
-                                size: 18,
-                              ),
-                            )
-                          ]),
-                          decoration: BoxDecoration(
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getHighLightColor(),
-                              borderRadius: BorderRadius.circular(6)),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(
-                              top: 2, bottom: 2, left: 3, right: 2),
-                          child: Row(children: [
-                            Icon(
-                              CryptoFontIcons.ETH,
-                              size: 14,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getBackgroundColor(),
-                            ),
-                            SizedBox(
-                              width: 2,
-                            ),
-                            Text(data.superRuby.toString(),
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getBackgroundColor(),
-                                    14,
-                                    FontWeight.w800)),
+                            Text(data.ruby.toString(),
+                                style: kPrimartFont(Colors.blueGrey.shade800,
+                                    14, FontWeight.w800)),
                             SizedBox(
                               width: 4,
                             ),
@@ -120,6 +65,48 @@ class BalanceWidget extends StatelessWidget {
                               color: context
                                   .watch<ThemeProvider>()
                                   .getFavouriteColor(),
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: 2, bottom: 2, left: 3, right: 2),
+                          child: Row(children: [
+                            Image.asset(
+                              "assets/icons/pruby.png",
+                              height: 18,
+                              width: 18,
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(data.superRuby.toString(),
+                                style: kPrimartFont(
+                                    Colors.white, 14, FontWeight.w800)),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getBackgroundColor(),
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Icon(
+                                Icons.add_rounded,
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getHighLightColor(),
+                                size: 18,
+                              ),
+                            )
+                          ]),
+                          decoration: BoxDecoration(
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor(),
                               borderRadius: BorderRadius.circular(6)),
                         ),
                       ]);

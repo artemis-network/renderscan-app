@@ -38,27 +38,24 @@ class _ResetButtonState extends State<ResetButton> {
         margin: EdgeInsets.all(10),
         duration: Duration(milliseconds: 100),
         padding: EdgeInsets.all(20),
-        width: size.width * 0.6,
+        width: size.width * 0.75,
         decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            borderRadius: BorderRadius.circular(40),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
                   blurRadius: 100,
                   color: context
                       .watch<ThemeProvider>()
-                      .getHighLightColor()
+                      .getPriamryFontColor()
                       .withOpacity(0.22),
                   offset: Offset(0, 0)),
             ]),
         child: Text(
           widget.text,
           textAlign: TextAlign.center,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getSecondaryFontColor(),
-              18,
-              FontWeight.bold),
+          style: kPrimartFont(Colors.white, 18, FontWeight.bold),
         ),
       ),
     );

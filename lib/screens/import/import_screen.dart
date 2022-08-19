@@ -267,7 +267,10 @@ class _ImportScreenState extends State<ImportScreen> {
               data: ThemeData(
                   primarySwatch: Colors.blue,
                   colorScheme: ColorScheme.light(
-                      primary: Colors.black, secondary: Colors.black)),
+                    background: Colors.black,
+                    primary: Colors.black,
+                    secondary: Colors.black,
+                  )),
               child: Stepper(
                 type: StepperType.horizontal,
                 steps: getSteps(),

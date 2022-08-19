@@ -8,6 +8,7 @@ import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/faq/faq_screen.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/profile/profile_api.dart';
@@ -53,8 +54,6 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     bool allowClose = true;
     final List<String> images = [
       "assets/avtars/1.png",
@@ -84,209 +83,209 @@ class _UserScreenState extends State<UserScreen> {
                 key: scaffoldKey,
                 drawerEnableOpenDragGesture: false,
                 drawer: Drawer(child: SideBar()),
-                body: SingleChildScrollView(
-                  child: Container(
-                      color:
-                          context.watch<ThemeProvider>().getBackgroundColor(),
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      height: size.height,
-                      width: size.width,
-                      child: Column(
-                        children: [
-                          Topbar(
-                              popSideBar: () =>
-                                  scaffoldKey.currentState?.openDrawer()),
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 20),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 30),
-                            decoration: BoxDecoration(
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getBackgroundColor(),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 0,
-                                      blurRadius: 100,
-                                      color: context
-                                          .watch<ThemeProvider>()
-                                          .getHighLightColor()
-                                          .withOpacity(0.22),
-                                      offset: Offset(0, 0)),
-                                ]),
-                            child: Row(
-                              children: [
-                                FutureBuilder(
-                                    future: Storage().getItem("username"),
-                                    builder: ((context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        final username =
-                                            snapshot.data as String;
-                                        var url =
-                                            "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                                                username +
-                                                '.png';
-                                        return CircleAvatar(
+                body: Container(
+                  color: context.watch<ThemeProvider>().getBackgroundColor(),
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Column(
+                    children: [
+                      Topbar(
+                          popSideBar: () =>
+                              scaffoldKey.currentState?.openDrawer()),
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+                        decoration: BoxDecoration(
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getBackgroundColor(),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 0,
+                                  blurRadius: 100,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()
+                                      .withOpacity(0.22),
+                                  offset: Offset(0, 0)),
+                            ]),
+                        child: Row(
+                          children: [
+                            FutureBuilder(
+                                future: Storage().getItem("username"),
+                                builder: ((context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    final username = snapshot.data as String;
+                                    var url =
+                                        "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                            username +
+                                            '.png';
+
+                                    return Stack(
+                                      clipBehavior: Clip.none,
+                                      children: [
+                                        CircleAvatar(
                                           backgroundImage: NetworkImage(url),
                                           radius: 48,
-                                        );
-                                      }
-                                      return CircleAvatar(
-                                        backgroundImage:
-                                            AssetImage(images[random]),
-                                        radius: 48,
-                                      );
-                                    })),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        displayName,
-                                        style: kPrimartFont(
-                                            context
-                                                .watch<ThemeProvider>()
-                                                .getPriamryFontColor(),
-                                            18,
-                                            FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      FutureBuilder(
-                                          future: Storage().getItem('username'),
-                                          builder: (context, snapshot) {
-                                            return Text(
-                                              "@" + snapshot.data.toString(),
-                                              style: kPrimartFont(
-                                                  context
-                                                      .watch<ThemeProvider>()
-                                                      .getSecondaryFontColor(),
-                                                  16,
-                                                  FontWeight.normal),
-                                            );
-                                          }),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: context
-                                                .watch<ThemeProvider>()
-                                                .getBackgroundColor(),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  offset: Offset(0, 0),
-                                                  blurRadius: 2,
-                                                  color: context
-                                                      .watch<ThemeProvider>()
-                                                      .getHighLightColor())
-                                            ]),
-                                        child: Text(
-                                          "0xc20d....ac1",
+                                        ),
+                                        Positioned(
+                                            right: 0,
+                                            bottom: -12,
+                                            child: GestureDetector(
+                                              child: Image.asset(
+                                                "assets/icons/share.png",
+                                                height: 46,
+                                                width: 46,
+                                              ),
+                                              onTap: () {
+                                                Profile profile = Profile(
+                                                    displayName: displayName,
+                                                    region: region,
+                                                    language: language,
+                                                    email: email);
+                                                context
+                                                    .read<ProfileProvider>()
+                                                    .setProfile(profile);
+                                                Navigator.of(context).push(
+                                                    PageTransition(
+                                                        type: PageTransitionType
+                                                            .leftToRight,
+                                                        child: ProfileScreen(),
+                                                        ctx: context,
+                                                        duration: Duration(
+                                                            milliseconds: 300),
+                                                        fullscreenDialog: true,
+                                                        childCurrent:
+                                                            UserScreen()));
+                                              },
+                                            ))
+                                      ],
+                                    );
+                                  }
+                                  return CircleAvatar(
+                                    backgroundImage: AssetImage(images[random]),
+                                    radius: 48,
+                                  );
+                                })),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Container(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    displayName,
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        18,
+                                        FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  FutureBuilder(
+                                      future: Storage().getItem('username'),
+                                      builder: (context, snapshot) {
+                                        return Text(
+                                          "@" + snapshot.data.toString(),
                                           style: kPrimartFont(
                                               context
                                                   .watch<ThemeProvider>()
                                                   .getSecondaryFontColor(),
-                                              15,
+                                              16,
                                               FontWeight.normal),
-                                        ),
-                                      ),
-                                    ],
+                                        );
+                                      }),
+                                  SizedBox(
+                                    height: 10,
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                RowButtons(
-                                    text: "Edit Profile",
-                                    press: () {
-                                      Profile profile = Profile(
-                                          displayName: displayName,
-                                          region: region,
-                                          language: language,
-                                          email: email);
-                                      context
-                                          .read<ProfileProvider>()
-                                          .setProfile(profile);
-                                      Navigator.of(context).push(PageTransition(
-                                          type: PageTransitionType.leftToRight,
-                                          child: ProfileScreen(),
-                                          ctx: context,
-                                          duration: Duration(milliseconds: 300),
-                                          fullscreenDialog: true,
-                                          childCurrent: UserScreen()));
-                                    },
-                                    icon: Icons.edit_outlined),
-                                RowButtons(
-                                    text: "Share Profile",
-                                    press: () {},
-                                    icon: Icons.share_outlined),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(vertical: 30),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ColumnButtons(
-                                    text: "Terms & Conditions",
-                                    press: () {
-                                      launchPage();
-                                    },
-                                    icon: Icons.rule),
-                                ColumnButtons(
-                                    text: "Help & FAQ",
-                                    press: () {
-                                      launchPage();
-                                    },
-                                    icon: Icons.help_center_outlined),
-                                ColumnButtons(
-                                    text: "Feedback",
-                                    press: () {
-                                      return Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) {
-                                        return FeedbackScreen();
-                                      }));
-                                    },
-                                    icon: Icons.feedback),
-                                ColumnButtons(
-                                    text: "Logout",
-                                    press: () {
-                                      Storage().logout();
-                                      context
-                                          .read<NavigationProvider>()
-                                          .setCurrentIndex(0);
-                                      context
-                                          .read<ScanProvider>()
-                                          .resetProvider();
-                                    },
-                                    icon: Icons.logout)
-                              ],
-                            ),
-                          ),
-                        ],
-                      )),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: context
+                                            .watch<ThemeProvider>()
+                                            .getBackgroundColor(),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 0),
+                                              blurRadius: 2,
+                                              color: context
+                                                  .watch<ThemeProvider>()
+                                                  .getHighLightColor())
+                                        ]),
+                                    child: Expanded(
+                                        child: Row(children: [
+                                      Text(
+                                        "0xc20....3ac1",
+                                        style: kPrimartFont(
+                                            context
+                                                .watch<ThemeProvider>()
+                                                .getSecondaryFontColor(),
+                                            15,
+                                            FontWeight.normal),
+                                      ),
+                                    ])),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ColumnButtons(
+                                text: "Terms & Conditions",
+                                press: () {
+                                  launchPage();
+                                },
+                                icon: "assets/icons/refer.png"),
+                            ColumnButtons(
+                                text: "Help & FAQ",
+                                press: () {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return FAQScreen();
+                                  }));
+                                },
+                                icon: "assets/icons/faq.png"),
+                            ColumnButtons(
+                                text: "Feedback",
+                                press: () {
+                                  return Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return FeedbackScreen();
+                                  }));
+                                },
+                                icon: "assets/icons/feedback.png"),
+                            ColumnButtons(
+                                text: "Logout",
+                                press: () {
+                                  Storage().logout();
+                                  context
+                                      .read<NavigationProvider>()
+                                      .setCurrentIndex(0);
+                                  context.read<ScanProvider>().resetProvider();
+                                },
+                                icon: "assets/icons/logout.png"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ))));
   }
 }
@@ -319,7 +318,7 @@ class RowItem extends StatelessWidget {
 class RowButtons extends StatelessWidget {
   final String text;
   final Function press;
-  final IconData icon;
+  final String icon;
   const RowButtons({
     Key? key,
     required this.text,
@@ -332,10 +331,10 @@ class RowButtons extends StatelessWidget {
     return GestureDetector(
       onTap: () => press(),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            borderRadius: BorderRadius.circular(40),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+            borderRadius: BorderRadius.circular(8),
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
@@ -346,15 +345,14 @@ class RowButtons extends StatelessWidget {
                       .withOpacity(0.22),
                   offset: Offset(0, 0)),
             ]),
-        child: Row(children: [
-          Icon(
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Image.asset(
             icon,
-            size: 22,
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
+            height: 42,
+            width: 42,
           ),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 5),
           Text(
             text,
             textAlign: TextAlign.center,
@@ -372,7 +370,7 @@ class RowButtons extends StatelessWidget {
 class ColumnButtons extends StatelessWidget {
   final String text;
   final Function press;
-  final IconData icon;
+  final String icon;
   const ColumnButtons({
     Key? key,
     required this.text,
@@ -404,10 +402,10 @@ class ColumnButtons extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(
             children: [
-              Icon(
+              Image.asset(
                 icon,
-                size: 24,
-                color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                height: 42,
+                width: 42,
               ),
               SizedBox(
                 width: 20,
@@ -423,7 +421,7 @@ class ColumnButtons extends StatelessWidget {
             ],
           ),
           Icon(
-            Icons.arrow_forward,
+            Icons.arrow_forward_ios,
             size: 28,
             color: context.watch<ThemeProvider>().getPriamryFontColor(),
           )
