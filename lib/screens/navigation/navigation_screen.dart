@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:page_transition/page_transition.dart';
 
 // home provider
@@ -37,12 +38,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            color: currentTab != 2
-                ? context.watch<ThemeProvider>().getPriamryFontColor()
-                : context.watch<ThemeProvider>().getBackgroundColor(),
-            size: 32,
+          child: Image.asset(
+            "assets/images/Create.png",
+            height: 30,
+            width: 30,
           ),
           onPressed: () {
             setState(() {
@@ -53,7 +52,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
-          notchMargin: 10,
+          notchMargin: 5,
           child: Container(
             decoration: BoxDecoration(
                 color: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -89,15 +88,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.home,
-                                color: currentTab == 0
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
+                              Container(
+                                constraints:
+                                    BoxConstraints(maxHeight: 30, maxWidth: 30),
+                                child: Image.asset(
+                                  "assets/icons/home.png",
+                                  height: 30,
+                                  width: 30,
+                                ),
                               ),
                               Text(
                                 "Home",
@@ -125,15 +123,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.search,
-                                color: currentTab == 1
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
+                              Container(
+                                constraints:
+                                    BoxConstraints(maxHeight: 30, maxWidth: 30),
+                                child: Image.asset(
+                                  "assets/icons/explore.png",
+                                  height: 30,
+                                  width: 30,
+                                ),
                               ),
                               Text(
                                 "Explore",
@@ -178,15 +175,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.image,
-                                color: currentTab == 3
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
+                              Container(
+                                constraints:
+                                    BoxConstraints(maxHeight: 30, maxWidth: 30),
+                                child: Image.asset(
+                                  "assets/icons/nfts.png",
+                                  height: 30,
+                                  width: 30,
+                                ),
                               ),
                               Text(
                                 "NFTs",
@@ -226,15 +222,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(
-                                Icons.person,
-                                color: currentTab == 4
-                                    ? context
-                                        .watch<ThemeProvider>()
-                                        .getHighLightColor()
-                                    : context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
+                              Container(
+                                constraints:
+                                    BoxConstraints(maxHeight: 30, maxWidth: 30),
+                                child: Image.asset(
+                                  "assets/icons/profile.png",
+                                  height: 30,
+                                  width: 30,
+                                ),
                               ),
                               Text(
                                 "Profile",

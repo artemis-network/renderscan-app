@@ -20,6 +20,8 @@ class ImportScreen extends StatefulWidget {
 
 class _ImportScreenState extends State<ImportScreen> {
   String filename = "";
+  late Uint8List imageFile;
+  bool isUploaded = false;
 
   List<Step> getSteps() => [
         Step(
@@ -27,19 +29,28 @@ class _ImportScreenState extends State<ImportScreen> {
             state: currentStep >= 0 ? StepState.complete : StepState.indexed,
             content: StepOne(context),
             title: Text("Import",
-                style: kPrimartFont(Colors.black, 18, FontWeight.normal))),
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.normal))),
         Step(
             isActive: currentStep >= 1,
             state: currentStep >= 1 ? StepState.complete : StepState.indexed,
             content: stepTwo(context),
-            title: Text("Save",
-                style: kPrimartFont(Colors.black, 18, FontWeight.normal))),
+            title: Text("Clip",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.normal))),
         Step(
             isActive: currentStep >= 2,
             state: currentStep >= 2 ? StepState.complete : StepState.indexed,
             content: stepThree(context),
-            title: Text("Mint",
-                style: kPrimartFont(Colors.black, 18, FontWeight.normal))),
+            title: Text("Save",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.normal))),
       ];
 
   int currentStep = 0;
@@ -50,16 +61,27 @@ class _ImportScreenState extends State<ImportScreen> {
   Future pickImage() async {
     try {
       final image = await ImagePicker().getImage(source: ImageSource.gallery);
-      ScanResponse resp = await ScanApi().cutImageFromServer(image);
-      var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
-      if (image == null) return;
+      final img = await image!.readAsBytes();
       setState(() {
-        img = fromBase64(url);
+        isUploaded = true;
+        imageFile = img;
+      });
+    } on PlatformException catch (e) {
+      log.e(e);
+    }
+  }
+
+  Future clipImage() async {
+    try {
+      ScanResponse resp = await ScanApi().cutImageFromServer(imageFile);
+      var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
+      setState(() {
+        imageFile = fromBase64(url);
         filename = resp.filename.toString();
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.greenAccent,
-        content: Text("Image Cropped",
+        content: Text("Image Clipped",
             style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
       ));
     } on PlatformException catch (e) {
@@ -68,17 +90,13 @@ class _ImportScreenState extends State<ImportScreen> {
   }
 
   Future saveImage() async {
-    try {
-      await ScanApi().save(filename).then((value) {
-        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.greenAccent,
-          content: Text("File Saved",
-              style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
-        ));
-      });
-    } on PlatformException catch (e) {
-      log.e(e);
-    }
+    await ScanApi().save(filename).then((value) {
+      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.greenAccent,
+        content: Text("File Saved",
+            style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
+      ));
+    });
   }
 
   StepOne(BuildContext context) {
@@ -110,7 +128,15 @@ class _ImportScreenState extends State<ImportScreen> {
               margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
               height: 350,
               width: 420,
-              child: getRes(),
+              child: isUploaded
+                  ? InkWell(
+                      child: Image.memory(
+                        imageFile,
+                        height: 300,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    )
+                  : Container(),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [],
@@ -155,7 +181,7 @@ class _ImportScreenState extends State<ImportScreen> {
                 width: 15,
               ),
               Text(
-                "Save Image",
+                "Clip",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     24,
@@ -167,17 +193,25 @@ class _ImportScreenState extends State<ImportScreen> {
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
             height: 350,
             width: 420,
-            child: getRes(),
+            child: isUploaded
+                ? InkWell(
+                    child: Image.memory(
+                      imageFile,
+                      height: 300,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  )
+                : Container(),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               boxShadow: [],
             ),
           ),
           InkWell(
-              onTap: saveImage,
+              onTap: clipImage,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text("Save",
+                child: Text("Clip",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         22,
@@ -213,7 +247,7 @@ class _ImportScreenState extends State<ImportScreen> {
                 width: 15,
               ),
               Text(
-                "Mint NFT",
+                "Save",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     24,
@@ -225,30 +259,42 @@ class _ImportScreenState extends State<ImportScreen> {
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
             height: 350,
             width: 420,
-            child: getRes(),
+            child: isUploaded
+                ? InkWell(
+                    child: Image.memory(
+                      imageFile,
+                      height: 300,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  )
+                : Container(),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               boxShadow: [],
             ),
           ),
+          InkWell(
+              onTap: saveImage,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                child: Text("Save",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        22,
+                        FontWeight.bold)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 1,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getFavouriteColor())
+                    ]),
+              ))
         ],
       ),
     );
-  }
-
-  getRes() {
-    if (img != null)
-      return RotatedBox(
-        quarterTurns: 15,
-        child: InkWell(
-          child: Image.memory(
-            img!,
-            height: 300,
-            fit: BoxFit.fitWidth,
-          ),
-        ),
-      );
-    return null;
   }
 
   @override
@@ -265,14 +311,11 @@ class _ImportScreenState extends State<ImportScreen> {
             ),
             body: Theme(
               data: ThemeData(
-                  primarySwatch: Colors.blue,
-                  colorScheme: ColorScheme.light(
-                    background: Colors.black,
-                    primary: Colors.black,
-                    secondary: Colors.black,
-                  )),
+                  colorScheme: context.watch<ThemeProvider>().isDarkTheme()
+                      ? ColorScheme.dark()
+                      : ColorScheme.light()),
               child: Stepper(
-                type: StepperType.horizontal,
+                type: StepperType.vertical,
                 steps: getSteps(),
                 elevation: 200,
                 currentStep: currentStep,

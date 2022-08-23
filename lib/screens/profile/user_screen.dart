@@ -15,6 +15,7 @@ import 'package:renderscan/screens/profile/profile_api.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
 import 'package:renderscan/screens/profile/profile_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
+import 'package:renderscan/screens/terms_and_conditions/terms_and_condition.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
 
@@ -206,34 +207,47 @@ class _UserScreenState extends State<UserScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 5),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: context
-                                            .watch<ThemeProvider>()
-                                            .getBackgroundColor(),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              offset: Offset(0, 0),
-                                              blurRadius: 2,
+                                  Row(
+                                    children: [
+                                      Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 5),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                               color: context
                                                   .watch<ThemeProvider>()
-                                                  .getHighLightColor())
-                                        ]),
-                                    child: Expanded(
-                                        child: Row(children: [
-                                      Text(
-                                        "0xc20....3ac1",
-                                        style: kPrimartFont(
-                                            context
-                                                .watch<ThemeProvider>()
-                                                .getSecondaryFontColor(),
-                                            15,
-                                            FontWeight.normal),
+                                                  .getBackgroundColor(),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    offset: Offset(0, 0),
+                                                    blurRadius: 2,
+                                                    color: context
+                                                        .watch<ThemeProvider>()
+                                                        .getHighLightColor())
+                                              ]),
+                                          child: Container(
+                                            child: Text(
+                                              "0xc20...223133",
+                                              style: kPrimartFont(
+                                                  context
+                                                      .watch<ThemeProvider>()
+                                                      .getSecondaryFontColor(),
+                                                  15,
+                                                  FontWeight.normal),
+                                            ),
+                                          )),
+                                      SizedBox(
+                                        width: 15,
                                       ),
-                                    ])),
+                                      GestureDetector(
+                                          onTap: () {},
+                                          child: Image.asset(
+                                            "assets/icons/copy.png",
+                                            height: 16,
+                                            width: 16,
+                                          ))
+                                    ],
                                   ),
                                 ],
                               ),
@@ -250,7 +264,10 @@ class _UserScreenState extends State<UserScreen> {
                             ColumnButtons(
                                 text: "Terms & Conditions",
                                 press: () {
-                                  launchPage();
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return TermsAndConditionScreen();
+                                  }));
                                 },
                                 icon: "assets/icons/refer.png"),
                             ColumnButtons(

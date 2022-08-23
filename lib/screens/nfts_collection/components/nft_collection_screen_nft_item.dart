@@ -87,7 +87,7 @@ class NFTCollectionScreenNFTItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nft.lastPrice.toString(),
+                    nft.nftPrice.amount,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),
                         14,

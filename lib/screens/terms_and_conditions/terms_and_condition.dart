@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/faq/faq_item_row.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class FAQScreen extends StatelessWidget {
+class TermsAndConditionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [],
         iconTheme: IconThemeData(
             color: context.watch<ThemeProvider>().getPriamryFontColor(),
             size: 32),
+        actions: [],
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
         title: Text(
-          "FAQ & HELP",
+          "Terms & Conditions",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
               26,
@@ -30,14 +29,17 @@ class FAQScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 20),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     child: Image.asset(
                       "assets/icons/qna.png",
                       fit: BoxFit.fitWidth,
-                      height: 160,
+                      height: 240,
                     ),
+                  ),
+                  SizedBox(
+                    height: 30,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -50,7 +52,9 @@ class FAQScreen extends StatelessWidget {
                           FontWeight.bold),
                     ),
                   ),
-                  FaqTagRow(),
+                  SizedBox(
+                    height: 30,
+                  ),
                   ListView.builder(
                       physics: BouncingScrollPhysics(),
                       shrinkWrap: true,

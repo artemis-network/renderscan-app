@@ -23,22 +23,8 @@ class _GenerateScreenState extends State<GenerateScreen>
   late AnimationController controller;
 
   @override
-  void initState() {
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 60),
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
             backgroundColor:
@@ -67,14 +53,17 @@ class _GenerateScreenState extends State<GenerateScreen>
                     children: [
                       Container(
                         child: img != null
-                            ? Image.memory(
-                                img!,
-                                height: 300,
-                                width: 300,
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.memory(
+                                  img!,
+                                  height: 300,
+                                  width: 300,
+                                ),
                               )
                             : isRequested
                                 ? Container(
-                                    child: quote_spinkit(),
+                                    child: QuoteLoader(),
                                     margin: EdgeInsets.only(bottom: 30),
                                   )
                                 : Container(
@@ -95,20 +84,51 @@ class _GenerateScreenState extends State<GenerateScreen>
                                     ),
                                   ),
                       ),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: Text(
-                          "Turn imagination into art. Powered by the latest technology, our AI creates art and images based on simple text instructions.",
-                          textAlign: TextAlign.center,
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              14,
-                              FontWeight.normal),
-                        ),
-                      ),
+                      img != null
+                          ? AnimatedContainer(
+                              duration: Duration(microseconds: 250),
+                              padding: EdgeInsets.all(20),
+                              width: size.width * 0.6,
+                              decoration: BoxDecoration(
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getBackgroundColor(),
+                                  borderRadius: BorderRadius.circular(40),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        spreadRadius: 0,
+                                        blurRadius: 100,
+                                        color: context
+                                            .watch<ThemeProvider>()
+                                            .getHighLightColor()
+                                            .withOpacity(0.22),
+                                        offset: Offset(0, 0)),
+                                  ]),
+                              child: Text(
+                                "save",
+                                textAlign: TextAlign.center,
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getSecondaryFontColor(),
+                                    18,
+                                    FontWeight.bold),
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: Text(
+                                "Turn imagination into art. Powered by the latest technology, our AI creates art and images based on simple text instructions.",
+                                textAlign: TextAlign.center,
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    14,
+                                    FontWeight.normal),
+                              ),
+                            ),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
                         child: Text("Input text to generate NFT",

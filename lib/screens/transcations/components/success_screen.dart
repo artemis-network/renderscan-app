@@ -10,6 +10,10 @@ class SuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        actions: [],
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
           child: Column(

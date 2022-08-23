@@ -39,7 +39,7 @@ class NFTCollectionAPI {
 
   Future<List<NFTModel>> getNFTCollectionNFTsBySlug(String slug) async {
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"slug": slug, "offset": 1});
+    var body = jsonEncode({"slug": slug, "offset": 0});
     try {
       var response = await http.post(
           HttpServerConfig().getHost("/marketplace/getcollectionnfts"),

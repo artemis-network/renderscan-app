@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/screens/create/create_screen.dart';
+import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class HomeBanner extends StatefulWidget {
@@ -12,25 +14,14 @@ class Home_BannerState extends State<HomeBanner> {
 
   @override
   Widget build(BuildContext context) {
-    // const oneSec = Duration(seconds: 3);
-    // Timer.periodic(oneSec, (Timer t) {
-    //   if (currentIndex >= 2) {
-    //     setState(() {
-    //       currentIndex = 0;
-    //     });
-    //     return;
-    //   }
-    //   setState(() {
-    //     currentIndex += 1;
-    //   });
-    //   return;
-    // });
-
     final Homebanners = [
       "assets/images/banner_one.png",
       "assets/images/banner_two.png",
       "assets/images/banner_three.png",
     ];
+
+    final bannerPages = [CreateScreen(), ReferalScreen(), ReferalScreen()];
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       height: 130,
@@ -48,11 +39,19 @@ class Home_BannerState extends State<HomeBanner> {
             },
             itemCount: 3,
             itemBuilder: (BuildContext context, int index) {
-              return ClipRRect(
-                child: Image.asset(
-                  Homebanners[currentIndex],
-                  height: 65,
-                  fit: BoxFit.fill,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return bannerPages[index];
+                  }));
+                },
+                child: ClipRRect(
+                  child: Image.asset(
+                    Homebanners[currentIndex],
+                    height: 65,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               );
             }),

@@ -55,7 +55,7 @@ class NFTItem extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              nftModel.lastPrice.toString(),
+                              nftModel.nftPrice.amount,
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()

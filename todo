@@ -124,6 +124,80 @@ done
 -> , comma remove if doesnot login
 -> login page, signup page styling fix
 
-min width fix
+assets
+back icon
+cancel icon
+transaction icon
 
-feedback unscroll
+frontend
+work on refer & earn page
+work on edit profile page -> back button & UI
+work on terms & Conditions as of now (FAQ)
+faq cateogary
+transcation failure redirect from razorpay
+
+scan page -> beautify
+import page -> beautify
+generate page -> beautify
+
+-> percentage loader, random quotres interval
+-> instead of text content, save button
+-> clean generate page
+
+explore -> collection page -> collections search not loading on first time
+
+homepage => banners clickable -> redirect
+
+icons for navbar
+-> home
+-> explore
+-> create
+-> nfts
+-> profile
+
+icons topbar
+-> menu icon
+
+icon for profile page
+-> forward arrow icon
+
+icons for gallery page
+-> imported icon
+-> minted icon
+-> generated icon
+-> created icon
+
+
+refer and earn image
+-> content
+-> list of avatar icon
+-> list of Ruby icon
+-> Refer&Earn Image
+
+splash screen => 4 slides => content
+-> create Design
+-> Import & Mint
+-> Buy & Sell
+-> Remove background
+create page => main heading title, sub heading content
+generate page => sub content from (currently from hotpot)
+terms&conditions page => list of terms
+faq => list of categories => list of queries
+
+Image assets
+-> refer and earn image
+-> forgot password image
+
+-> content
+-> list of avatar icon
+-> list of Ruby icon
+
+splash screen => 4 slides => content
+-> create Design
+-> Import & Mint
+-> Buy & Sell
+-> Remove background
+create page => main heading title, sub heading content
+generate page => sub content from (currently from hotpot)
+terms&conditions page => list of terms
+faq => list of categories => list of queries

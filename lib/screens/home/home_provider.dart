@@ -32,25 +32,27 @@ class HomeProvider extends ChangeNotifier {
   initializeHomePage() async {
     _trending = await HomeScreenApi().getTrendingCollections();
     if (_trending.isNotEmpty) {
+      _isTrendingLoaded = true;
       _rankingSortByTime = _trending;
       if (_rankingSortByTime.isNotEmpty) {
         _isrankingSortByTimeLoaded = true;
       }
-      _isTrendingLoaded = true;
     }
     _showcase = await HomeScreenApi().showCaseNFTs();
     if (_showcase.isNotEmpty) {
+      _isShowcaseLoaded = true;
       _exploreNFTs = showcase;
       if (_exploreNFTs.isNotEmpty) {
         _exploreNFTSearchDone = true;
       }
-      _isShowcaseLoaded = true;
     }
+
     _collections = await HomeScreenApi().getNotableCollections();
     if (_collections.isNotEmpty) {
+      _isCollectionsLoaded = true;
       _exploreCollections = collections;
       if (_exploreCollections.isNotEmpty) {
-        _isCollectionsLoaded = true;
+        _exploreCollectionSearchDone = true;
       }
     }
     _solonaNFTs = await HomeScreenApi().showCaseNFTs("solana");

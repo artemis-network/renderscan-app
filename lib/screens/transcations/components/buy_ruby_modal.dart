@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
+import 'package:renderscan/screens/transcations/components/failure_screen.dart';
 import 'package:renderscan/screens/transcations/components/success_screen.dart';
 import 'package:renderscan/screens/transcations/models/order.model.dart';
 import 'package:renderscan/screens/transcations/transaction_api.dart';
@@ -54,6 +55,10 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+
+    Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+      return FailureScreen();
+    })));
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {

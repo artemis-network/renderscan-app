@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/nfts_loader.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/nfts_collection/components/nft_collection_screen_banenr.dart';
 import 'package:renderscan/screens/nfts_collection/components/nft_collection_screen_stats.dart';
@@ -191,81 +192,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                           child: NFTCollectionNFTItemsGridTab(nftItems: nfts),
                         );
                       }
-                      return Container(
-                        margin:
-                            EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: SkeletonAvatar(
-                                    style: SkeletonAvatarStyle(
-                                      borderRadius: BorderRadius.circular(30),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  child: SkeletonAvatar(
-                                    style: SkeletonAvatarStyle(
-                                      borderRadius: BorderRadius.circular(30),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: SkeletonAvatar(
-                                    style: SkeletonAvatarStyle(
-                                      borderRadius: BorderRadius.circular(30),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Container(
-                                  child: SkeletonAvatar(
-                                    style: SkeletonAvatarStyle(
-                                      borderRadius: BorderRadius.circular(30),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
+                      return NFTsLoader();
                     }))
               ],
             ),

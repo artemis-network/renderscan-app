@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   MaterialPageRoute(
                                       builder: (context) => RankingScreen()));
                             },
-                            icon: Icon(Icons.arrow_forward_rounded,
+                            icon: Icon(Icons.arrow_forward_ios,
                                 color: context
                                     .watch<ThemeProvider>()
                                     .getPriamryFontColor(),

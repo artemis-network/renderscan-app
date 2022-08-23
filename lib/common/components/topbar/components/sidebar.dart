@@ -282,6 +282,14 @@ class _SideBarState extends State<SideBar> {
                   children: [
                     Row(
                       children: [
+                        Image.asset(
+                          "assets/icons/music.png",
+                          height: 16,
+                          width: 16,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
                         Text(
                           "Music",
                           style: kPrimartFont(
@@ -304,6 +312,14 @@ class _SideBarState extends State<SideBar> {
                     ),
                     Row(
                       children: [
+                        Image.asset(
+                          "assets/icons/theme.png",
+                          height: 16,
+                          width: 16,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
                         Text(
                           "Dark Theme",
                           style: kPrimartFont(

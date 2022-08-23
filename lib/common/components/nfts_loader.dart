@@ -1,21 +1,18 @@
-import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/constants.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class QuoteLoader extends StatefulWidget {
+class NFTsLoader extends StatefulWidget {
   @override
-  State<QuoteLoader> createState() => _QuoteLoaderState();
+  State<NFTsLoader> createState() => NFTseLoaderState();
 }
 
-class _QuoteLoaderState extends State<QuoteLoader> {
-  double time = 0;
-
-  int currentIndex = 0;
+class NFTseLoaderState extends State<NFTsLoader> {
+  int currentIndex = Random().nextInt(5);
 
   List<String> quotes = [
     '“Your new asset is in the digital world“ - NFT',
@@ -28,46 +25,12 @@ class _QuoteLoaderState extends State<QuoteLoader> {
   ];
 
   @override
-  void initState() {
-    Timer.periodic(Duration(seconds: 1), (timer) async {
-      print(time.toString() + "#" + timer.tick.toString());
-      setState(() {
-        time = (timer.tick + 1) / 60;
-      });
-      if (timer.tick >= 60 && time >= .95) timer.cancel();
-      if (timer.tick % 10 == 0) {
-        setState(() {
-          currentIndex += 1;
-        });
-      }
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    percentage() {
-      if (time > .95) return "100%";
-      return (time * 100).toStringAsFixed(2) + "%";
-    }
-
     return Container(
         alignment: Alignment.center,
         child: (Column(
           children: [
-            CircularPercentIndicator(
-              radius: 50.0,
-              lineWidth: 10.0,
-              percent: time > 1 ? 1 : time,
-              center: new Text(
-                percentage(),
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getPriamryFontColor(),
-                    22,
-                    FontWeight.bold),
-              ),
-              progressColor: Colors.green,
-            ),
+            spinkit(),
             SizedBox(
               height: 50,
             ),

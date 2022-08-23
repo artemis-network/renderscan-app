@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/transcations/models/order.model.dart';
@@ -54,6 +55,7 @@ class TransactionApi {
   Future<BalanceDTO> getBalance() async {
     try {
       final userId = await Storage().getItem("userId");
+      if (userId == null) return BalanceDTO(ruby: 0, superRuby: 0);
       final body = {"userId": userId.toString()};
       final response = await http.post(
           HttpServerConfig().getHost("/users/balance"),

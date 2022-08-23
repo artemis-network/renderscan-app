@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/constants.dart';
@@ -16,6 +17,7 @@ import 'package:renderscan/screens/scan/scan_modal.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/logger.dart';
+import 'package:blur/blur.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -48,6 +50,18 @@ class _ScanScreenState extends State<ScanScreen> {
       var pictureFile = await controller.takePicture();
       print("> Processing image");
       ScanResponse resp = await ScanApi().cutImageFromServer(pictureFile);
+
+      Blur(
+        blur: 2.5,
+        blurColor: Theme.of(context).primaryColor,
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Blur',
+            style: Theme.of(context).textTheme.headline3,
+          ),
+        ),
+      );
 
       if (resp.isError == true) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -121,17 +135,11 @@ class _ScanScreenState extends State<ScanScreen> {
       // to prevent scaling down, invert the value
       if (scale < 1) scale = 1 / scale;
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-          child: Card(
-            color: Colors.green,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(35)),
-            clipBehavior: Clip.antiAlias,
-            child: Transform.scale(
-              scale: scale,
-              child: Center(
-                child: CameraPreview(controller),
-              ),
+          margin: EdgeInsets.symmetric(vertical: 20),
+          child: Transform.scale(
+            scale: scale,
+            child: Center(
+              child: CameraPreview(controller),
             ),
           ));
     }
@@ -163,13 +171,17 @@ class _ScanScreenState extends State<ScanScreen> {
                                     .getBackgroundColor(),
                                 child: Column(
                                   children: [
-                                    SizedBox(
-                                      height: size.height * 0.045,
-                                    ),
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
                                         cameraWidget(context),
+                                        Positioned(
+                                            child: Container(
+                                                child: SvgPicture.asset(
+                                          "assets/images/grid.svg",
+                                          height: size.height * .6,
+                                          width: size.width * 1,
+                                        ))),
                                         Positioned(
                                           child: Container(
                                             child: context
@@ -189,9 +201,6 @@ class _ScanScreenState extends State<ScanScreen> {
                                           ),
                                         )
                                       ],
-                                    ),
-                                    SizedBox(
-                                      height: size.height * 0.03,
                                     ),
                                     Container(
                                         alignment: Alignment.bottomCenter,

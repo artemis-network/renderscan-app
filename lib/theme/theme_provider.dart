@@ -47,7 +47,7 @@ class ThemeProvider extends ChangeNotifier {
     Uint8List audiobytes =
         bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
     await player.playBytes(audiobytes);
-    ChangeNotifier();
+    notifyListeners();
   }
 
   void toggleMusic() async {
@@ -57,7 +57,7 @@ class ThemeProvider extends ChangeNotifier {
     } else {
       await player.stop();
     }
-    ChangeNotifier();
+    notifyListeners();
   }
 
   IsMusic() => _isMusic;

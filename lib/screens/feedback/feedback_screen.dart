@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/feedback/feedback_api.dart';
+import 'package:renderscan/screens/gallery/components/gallery_tag.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class FeedbackScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class FeedbackScreen extends StatefulWidget {
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
   double ratings = 3;
+  String category = "UI";
   String feedback = "";
 
   @override
@@ -20,6 +22,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         child: Scaffold(
       appBar: AppBar(
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          iconTheme: IconThemeData(
+              color: context.watch<ThemeProvider>().getPriamryFontColor(),
+              size: 32),
           actions: [],
           centerTitle: true,
           title: Text(
@@ -37,12 +42,19 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         child: Column(
           children: [
             Image.asset(
-              "assets/images/lion.png",
+              "assets/icons/feedback_main.png",
               height: 150,
               width: 150,
             ),
-            SizedBox(
-              height: 30,
+            DropDown(
+              category: category,
+              onChange: (s) {
+                setState(() {
+                  setState(() {
+                    category = s;
+                  });
+                });
+              },
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -67,11 +79,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           14,
                           FontWeight.normal),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
                     Container(
                       alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(vertical: 20),
                       child: RatingBar.builder(
                         initialRating: ratings,
                         minRating: 1,
@@ -82,9 +92,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor(),
+                          color: Colors.amberAccent,
                         ),
                         onRatingUpdate: (rating) {
                           setState(() {
@@ -92,9 +100,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           });
                         },
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
                     ),
                     Text(
                       "Additional Comments",
@@ -107,19 +112,16 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       onChange: (s) {
                         feedback = s;
                       },
-                      label: "feedback",
-                      noLines: 3,
-                    ),
-                    SizedBox(
-                      height: 30,
+                      label: "Gall",
+                      noLines: 2,
                     ),
                     Container(
                       alignment: Alignment.center,
                       child: GestureDetector(
                           onTap: () {
                             FeedbackApi()
-                                .sendFeedBack(
-                                    "", ratings.toStringAsFixed(2), feedback)
+                                .sendFeedBack(category,
+                                    ratings.toStringAsFixed(2), feedback)
                                 .then((value) {
                               setState(() {
                                 ratings = 0;
@@ -211,7 +213,7 @@ class DropDown extends StatelessWidget {
       alignment: Alignment.center,
       constraints: BoxConstraints(minHeight: 50),
       decoration: BoxDecoration(
-        color: context.watch<ThemeProvider>().getPriamryFontColor(),
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
         borderRadius: BorderRadius.circular(10),
       ),
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
@@ -219,16 +221,16 @@ class DropDown extends StatelessWidget {
         isExpanded: true,
         borderRadius: BorderRadius.circular(10),
         value: category,
-        dropdownColor: context.watch<ThemeProvider>().getPriamryFontColor(),
+        dropdownColor: context.watch<ThemeProvider>().getBackgroundColor(),
         icon: Icon(Icons.arrow_drop_down,
             color: context.watch<ThemeProvider>().getBackgroundColor()),
         alignment: Alignment.center,
         elevation: 40,
         style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: context.watch<ThemeProvider>().getHighLightColor()),
-        focusColor: context.watch<ThemeProvider>().getNavbarColor(),
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
+            color: context.watch<ThemeProvider>().getPriamryFontColor()),
+        focusColor: context.watch<ThemeProvider>().getBackgroundColor(),
         onChanged: (String? newValue) => onChange(newValue),
         items: <String>['UI', 'Performance', 'Bug', 'Feature']
             .map<DropdownMenuItem<String>>((String value) {
@@ -244,5 +246,60 @@ class DropDown extends StatelessWidget {
         }).toList(),
       ),
     );
+  }
+}
+
+class GalleryTagRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Card(
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shadowColor: context
+            .watch<ThemeProvider>()
+            .getHighLightColor()
+            .withOpacity(0.66),
+        elevation: 1,
+        child: Container(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          width: size.width * 1,
+          height: size.height * .075,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              GalleryTag(
+                tag: "Created",
+                icon: Icons.create_outlined,
+                isActive: true,
+              ),
+              GalleryTag(
+                tag: "Gall",
+                icon: Icons.insert_photo_outlined,
+                isActive: false,
+              ),
+              GalleryTag(
+                tag: "Collected",
+                icon: Icons.collections_outlined,
+                isActive: false,
+              ),
+              GalleryTag(
+                tag: "Imported",
+                icon: Icons.import_export_outlined,
+                isActive: false,
+              ),
+              GalleryTag(
+                tag: "Generated",
+                icon: Icons.settings_applications_outlined,
+                isActive: false,
+              ),
+              GalleryTag(
+                tag: "Activity",
+                icon: Icons.history_outlined,
+                isActive: false,
+              ),
+            ],
+          ),
+        ));
   }
 }

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class SuccessScreen extends StatelessWidget {
+class FailureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        actions: [],
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
           child: Column(
