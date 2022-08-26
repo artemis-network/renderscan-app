@@ -212,6 +212,7 @@ generate page
 backend
 trending collections prevstate if new state is empty
 
+done
 infinite scroll 1:30 hour -> collection page
 
 edit page clean 1:00 hour
@@ -222,3 +223,6 @@ backend part add category scans images 3 hour
 
 
 
+repos
+2 commits half
+bugs
