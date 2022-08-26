@@ -17,6 +17,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: const Text('Razorpay Sample App'),
         ),
         body: Center(

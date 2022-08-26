@@ -10,8 +10,7 @@ import 'package:renderscan/utils/storage.dart';
 class SlideFive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: Container(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(children: [
@@ -103,9 +102,18 @@ class SlideFive extends StatelessWidget {
                     color: context.watch<ThemeProvider>().getFavouriteColor(),
                   )),
             ],
+          ),
+          Container(
+            child: Text(
+              "Start your Journey",
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  15,
+                  FontWeight.bold),
+            ),
           )
         ]),
       ),
-    ));
+    );
   }
 }

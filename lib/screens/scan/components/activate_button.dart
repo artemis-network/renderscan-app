@@ -40,8 +40,8 @@ class _ActivateButtonState extends State<ActivateButton> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: _isElevated
-                ? context.watch<ThemeProvider>().getBackgroundColor()
-                : context.watch<ThemeProvider>().getPriamryFontColor(),
+                ? context.watch<ThemeProvider>().getHighLightColor()
+                : context.watch<ThemeProvider>().getFavouriteColor(),
             boxShadow: [
               BoxShadow(
                   blurRadius: 1,
@@ -50,12 +50,7 @@ class _ActivateButtonState extends State<ActivateButton> {
         child: Text(
           widget.text,
           textAlign: TextAlign.center,
-          style: kPrimartFont(
-              _isElevated
-                  ? context.watch<ThemeProvider>().getPriamryFontColor()
-                  : context.watch<ThemeProvider>().getBackgroundColor(),
-              18,
-              FontWeight.bold),
+          style: kPrimartFont(Colors.white, 18, FontWeight.bold),
         ),
       ),
     );

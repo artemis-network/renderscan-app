@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class ResetButton extends StatefulWidget {
+class ResetButton extends StatelessWidget {
   final String text;
   final Function press;
   const ResetButton({
@@ -13,30 +13,14 @@ class ResetButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ResetButton> createState() => _ResetButtonState();
-}
-
-class _ResetButtonState extends State<ResetButton> {
-  bool _isElevated = true;
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTapUp: (tu) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
+      onTap: () {
+        press();
       },
-      onTapDown: (td) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
-        widget.press();
-      },
-      child: AnimatedContainer(
+      child: Container(
         margin: EdgeInsets.all(10),
-        duration: Duration(milliseconds: 100),
         padding: EdgeInsets.all(20),
         width: size.width * 0.75,
         decoration: BoxDecoration(
@@ -45,15 +29,12 @@ class _ResetButtonState extends State<ResetButton> {
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
-                  blurRadius: 100,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getPriamryFontColor()
-                      .withOpacity(0.22),
+                  blurRadius: 2,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(0, 0)),
             ]),
         child: Text(
-          widget.text,
+          text,
           textAlign: TextAlign.center,
           style: kPrimartFont(Colors.white, 18, FontWeight.bold),
         ),

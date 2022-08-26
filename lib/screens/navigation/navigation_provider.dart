@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NavigationProvider extends ChangeNotifier {
-  int? _currentIndex = 0;
+  int _currentIndex = 0;
   bool _cached = false;
 
   setCurrentIndex(int index) {

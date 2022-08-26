@@ -7,19 +7,17 @@ import 'package:renderscan/theme/theme_provider.dart';
 class FailureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         actions: [],
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 120,
-          ),
           Container(
             alignment: Alignment.center,
             child: Column(children: [
@@ -67,6 +65,6 @@ class FailureScreen extends StatelessWidget {
           )
         ],
       )),
-    ));
+    );
   }
 }

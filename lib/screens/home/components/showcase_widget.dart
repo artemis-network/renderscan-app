@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/screens/home/models/nfts.model.dart';
 import 'package:renderscan/screens/nft/nft_screen.dart';
-import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/screens/sol_nft/sol_nft_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 enum CHAIN { solana, eth }
 
 class ShowcaseWidget extends StatelessWidget {
-  final NFTModel nft;
+  final NFTHomeModel nft;
   final CHAIN chain;
 
   ShowcaseWidget({required this.nft, required this.chain});
@@ -34,7 +34,12 @@ class ShowcaseWidget extends StatelessWidget {
 
     ImageGetter() {
       return Container(
-        constraints: BoxConstraints(maxHeight: 96, maxWidth: 96),
+        constraints: BoxConstraints(
+          maxHeight: 96,
+          maxWidth: 96,
+          minHeight: 96,
+          minWidth: 96,
+        ),
         decoration:
             BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [
           BoxShadow(
@@ -93,8 +98,12 @@ class ShowcaseWidget extends StatelessWidget {
                   ),
                   Row(
                     children: [
+                      getSymbol(),
+                      SizedBox(
+                        width: 5,
+                      ),
                       Text(
-                        "0",
+                        nft.lastprice,
                         style: GoogleFonts.poppins(
                             fontSize: 12,
                             color: context
@@ -102,10 +111,6 @@ class ShowcaseWidget extends StatelessWidget {
                                 .getPriamryFontColor(),
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      getSymbol()
                     ],
                   ),
                 ],

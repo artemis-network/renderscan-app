@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "418017857147-f3qracj6lfuq9s72tgueo0ip1v3amvjh.apps.googleusercontent.com",
+          "client_id": "418017857147-g139e3alsolpgni1ndcop5g39h4a4hrt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.renderscan",
-            "certificate_hash": "0042a8060368277f48f0ea580914c01acbc320a0"
+            "certificate_hash": "1b62ebd69b3e2c09db6cfc083bb38838dbfcd295"
           }
         },
         {
@@ -37,6 +37,13 @@
             {
               "client_id": "418017857147-ptn4affqvioiq3cs9tt77hvcs9tnns98.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "418017857147-iui013gkkc6koesa2fi5avrpqboafvhb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.artemisnetwork.renderscan"
+              }
             }
           ]
         }

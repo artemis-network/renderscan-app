@@ -5,18 +5,28 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/referal/referal_api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/logger.dart';
 
 class ReferalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       appBar: AppBar(
-        actions: [],
-        iconTheme: IconThemeData(
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
-            size: 32),
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
         title: Text(
@@ -33,7 +43,10 @@ class ReferalScreen extends StatelessWidget {
         child: Column(children: [
           Column(
             children: [
-              Image.asset("assets/images/banner.png", fit: BoxFit.fill),
+              Container(
+                child: Image.asset("assets/icons/sound.png", fit: BoxFit.fill),
+                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -122,6 +135,7 @@ class ReferalScreen extends StatelessWidget {
                         if (!snapshot.hasData) return spinkit();
                         dynamic data = snapshot.data;
                         final totalReferals = data.length.toString();
+                        log.i(totalReferals);
                         return Container(
                           child: Row(
                             children: [
@@ -241,6 +255,6 @@ class ReferalScreen extends StatelessWidget {
           )
         ]),
       )),
-    ));
+    );
   }
 }

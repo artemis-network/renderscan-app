@@ -18,19 +18,16 @@ class Topbar extends StatelessWidget {
         color: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        InkWell(
-            radius: 20,
-            child: IconButton(
-              icon: Icon(
-                Icons.menu,
-                size: 40,
-                color: context.watch<ThemeProvider>().getPriamryFontColor(),
-              ),
-              onPressed: () {
-                popSideBar();
-              },
-              color: context.watch<ThemeProvider>().getFavouriteColor(),
-            )),
+        GestureDetector(
+          onTap: () {
+            popSideBar();
+          },
+          child: Image.asset(
+            "assets/icons/menu.png",
+            height: 36,
+            width: 36,
+          ),
+        ),
         BalanceWidget()
       ]),
     );

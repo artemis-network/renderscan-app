@@ -36,11 +36,10 @@ class Transaction extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor:
-              context.watch<ThemeProvider>().getSecondaryFontColor(),
-          child: Icon(
-            Icons.receipt,
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
+          child: Image.asset(
+            "assets/icons/list.png",
+            width: 32,
+            height: 32,
           ),
         ),
         title: Text(

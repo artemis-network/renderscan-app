@@ -23,33 +23,23 @@ class GalleryTagRow extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               GalleryTag(
-                tag: "Created",
-                icon: Icons.create_outlined,
+                tag: "Minted",
+                icon: "assets/icons/list.png",
                 isActive: true,
               ),
               GalleryTag(
-                tag: "Gallery",
-                icon: Icons.insert_photo_outlined,
-                isActive: false,
-              ),
-              GalleryTag(
-                tag: "Collected",
-                icon: Icons.collections_outlined,
-                isActive: false,
+                tag: "Scanned",
+                icon: "assets/icons/list.png",
+                isActive: true,
               ),
               GalleryTag(
                 tag: "Imported",
-                icon: Icons.import_export_outlined,
+                icon: "assets/icons/import.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Generated",
-                icon: Icons.settings_applications_outlined,
-                isActive: false,
-              ),
-              GalleryTag(
-                tag: "Activity",
-                icon: Icons.history_outlined,
+                icon: "assets/icons/import.png",
                 isActive: false,
               ),
             ],

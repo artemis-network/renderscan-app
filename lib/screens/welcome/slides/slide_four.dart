@@ -10,8 +10,7 @@ import 'package:renderscan/utils/storage.dart';
 class SlideFour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: Container(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(children: [
@@ -106,6 +105,6 @@ class SlideFour extends StatelessWidget {
           )
         ]),
       ),
-    ));
+    );
   }
 }

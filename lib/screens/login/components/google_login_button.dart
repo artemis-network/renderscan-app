@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/screens/login/log_api.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/logger.dart';
 import 'package:renderscan/utils/storage.dart';
 
 class GoogleLoginButton extends StatefulWidget {
@@ -16,7 +17,12 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
   @override
   Widget build(BuildContext context) {
     bool _isElevated = true;
-    GoogleSignIn _googleSignin = GoogleSignIn();
+    GoogleSignIn _googleSignin = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
 
     final size = MediaQuery.of(context).size;
 
@@ -31,11 +37,8 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
               boxShadow: [
                 BoxShadow(
                     spreadRadius: 0,
-                    blurRadius: 100,
-                    color: context
-                        .watch<ThemeProvider>()
-                        .getHighLightColor()
-                        .withOpacity(0.22),
+                    blurRadius: 1,
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
                     offset: Offset(0, 0)),
               ]),
           duration: Duration(milliseconds: 3),
@@ -75,15 +78,17 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const NavigationScreen();
+                      return NavigationScreen();
                     },
                   ),
                 );
               }
             }).catchError((err) {
-              print(err);
+              log.e(err);
             });
-          }).catchError((err) {});
+          }).catchError((err) {
+            log.e(err);
+          });
         },
       ),
     );

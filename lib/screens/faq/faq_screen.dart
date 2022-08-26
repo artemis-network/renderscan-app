@@ -10,10 +10,21 @@ class FAQScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         actions: [],
-        iconTheme: IconThemeData(
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
-            size: 32),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
         title: Text(
@@ -25,70 +36,68 @@ class FAQScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: SafeArea(
-        child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Image.asset(
-                      "assets/icons/qna.png",
-                      fit: BoxFit.fitWidth,
-                      height: 160,
-                    ),
+      body: Container(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Image.asset(
+                    "assets/icons/qna.png",
+                    fit: BoxFit.fitWidth,
+                    height: 160,
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Tell us how we can help?",
-                      textAlign: TextAlign.center,
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          26,
-                          FontWeight.bold),
-                    ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Tell us how we can help?",
+                    textAlign: TextAlign.center,
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        26,
+                        FontWeight.bold),
                   ),
-                  FaqTagRow(),
-                  ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return GFAccordion(
-                            contentBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getBackgroundColor(),
-                            collapsedTitleBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getHighLightColor(),
-                            expandedTitleBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getHighLightColor(),
-                            textStyle: kPrimartFont(
+                ),
+                FaqTagRow(),
+                ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return GFAccordion(
+                          contentBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getBackgroundColor(),
+                          collapsedTitleBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getHighLightColor(),
+                          expandedTitleBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getHighLightColor(),
+                          textStyle: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              20,
+                              FontWeight.bold),
+                          title: 'GF Accordion',
+                          contentChild: Text(
+                            "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
+                            style: kPrimartFont(
                                 context
                                     .watch<ThemeProvider>()
                                     .getPriamryFontColor(),
-                                20,
-                                FontWeight.bold),
-                            title: 'GF Accordion',
-                            contentChild: Text(
-                              "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  14,
-                                  FontWeight.normal),
-                            ),
-                            collapsedIcon: Icon(Icons.add),
-                            expandedIcon: Icon(Icons.minimize));
-                      })
-                ],
-              ),
-            )),
-      ),
+                                14,
+                                FontWeight.normal),
+                          ),
+                          collapsedIcon: Icon(Icons.add),
+                          expandedIcon: Icon(Icons.minimize));
+                    })
+              ],
+            ),
+          )),
     );
   }
 }

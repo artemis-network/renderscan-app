@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:provider/provider.dart';
 import 'package:renderscan/screens/explore/components/explore_collection_search.dart';
@@ -26,11 +26,33 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     var controller = TextEditingController();
     return Scaffold(
+      backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [BalanceWidget()],
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        leading: GestureDetector(
+          onTap: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/menu.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          ),
+        ),
+      ),
       key: scaffoldKey,
       drawerEnableOpenDragGesture: false,
       drawer: Drawer(child: SideBar()),
       body: Column(children: [
-        Topbar(popSideBar: () => scaffoldKey.currentState?.openDrawer()),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           color: context.watch<ThemeProvider>().getBackgroundColor(),

@@ -105,6 +105,14 @@ class TrendingWidget extends StatelessWidget {
             Container(
               child: Row(
                 children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 12,
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
                   Text(
                     trending.oneDayVolume.toString().length < 4
                         ? trending.oneDayVolume.toString()
@@ -114,14 +122,6 @@ class TrendingWidget extends StatelessWidget {
                         11,
                         FontWeight.w800),
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    CryptoFontIcons.ETH,
-                    size: 12,
-                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  )
                 ],
               ),
             ),

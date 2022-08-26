@@ -26,11 +26,8 @@ class InputField extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
-                  blurRadius: 100,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.22),
+                  blurRadius: 1,
+                  color: context.watch<ThemeProvider>().getFavouriteColor(),
                   offset: Offset(0, 0)),
             ]),
         child: TextField(
@@ -41,23 +38,23 @@ class InputField extends StatelessWidget {
             decorationThickness: 0,
             decorationColor: context
                 .watch<ThemeProvider>()
-                .getSecondaryFontColor()
+                .getPriamryFontColor()
                 .withOpacity(0.0),
             fontWeight: FontWeight.bold,
             fontSize: 18,
-            color: context.watch<ThemeProvider>().getSecondaryFontColor(),
+            color: context.watch<ThemeProvider>().getPriamryFontColor(),
           ),
           decoration: InputDecoration(
               prefixIcon: Icon(
                 icon,
-                color: context.watch<ThemeProvider>().getSecondaryFontColor(),
+                color: context.watch<ThemeProvider>().getPriamryFontColor(),
               ),
               label: Text(
                 labelText,
                 style: kPrimartFont(
-                    context.watch<ThemeProvider>().getSecondaryFontColor(),
-                    16,
-                    FontWeight.normal),
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.bold),
                 maxLines: 1,
               ),
               border: InputBorder.none,

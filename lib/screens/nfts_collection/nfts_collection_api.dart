@@ -37,17 +37,21 @@ class NFTCollectionAPI {
     }
   }
 
-  Future<List<NFTModel>> getNFTCollectionNFTsBySlug(String slug) async {
+  Future<List<NFTModel>> getNFTCollectionNFTsBySlug(
+      String slug, int offset) async {
+    var body = jsonEncode({"slug": slug, "offset": offset});
     var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode({"slug": slug, "offset": 0});
     try {
       var response = await http.post(
           HttpServerConfig().getHost("/marketplace/getcollectionnfts"),
           headers: headers,
           body: body);
 
+      log.i(response.statusCode);
       if (response.statusCode == 200) {
+        log.i("collection nfts has been retrived status 200");
         final json = jsonDecode(response.body);
+        log.i(json);
         final nfts = json["CollectionNFTs"] as List;
         List<NFTModel> nftsList = [];
         for (int i = 0; i < nfts.length; i++) {

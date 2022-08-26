@@ -4,13 +4,14 @@ import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/faq/faq_screen.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
+import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/profile/profile_api.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
 import 'package:renderscan/screens/profile/profile_screen.dart';
@@ -82,6 +83,30 @@ class _UserScreenState extends State<UserScreen> {
             },
             child: Scaffold(
                 key: scaffoldKey,
+                appBar: AppBar(
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [BalanceWidget()],
+                  ),
+                  backgroundColor:
+                      context.watch<ThemeProvider>().getBackgroundColor(),
+                  leading: GestureDetector(
+                    onTap: () {
+                      scaffoldKey.currentState?.openDrawer();
+                    },
+                    child: Padding(
+                      child: Image.asset(
+                        "assets/icons/menu.png",
+                        height: 24,
+                        width: 24,
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    ),
+                  ),
+                ),
                 drawerEnableOpenDragGesture: false,
                 drawer: Drawer(child: SideBar()),
                 body: Container(
@@ -89,9 +114,6 @@ class _UserScreenState extends State<UserScreen> {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Column(
                     children: [
-                      Topbar(
-                          popSideBar: () =>
-                              scaffoldKey.currentState?.openDrawer()),
                       Container(
                         margin:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -136,7 +158,7 @@ class _UserScreenState extends State<UserScreen> {
                                             bottom: -12,
                                             child: GestureDetector(
                                               child: Image.asset(
-                                                "assets/icons/share.png",
+                                                "assets/icons/edit.png",
                                                 height: 46,
                                                 width: 46,
                                               ),
@@ -264,19 +286,19 @@ class _UserScreenState extends State<UserScreen> {
                             ColumnButtons(
                                 text: "Terms & Conditions",
                                 press: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return TermsAndConditionScreen();
-                                  }));
+                                  // Navigator.of(context).push(
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return TermsAndConditionScreen();
+                                  // }));
                                 },
                                 icon: "assets/icons/refer.png"),
                             ColumnButtons(
                                 text: "Help & FAQ",
                                 press: () {
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return FAQScreen();
-                                  }));
+                                  // Navigator.of(context).push(
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return FAQScreen();
+                                  // }));
                                 },
                                 icon: "assets/icons/faq.png"),
                             ColumnButtons(
@@ -292,10 +314,11 @@ class _UserScreenState extends State<UserScreen> {
                                 text: "Logout",
                                 press: () {
                                   Storage().logout();
-                                  context
-                                      .read<NavigationProvider>()
-                                      .setCurrentIndex(0);
                                   context.read<ScanProvider>().resetProvider();
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return NavigationScreen();
+                                  }));
                                 },
                                 icon: "assets/icons/logout.png"),
                           ],

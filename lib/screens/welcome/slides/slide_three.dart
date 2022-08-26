@@ -9,8 +9,7 @@ import 'package:renderscan/theme/theme_provider.dart';
 class SlideThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       body: Container(
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(children: [
@@ -104,6 +103,6 @@ class SlideThree extends StatelessWidget {
           ),
         ]),
       ),
-    ));
+    );
   }
 }

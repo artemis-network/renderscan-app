@@ -26,10 +26,15 @@ class NFTseLoaderState extends State<NFTsLoader> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
-        alignment: Alignment.center,
-        child: (Column(
+        height: size.height,
+        color: context.watch<ThemeProvider>().getBackgroundColor(),
+        child: Column(
           children: [
+            SizedBox(
+              height: 100,
+            ),
             spinkit(),
             SizedBox(
               height: 50,
@@ -48,6 +53,6 @@ class NFTseLoaderState extends State<NFTsLoader> {
               padding: EdgeInsets.symmetric(horizontal: 30),
             ),
           ],
-        )));
+        ));
   }
 }

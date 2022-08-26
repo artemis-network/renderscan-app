@@ -300,39 +300,53 @@ class _ImportScreenState extends State<ImportScreen> {
   @override
   Widget build(BuildContext context) {
     var scaffoldKey = GlobalKey<ScaffoldState>();
-    return SafeArea(
-        child: Scaffold(
-            key: scaffoldKey,
-            drawerEnableOpenDragGesture: false,
-            backgroundColor:
-                context.watch<ThemeProvider>().getBackgroundColor(),
-            drawer: Drawer(
-              child: SideBar(),
-            ),
-            body: Theme(
-              data: ThemeData(
-                  colorScheme: context.watch<ThemeProvider>().isDarkTheme()
-                      ? ColorScheme.dark()
-                      : ColorScheme.light()),
-              child: Stepper(
-                type: StepperType.vertical,
-                steps: getSteps(),
-                elevation: 200,
-                currentStep: currentStep,
-                onStepContinue: () {
-                  if (currentStep == 2) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NavigationScreen()));
-                  }
-                  setState(() => {if (currentStep < 3) currentStep += 1});
-                },
-                onStepCancel: () =>
-                    setState(() => {if (currentStep > 0) currentStep -= 1}),
-                onStepTapped: (int index) =>
-                    setState(() => currentStep = index),
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              child: Image.asset(
+                "assets/icons/back.png",
+                height: 24,
+                width: 24,
               ),
-            )));
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            ),
+          ),
+          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        ),
+        key: scaffoldKey,
+        drawerEnableOpenDragGesture: false,
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        drawer: Drawer(
+          child: SideBar(),
+        ),
+        body: Theme(
+          data: ThemeData(
+              colorScheme: context.watch<ThemeProvider>().isDarkTheme()
+                  ? ColorScheme.dark()
+                  : ColorScheme.light()),
+          child: Stepper(
+            type: StepperType.vertical,
+            steps: getSteps(),
+            elevation: 200,
+            currentStep: currentStep,
+            onStepContinue: () {
+              if (currentStep == 2) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NavigationScreen()));
+              }
+              setState(() => {if (currentStep < 3) currentStep += 1});
+            },
+            onStepCancel: () =>
+                setState(() => {if (currentStep > 0) currentStep -= 1}),
+            onStepTapped: (int index) => setState(() => currentStep = index),
+          ),
+        ));
   }
 }

@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/gallery/components/gallery_grid.dart';
 import 'package:renderscan/screens/gallery/components/gallery_tags_row.dart';
@@ -43,6 +43,28 @@ class _GalleryScreenState extends State<GalleryScreen> {
       drawer: Drawer(
         child: SideBar(),
       ),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [BalanceWidget()],
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        leading: GestureDetector(
+          onTap: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/menu.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
           child: Container(
         height: size.height,
@@ -50,9 +72,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(
           children: [
-            Topbar(
-              popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-            ),
             SizedBox(
               height: 20,
             ),
@@ -61,10 +80,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   future: Storage().getItem("username"),
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      final username = snapshot.data as String;
+                      final username = snapshot.data;
                       var url =
                           "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                              username +
+                              username.toString() +
                               '.png';
                       return CircleAvatar(
                         backgroundImage: NetworkImage(url),
@@ -81,13 +100,31 @@ class _GalleryScreenState extends State<GalleryScreen> {
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 children: [
-                  Text(
-                    "Admin",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        18,
-                        FontWeight.bold),
-                  ),
+                  FutureBuilder(
+                      future: Storage().getItem("username"),
+                      builder: ((context, snapshot) {
+                        if (snapshot.hasData) {
+                          final username = snapshot.data;
+                          return Text(
+                            username.toString(),
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                18,
+                                FontWeight.bold),
+                          );
+                        }
+                        return Text(
+                          "",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              18,
+                              FontWeight.bold),
+                        );
+                      })),
                   SizedBox(
                     height: 5,
                   ),

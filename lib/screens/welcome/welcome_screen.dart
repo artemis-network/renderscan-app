@@ -4,6 +4,9 @@ import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/nfts_collection/nfts_collection_screen.dart';
+import 'package:renderscan/screens/transcations/components/success_screen.dart';
+import 'package:renderscan/screens/transcations/transaction_screen.dart';
 import 'package:renderscan/screens/welcome/slides/slide_one.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
@@ -21,6 +24,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     context.read<HomeProvider>().initializeHomePage();
     var future = Future.delayed(const Duration(milliseconds: 5000), () async {
       final value = await Storage().isFirstTime();
+
       if (value.toString() == "true") {
         return Navigator.push(context,
             MaterialPageRoute(builder: (context) => NavigationScreen()));
@@ -33,14 +37,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Image.asset(
-          "assets/images/main_logo.png",
-          height: 160,
-          width: 160,
-        ),
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Column(
           children: [
+            Image.asset(
+              "assets/images/main_logo.png",
+              height: 160,
+              width: 160,
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
               child: Text(

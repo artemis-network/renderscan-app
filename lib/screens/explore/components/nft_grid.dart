@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/home/models/nfts.model.dart';
 import 'package:renderscan/screens/nft/nft_screen.dart';
-import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class NFTItem extends StatelessWidget {
-  final NFTModel nftModel;
+  final NFTHomeModel nftModel;
 
   NFTItem({required this.nftModel});
 
@@ -55,7 +55,7 @@ class NFTItem extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              nftModel.nftPrice.amount,
+                              nftModel.lastprice,
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -93,7 +93,7 @@ class NFTItem extends StatelessWidget {
 }
 
 class NFTGrid extends StatelessWidget {
-  final List<NFTModel> nftItems;
+  final List<NFTHomeModel> nftItems;
   NFTGrid({required this.nftItems});
   @override
   Widget build(BuildContext context) {

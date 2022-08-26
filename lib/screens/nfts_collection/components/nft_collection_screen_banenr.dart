@@ -30,19 +30,14 @@ class NFTCollectScreenBanner extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(200),
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                    )
-                  ]),
-              child: Icon(
-                Icons.arrow_back_outlined,
-                size: 36,
-                color: context.watch<ThemeProvider>().getBackgroundColor(),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Image.asset(
+                "assets/icons/back.png",
+                height: 46,
+                width: 46,
               ),
             ),
           ),

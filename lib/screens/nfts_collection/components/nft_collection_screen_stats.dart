@@ -22,11 +22,11 @@ class NFTCollectionScreenStats extends StatelessWidget {
     if (floorPrice != "--") {
       f = double.parse(floorPrice).toStringAsFixed(2);
     }
-    final v = double.parse(volume).toStringAsFixed(0);
+    final v = (double.parse(volume) / 1000.00).toStringAsFixed(0) + "K";
     final i = (double.parse(totalSupply) / 1000.00).toStringAsFixed(1) + "K";
     final o = (double.parse(owners) / 1000.00).toStringAsFixed(1) + "K";
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -44,7 +44,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     12,
-                    FontWeight.normal),
+                    FontWeight.bold),
               ),
             ],
           ),
@@ -62,7 +62,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     12,
-                    FontWeight.normal),
+                    FontWeight.bold),
               ),
             ],
           ),
@@ -92,7 +92,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     12,
-                    FontWeight.normal),
+                    FontWeight.bold),
               ),
             ],
           ),
@@ -122,7 +122,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     12,
-                    FontWeight.normal),
+                    FontWeight.bold),
               ),
             ],
           ),

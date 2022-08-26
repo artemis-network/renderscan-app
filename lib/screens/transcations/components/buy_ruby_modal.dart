@@ -46,9 +46,9 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
     );
     final message = await TransactionApi().completeOrder(order);
     print(message);
-    Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-      return SuccessScreen();
-    })));
+    final String amt = getAmount().toStringAsFixed(0);
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: ((context) => SuccessScreen(amount: amt))));
   }
 
   naviagate() {}
@@ -71,11 +71,23 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-        actions: [],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/cancel.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         title: Text(
           "Pricing Plan",
           style: kPrimartFont(
@@ -97,16 +109,19 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                     BoxDecoration(borderRadius: BorderRadius.circular(10)),
                 child: Image.asset(
                   "assets/icons/wallet.png",
-                  height: 120,
-                  width: 120,
+                  height: 180,
+                  width: 180,
                 )),
-            Text(
-              "Choose a subscription plan to unlock all the functionality of the applications.",
-              textAlign: TextAlign.center,
-              style: kPrimartFont(
-                  context.watch<ThemeProvider>().getPriamryFontColor(),
-                  14,
-                  FontWeight.normal),
+            Container(
+              child: Text(
+                "Choose the amount of ruby, unlock premium features.",
+                textAlign: TextAlign.center,
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.normal),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 30),
             ),
             Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,20 +150,8 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                   )
                 ]),
             Container(
-              width: size.width * 0.8,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              decoration: BoxDecoration(
-                  color: context.watch<ThemeProvider>().getBackgroundColor(),
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 1,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor())
-                  ]),
-              child: OutlinedButton(
-                  onPressed: () async {
+              child: GestureDetector(
+                  onTap: () async {
                     final bool isUserLoggedIn = await Storage().isLoggedIn();
                     if (isUserLoggedIn) {
                       try {
@@ -184,26 +187,38 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                           duration: Duration(milliseconds: 300),
                           childCurrent: BuyRubyModal()));
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "buy ".toUpperCase(),
-                        style: kPrimartFont(
-                            context
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(20),
+                    width: size.width * 0.8,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            color: context
                                 .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
-                            20,
-                            FontWeight.bold),
-                      ),
-                    ],
+                                .getHighLightColor(),
+                            offset: Offset(0, 0)),
+                      ],
+                      color: context.watch<ThemeProvider>().getHighLightColor(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      "buy ".toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          20,
+                          FontWeight.bold),
+                    ),
                   )),
             ),
           ],
         ),
         color: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
-    ));
+    );
   }
 }
 

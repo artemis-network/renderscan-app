@@ -31,7 +31,7 @@ class NFTDetailModel {
         traits = json["traits"] = NFTTraitModel.mapTraits(json['traits']) ?? [],
         tokenId = json["tokenId"] ?? "0",
         creator_profile_pic = json["creator"]["profile_img_url"] ?? "--",
-        lastPrice = json["lastPrice"] ?? "0",
+        lastPrice = json["lastPrice"] ?? "--",
         collectionName = json["collectionName"] ?? "--",
         collectionSlug = json["collectionSlug"] ?? "--",
         collectionImageUrl = json["collectionImageUrl"] ?? "",

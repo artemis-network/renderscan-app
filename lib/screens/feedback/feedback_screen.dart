@@ -18,14 +18,23 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
+          elevation: 0,
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-          iconTheme: IconThemeData(
-              color: context.watch<ThemeProvider>().getPriamryFontColor(),
-              size: 32),
-          actions: [],
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              child: Image.asset(
+                "assets/icons/back.png",
+                height: 24,
+                width: 24,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            ),
+          ),
           centerTitle: true,
           title: Text(
             "Feedback",
@@ -160,7 +169,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           ],
         ),
       )),
-    ));
+    );
   }
 }
 
@@ -270,32 +279,32 @@ class GalleryTagRow extends StatelessWidget {
             children: <Widget>[
               GalleryTag(
                 tag: "Created",
-                icon: Icons.create_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: true,
               ),
               GalleryTag(
                 tag: "Gall",
-                icon: Icons.insert_photo_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Collected",
-                icon: Icons.collections_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Imported",
-                icon: Icons.import_export_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Generated",
-                icon: Icons.settings_applications_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Activity",
-                icon: Icons.history_outlined,
+                icon: "assets/icons/cc.png",
                 isActive: false,
               ),
             ],

@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
@@ -116,110 +116,125 @@ class _MintScreenState extends State<MintScreen> {
                   )));
     }
 
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor:
-                context.watch<ThemeProvider>().getBackgroundColor(),
-            key: scaffoldKey,
-            drawerEnableOpenDragGesture: false,
-            drawer: Drawer(
-              child: SideBar(),
+    return Scaffold(
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        key: scaffoldKey,
+        drawerEnableOpenDragGesture: false,
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [BalanceWidget()],
+          ),
+          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          leading: GestureDetector(
+            onTap: () {
+              scaffoldKey.currentState?.openDrawer();
+            },
+            child: Padding(
+              child: Image.asset(
+                "assets/icons/menu.png",
+                height: 24,
+                width: 24,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             ),
-            body: Column(
-              children: [
-                Topbar(
-                  popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-                ),
-                Container(
-                    height: size.height * 0.8,
-                    width: size.width * .8,
-                    child: Column(
+          ),
+        ),
+        drawer: Drawer(
+          child: SideBar(),
+        ),
+        body: Column(
+          children: [
+            Container(
+                height: size.height * 0.8,
+                width: size.width * .8,
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
+                      child: widget.imageSource.isNotEmpty
+                          ? Card(
+                              elevation: 100,
+                              shadowColor: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor()
+                                  .withOpacity(0.66),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(35)),
+                              clipBehavior: Clip.antiAlias,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getBackgroundColor(),
+                              child: Image.memory(widget.imageSource),
+                            )
+                          : null,
+                    )),
+                    Column(
                       children: [
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 50, 0, 50),
-                          child: widget.imageSource.isNotEmpty
-                              ? Card(
-                                  elevation: 100,
-                                  shadowColor: context
-                                      .watch<ThemeProvider>()
-                                      .getHighLightColor()
-                                      .withOpacity(0.66),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(35)),
-                                  clipBehavior: Clip.antiAlias,
-                                  color: context
-                                      .watch<ThemeProvider>()
-                                      .getBackgroundColor(),
-                                  child: Image.memory(widget.imageSource),
-                                )
-                              : null,
-                        )),
-                        Column(
-                          children: [
-                            Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(60, 0, 60, 0),
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 0),
-                                        child: Container(
-                                          width: size.width * 0.48,
-                                          child: TextButton(
-                                              child: Text("Mint"),
-                                              onPressed: () => mint()),
-                                          decoration: BoxDecoration(
-                                              color: context
-                                                  .watch<ThemeProvider>()
-                                                  .getBackgroundColor(),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    spreadRadius: 0,
-                                                    blurRadius: 100,
-                                                    color: context
-                                                        .watch<ThemeProvider>()
-                                                        .getHighLightColor()
-                                                        .withOpacity(0.66),
-                                                    offset: Offset(0, 0)),
-                                              ]),
-                                        ),
-                                      ),
-                                      Padding(
-                                          padding: EdgeInsets.only(top: 20),
-                                          child: Container(
-                                            width: size.width * 0.48,
-                                            decoration: BoxDecoration(
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 0),
+                                    child: Container(
+                                      width: size.width * 0.48,
+                                      child: TextButton(
+                                          child: Text("Mint"),
+                                          onPressed: () => mint()),
+                                      decoration: BoxDecoration(
+                                          color: context
+                                              .watch<ThemeProvider>()
+                                              .getBackgroundColor(),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                spreadRadius: 0,
+                                                blurRadius: 100,
                                                 color: context
                                                     .watch<ThemeProvider>()
-                                                    .getBackgroundColor(),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      spreadRadius: 0,
-                                                      blurRadius: 100,
-                                                      color: context
-                                                          .watch<
-                                                              ThemeProvider>()
-                                                          .getHighLightColor()
-                                                          .withOpacity(0.66),
-                                                      offset: Offset(0, 0)),
-                                                ]),
-                                            child: TextButton(
-                                                child: Text("Edit"),
-                                                onPressed: goToEditScreen),
-                                          ))
-                                    ])),
-                          ],
-                        )
+                                                    .getHighLightColor()
+                                                    .withOpacity(0.66),
+                                                offset: Offset(0, 0)),
+                                          ]),
+                                    ),
+                                  ),
+                                  Padding(
+                                      padding: EdgeInsets.only(top: 20),
+                                      child: Container(
+                                        width: size.width * 0.48,
+                                        decoration: BoxDecoration(
+                                            color: context
+                                                .watch<ThemeProvider>()
+                                                .getBackgroundColor(),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  spreadRadius: 0,
+                                                  blurRadius: 100,
+                                                  color: context
+                                                      .watch<ThemeProvider>()
+                                                      .getHighLightColor()
+                                                      .withOpacity(0.66),
+                                                  offset: Offset(0, 0)),
+                                            ]),
+                                        child: TextButton(
+                                            child: Text("Edit"),
+                                            onPressed: goToEditScreen),
+                                      ))
+                                ])),
                       ],
-                    ))
-              ],
-            )));
+                    )
+                  ],
+                ))
+          ],
+        ));
   }
 }

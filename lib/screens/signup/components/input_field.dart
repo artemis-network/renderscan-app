@@ -29,6 +29,7 @@ class InputField extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return SimpleDialog(
+              elevation: 10,
               backgroundColor:
                   context.watch<ThemeProvider>().getBackgroundColor(),
               children: [
@@ -40,24 +41,34 @@ class InputField extends StatelessWidget {
                     children: [
                       Text(
                         errorMessage,
-                        style:
-                            kPrimartFont(Colors.redAccent, 16, FontWeight.bold),
+                        style: kPrimartFont(
+                            Colors.redAccent, 14, FontWeight.normal),
                       ),
-                      OutlinedButton(
-                        onPressed: back,
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  side: BorderSide(color: Colors.white))),
-                        ),
-                        child: Text("Okay",
-                            style: kPrimartFont(
-                                context
+                      GestureDetector(
+                        onTap: back,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: context
                                     .watch<ThemeProvider>()
-                                    .getHighLightColor(),
-                                18,
-                                FontWeight.bold)),
+                                    .getBackgroundColor(),
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 1,
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getFavouriteColor())
+                                ]),
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Text("Okay",
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    18,
+                                    FontWeight.normal))),
                       )
                     ],
                   ),
@@ -75,13 +86,9 @@ class InputField extends StatelessWidget {
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
-                spreadRadius: 0,
-                blurRadius: 100,
-                color: context
-                    .watch<ThemeProvider>()
-                    .getHighLightColor()
-                    .withOpacity(0.22),
-              ),
+                  spreadRadius: 0,
+                  blurRadius: 1,
+                  color: context.watch<ThemeProvider>().getFavouriteColor()),
             ]),
         child: TextField(
           obscureText: isHidden,
@@ -96,11 +103,10 @@ class InputField extends StatelessWidget {
                   .withOpacity(0.0),
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: context.watch<ThemeProvider>().getSecondaryFontColor()),
+              color: context.watch<ThemeProvider>().getPriamryFontColor()),
           decoration: InputDecoration(
               prefixIcon: Icon(icon,
-                  color:
-                      context.watch<ThemeProvider>().getSecondaryFontColor()),
+                  color: context.watch<ThemeProvider>().getPriamryFontColor()),
               suffixIcon: hasError
                   ? GestureDetector(
                       onTap: showErrorDialog,
@@ -110,9 +116,9 @@ class InputField extends StatelessWidget {
               label: Text(
                 labelText,
                 style: kPrimartFont(
-                    context.watch<ThemeProvider>().getSecondaryFontColor(),
-                    15,
-                    FontWeight.normal),
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.bold),
                 maxLines: 1,
               ),
               border: InputBorder.none,

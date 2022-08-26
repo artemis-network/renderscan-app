@@ -47,14 +47,17 @@ class _QuoteLoaderState extends State<QuoteLoader> {
   @override
   Widget build(BuildContext context) {
     percentage() {
-      if (time > .95) return "100%";
-      return (time * 100).toStringAsFixed(2) + "%";
+      if (time > .95) return "99%";
+      return (time * 100).toStringAsFixed(0) + "%";
     }
 
     return Container(
         alignment: Alignment.center,
         child: (Column(
           children: [
+            SizedBox(
+              height: 30,
+            ),
             CircularPercentIndicator(
               radius: 50.0,
               lineWidth: 10.0,

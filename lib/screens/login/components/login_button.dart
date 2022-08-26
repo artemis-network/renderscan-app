@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class LoginButton extends StatefulWidget {
+class LoginButton extends StatelessWidget {
   final String text;
   final Function press;
   const LoginButton({
@@ -13,52 +13,31 @@ class LoginButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<LoginButton> createState() => _LoginButtonState();
-}
-
-class _LoginButtonState extends State<LoginButton> {
-  bool _isElevated = true;
-
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTapUp: (tu) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
+      onTap: () {
+        press();
       },
-      onTapDown: (td) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
-        widget.press();
-      },
-      child: AnimatedContainer(
+      child: Container(
         margin: EdgeInsets.all(10),
-        duration: Duration(milliseconds: 100),
         padding: EdgeInsets.all(20),
         width: size.width * 0.8,
         decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getHighLightColor(),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0,
-                  blurRadius: 100,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.22),
-                  offset: Offset(0, 0)),
-            ]),
+          boxShadow: [
+            BoxShadow(
+                spreadRadius: 0,
+                blurRadius: 2,
+                color: context.watch<ThemeProvider>().getHighLightColor(),
+                offset: Offset(0, 0)),
+          ],
+          color: context.watch<ThemeProvider>().getHighLightColor(),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Text(
-          widget.text,
+          text,
           textAlign: TextAlign.center,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getSecondaryFontColor(),
-              18,
-              FontWeight.bold),
+          style: kPrimartFont(Colors.white, 18, FontWeight.bold),
         ),
       ),
     );

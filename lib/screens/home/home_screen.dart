@@ -1,8 +1,8 @@
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/home/components/heading_widget.dart';
@@ -111,15 +111,35 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         return Scaffold(
           key: scaffoldKey,
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [BalanceWidget()],
+            ),
+            backgroundColor:
+                context.watch<ThemeProvider>().getBackgroundColor(),
+            leading: GestureDetector(
+              onTap: () {
+                scaffoldKey.currentState?.openDrawer();
+              },
+              child: Padding(
+                child: Image.asset(
+                  "assets/icons/menu.png",
+                  height: 24,
+                  width: 24,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              ),
+            ),
+          ),
           drawerEnableOpenDragGesture: false,
           drawer: Drawer(child: SideBar()),
           body: Container(
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
-                  Topbar(
-                    popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

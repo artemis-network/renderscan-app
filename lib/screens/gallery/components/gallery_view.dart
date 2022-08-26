@@ -38,6 +38,31 @@ class _GalleryViewState extends State<GalleryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        centerTitle: true,
+        title: Text(
+          "Edit",
+          style: kPrimartFont(
+              context.watch<ThemeProvider>().getPriamryFontColor(),
+              30,
+              FontWeight.bold),
+        ),
+      ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
@@ -46,15 +71,6 @@ class _GalleryViewState extends State<GalleryView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  size: 32,
-                )),
             Image.network(
               widget.url,
               height: 500,

@@ -187,6 +187,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           color: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -195,41 +212,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      size: 32,
-                      color:
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                    ),
-                  ),
-                ),
-                Container(
                   margin: EdgeInsets.symmetric(horizontal: 15),
                   alignment: Alignment.centerLeft,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Sign Up",
+                      Text("Register",
                           style: GoogleFonts.poppins(
                               fontSize: 32,
                               fontWeight: FontWeight.w800,
                               color: context
                                   .watch<ThemeProvider>()
                                   .getPriamryFontColor())),
-                      Text("Now",
-                          style: GoogleFonts.poppins(
-                              fontSize: 24,
-                              fontWeight: FontWeight.normal,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor()))
                     ],
                   ),
                 ),
@@ -283,7 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 _isLoading
                     ? spinkit()
                     : SignUpButton(
-                        text: "Sign Up",
+                        text: "Register",
                         press: () {
                           bool isValid = !isUsernameHasError &&
                               !isEmailHasError &&

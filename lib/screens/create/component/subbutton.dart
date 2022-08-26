@@ -6,8 +6,10 @@ import 'package:renderscan/theme/theme_provider.dart';
 class SubButton extends StatelessWidget {
   final String buttonLabel;
   final Function onClick;
+  final String url;
 
-  SubButton({required this.buttonLabel, required this.onClick});
+  SubButton(
+      {required this.buttonLabel, required this.onClick, required this.url});
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +17,33 @@ class SubButton extends StatelessWidget {
     return InkWell(
       onTap: () => onClick(),
       child: Container(
-          width: size.width * 0.45,
+          width: size.width * 0.55,
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          child: Text(
-            buttonLabel,
-            style: kPrimartFont(
-                context.watch<ThemeProvider>().getPriamryFontColor(),
-                24,
-                FontWeight.bold),
-          ),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Image.asset(
+              url,
+              height: 30,
+              width: 30,
+            ),
+            Text(
+              buttonLabel,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  18,
+                  FontWeight.bold),
+            ),
+            SizedBox()
+          ]),
           decoration: BoxDecoration(
-              color: context.watch<ThemeProvider>().getBackgroundColor(),
+              color: context.watch<ThemeProvider>().getHighLightColor(),
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
                     spreadRadius: 1,
                     blurRadius: 1,
-                    color: context
-                        .watch<ThemeProvider>()
-                        .getFavouriteColor()
-                        .withOpacity(0.45),
+                    color: context.watch<ThemeProvider>().getHighLightColor(),
                     offset: Offset(0, 0)),
               ])),
     );

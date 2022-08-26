@@ -9,9 +9,20 @@ class TermsAndConditionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
-            size: 32),
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         actions: [],
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
@@ -24,75 +35,73 @@ class TermsAndConditionScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: SafeArea(
-        child: Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Image.asset(
-                      "assets/icons/qna.png",
-                      fit: BoxFit.fitWidth,
-                      height: 240,
-                    ),
+      body: Container(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Image.asset(
+                    "assets/icons/qna.png",
+                    fit: BoxFit.fitWidth,
+                    height: 240,
                   ),
-                  SizedBox(
-                    height: 30,
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Tell us how we can help?",
+                    textAlign: TextAlign.center,
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        26,
+                        FontWeight.bold),
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Tell us how we can help?",
-                      textAlign: TextAlign.center,
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          26,
-                          FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return GFAccordion(
-                            contentBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getBackgroundColor(),
-                            collapsedTitleBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getHighLightColor(),
-                            expandedTitleBackgroundColor: context
-                                .watch<ThemeProvider>()
-                                .getHighLightColor(),
-                            textStyle: kPrimartFont(
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return GFAccordion(
+                          contentBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getBackgroundColor(),
+                          collapsedTitleBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getHighLightColor(),
+                          expandedTitleBackgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getHighLightColor(),
+                          textStyle: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              20,
+                              FontWeight.bold),
+                          title: 'GF Accordion',
+                          contentChild: Text(
+                            "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
+                            style: kPrimartFont(
                                 context
                                     .watch<ThemeProvider>()
                                     .getPriamryFontColor(),
-                                20,
-                                FontWeight.bold),
-                            title: 'GF Accordion',
-                            contentChild: Text(
-                              "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
-                              style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  14,
-                                  FontWeight.normal),
-                            ),
-                            collapsedIcon: Icon(Icons.add),
-                            expandedIcon: Icon(Icons.minimize));
-                      })
-                ],
-              ),
-            )),
-      ),
+                                14,
+                                FontWeight.normal),
+                          ),
+                          collapsedIcon: Icon(Icons.add),
+                          expandedIcon: Icon(Icons.minimize));
+                    })
+              ],
+            ),
+          )),
     );
   }
 }

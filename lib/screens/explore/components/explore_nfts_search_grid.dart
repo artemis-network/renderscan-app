@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/explore/components/nft_grid.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
-import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
+import 'package:renderscan/screens/home/models/nfts.model.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -115,7 +115,7 @@ class ExploreNFTsSearchGrid extends StatelessWidget {
           if (!context.watch<HomeProvider>().exploreNFTSearchDone)
             return loader();
           if (snapshot.hasData) {
-            List<NFTModel> nfts = snapshot.data as List<NFTModel>;
+            List<NFTHomeModel> nfts = snapshot.data as List<NFTHomeModel>;
             if (nfts.length > 0)
               return SingleChildScrollView(
                 child: NFTGrid(nftItems: nfts),

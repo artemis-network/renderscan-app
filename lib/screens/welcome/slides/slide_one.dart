@@ -22,8 +22,7 @@ class _SlideOneState extends State<SlideOne> {
       });
     }
 
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: SingleChildScrollView(
           child: Container(
@@ -114,7 +113,7 @@ class _SlideOneState extends State<SlideOne> {
                   )),
             ]),
       )),
-    ));
+    );
   }
 }
 

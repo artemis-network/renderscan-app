@@ -9,6 +9,7 @@ import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/profile/user_screen.dart';
 import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
 import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
@@ -40,7 +41,8 @@ class _SideBarState extends State<SideBar> {
 
     final size = MediaQuery.of(context).size;
     bool isMusicOn = context.watch<ThemeProvider>().IsMusic();
-    return Container(
+    return SafeArea(
+        child: Container(
       constraints: BoxConstraints(minHeight: size.height),
       color: context.watch<ThemeProvider>().getBackgroundColor(),
       padding: EdgeInsets.only(top: 10),
@@ -52,7 +54,7 @@ class _SideBarState extends State<SideBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     alignment: Alignment.centerLeft,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -131,11 +133,18 @@ class _SideBarState extends State<SideBar> {
                     text: "Account",
                     icon: "assets/icons/account.png",
                     onClick: () {
-                      context.read<NavigationProvider>().setCurrentIndex(4);
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return NavigationScreen();
-                      }));
+                      operate() {
+                        Navigator.of(context).push(PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: UserScreen(),
+                            ctx: context,
+                            duration: Duration(milliseconds: 300),
+                            fullscreenDialog: true,
+                            childCurrent: SideBar()));
+                      }
+
+                      operatePage(operate);
+                      ;
                     }),
                 SideBarButton(
                   text: "Transactions",
@@ -179,13 +188,17 @@ class _SideBarState extends State<SideBar> {
                   text: "Buy Ruby",
                   icon: "assets/icons/buy.png",
                   onClick: () {
-                    Navigator.of(context).push(PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: BuyRubyModal(),
-                        ctx: context,
-                        duration: Duration(milliseconds: 300),
-                        fullscreenDialog: true,
-                        childCurrent: SideBar()));
+                    operate() {
+                      Navigator.of(context).push(PageTransition(
+                          type: PageTransitionType.bottomToTop,
+                          child: BuyRubyModal(),
+                          ctx: context,
+                          duration: Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          childCurrent: SideBar()));
+                    }
+
+                    operatePage(operate);
                   },
                 ),
                 Divider(
@@ -200,30 +213,22 @@ class _SideBarState extends State<SideBar> {
                   text: "Feedback",
                   icon: "assets/icons/feedback.png",
                   onClick: () {
-                    operate() {
-                      return Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return FeedbackScreen();
-                        },
-                      ));
-                    }
-
-                    operatePage(operate);
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FeedbackScreen();
+                      },
+                    ));
                   },
                 ),
                 SideBarButton(
                   text: "FAQ",
                   icon: "assets/icons/faq.png",
                   onClick: () {
-                    operate() {
-                      return Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return FAQScreen();
-                        },
-                      ));
-                    }
-
-                    operatePage(operate);
+                    return Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return FAQScreen();
+                      },
+                    ));
                   },
                 ),
                 SideBarButton(
@@ -321,7 +326,7 @@ class _SideBarState extends State<SideBar> {
                           width: 4,
                         ),
                         Text(
-                          "Dark Theme",
+                          "Dark Mode",
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -341,6 +346,6 @@ class _SideBarState extends State<SideBar> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

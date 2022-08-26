@@ -19,7 +19,7 @@ class ExploreSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     getChipBG(int index) {
       return tabIndex == index
-          ? context.watch<ThemeProvider>().getHighLightColor()
+          ? context.watch<ThemeProvider>().getPriamryFontColor()
           : context.watch<ThemeProvider>().getBackgroundColor();
     }
 
@@ -47,9 +47,10 @@ class ExploreSwitch extends StatelessWidget {
               shadowColor: getChipShadow(0),
               elevation: 2,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              avatar: Icon(
-                Icons.card_giftcard_outlined,
-                color: getChipFontColor(0),
+              avatar: Image.asset(
+                "assets/icons/nfts.png",
+                width: 32,
+                height: 32,
               ),
               label: Text(
                 'NFTs',
@@ -67,9 +68,10 @@ class ExploreSwitch extends StatelessWidget {
               shadowColor: getChipShadow(1),
               elevation: 2,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              avatar: Icon(
-                Icons.collections_outlined,
-                color: getChipFontColor(1),
+              avatar: Image.asset(
+                "assets/icons/collect.png",
+                width: 32,
+                height: 32,
               ),
               label: Text(
                 'Collections',

@@ -48,29 +48,27 @@ class _MyAppState extends State<MyApp> {
           });
         },
         // message: "Press back again to exit",
-        child: SafeArea(
-          child: Scaffold(
-            body: DoubleBack(
-              condition: allowClose,
-              onConditionFail: () {
-                setState(() {
-                  allowClose = true;
-                });
-              },
-              child: WelcomeScreen(),
-              // child: NFTScreen(
-              //   contractAddress: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
-              //   tokenId:
-              //       "108106047680392530126901775778300423889446504647977261612367594080961297289170",
-              // ),
-              waitForSecondBackPress: 3, // default 2
-              textStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.white,
-              ),
-              background: Colors.red,
-              backgroundRadius: 30,
+        child: Scaffold(
+          body: DoubleBack(
+            condition: allowClose,
+            onConditionFail: () {
+              setState(() {
+                allowClose = true;
+              });
+            },
+            child: WelcomeScreen(),
+            // child: NFTScreen(
+            //   contractAddress: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
+            //   tokenId:
+            //       "108106047680392530126901775778300423889446504647977261612367594080961297289170",
+            // ),
+            waitForSecondBackPress: 3, // default 2
+            textStyle: TextStyle(
+              fontSize: 13,
+              color: Colors.white,
             ),
+            background: Colors.red,
+            backgroundRadius: 30,
           ),
         ),
         // onFirstBackPress: (context) {

@@ -71,144 +71,152 @@ class _RankingScreenState extends State<RankingScreen> {
           });
     }
 
-    return SafeArea(
-        child: Scaffold(
-            body: Container(
-      color: context.watch<ThemeProvider>().getBackgroundColor(),
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            alignment: Alignment.centerLeft,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.arrow_back_outlined,
-                  size: 36,
-                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                )),
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              child: Image.asset(
+                "assets/icons/back.png",
+                height: 24,
+                width: 24,
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            ),
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Ranking 🏆",
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          20,
-                          FontWeight.bold),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        color:
-                            context.watch<ThemeProvider>().getBackgroundColor(),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 0,
-                              blurRadius: 100,
-                              color: context
+        ),
+        body: Container(
+          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          child: Column(
+            children: [
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Ranking 🏆",
+                          style: kPrimartFont(
+                              context
                                   .watch<ThemeProvider>()
-                                  .getHighLightColor()
-                                  .withOpacity(0.66),
-                              offset: Offset(0, 0)),
-                        ]),
-                    clipBehavior: Clip.antiAlias,
-                    child: Container(
-                      child: Container(),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    ),
-                  ),
-                  IconButton(
-                      onPressed: () => showModal(context),
-                      icon: Icon(
-                        Icons.menu_outlined,
-                        size: 30,
-                        color: context
-                            .watch<ThemeProvider>()
-                            .getPriamryFontColor(),
-                      ))
-                ],
-              )),
-          Expanded(
-              child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: FutureBuilder(
-                future: context.watch<HomeProvider>().sortByTrending,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData &&
-                      context.watch<HomeProvider>().sortByTrendingLoaded) {
-                    final trending = snapshot.data as List<TrendingModel>;
-                    return ListView.builder(
-                        cacheExtent: 9999,
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: trending.length,
-                        itemBuilder: (context, index) {
-                          getChange() {
-                            final change = context
-                                .watch<HomeProvider>()
-                                .currentTrendingrankingSortByTime;
-                            if (change == "daily")
-                              return trending[index].oneDayChange;
-                            if (change == "weekly")
-                              return trending[index].sevenDayChange;
-                            if (change == "monthly")
-                              return trending[index].thirtyDayChange;
-                            return "";
-                          }
+                                  .getPriamryFontColor(),
+                              20,
+                              FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getBackgroundColor(),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 0,
+                                  blurRadius: 100,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()
+                                      .withOpacity(0.66),
+                                  offset: Offset(0, 0)),
+                            ]),
+                        clipBehavior: Clip.antiAlias,
+                        child: Container(
+                          child: Container(),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () => showModal(context),
+                          icon: Icon(
+                            Icons.menu_outlined,
+                            size: 30,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                          ))
+                    ],
+                  )),
+              Expanded(
+                  child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: FutureBuilder(
+                    future: context.watch<HomeProvider>().sortByTrending,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData &&
+                          context.watch<HomeProvider>().sortByTrendingLoaded) {
+                        final trending = snapshot.data as List<TrendingModel>;
+                        return ListView.builder(
+                            cacheExtent: 9999,
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: trending.length,
+                            itemBuilder: (context, index) {
+                              getChange() {
+                                final change = context
+                                    .watch<HomeProvider>()
+                                    .currentTrendingrankingSortByTime;
+                                if (change == "daily")
+                                  return trending[index].oneDayChange;
+                                if (change == "weekly")
+                                  return trending[index].sevenDayChange;
+                                if (change == "monthly")
+                                  return trending[index].thirtyDayChange;
+                                return "";
+                              }
 
-                          return RankingItem(
-                              slug: trending[index].slug,
-                              ranking: (index + 1).toString(),
-                              url: trending[index].logo.toString(),
-                              name: trending[index].name.toString().length < 12
-                                  ? trending[index].name.toString()
-                                  : trending[index]
-                                          .name
-                                          .toString()
-                                          .substring(0, 12) +
-                                      "...",
-                              change: getChange(),
-                              totalValue: trending[index]
+                              return RankingItem(
+                                  slug: trending[index].slug,
+                                  ranking: (index + 1).toString(),
+                                  url: trending[index].logo.toString(),
+                                  name: trending[index].name.toString().length <
+                                          12
+                                      ? trending[index].name.toString()
+                                      : trending[index]
+                                              .name
+                                              .toString()
+                                              .substring(0, 12) +
+                                          "...",
+                                  change: getChange(),
+                                  totalValue: trending[index]
+                                              .oneDayVolume
+                                              .toString()
+                                              .length <
+                                          7
+                                      ? trending[index].oneDayVolume.toString()
+                                      : trending[index]
                                           .oneDayVolume
                                           .toString()
-                                          .length <
-                                      7
-                                  ? trending[index].oneDayVolume.toString()
-                                  : trending[index]
-                                      .oneDayVolume
-                                      .toString()
-                                      .substring(0, 7),
-                              owners: trending[index].numOwners.toString(),
-                              volume: trending[index].floor.toString());
-                        });
-                  }
-                  return Container(
-                    child: spinkit(),
-                    alignment: Alignment.center,
-                  );
-                },
-              ),
-            ),
-          ))
-        ],
-      ),
-    )));
+                                          .substring(0, 7),
+                                  owners: trending[index].numOwners.toString(),
+                                  volume: trending[index].floor.toString());
+                            });
+                      }
+                      return Container(
+                        child: spinkit(),
+                        alignment: Alignment.center,
+                      );
+                    },
+                  ),
+                ),
+              ))
+            ],
+          ),
+        ));
   }
 }
 

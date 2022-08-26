@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:renderscan/screens/home/models/nfts.model.dart';
 import 'package:renderscan/screens/home/models/notable_collection.model.dart';
-import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
 
 class SearchAPI {
   String getPrettyJSONString(jsonObject) {
@@ -10,7 +10,7 @@ class SearchAPI {
     return encoder.convert(jsonObject);
   }
 
-  Future<List<NFTModel>> searchNFts(String nft) async {
+  Future<List<NFTHomeModel>> searchNFts(String nft) async {
     var headers = {'Content-Type': 'application/json'};
     try {
       var request = http.Request(
@@ -23,12 +23,12 @@ class SearchAPI {
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        List<NFTModel> nfts = [];
+        List<NFTHomeModel> nfts = [];
         final data = await response.stream.bytesToString();
         var json = jsonDecode(data);
         json = json["Collections"] as List;
         for (int i = 0; i < json.length; i++) {
-          final NFTModel nft = NFTModel.jsonToObject(json[i]);
+          final NFTHomeModel nft = NFTHomeModel.jsonToObject(json[i]);
           nfts.add(nft);
         }
         return nfts;

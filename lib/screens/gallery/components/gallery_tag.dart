@@ -5,7 +5,7 @@ import 'package:renderscan/theme/theme_provider.dart';
 
 class GalleryTag extends StatelessWidget {
   final String tag;
-  final IconData icon;
+  final String icon;
   final bool isActive;
 
   GalleryTag({required this.tag, required this.icon, required this.isActive});
@@ -15,18 +15,18 @@ class GalleryTag extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           color: isActive
-              ? context.watch<ThemeProvider>().getHighLightColor()
+              ? context.watch<ThemeProvider>().getPriamryFontColor()
               : context.watch<ThemeProvider>().getBackgroundColor(),
           borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Row(
         children: [
-          Icon(icon,
-              size: 30,
-              color: isActive
-                  ? context.watch<ThemeProvider>().getBackgroundColor()
-                  : context.watch<ThemeProvider>().getHighLightColor()),
+          Image.asset(
+            icon,
+            height: 36,
+            width: 36,
+          ),
           SizedBox(
             width: 15,
           ),
@@ -35,7 +35,7 @@ class GalleryTag extends StatelessWidget {
             style: kPrimartFont(
                 isActive
                     ? context.watch<ThemeProvider>().getBackgroundColor()
-                    : context.watch<ThemeProvider>().getHighLightColor(),
+                    : context.watch<ThemeProvider>().getPriamryFontColor(),
                 16,
                 FontWeight.bold),
           ),

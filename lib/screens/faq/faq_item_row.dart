@@ -24,32 +24,32 @@ class FaqTagRow extends StatelessWidget {
             children: <Widget>[
               GalleryTag(
                 tag: "Created",
-                icon: Icons.create_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: true,
               ),
               GalleryTag(
                 tag: "Gallery",
-                icon: Icons.insert_photo_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Collected",
-                icon: Icons.collections_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Imported",
-                icon: Icons.import_export_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Generated",
-                icon: Icons.settings_applications_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: false,
               ),
               GalleryTag(
                 tag: "Activity",
-                icon: Icons.history_outlined,
+                icon: "assets/icons/transactions.png",
                 isActive: false,
               ),
             ],

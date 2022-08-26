@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
-import 'package:renderscan/common/components/topbar/topbar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/create/component/subbutton.dart';
 import 'package:renderscan/screens/generate/generate_screen.dart';
@@ -36,15 +36,34 @@ class CreateScreen extends StatelessWidget {
       drawer: Drawer(
         child: SideBar(),
       ),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [BalanceWidget()],
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+        leading: GestureDetector(
+          onTap: () {
+            scaffoldKey.currentState?.openDrawer();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/menu.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          ),
+        ),
+      ),
       body: Container(
         height: size.height,
         width: size.width,
         color: context.watch<ThemeProvider>().getBackgroundColor(),
         child: Column(
           children: [
-            Topbar(
-              popSideBar: () => scaffoldKey.currentState?.openDrawer(),
-            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 50),
               child: ClipRRect(
@@ -78,7 +97,10 @@ class CreateScreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                SubButton(buttonLabel: "Scan", onClick: () => goToScanScreen()),
+                SubButton(
+                    url: "assets/icons/s.png",
+                    buttonLabel: "Scan",
+                    onClick: () => goToScanScreen()),
                 SizedBox(
                   height: 20,
                 ),
@@ -86,11 +108,14 @@ class CreateScreen extends StatelessWidget {
                   width: 25,
                 ),
                 SubButton(
-                    buttonLabel: "Import", onClick: () => goToImportScreen()),
+                    url: "assets/icons/i.png",
+                    buttonLabel: "Import",
+                    onClick: () => goToImportScreen()),
                 SizedBox(
                   height: 20,
                 ),
                 SubButton(
+                    url: "assets/icons/ai chip.png",
                     buttonLabel: "Generate",
                     onClick: () => goToGenerateScreen()),
               ]),

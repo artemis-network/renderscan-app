@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class SignUpButton extends StatefulWidget {
+class SignUpButton extends StatelessWidget {
   final String text;
   final Function press;
   const SignUpButton({
@@ -12,51 +12,29 @@ class SignUpButton extends StatefulWidget {
     required this.press,
   }) : super(key: key);
 
-  @override
-  State<SignUpButton> createState() => _SignUpButtonState();
-}
-
-class _SignUpButtonState extends State<SignUpButton> {
-  bool _isElevated = true;
-  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTapUp: (tu) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
+      onTap: () {
+        press();
       },
-      onTapDown: (td) {
-        setState(() {
-          _isElevated = !_isElevated;
-        });
-        widget.press();
-      },
-      child: AnimatedContainer(
-        duration: Duration(microseconds: 250),
+      child: Container(
         padding: EdgeInsets.all(20),
-        width: size.width * 0.6,
+        width: size.width * 0.8,
         decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
-            borderRadius: BorderRadius.circular(40),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                   spreadRadius: 0,
-                  blurRadius: 100,
-                  color: context
-                      .watch<ThemeProvider>()
-                      .getHighLightColor()
-                      .withOpacity(0.22),
+                  blurRadius: 2,
+                  color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(0, 0)),
             ]),
         child: Text(
-          widget.text,
+          text,
           textAlign: TextAlign.center,
-          style: kPrimartFont(
-              context.watch<ThemeProvider>().getSecondaryFontColor(),
-              18,
-              FontWeight.bold),
+          style: kPrimartFont(Colors.white, 18, FontWeight.bold),
         ),
       ),
     );

@@ -21,86 +21,102 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        actions: [],
-        iconTheme: IconThemeData(
-            color: context.watch<ThemeProvider>().getPriamryFontColor(),
-            size: 32),
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/cancel.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-        child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              child: Image.asset(
+                "assets/icons/fp.png",
+                height: 180,
+                width: 180,
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-              Container(
-                child: Image.asset(
-                  "assets/images/lion.png",
-                  height: 220,
-                  width: 220,
-                ),
+                  Text(
+                    "Forgot",
+                    textAlign: TextAlign.center,
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        24,
+                        FontWeight.bold),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "Password?",
+                    textAlign: TextAlign.center,
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        24,
+                        FontWeight.bold),
+                  ),
+                ],
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                alignment: Alignment.topLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Forgot",
-                      textAlign: TextAlign.left,
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getHighLightColor(),
-                          24,
-                          FontWeight.bold),
-                    ),
-                    Text(
-                      "Password?",
-                      textAlign: TextAlign.left,
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getHighLightColor(),
-                          24,
-                          FontWeight.bold),
-                    ),
-                  ],
-                ),
+            ),
+            Container(
+              child: Text(
+                "Check your email and reset password",
+                textAlign: TextAlign.center,
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.normal),
               ),
-              Container(
-                child: Text(
-                  "password reset link will be sent to your mail",
-                  textAlign: TextAlign.left,
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getHighLightColor(),
-                      18,
-                      FontWeight.normal),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 30),
-              ),
-              InputField(
-                icon: Icons.email,
-                labelText: "Email",
-                onChange: (email) => handleEmailInput(email),
-              ),
-              ResetButton(
-                  text: "Submit",
-                  press: () {
-                    ForGotPasswordApi().sendForgotPasswordRequest(email).then(
-                      (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "password reset link has been sent to mail",
-                                style: kPrimartFont(
-                                    Colors.white, 14, FontWeight.bold))));
-                      },
-                    );
-                  })
-            ])),
-      ),
-    ));
+              padding: EdgeInsets.symmetric(horizontal: 30),
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            InputField(
+              icon: Icons.email,
+              labelText: "Email",
+              onChange: (email) => handleEmailInput(email),
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            ResetButton(
+                text: "Send Email",
+                press: () {
+                  ForGotPasswordApi().sendForgotPasswordRequest(email).then(
+                    (value) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "password reset link has been sent to mail",
+                              style: kPrimartFont(
+                                  Colors.white, 14, FontWeight.bold))));
+                    },
+                  );
+                })
+          ])),
+    );
   }
 }

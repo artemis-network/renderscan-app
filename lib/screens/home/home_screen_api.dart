@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/home/models/notable_collection.model.dart';
 import 'package:renderscan/screens/home/models/trending_model.dart';
-import 'package:renderscan/screens/nfts_collection/models/nft.model.dart';
+import 'package:renderscan/screens/home/models/nfts.model.dart';
 import 'package:renderscan/utils/logger.dart';
 
 class HomeScreenApi {
@@ -42,7 +42,7 @@ class HomeScreenApi {
     return [];
   }
 
-  Future<List<NFTModel>> showCaseNFTs([String chain = "ethereum"]) async {
+  Future<List<NFTHomeModel>> showCaseNFTs([String chain = "ethereum"]) async {
     var headers = {'Content-Type': 'application/json'};
     var body = jsonEncode({"limit": "12", "chain": chain});
 
@@ -56,7 +56,7 @@ class HomeScreenApi {
 
       var json = jsonDecode(response.body);
       final List<dynamic> showcaseNFts = json["ShowcaseNFTs"];
-      return NFTModel.mapNFTs(showcaseNFts);
+      return NFTHomeModel.mapNFTs(showcaseNFts);
     }
     return [];
   }

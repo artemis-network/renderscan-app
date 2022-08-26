@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/nfts_collection/nfts_collection_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class NFTBody extends StatelessWidget {
+class NFTBody extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String lastPrice;
@@ -26,6 +27,14 @@ class NFTBody extends StatelessWidget {
       required this.collectionName,
       required this.collectionSlug,
       required this.collectionImageUrl});
+
+  @override
+  State<NFTBody> createState() => _NFTBodyState();
+}
+
+class _NFTBodyState extends State<NFTBody> {
+  bool showDesctiption = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -38,7 +47,7 @@ class NFTBody extends StatelessWidget {
           shadowColor: Color.fromARGB(255, 41, 121, 255),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Image.network(
-            imageUrl,
+            widget.imageUrl,
             height: 340,
             fit: BoxFit.fill,
             errorBuilder: (context, stacktrace, obj) {
@@ -52,31 +61,39 @@ class NFTBody extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    radius: 16,
-                    backgroundImage: NetworkImage(collectionImageUrl),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  Text(
-                    collectionName.length > 14
-                        ? collectionName.substring(0, 14)
-                        : collectionName,
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        18,
-                        FontWeight.bold),
-                  ),
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return NFTCollectionScreen(slug: widget.collectionSlug);
+                  }));
+                },
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 16,
+                      backgroundImage: NetworkImage(widget.collectionImageUrl),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      widget.collectionName.length > 14
+                          ? widget.collectionName.substring(0, 14)
+                          : widget.collectionName,
+                      style: kPrimartFont(
+                          context.watch<ThemeProvider>().getPriamryFontColor(),
+                          18,
+                          FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 15,
               ),
               Text(
-                name,
+                widget.name,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     22,
@@ -84,18 +101,21 @@ class NFTBody extends StatelessWidget {
               ),
               Row(
                 children: [
+                  Icon(
+                    CryptoFontIcons.ETH,
+                    size: 18,
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
                   Text(
-                    lastPrice.toString(),
+                    widget.lastPrice.toString(),
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         18,
                         FontWeight.bold),
                   ),
-                  Icon(
-                    CryptoFontIcons.ETH,
-                    size: 18,
-                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
-                  )
                 ],
               ),
               SizedBox(
@@ -105,13 +125,15 @@ class NFTBody extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 16,
-                    backgroundImage: NetworkImage(profile_img_url),
+                    backgroundImage: NetworkImage(widget.profile_img_url),
                   ),
                   SizedBox(
                     width: 12,
                   ),
                   Text(
-                    owner.length > 18 ? owner.substring(0, 18) + "..." : owner,
+                    widget.owner.length > 18
+                        ? widget.owner.substring(0, 18) + "..."
+                        : widget.owner,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),
                         14,
@@ -122,13 +144,38 @@ class NFTBody extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Text(
-                description,
-                style: kPrimartFont(
-                    context.watch<ThemeProvider>().getSecondaryFontColor(),
-                    12,
-                    FontWeight.w400),
-              ),
+              showDesctiption
+                  ? Text(
+                      widget.description,
+                      style: kPrimartFont(
+                          context
+                              .watch<ThemeProvider>()
+                              .getSecondaryFontColor(),
+                          12,
+                          FontWeight.w400),
+                    )
+                  : Text(
+                      widget.description.substring(0, 100) + "...",
+                      style: kPrimartFont(
+                          context
+                              .watch<ThemeProvider>()
+                              .getSecondaryFontColor(),
+                          12,
+                          FontWeight.w400),
+                    ),
+              GestureDetector(
+                  child: Text(
+                    showDesctiption ? "Hide" : "View More",
+                    style: kPrimartFont(
+                        context.watch<ThemeProvider>().getSecondaryFontColor(),
+                        14,
+                        FontWeight.bold),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      showDesctiption = !showDesctiption;
+                    });
+                  })
             ],
           ),
           margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),

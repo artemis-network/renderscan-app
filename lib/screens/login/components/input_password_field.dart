@@ -25,31 +25,29 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: 5),
+        padding: EdgeInsets.only(top: 20),
         child: Container(
             child: TextFormField(
               obscureText: isPasswordHidden,
               onChanged: widget.onChanged,
-              cursorColor:
-                  context.watch<ThemeProvider>().getSecondaryFontColor(),
+              cursorColor: context.watch<ThemeProvider>().getPriamryFontColor(),
               style: GoogleFonts.poppins(
                   decoration: TextDecoration.none,
                   decorationThickness: 0,
                   decorationColor:
-                      context.watch<ThemeProvider>().getSecondaryFontColor(),
+                      context.watch<ThemeProvider>().getPriamryFontColor(),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color:
-                      context.watch<ThemeProvider>().getSecondaryFontColor()),
+                  color: context.watch<ThemeProvider>().getPriamryFontColor()),
               decoration: InputDecoration(
                 labelText: widget.text,
                 labelStyle: kPrimartFont(
-                    context.watch<ThemeProvider>().getSecondaryFontColor(),
-                    16,
-                    FontWeight.normal),
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    18,
+                    FontWeight.bold),
                 prefixIcon: Icon(
                   Icons.lock,
-                  color: context.watch<ThemeProvider>().getSecondaryFontColor(),
+                  color: context.watch<ThemeProvider>().getPriamryFontColor(),
                 ),
                 suffixIcon: InkWell(
                   onTap: () => setState(() {
@@ -57,8 +55,7 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
                   }),
                   child: Icon(
                     !isPasswordHidden ? Icons.visibility : Icons.visibility_off,
-                    color:
-                        context.watch<ThemeProvider>().getSecondaryFontColor(),
+                    color: context.watch<ThemeProvider>().getPriamryFontColor(),
                   ),
                 ),
                 border: InputBorder.none,
@@ -70,12 +67,9 @@ class _InputPasswordFieldState extends State<InputPasswordField> {
                 boxShadow: [
                   BoxShadow(
                     spreadRadius: 0,
-                    blurRadius: 100,
+                    blurRadius: 1,
                     offset: Offset(0, 0),
-                    color: context
-                        .watch<ThemeProvider>()
-                        .getHighLightColor()
-                        .withOpacity(0.22),
+                    color: context.watch<ThemeProvider>().getFavouriteColor(),
                   )
                 ])));
   }
