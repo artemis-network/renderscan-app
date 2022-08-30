@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:renderscan/screens/edit/background_edit.dart';
 import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
@@ -71,10 +72,12 @@ class _GalleryViewState extends State<GalleryView> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              widget.url,
-              height: 500,
-              fit: BoxFit.fitWidth,
+            ClipRRect(
+              child: Image.network(
+                widget.url,
+                fit: BoxFit.fill,
+              ),
+              borderRadius: BorderRadius.circular(20),
             ),
             SizedBox(
               height: 30,
@@ -86,8 +89,9 @@ class _GalleryViewState extends State<GalleryView> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return (EditScreen(
+                      return (BackGroundEdit(
                         image: _Gallery,
+                        imageType: "SCANNED",
                       ));
                     }));
                   },

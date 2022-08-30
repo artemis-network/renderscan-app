@@ -6,12 +6,14 @@ import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:renderscan/screens/generate/generate_api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class EditScreen extends StatefulWidget {
   final Uint8List image;
+  final String imageType;
 
-  EditScreen({required this.image});
+  EditScreen({required this.image, required this.imageType});
 
   @override
   State<EditScreen> createState() => _EditScreenState();
@@ -192,52 +194,101 @@ class _EditScreenState extends State<EditScreen> {
                             )),
                       ],
                     ))
-                  : InkWell(
-                      child: Container(
-                        width: size.width * 0.65,
-                        alignment: Alignment.center,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        decoration: BoxDecoration(
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getFavouriteColor(),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
+                  : Column(
+                      children: [
+                        InkWell(
+                          child: Container(
+                            width: size.width * 0.65,
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getFavouriteColor(),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getHighLightColor())
+                                ]),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit,
                                   color: context
                                       .watch<ThemeProvider>()
-                                      .getHighLightColor())
-                            ]),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.edit,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getBackgroundColor(),
+                                      .getBackgroundColor(),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Edit",
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getBackgroundColor(),
+                                        22,
+                                        FontWeight.bold)),
+                              ],
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("Edit",
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getBackgroundColor(),
-                                    22,
-                                    FontWeight.bold)),
-                          ],
+                          ),
+                          onTap: () {
+                            setState(() {
+                              inEditMode = true;
+                            });
+                          },
                         ),
-                      ),
-                      onTap: () {
-                        setState(() {
-                          inEditMode = true;
-                        });
-                      },
+                        InkWell(
+                          child: Container(
+                            width: size.width * 0.65,
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getFavouriteColor(),
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getHighLightColor())
+                                ]),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getBackgroundColor(),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Save",
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getBackgroundColor(),
+                                        22,
+                                        FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                          onTap: () {
+                            GenerateApi().saveImage(_image, widget.imageType);
+                          },
+                        )
+                      ],
                     )
             ],
           ),

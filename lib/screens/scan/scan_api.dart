@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/screens/scan/scan_modal.dart';
+import 'package:renderscan/utils/logger.dart';
 import 'package:renderscan/utils/storage.dart';
 
 class ScanApi {
@@ -12,14 +13,17 @@ class ScanApi {
       var username = await Storage().getItem("username");
       print(username);
       var request = http.MultipartRequest(
-          'POST', HttpServerConfig().getHost("/images/cut"));
+        'POST',
+        HttpServerConfig().getHost("/images/cut"),
+      );
       request.fields['username'] = username.toString();
       var pic = http.MultipartFile.fromBytes('data', data, filename: file.path);
       request.files.add(pic);
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
       return ScanResponse.fromJson(jsonDecode(response.body));
-    } on Exception {
+    } catch (err) {
+      log.e(err);
       return ScanResponse(file: "", filename: "", isError: true);
     }
   }
@@ -27,11 +31,12 @@ class ScanApi {
   Future<ScanProtectionResponse> hasAccountActivated(String code) async {
     try {
       var username = await Storage().getItem("username");
-      final response = await http.post(
-          HttpServerConfig().getHost("/users/activate-user"),
-          headers: HttpServerConfig().headers,
-          body: jsonEncode(
-              {'username': username.toString(), 'code': code.toString()}));
+      final response =
+          await http.post(HttpServerConfig().getHost("/users/activate-user"),
+              headers: HttpServerConfig().headers,
+              body: jsonEncode(
+                {'username': username.toString(), 'code': code.toString()},
+              ));
       return ScanProtectionResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       return ScanProtectionResponse(

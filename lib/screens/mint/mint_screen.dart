@@ -113,6 +113,7 @@ class _MintScreenState extends State<MintScreen> {
           MaterialPageRoute(
               builder: (context) => EditScreen(
                     image: widget.imageSource,
+                    imageType: "SCANNED",
                   )));
     }
 

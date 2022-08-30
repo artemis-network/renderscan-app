@@ -20,24 +20,22 @@ class GalleryItem extends StatelessWidget {
           }));
         },
         child: Card(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          clipBehavior: Clip.antiAlias,
-          color: context.watch<ThemeProvider>().getBackgroundColor(),
+          color: Colors.transparent,
           elevation: 100,
           shadowColor: context
               .watch<ThemeProvider>()
               .getHighLightColor()
-              .withOpacity(0.66),
+              .withOpacity(0.33),
           child: Hero(
               tag: tag,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Ink.image(
-                  height: 170,
-                  image: NetworkImage(url),
-                  fit: BoxFit.fitWidth,
-                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.fill,
+                    )),
               )),
         ));
   }

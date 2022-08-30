@@ -75,6 +75,7 @@ class ThemeProvider extends ChangeNotifier {
           navbarColor: Colors.white,
           navbarIconColor: Colors.black);
       this.theme = light;
+      notifyListeners();
     } else {
       ThemeColors dark = ThemeColors(
           backgroundColor: Color(0xff0f101d),
@@ -86,8 +87,8 @@ class ThemeProvider extends ChangeNotifier {
           navbarIconColor: Colors.black,
           navbarColor: Colors.white);
       this.theme = dark;
+      notifyListeners();
     }
-    notifyListeners();
   }
 
   getBackgroundColor() => theme?.backgroundColor ?? Colors.white;

@@ -86,35 +86,51 @@ class _GenerateScreenState extends State<GenerateScreen>
                                   ),
                       ),
                       img != null
-                          ? AnimatedContainer(
-                              duration: Duration(microseconds: 250),
-                              padding: EdgeInsets.all(20),
-                              width: size.width * 0.6,
-                              decoration: BoxDecoration(
-                                  color: context
-                                      .watch<ThemeProvider>()
-                                      .getBackgroundColor(),
-                                  borderRadius: BorderRadius.circular(40),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        spreadRadius: 0,
-                                        blurRadius: 100,
-                                        color: context
-                                            .watch<ThemeProvider>()
-                                            .getHighLightColor()
-                                            .withOpacity(0.22),
-                                        offset: Offset(0, 0)),
-                                  ]),
-                              child: Text(
-                                "save",
-                                textAlign: TextAlign.center,
-                                style: kPrimartFont(
-                                    context
+                          ? GestureDetector(
+                              child: AnimatedContainer(
+                                duration: Duration(microseconds: 250),
+                                padding: EdgeInsets.all(20),
+                                width: size.width * 0.6,
+                                decoration: BoxDecoration(
+                                    color: context
                                         .watch<ThemeProvider>()
-                                        .getSecondaryFontColor(),
-                                    18,
-                                    FontWeight.bold),
+                                        .getBackgroundColor(),
+                                    borderRadius: BorderRadius.circular(40),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          spreadRadius: 0,
+                                          blurRadius: 100,
+                                          color: context
+                                              .watch<ThemeProvider>()
+                                              .getHighLightColor()
+                                              .withOpacity(0.22),
+                                          offset: Offset(0, 0)),
+                                    ]),
+                                child: Text(
+                                  "save",
+                                  textAlign: TextAlign.center,
+                                  style: kPrimartFont(
+                                      context
+                                          .watch<ThemeProvider>()
+                                          .getSecondaryFontColor(),
+                                      18,
+                                      FontWeight.bold),
+                                ),
                               ),
+                              onTap: () async {
+                                await GenerateApi().saveImage(img!, "GENERATE");
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                        backgroundColor: Colors.greenAccent,
+                                        content: Text(
+                                          "Image Saved!",
+                                          style: kPrimartFont(Colors.blueGrey,
+                                              22, FontWeight.bold),
+                                        )));
+                                setState(() {
+                                  img = null;
+                                });
+                              },
                             )
                           : Container(
                               padding: EdgeInsets.symmetric(
@@ -195,43 +211,46 @@ class _GenerateScreenState extends State<GenerateScreen>
                           ),
                         ),
                       ),
-                      InkWell(
-                        child: Container(
-                            width: size.width * 0.75,
-                            margin: EdgeInsets.symmetric(vertical: 30),
-                            decoration: BoxDecoration(
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getHighLightColor(),
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      blurRadius: 1,
+                      img == null
+                          ? GestureDetector(
+                              child: Container(
+                                  width: size.width * 0.75,
+                                  margin: EdgeInsets.symmetric(vertical: 30),
+                                  decoration: BoxDecoration(
                                       color: context
                                           .watch<ThemeProvider>()
-                                          .getHighLightColor())
-                                ]),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 20),
-                            child: Text(
-                              "Generate",
-                              textAlign: TextAlign.center,
-                              style: kPrimartFont(
-                                  Colors.white, 22, FontWeight.bold),
-                            )),
-                        onTap: () async {
-                          if (!isRequested) {
-                            setState(() {
-                              isRequested = true;
-                            });
-                            var image = await GenerateApi().generate(search);
-                            setState(() {
-                              img = image;
-                              isRequested = false;
-                            });
-                          }
-                        },
-                      ),
+                                          .getHighLightColor(),
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            blurRadius: 1,
+                                            color: context
+                                                .watch<ThemeProvider>()
+                                                .getHighLightColor())
+                                      ]),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  child: Text(
+                                    "Generate",
+                                    textAlign: TextAlign.center,
+                                    style: kPrimartFont(
+                                        Colors.white, 22, FontWeight.bold),
+                                  )),
+                              onTap: () async {
+                                if (!isRequested) {
+                                  setState(() {
+                                    isRequested = true;
+                                  });
+                                  var image =
+                                      await GenerateApi().generate(search);
+                                  setState(() {
+                                    img = image;
+                                    isRequested = false;
+                                  });
+                                }
+                              },
+                            )
+                          : Container(),
                     ],
                   ),
                 ],

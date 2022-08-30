@@ -22,14 +22,14 @@ class NFTCollectionScreen extends StatefulWidget {
 
 class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
   int page = 0;
-  late NFTCollectionModel nftCollection;
+  NFTCollectionModel? nftCollection;
   bool showDesription = false;
   bool isCollectionLoaded = false;
   bool isNFTsLoaded = false;
-  bool isEnded = false;
+  bool isEndedOfList = false;
   List<NFTModel> nfts = [];
 
-  ScrollController _controller = new ScrollController();
+  ScrollController? _controller;
 
   bannerLoader() {
     return SkeletonAvatar(
@@ -103,20 +103,24 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-          children: [nftLoader(), nftLoaderRow()],
+          children: [
+            nftLoaderRow(),
+            SizedBox(
+              height: 20,
+            ),
+            nftLoaderRow()
+          ],
         ));
   }
 
   _scrollListener() {
-    // // scroll end
-    log.i("scrolling");
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      if (isEnded != true && isNFTsLoaded == true) {
+    if (_controller!.offset >= _controller!.position.maxScrollExtent &&
+        !_controller!.position.outOfRange) {
+      if (isEndedOfList != true && isNFTsLoaded == true) {
         var p = page + 1;
         if (p < 3) {
           setState(() {
-            isEnded = false;
+            isEndedOfList = false;
           });
           NFTCollectionAPI()
               .getNFTCollectionNFTsBySlug(widget.slug, p)
@@ -125,7 +129,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
             setState(() {
               nfts = [...nfts, ...value];
               page = p;
-              isEnded = true;
+              isEndedOfList = true;
             });
           }).catchError((err) {
             log.i("api error");
@@ -134,7 +138,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
         }
       }
       setState(() {
-        isEnded = true;
+        isEndedOfList = true;
       });
     }
   }
@@ -145,11 +149,13 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
       initialScrollOffset: 0.0, // NEW
       keepScrollOffset: true,
     );
-    _controller.addListener(_scrollListener);
+    _controller!.addListener(_scrollListener);
 
     NFTCollectionAPI().getNFTCollectionBySlug(widget.slug).then((value) {
-      nftCollection = value;
-      isCollectionLoaded = true;
+      setState(() {
+        nftCollection = value;
+        isCollectionLoaded = true;
+      });
     }).catchError((err) {
       log.e(err);
     });
@@ -171,7 +177,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
   descriptionFetcher() {
     if (showDesription) {
       return Text(
-        nftCollection.description,
+        nftCollection!.description,
         style: kPrimartFont(
             context.watch<ThemeProvider>().getPriamryFontColor(),
             10,
@@ -179,9 +185,9 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
       );
     }
     return Text(
-      nftCollection.description.length < 150
-          ? nftCollection.description
-          : nftCollection.description.substring(0, 150) + "...",
+      nftCollection!.description.length < 150
+          ? nftCollection!.description
+          : nftCollection!.description.substring(0, 150) + "...",
       style: kPrimartFont(context.watch<ThemeProvider>().getPriamryFontColor(),
           10, FontWeight.normal),
     );
@@ -194,11 +200,12 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
           body: SingleChildScrollView(
             controller: _controller,
-            child: Column(children: [
+            child: SingleChildScrollView(
+                child: Column(children: [
               isCollectionLoaded
                   ? NFTCollectScreenBanner(
-                      bannerUrl: nftCollection.bannerUrl,
-                      imageUrl: nftCollection.imageUrl)
+                      bannerUrl: nftCollection!.bannerUrl,
+                      imageUrl: nftCollection!.imageUrl)
                   : bannerLoader(),
               isCollectionLoaded
                   ? Column(
@@ -211,7 +218,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  nftCollection.name,
+                                  nftCollection!.name,
                                   style: kPrimartFont(
                                       context
                                           .watch<ThemeProvider>()
@@ -261,30 +268,28 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                   : descriptionLoader(),
               isCollectionLoaded
                   ? NFTCollectionScreenStats(
-                      floorPrice: nftCollection.floorPrice.toString(),
-                      totalSupply: nftCollection.totalSuppy,
-                      owners: nftCollection.owners,
-                      volume: nftCollection.totalVolume,
+                      floorPrice: nftCollection!.floorPrice.toString(),
+                      totalSupply: nftCollection!.totalSuppy,
+                      owners: nftCollection!.owners,
+                      volume: nftCollection!.totalVolume,
                     )
                   : statsLoader(),
               Divider(thickness: 1),
-              isNFTsLoaded
-                  ? MasonryGridView.count(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 20,
-                      shrinkWrap: true,
-                      itemCount: nfts.length,
-                      scrollDirection: Axis.vertical,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return NFTCollectionScreenNFTItem(
-                          nft: nfts[index],
-                        );
-                      },
-                    )
-                  : nftLoader(),
-              !isEnded
+              SingleChildScrollView(
+                child: isNFTsLoaded
+                    ? MasonryGridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        itemCount: nfts.length,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) =>
+                            NFTCollectionScreenNFTItem(nft: nfts[index]),
+                      )
+                    : nftLoader(),
+              ),
+              !isEndedOfList
                   ? Container()
                   : Container(
                       margin: EdgeInsets.symmetric(vertical: 40),
@@ -316,7 +321,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                               ),
                             )
                           ])),
-            ]),
+            ])),
           )),
     );
   }
