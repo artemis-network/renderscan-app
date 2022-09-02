@@ -6,7 +6,6 @@ import 'package:renderscan/constants.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:renderscan/screens/edit/background_edit.dart';
-import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class GalleryView extends StatefulWidget {

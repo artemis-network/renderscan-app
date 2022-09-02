@@ -8,7 +8,6 @@ import 'package:renderscan/screens/faq/faq_screen.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
-import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/profile/user_screen.dart';
 import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';

@@ -1,0 +1,15 @@
+camera
+background change loader
+scan background 
+
+screen size
+2400 x 1080 => h * 0.75
+
+camera 1800 * 1080 => - h * 0.2 -w * 0.2
+image 1620 * 900
+
+camera size => 1800 x 1080
+grid size = 1620 * 900
+
+
+

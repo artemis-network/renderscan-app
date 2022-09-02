@@ -4,23 +4,37 @@ import 'package:http/http.dart' as http;
 import 'package:renderscan/config/http_config.dart';
 import 'package:renderscan/utils/storage.dart';
 
+class GalleryModel {
+  final String id;
+  final String s3Url;
+  final String type;
+  final String name;
+
+  GalleryModel.fromJsonToObject(Map<String, dynamic> json)
+      : id = json["_id"] ?? "",
+        s3Url = json["s3Url"] ?? "",
+        type = json["type"] ?? "",
+        name = json["name"] ?? "";
+}
+
 class GalleryApi {
-  Future<List<String>> getGallery() async {
+  Future<List<GalleryModel>> getGallery(String type) async {
     try {
-      var username = await Storage().getItem("username");
-      username = username.toString() + "/";
+      var username = await Storage().getItem("userId");
+      username = username.toString();
       final response = await http.post(
           HttpServerConfig().getHost("/images/gallery"),
           headers: HttpServerConfig().headers,
-          body: jsonEncode({'username': username}));
+          body: jsonEncode({'userId': username, 'type': type}));
       var body = jsonDecode(response.body);
-      final resp = body["images"] as List;
-      List<String> imgs = [];
+      final resp = body["nfts"] as List;
+      List<GalleryModel> imgs = [];
       for (int i = 0; i < resp.length; i++) {
-        imgs.add(resp[i]);
+        imgs.add(GalleryModel.fromJsonToObject(resp[i]));
       }
       return imgs.reversed.toList();
     } catch (e) {
+      print(e);
       return [];
     }
   }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:renderscan/screens/gallery/components/gallery_item.dart';
 import 'package:renderscan/screens/gallery/components/gallery_view.dart';
+import 'package:renderscan/screens/gallery/gallery_api.dart';
 
 class GalleryGrid extends StatelessWidget {
-  final List<String> images;
+  final List<GalleryModel> images;
   GalleryGrid({required this.images});
   @override
   Widget build(BuildContext context) {
@@ -25,10 +26,11 @@ class GalleryGrid extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (context) {
                   return (GalleryView(
-                      url: images[index], tag: index.toString()));
+                      url: images[index].s3Url, tag: index.toString()));
                 }));
               },
-              child: GalleryItem(url: images[index], tag: index.toString()));
+              child:
+                  GalleryItem(url: images[index].s3Url, tag: index.toString()));
         },
       ),
     ));

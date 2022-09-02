@@ -17,21 +17,31 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
-  Widget build(BuildContext context) {
-    context.read<HomeProvider>().initializeHomePage();
-    var future = Future.delayed(const Duration(milliseconds: 5000), () async {
-      final value = await Storage().isFirstTime();
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeProvider>().initializeHomePage();
+      var future = Future.delayed(const Duration(milliseconds: 5000), () async {
+        try {
+          final value = await Storage().isFirstTime();
+          if (value.toString() != "false")
+            return Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NavigationScreen()));
 
-      if (value.toString() == "true") {
-        return Navigator.push(context,
-            MaterialPageRoute(builder: (context) => NavigationScreen()));
-      }
-      return Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SlideOne()));
+          return Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SlideOne()));
+        } catch (err) {
+          return Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SlideOne()));
+        }
+      });
+      future.then((value) {});
     });
 
-    future.then((value) {});
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

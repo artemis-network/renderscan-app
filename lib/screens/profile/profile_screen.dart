@@ -116,29 +116,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
         child: Scaffold(
           appBar: AppBar(
-              elevation: 0,
-              leading: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  child: Image.asset(
-                    "assets/icons/cancel.png",
-                    height: 24,
-                    width: 24,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            elevation: 0,
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Padding(
+                child: Image.asset(
+                  "assets/icons/cancel.png",
+                  height: 24,
+                  width: 24,
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               ),
-              backgroundColor:
-                  context.watch<ThemeProvider>().getBackgroundColor(),
-              actions: [],
-              title: Text("Edit Your Profile",
-                  style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
-                      24,
-                      FontWeight.bold)),
-              centerTitle: true),
+            ),
+            backgroundColor:
+                context.watch<ThemeProvider>().getBackgroundColor(),
+            actions: [],
+            title: Text("Edit Your Profile",
+                style: kPrimartFont(
+                    context.watch<ThemeProvider>().getPriamryFontColor(),
+                    24,
+                    FontWeight.bold)),
+            centerTitle: true,
+          ),
           body: SingleChildScrollView(
             child: Container(
                 color: context.watch<ThemeProvider>().getBackgroundColor(),

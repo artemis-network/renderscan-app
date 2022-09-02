@@ -9,6 +9,7 @@ import 'package:renderscan/screens/gallery/components/gallery_grid.dart';
 import 'package:renderscan/screens/gallery/components/gallery_tags_row.dart';
 import 'package:renderscan/screens/gallery/gallery_api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/logger.dart';
 import 'package:renderscan/utils/storage.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -18,6 +19,119 @@ class GalleryScreen extends StatefulWidget {
 }
 
 class _GalleryScreenState extends State<GalleryScreen> {
+  List<GalleryModel> gallery = [];
+  bool isGalleryLoaded = false;
+
+  loader() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    borderRadius: BorderRadius.circular(30),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    borderRadius: BorderRadius.circular(30),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    borderRadius: BorderRadius.circular(30),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    borderRadius: BorderRadius.circular(30),
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<String> galleryType = [
+    "SCANNED",
+    "IMPORTED",
+    "GENERATED",
+    "MINTED",
+  ];
+  List<bool> activeTab = [true, false, false, false];
+
+  void changePage(int index) {
+    var tab = [false, false, false, false];
+    tab[index] = true;
+    setState(() {
+      isGalleryLoaded = false;
+      activeTab = tab;
+    });
+    GalleryApi().getGallery(galleryType[index]).then((value) {
+      setState(() {
+        gallery = value;
+        isGalleryLoaded = true;
+      });
+    }).catchError((err) {
+      setState(() {
+        isGalleryLoaded = false;
+      });
+      log.i(err);
+    });
+  }
+
+  @override
+  void initState() {
+    GalleryApi().getGallery("SCANNED").then((value) {
+      setState(() {
+        gallery = value;
+        isGalleryLoaded = true;
+      });
+    }).catchError((err) {
+      setState(() {
+        isGalleryLoaded = false;
+      });
+
+      log.i(err);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<String> images = [
@@ -80,15 +194,22 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   future: Storage().getItem("username"),
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
-                      final username = snapshot.data;
-                      var url =
-                          "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                              username.toString() +
-                              '.png';
-                      return CircleAvatar(
-                        backgroundImage: NetworkImage(url),
-                        radius: 48,
-                      );
+                      try {
+                        final username = snapshot.data;
+                        var url =
+                            "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                username.toString() +
+                                '.png';
+                        return CircleAvatar(
+                          backgroundImage: AssetImage(url),
+                          radius: 48,
+                        );
+                      } catch (err) {
+                        return CircleAvatar(
+                          backgroundImage: AssetImage(images[random]),
+                          radius: 48,
+                        );
+                      }
                     }
                     return CircleAvatar(
                       backgroundImage: AssetImage(images[random]),
@@ -155,87 +276,15 @@ class _GalleryScreenState extends State<GalleryScreen> {
                 ],
               ),
             ),
-            GalleryTagRow(),
-            FutureBuilder(
-                future: GalleryApi().getGallery(),
-                builder: ((context, snapshot) {
-                  if (snapshot.hasData) {
-                    final urls = snapshot.data as List<String>;
-                    return Expanded(
-                      child: GalleryGrid(images: urls),
-                    );
-                  }
-                  return Container(
-                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: SkeletonAvatar(
-                                style: SkeletonAvatarStyle(
-                                  borderRadius: BorderRadius.circular(30),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Container(
-                              child: SkeletonAvatar(
-                                style: SkeletonAvatarStyle(
-                                  borderRadius: BorderRadius.circular(30),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: SkeletonAvatar(
-                                style: SkeletonAvatarStyle(
-                                  borderRadius: BorderRadius.circular(30),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Container(
-                              child: SkeletonAvatar(
-                                style: SkeletonAvatarStyle(
-                                  borderRadius: BorderRadius.circular(30),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                }))
+            GalleryTagRow(
+              activeTab: activeTab,
+              click: changePage,
+            ),
+            isGalleryLoaded
+                ? Expanded(
+                    child: GalleryGrid(images: gallery),
+                  )
+                : loader()
           ],
         ),
       )),

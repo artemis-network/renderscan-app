@@ -17,6 +17,10 @@ class Storage {
     await storage.write(key: "isFirstTime", value: setFirstTime.toString());
   }
 
+  Future<void> setAddress(String address) async {
+    await storage.write(key: "address", value: address);
+  }
+
   Future<String?> isFirstTime() async => await storage.read(key: "isFirstTime");
 
   Future<String?> getItem(String key) async => await storage.read(key: key);
@@ -38,6 +42,9 @@ class Storage {
     await deleteItem("userId").then((value) => null);
     await deleteItem("publicToken").then((value) => null);
     await deleteItem("accessToken").then((value) => null);
+    await deleteItem("isFirstTime").then((value) => null);
+    await deleteItem("address").then((value) => null);
+
     var tempDir = await getTemporaryDirectory();
     if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
     var appDocDir = await getApplicationDocumentsDirectory();

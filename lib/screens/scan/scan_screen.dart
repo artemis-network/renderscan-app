@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
@@ -108,6 +107,27 @@ class _ScanScreenState extends State<ScanScreen> {
 
     void retry() => context.read<ScanProvider>().resetProvider();
 
+    Widget gridWidget(context) {
+      var camera = controller.value;
+      // fetch screen size
+      final size = MediaQuery.of(context).size;
+      // calculate scale depending on screen and camera ratios
+      // this is actually size.aspectRatio / (1 / camera.aspectRatio)
+      // because camera preview size is received as landscape
+      // but we're calculating for portrait orientation
+      var deviceRatio = (size.aspectRatio * 1.35);
+
+      var scale = deviceRatio * camera.aspectRatio;
+      // to prevent scaling down, invert the value
+      if (scale < 1) scale = 1 / scale;
+      return Transform.scale(
+          scale: scale,
+          child: Image.asset(
+            "assets/images/grid.png",
+          ));
+      // return Image.asset("assets/images/grid_v.svg");
+    }
+
     Widget cameraWidget(context) {
       var camera = controller.value;
       // fetch screen size
@@ -123,9 +143,7 @@ class _ScanScreenState extends State<ScanScreen> {
       if (scale < 1) scale = 1 / scale;
       return Transform.scale(
         scale: scale,
-        child: Center(
-          child: Expanded(child: CameraPreview(controller)),
-        ),
+        child: Center(child: CameraPreview(controller)),
       );
     }
 
@@ -177,34 +195,29 @@ class _ScanScreenState extends State<ScanScreen> {
                                   alignment: Alignment.center,
                                   children: [
                                     cameraWidget(context),
+                                    Positioned(child: gridWidget(context)),
                                     Positioned(
                                         child: Container(
-                                            child: SvgPicture.asset(
-                                      "assets/images/grid.svg",
-                                      height: size.height * .6,
-                                      width: size.width * 1,
-                                    ))),
-                                    Positioned(
-                                      child: Container(
-                                        child: context
-                                                    .watch<ScanProvider>()
-                                                    .isFetched ==
-                                                true
-                                            ? Image.memory(
-                                                context
-                                                    .watch<ScanProvider>()
-                                                    .imageSource,
-                                              )
-                                            : context
-                                                    .watch<ScanProvider>()
-                                                    .isLoading
-                                                ? spinkit()
-                                                : null,
-                                      ),
-                                    )
+                                      child: context
+                                                  .watch<ScanProvider>()
+                                                  .isFetched ==
+                                              true
+                                          ? Image.memory(
+                                              context
+                                                  .watch<ScanProvider>()
+                                                  .imageSource,
+                                              fit: BoxFit.fill,
+                                            )
+                                          : context
+                                                  .watch<ScanProvider>()
+                                                  .isLoading
+                                              ? spinkit()
+                                              : null,
+                                    ))
                                   ],
                                 ),
                                 Container(
+                                    margin: EdgeInsets.only(top: 40),
                                     alignment: Alignment.bottomCenter,
                                     child: context
                                                 .watch<ScanProvider>()
@@ -290,7 +303,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                           ))
                               ],
                             ));
-                      return spinkit();
+                      return Center(child: spinkit());
                     })
               ],
             )));

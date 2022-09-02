@@ -11,6 +11,7 @@ import 'package:renderscan/screens/signup/signup_api.dart';
 import 'package:renderscan/screens/signup/signup_model.dart';
 import 'package:renderscan/screens/signup/signup_validations.dart';
 import 'package:renderscan/theme/theme_provider.dart';
+import 'package:renderscan/utils/storage.dart';
 
 // components
 
@@ -279,7 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ? spinkit()
                     : SignUpButton(
                         text: "Register",
-                        press: () {
+                        press: () async {
                           bool isValid = !isUsernameHasError &&
                               !isEmailHasError &&
                               !isPasswordHasError &&
@@ -289,12 +290,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() {
                               _isLoading = true;
                             });
+                            var address = await Storage().getItem("address");
+                            address = address.toString();
                             SignUpRequest signUpRequest = new SignUpRequest(
-                                name: name,
-                                username: username.trim(),
-                                email: email.trim(),
-                                password: password.trim(),
-                                referalCode: referalCode);
+                              address: address,
+                              name: name,
+                              username: username.trim(),
+                              email: email.trim(),
+                              password: password.trim(),
+                              referalCode: referalCode,
+                            );
                             SignUpApi()
                                 .registerUser(signUpRequest)
                                 .then((value) => handleRequest(value));

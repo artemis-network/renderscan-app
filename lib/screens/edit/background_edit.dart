@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/generate/generate_api.dart';
@@ -19,6 +20,8 @@ class BackGroundEdit extends StatefulWidget {
 }
 
 class _BackGroundEditState extends State<BackGroundEdit> {
+  bool isLoaded = true;
+
   List<String> c = [
     "#483838",
     "#42855B",
@@ -55,6 +58,7 @@ class _BackGroundEditState extends State<BackGroundEdit> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       appBar: AppBar(
@@ -84,102 +88,89 @@ class _BackGroundEditState extends State<BackGroundEdit> {
       ),
       body: Container(
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: ListView(
-            scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              SizedBox(),
               ClipRRect(
-                child: Image.memory(img, fit: BoxFit.fill),
+                child: isLoaded
+                    ? Image.memory(img, fit: BoxFit.fill)
+                    : Container(height: 250, width: 160, child: spinkit()),
                 borderRadius: BorderRadius.circular(20),
               ),
-              Container(
-                height: 100,
-                width: size.width,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: colors.length,
-                    itemBuilder: (item, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          GenerateApi()
-                              .addBackgroundImage(widget.image, c[index])
-                              .then((value) {
-                            log.i(value);
-                            setState(() {
-                              img = value;
-                            });
-                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 4),
-                          child: CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 16,
+              Column(
+                children: [
+                  Container(
+                    height: 100,
+                    width: size.width,
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        itemCount: colors.length,
+                        itemBuilder: (item, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isLoaded = false;
+                              });
+                              GenerateApi()
+                                  .addBackgroundImage(widget.image, c[index])
+                                  .then((value) {
+                                log.i(value);
+                                setState(() {
+                                  img = value;
+                                  isLoaded = true;
+                                });
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 4),
                               child: CircleAvatar(
-                                radius: 14,
-                                backgroundColor: colors[index],
-                              )),
-                        ),
-                      );
-                    }),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(20),
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          spreadRadius: 0,
-                          blurRadius: 2,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor(),
-                          offset: Offset(0, 0)),
-                    ],
-                    color: context.watch<ThemeProvider>().getHighLightColor(),
-                    borderRadius: BorderRadius.circular(10),
+                                  backgroundColor: Colors.white,
+                                  radius: 16,
+                                  child: CircleAvatar(
+                                    radius: 14,
+                                    backgroundColor: colors[index],
+                                  )),
+                            ),
+                          );
+                        }),
                   ),
-                  child: Text(
-                    "Apply",
-                    textAlign: TextAlign.center,
-                    style: kPrimartFont(Colors.white, 18, FontWeight.bold),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return EditScreen(image: img, imageType: widget.imageType);
-                  }));
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(20),
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          spreadRadius: 0,
-                          blurRadius: 2,
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor(),
-                          offset: Offset(0, 0)),
-                    ],
-                    color: context.watch<ThemeProvider>().getHighLightColor(),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    "Next",
-                    textAlign: TextAlign.center,
-                    style: kPrimartFont(Colors.white, 18, FontWeight.bold),
-                  ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return EditScreen(
+                            image: img, imageType: widget.imageType);
+                      }));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(20),
+                      width: size.width * 0.8,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              spreadRadius: 0,
+                              blurRadius: 2,
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor(),
+                              offset: Offset(0, 0)),
+                        ],
+                        color:
+                            context.watch<ThemeProvider>().getHighLightColor(),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        "Next",
+                        textAlign: TextAlign.center,
+                        style: kPrimartFont(Colors.white, 18, FontWeight.bold),
+                      ),
+                    ),
+                  )
+                ],
               )
             ],
           )),

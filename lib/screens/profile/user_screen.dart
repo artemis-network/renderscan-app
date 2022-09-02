@@ -8,15 +8,12 @@ import 'package:renderscan/common/components/topbar/components/balance_widet.dar
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/faq/faq_screen.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
-import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/profile/profile_api.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
 import 'package:renderscan/screens/profile/profile_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
-import 'package:renderscan/screens/terms_and_conditions/terms_and_condition.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
 

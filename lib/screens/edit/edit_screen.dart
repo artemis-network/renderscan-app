@@ -95,29 +95,6 @@ class _EditScreenState extends State<EditScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                            onPressed: () async {
-                              final cropRect =
-                                  editorKey.currentState?.getCropRect() as Rect;
-                              var img = editorKey.currentState?.rawImageData
-                                  as Uint8List;
-                              ImageEditorOption option = ImageEditorOption();
-                              option.addOption(ClipOption.fromRect(cropRect));
-                              final result = await ImageEditor.editImage(
-                                image: img,
-                                imageEditorOption: option,
-                              ) as Uint8List;
-                              setState(() {
-                                _image = result;
-                              });
-                            },
-                            icon: Icon(
-                              Icons.crop,
-                              size: 30,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getFavouriteColor(),
-                            )),
-                        IconButton(
                           onPressed: () async {
                             editorKey.currentState?.rotate(right: true);
                             final angle = editorKey.currentState?.editAction
@@ -179,10 +156,18 @@ class _EditScreenState extends State<EditScreen> {
                             )),
                         IconButton(
                             onPressed: () async {
+                              final cropRect =
+                                  editorKey.currentState?.getCropRect() as Rect;
                               var img = editorKey.currentState?.rawImageData
                                   as Uint8List;
+                              ImageEditorOption option = ImageEditorOption();
+                              option.addOption(ClipOption.fromRect(cropRect));
+                              final result = await ImageEditor.editImage(
+                                image: img,
+                                imageEditorOption: option,
+                              ) as Uint8List;
                               setState(() {
-                                _image = img;
+                                _image = result;
                                 inEditMode = false;
                               });
                             },
@@ -219,7 +204,7 @@ class _EditScreenState extends State<EditScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.edit,
+                                  FontAwesomeIcons.penToSquare,
                                   color: context
                                       .watch<ThemeProvider>()
                                       .getBackgroundColor(),
@@ -266,7 +251,7 @@ class _EditScreenState extends State<EditScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.edit,
+                                  FontAwesomeIcons.floppyDisk,
                                   color: context
                                       .watch<ThemeProvider>()
                                       .getBackgroundColor(),

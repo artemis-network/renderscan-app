@@ -4,6 +4,11 @@ import 'package:renderscan/screens/gallery/components/gallery_tag.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class GalleryTagRow extends StatelessWidget {
+  final List<bool> activeTab;
+  final Function click;
+
+  GalleryTagRow({required this.activeTab, required this.click});
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -22,26 +27,43 @@ class GalleryTagRow extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: <Widget>[
-              GalleryTag(
-                tag: "Minted",
-                icon: "assets/icons/list.png",
-                isActive: true,
+              GestureDetector(
+                child: GalleryTag(
+                  tag: "Scanned",
+                  icon: "assets/icons/list.png",
+                  isActive: activeTab[0],
+                ),
+                onTap: () {
+                  click(0);
+                },
               ),
-              GalleryTag(
-                tag: "Scanned",
-                icon: "assets/icons/list.png",
-                isActive: true,
-              ),
-              GalleryTag(
-                tag: "Imported",
-                icon: "assets/icons/import.png",
-                isActive: false,
-              ),
-              GalleryTag(
-                tag: "Generated",
-                icon: "assets/icons/import.png",
-                isActive: false,
-              ),
+              GestureDetector(
+                  child: GalleryTag(
+                    tag: "Imported",
+                    icon: "assets/icons/import.png",
+                    isActive: activeTab[1],
+                  ),
+                  onTap: () {
+                    click(1);
+                  }),
+              GestureDetector(
+                  child: GalleryTag(
+                    tag: "Generated",
+                    icon: "assets/icons/import.png",
+                    isActive: activeTab[2],
+                  ),
+                  onTap: () {
+                    click(2);
+                  }),
+              GestureDetector(
+                  child: GalleryTag(
+                    tag: "Minted",
+                    icon: "assets/icons/list.png",
+                    isActive: activeTab[3],
+                  ),
+                  onTap: () {
+                    click(3);
+                  }),
             ],
           ),
         ));
