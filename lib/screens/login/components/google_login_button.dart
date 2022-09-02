@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/constants.dart';
 
 import 'package:renderscan/screens/login/log_api.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
@@ -68,9 +69,11 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
             _isElevated = !_isElevated;
           });
 
-          _googleSignin.signIn().then((user) {
+          _googleSignin.signIn().then((user) async {
             user = user as GoogleSignInAccount;
-            LoginApi().googleLogin(user.email).then((value) {
+            var address = await Storage().getItem("address");
+            address = address.toString();
+            LoginApi().googleLogin(user.email, address).then((value) {
               bool error = value.error ?? false;
               if (!error) {
                 Storage().createSession(value);
@@ -84,10 +87,18 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
                 );
               }
             }).catchError((err) {
-              log.e(err);
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                "Something went wrong",
+                style: kPrimartFont(Colors.amber, 18, FontWeight.bold),
+              )));
             });
           }).catchError((err) {
-            log.e(err);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+              "Something went wrong",
+              style: kPrimartFont(Colors.amber, 18, FontWeight.bold),
+            )));
           });
         },
       ),

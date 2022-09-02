@@ -21,13 +21,12 @@ class LoginApi {
     }
   }
 
-  Future<AuthResponse> googleLogin(String email) async {
+  Future<AuthResponse> googleLogin(String email, String address) async {
     try {
-      var request = {"email": email};
+      var request = {"email": email, "address": address};
       final response = await http.post(
           HttpServerConfig().getHost("/users/google-mobile-login"),
           body: request);
-      log.i(response.body);
       return AuthResponse.fromJson(jsonDecode(response.body));
     } catch (e) {
       log.e(e);
