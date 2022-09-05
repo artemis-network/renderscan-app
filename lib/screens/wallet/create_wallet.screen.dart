@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/wallet/create_pin.screen.dart';
+import 'package:renderscan/screens/wallet/import_wallet.screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
 class CreateWalletScreen extends StatelessWidget {
@@ -9,7 +10,6 @@ class CreateWalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(actions: []),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Image.asset(
@@ -53,7 +53,25 @@ class CreateWalletScreen extends StatelessWidget {
             press: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: ((context) => CreatePinScreen())));
-            })
+            }),
+        SizedBox(
+          height: 20,
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: ((context) => ImportWalletScreen())));
+          },
+          child: Text(
+            "Recovery address with recovery phrase",
+            textAlign: TextAlign.center,
+            style: kPrimartFont(
+              context.watch<ThemeProvider>().getPriamryFontColor(),
+              18,
+              FontWeight.bold,
+            ),
+          ),
+        )
       ]),
     ));
   }

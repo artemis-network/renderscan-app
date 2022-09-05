@@ -236,7 +236,7 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                         })),
                 CreateWalletButton(
                     text: "Confirm",
-                    press: () {
+                    press: () async {
                       String pharse = "";
                       for (int i = 0; i < value.length; i++)
                         pharse += value[i] + " ";

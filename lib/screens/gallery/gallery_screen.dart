@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
@@ -265,13 +266,39 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                   .withOpacity(0.33),
                               offset: Offset(0, 0))
                         ]),
-                    child: Text(
-                      "0x318A...adc2",
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          12,
-                          FontWeight.bold),
-                    ),
+                    child: FutureBuilder(
+                        future: Storage().getItem("address"),
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData) {
+                            return GestureDetector(
+                              onTap: () {
+                                Clipboard.setData(ClipboardData(
+                                    text: snapshot.data.toString()));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Address copied!")));
+                              },
+                              child: Text(
+                                snapshot.data.toString(),
+                                style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    12,
+                                    FontWeight.bold),
+                              ),
+                            );
+                          }
+
+                          return Text(
+                            "0x318A...adc2",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                12,
+                                FontWeight.bold),
+                          );
+                        })),
                   ),
                 ],
               ),

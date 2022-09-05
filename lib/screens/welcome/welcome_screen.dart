@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/config/web3.services.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
@@ -20,18 +21,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<HomeProvider>().initializeHomePage();
+      context.read<Web3Servives>().init();
       var future = Future.delayed(const Duration(milliseconds: 5000), () async {
         try {
           final value = await Storage().isFirstTime();
-          if (value.toString() != "false")
+          if (value.toString() == "false")
             return Navigator.push(context,
                 MaterialPageRoute(builder: (context) => NavigationScreen()));
 
           return Navigator.push(
               context, MaterialPageRoute(builder: (context) => SlideOne()));
         } catch (err) {
-          return Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SlideOne()));
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NavigationScreen()));
         }
       });
       future.then((value) {});

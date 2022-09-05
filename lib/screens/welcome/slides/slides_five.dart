@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/wallet/create_pin.screen.dart';
+import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/wallet/create_wallet.screen.dart';
 import 'package:renderscan/screens/welcome/slides/slide_four.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
@@ -87,14 +88,25 @@ class SlideFive extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () async {
-                    await Storage().setFirstTime(true);
-                    Navigator.of(context).push(PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: CreatePinScreen(),
-                        ctx: context,
-                        duration: Duration(milliseconds: 300),
-                        fullscreenDialog: true,
-                        childCurrent: this));
+                    var address = await Storage().getItem("address");
+                    address = address.toString();
+                    if (address.isEmpty) {
+                      Navigator.of(context).push(PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: CreateWalletScreen(),
+                          ctx: context,
+                          duration: Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          childCurrent: this));
+                    } else {
+                      Navigator.of(context).push(PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: NavigationScreen(),
+                          ctx: context,
+                          duration: Duration(milliseconds: 300),
+                          fullscreenDialog: true,
+                          childCurrent: this));
+                    }
                   },
                   icon: Icon(
                     Icons.arrow_forward,

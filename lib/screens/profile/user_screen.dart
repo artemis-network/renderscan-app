@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
@@ -226,48 +227,68 @@ class _UserScreenState extends State<UserScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: context
-                                                  .watch<ThemeProvider>()
-                                                  .getBackgroundColor(),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    offset: Offset(0, 0),
-                                                    blurRadius: 2,
+                                  FutureBuilder(
+                                      future: Storage().getItem("address"),
+                                      builder: ((context, snapshot) {
+                                        return Row(
+                                          children: [
+                                            Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 5),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
                                                     color: context
                                                         .watch<ThemeProvider>()
-                                                        .getHighLightColor())
-                                              ]),
-                                          child: Container(
-                                            child: Text(
-                                              "0xc20...223133",
-                                              style: kPrimartFont(
-                                                  context
-                                                      .watch<ThemeProvider>()
-                                                      .getSecondaryFontColor(),
-                                                  15,
-                                                  FontWeight.normal),
+                                                        .getBackgroundColor(),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          offset: Offset(0, 0),
+                                                          blurRadius: 2,
+                                                          color: context
+                                                              .watch<
+                                                                  ThemeProvider>()
+                                                              .getHighLightColor())
+                                                    ]),
+                                                child: Container(
+                                                  child: Text(
+                                                    snapshot.data
+                                                            .toString()
+                                                            .substring(0, 18) +
+                                                        "...",
+                                                    style: kPrimartFont(
+                                                        context
+                                                            .watch<
+                                                                ThemeProvider>()
+                                                            .getPriamryFontColor(),
+                                                        12,
+                                                        FontWeight.bold),
+                                                  ),
+                                                )),
+                                            SizedBox(
+                                              width: 15,
                                             ),
-                                          )),
-                                      SizedBox(
-                                        width: 15,
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {},
-                                          child: Image.asset(
-                                            "assets/icons/copy.png",
-                                            height: 16,
-                                            width: 16,
-                                          ))
-                                    ],
-                                  ),
+                                            GestureDetector(
+                                                onTap: () {
+                                                  Clipboard.setData(
+                                                      ClipboardData(
+                                                          text: snapshot.data
+                                                              .toString()));
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: Text(
+                                                              "Address copied!")));
+                                                },
+                                                child: Image.asset(
+                                                  "assets/icons/copy.png",
+                                                  height: 16,
+                                                  width: 16,
+                                                ))
+                                          ],
+                                        );
+                                      })),
                                 ],
                               ),
                             )

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:double_back_to_close/double_back_to_close.dart';
+import 'package:renderscan/config/web3.services.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
@@ -17,6 +18,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => Web3Servives()),
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),

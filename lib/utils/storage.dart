@@ -43,7 +43,6 @@ class Storage {
     await deleteItem("publicToken").then((value) => null);
     await deleteItem("accessToken").then((value) => null);
     await deleteItem("isFirstTime").then((value) => null);
-    await deleteItem("address").then((value) => null);
 
     var tempDir = await getTemporaryDirectory();
     if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);
