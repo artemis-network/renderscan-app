@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
@@ -10,6 +11,7 @@ import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
+import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/profile/profile_api.dart';
 import 'package:renderscan/screens/profile/profile_provider.dart';
@@ -143,7 +145,6 @@ class _UserScreenState extends State<UserScreen> {
                                         "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
                                             username +
                                             '.png';
-
                                     return Stack(
                                       clipBehavior: Clip.none,
                                       children: [
@@ -214,15 +215,18 @@ class _UserScreenState extends State<UserScreen> {
                                   FutureBuilder(
                                       future: Storage().getItem('username'),
                                       builder: (context, snapshot) {
-                                        return Text(
-                                          "@" + snapshot.data.toString(),
-                                          style: kPrimartFont(
-                                              context
-                                                  .watch<ThemeProvider>()
-                                                  .getSecondaryFontColor(),
-                                              16,
-                                              FontWeight.normal),
-                                        );
+                                        if (snapshot.hasData) {
+                                          return Text(
+                                            "@" + snapshot.data.toString(),
+                                            style: kPrimartFont(
+                                                context
+                                                    .watch<ThemeProvider>()
+                                                    .getSecondaryFontColor(),
+                                                16,
+                                                FontWeight.normal),
+                                          );
+                                        }
+                                        return Container();
                                       }),
                                   SizedBox(
                                     height: 10,
@@ -230,64 +234,79 @@ class _UserScreenState extends State<UserScreen> {
                                   FutureBuilder(
                                       future: Storage().getItem("address"),
                                       builder: ((context, snapshot) {
-                                        return Row(
-                                          children: [
-                                            Container(
-                                                padding: EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 5),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color: context
-                                                        .watch<ThemeProvider>()
-                                                        .getBackgroundColor(),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          offset: Offset(0, 0),
-                                                          blurRadius: 2,
-                                                          color: context
+                                        if (snapshot.hasData) {
+                                          return Row(
+                                            children: [
+                                              Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 5),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: context
+                                                          .watch<
+                                                              ThemeProvider>()
+                                                          .getBackgroundColor(),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            offset:
+                                                                Offset(0, 0),
+                                                            blurRadius: 2,
+                                                            color: context
+                                                                .watch<
+                                                                    ThemeProvider>()
+                                                                .getHighLightColor())
+                                                      ]),
+                                                  child: Container(
+                                                    child: Text(
+                                                      snapshot.data
+                                                              .toString()
+                                                              .substring(0, 5) +
+                                                          "....." +
+                                                          snapshot.data.toString().substring(
+                                                              snapshot.data
+                                                                      .toString()
+                                                                      .length -
+                                                                  6,
+                                                              snapshot.data
+                                                                      .toString()
+                                                                      .length -
+                                                                  1),
+                                                      style: kPrimartFont(
+                                                          context
                                                               .watch<
                                                                   ThemeProvider>()
-                                                              .getHighLightColor())
-                                                    ]),
-                                                child: Container(
-                                                  child: Text(
-                                                    snapshot.data
-                                                            .toString()
-                                                            .substring(0, 18) +
-                                                        "...",
-                                                    style: kPrimartFont(
-                                                        context
-                                                            .watch<
-                                                                ThemeProvider>()
-                                                            .getPriamryFontColor(),
-                                                        12,
-                                                        FontWeight.bold),
-                                                  ),
-                                                )),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Clipboard.setData(
-                                                      ClipboardData(
-                                                          text: snapshot.data
-                                                              .toString()));
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                          content: Text(
-                                                              "Address copied!")));
-                                                },
-                                                child: Image.asset(
-                                                  "assets/icons/copy.png",
-                                                  height: 16,
-                                                  width: 16,
-                                                ))
-                                          ],
-                                        );
+                                                              .getPriamryFontColor(),
+                                                          12,
+                                                          FontWeight.bold),
+                                                    ),
+                                                  )),
+                                              SizedBox(
+                                                width: 15,
+                                              ),
+                                              GestureDetector(
+                                                  onTap: () {
+                                                    Clipboard.setData(
+                                                        ClipboardData(
+                                                            text: snapshot.data
+                                                                .toString()));
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: Text(
+                                                                "Address copied!")));
+                                                  },
+                                                  child: Image.asset(
+                                                    "assets/icons/copy.png",
+                                                    height: 16,
+                                                    width: 16,
+                                                  ))
+                                            ],
+                                          );
+                                        }
+                                        return Container();
                                       })),
                                 ],
                               ),
@@ -331,12 +350,145 @@ class _UserScreenState extends State<UserScreen> {
                             ColumnButtons(
                                 text: "Logout",
                                 press: () {
-                                  Storage().logout();
-                                  context.read<ScanProvider>().resetProvider();
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return NavigationScreen();
-                                  }));
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor: context
+                                              .watch<ThemeProvider>()
+                                              .getBackgroundColor(),
+                                          elevation: 4,
+                                          child: Container(
+                                              height: 150,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Text(
+                                                      "Are you sure?",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: kPrimartFont(
+                                                          context
+                                                              .watch<
+                                                                  ThemeProvider>()
+                                                              .getPriamryFontColor(),
+                                                          24,
+                                                          FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      GestureDetector(
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: 20,
+                                                            vertical: 10,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color: context
+                                                                  .watch<
+                                                                      ThemeProvider>()
+                                                                  .getHighLightColor()),
+                                                          child: Text(
+                                                            "No",
+                                                            style: kPrimartFont(
+                                                              context
+                                                                  .watch<
+                                                                      ThemeProvider>()
+                                                                  .getPriamryFontColor(),
+                                                              22,
+                                                              FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        onTap: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      ),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      GestureDetector(
+                                                        child: Container(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
+                                                            horizontal: 20,
+                                                            vertical: 10,
+                                                          ),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              color: context
+                                                                  .watch<
+                                                                      ThemeProvider>()
+                                                                  .getHighLightColor()),
+                                                          child: Text(
+                                                            "Yes",
+                                                            style: kPrimartFont(
+                                                              context
+                                                                  .watch<
+                                                                      ThemeProvider>()
+                                                                  .getPriamryFontColor(),
+                                                              22,
+                                                              FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        onTap: () {
+                                                          GoogleSignIn
+                                                              _googleSignin =
+                                                              GoogleSignIn(
+                                                            scopes: [
+                                                              'email',
+                                                              'https://www.googleapis.com/auth/contacts.readonly',
+                                                            ],
+                                                          );
+                                                          _googleSignin
+                                                              .signOut();
+                                                          print(
+                                                              "> Logging out");
+                                                          Storage().logout();
+                                                          context
+                                                              .read<
+                                                                  NavigationProvider>()
+                                                              .setCurrentIndex(
+                                                                  0);
+                                                          context
+                                                              .read<
+                                                                  ScanProvider>()
+                                                              .resetProvider();
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) {
+                                                            return NavigationScreen();
+                                                          }));
+                                                        },
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              )),
+                                        );
+                                      });
                                 },
                                 icon: "assets/icons/logout.png"),
                           ],

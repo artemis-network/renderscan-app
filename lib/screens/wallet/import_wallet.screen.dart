@@ -26,7 +26,22 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
 
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(actions: []),
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [

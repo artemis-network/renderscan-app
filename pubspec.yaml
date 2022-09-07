@@ -60,6 +60,7 @@ dependencies:
   getwidget: ^2.0.4
   audioplayers: ^0.20.1
   percent_indicator: ^4.0.1
+  flutter_windowmanager: ^0.2.0
   web_socket_channel: ^2.2.0
   web3dart: ^2.3.0
 

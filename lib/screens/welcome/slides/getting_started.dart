@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/welcome/slides/slide_two.dart';
+import 'package:renderscan/screens/welcome/slides/slides.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
-class SlideOne extends StatefulWidget {
+class GettingStarted extends StatefulWidget {
   @override
-  State<SlideOne> createState() => _SlideOneState();
+  State<GettingStarted> createState() => _GettingStartedState();
 }
 
-class _SlideOneState extends State<SlideOne> {
+class _GettingStartedState extends State<GettingStarted> {
   final buttonState = [false, false, false, false];
 
   @override
@@ -78,15 +78,15 @@ class _SlideOneState extends State<SlideOne> {
                       main: "assets/images/no_bg.png")
                 ],
               ),
-              TextButton(
-                  onPressed: () {
+              GestureDetector(
+                  onTap: () {
                     Navigator.of(context).push(PageTransition(
                         type: PageTransitionType.leftToRight,
-                        child: SlideTwo(),
+                        child: Slides(),
                         ctx: context,
                         duration: Duration(milliseconds: 300),
                         fullscreenDialog: true,
-                        childCurrent: SlideOne()));
+                        childCurrent: GettingStarted()));
                   },
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
@@ -141,13 +141,14 @@ class _SelectorState extends State<Selector> {
       child: AnimatedContainer(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: context.watch<ThemeProvider>().getBackgroundColor(),
+            color: !widget.selected
+                ? context.watch<ThemeProvider>().getPriamryFontColor()
+                : context.watch<ThemeProvider>().getHighLightColor(),
             boxShadow: [
               BoxShadow(
-                  blurRadius: 3,
-                  color: !widget.selected
-                      ? context.watch<ThemeProvider>().getPriamryFontColor()
-                      : context.watch<ThemeProvider>().getHighLightColor())
+                blurRadius: 3,
+                color: context.watch<ThemeProvider>().getBackgroundColor(),
+              )
             ]),
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -173,7 +174,9 @@ class _SelectorState extends State<Selector> {
                 Text(
                   widget.text,
                   style: kPrimartFont(
-                      context.watch<ThemeProvider>().getPriamryFontColor(),
+                      widget.selected
+                          ? context.watch<ThemeProvider>().getPriamryFontColor()
+                          : context.watch<ThemeProvider>().getHighLightColor(),
                       18,
                       FontWeight.bold),
                 )

@@ -5,7 +5,8 @@ import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
-import 'package:renderscan/screens/welcome/slides/slide_one.dart';
+import 'package:renderscan/screens/wallet/create_wallet.screen.dart';
+import 'package:renderscan/screens/welcome/slides/getting_started.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
 
@@ -24,16 +25,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       context.read<Web3Servives>().init();
       var future = Future.delayed(const Duration(milliseconds: 5000), () async {
         try {
-          final value = await Storage().isFirstTime();
-          if (value.toString() == "false")
-            return Navigator.push(context,
-                MaterialPageRoute(builder: (context) => NavigationScreen()));
+          final isFirstTime = await Storage().isFirstTime();
+          final hasAddress = await Storage().getItem("address");
 
-          return Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SlideOne()));
-        } catch (err) {
+          if (isFirstTime.toString() == "null")
+            return Navigator.push(context,
+                MaterialPageRoute(builder: (context) => GettingStarted()));
+
+          if (hasAddress.toString() == "null")
+            return Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateWalletScreen()));
+
           return Navigator.push(context,
               MaterialPageRoute(builder: (context) => NavigationScreen()));
+        } catch (err) {
+          return Navigator.push(context,
+              MaterialPageRoute(builder: (context) => GettingStarted()));
         }
       });
       future.then((value) {});
@@ -76,8 +83,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ],
         ),
-        Lottie.asset("assets/lottie/splash.json",
-            width: 420, height: 420, fit: BoxFit.fill),
+        Lottie.asset(
+          "assets/lottie/splash.json",
+          width: 420,
+          height: 420,
+          fit: BoxFit.fill,
+        ),
       ]),
     );
   }

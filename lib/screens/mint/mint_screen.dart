@@ -6,11 +6,10 @@ import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/edit/background_edit.dart';
+import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/generate/generate_api.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
 import 'package:renderscan/theme/theme_provider.dart';
-import 'package:renderscan/utils/logger.dart';
 
 class MintScreen extends StatefulWidget {
   final Uint8List imageSource;
@@ -23,7 +22,7 @@ class MintScreen extends StatefulWidget {
 }
 
 class _MintScreenState extends State<MintScreen> {
-  bool isLoaded = true;
+  bool hasApplied = false;
 
   List<String> c = [
     "#483838",
@@ -57,7 +56,6 @@ class _MintScreenState extends State<MintScreen> {
 
   String color = "";
   int currentColor = 0;
-  late Uint8List img = widget.imageSource;
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +145,19 @@ class _MintScreenState extends State<MintScreen> {
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
     goToEditScreen() {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BackGroundEdit(
-                    image: widget.imageSource,
-                    imageType: "SCANNED",
-                  )));
+      setState(() {
+        hasApplied = true;
+      });
+      GenerateApi()
+          .addBackgroundImage(widget.imageSource, c[currentColor])
+          .then((value) {
+        setState(() {
+          hasApplied = false;
+        });
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return EditScreen(image: value, imageType: "SCANNED");
+        }));
+      });
     }
 
     return Scaffold(
@@ -190,28 +194,15 @@ class _MintScreenState extends State<MintScreen> {
           children: [
             SizedBox(),
             Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
-                decoration: BoxDecoration(
-                    color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                          color: context
-                              .watch<ThemeProvider>()
-                              .getHighLightColor(),
-                          blurRadius: 3)
-                    ]),
-                child: widget.imageSource.isNotEmpty
-                    ? ClipRRect(
-                        child: isLoaded
-                            ? Image.memory(img, fit: BoxFit.fill)
-                            : Container(
-                                height: 250,
-                                width: size.width * 0.8,
-                                child: spinkit()),
-                        borderRadius: BorderRadius.circular(20),
-                      )
-                    : null),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: colors[currentColor],
+              ),
+              child: Image.memory(
+                widget.imageSource,
+                fit: BoxFit.fill,
+              ),
+            ),
             Container(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -228,16 +219,7 @@ class _MintScreenState extends State<MintScreen> {
                             return GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  isLoaded = false;
-                                });
-                                GenerateApi()
-                                    .addBackgroundImage(img, c[index])
-                                    .then((value) {
-                                  log.i(value);
-                                  setState(() {
-                                    img = value;
-                                    isLoaded = true;
-                                  });
+                                  currentColor = index;
                                 });
                               },
                               child: Container(
@@ -301,9 +283,11 @@ class _MintScreenState extends State<MintScreen> {
                           ]),
                       child: TextButton(
                           onPressed: goToEditScreen,
-                          child: Text("Edit",
-                              style: kPrimartFont(
-                                  Colors.white, 14, FontWeight.bold))),
+                          child: hasApplied
+                              ? spinkit()
+                              : Text("Edit",
+                                  style: kPrimartFont(
+                                      Colors.white, 14, FontWeight.bold))),
                     )
                   ]),
               padding: EdgeInsets.symmetric(vertical: 60),

@@ -11,42 +11,42 @@ class CreateWalletScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      body: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+        SizedBox(
+          height: 30,
+        ),
         Image.asset(
           "assets/images/wallet.png",
           height: 165,
           width: 165,
         ),
-        SizedBox(
-          height: 20,
-        ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(children: [
             Container(
                 child: Text(
-              "○ Create a wallet with a secret phase recovery",
-              textAlign: TextAlign.center,
+              "	• Create a wallet with a secret phase recovery",
+              textAlign: TextAlign.left,
               style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
-                14,
+                16,
                 FontWeight.bold,
               ),
             )),
+            SizedBox(
+              height: 15,
+            ),
             Container(
                 child: Text(
-              "○ This is secure web3 wallet that will be used to store NFT's and Earnings",
-              textAlign: TextAlign.center,
+              "	• This is secure web3 wallet that will be used to store NFT's and Earnings",
+              textAlign: TextAlign.left,
               style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
-                14,
+                16,
                 FontWeight.bold,
               ),
             ))
           ]),
-        ),
-        SizedBox(
-          height: 20,
         ),
         CreateWalletButton(
             text: "Create Wallet",
@@ -54,24 +54,24 @@ class CreateWalletScreen extends StatelessWidget {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: ((context) => CreatePinScreen())));
             }),
-        SizedBox(
-          height: 20,
-        ),
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: ((context) => ImportWalletScreen())));
           },
           child: Text(
-            "Recovery address with recovery phrase",
+            "Import using secret recovery phrase",
             textAlign: TextAlign.center,
             style: kPrimartFont(
-              context.watch<ThemeProvider>().getPriamryFontColor(),
+              context.watch<ThemeProvider>().getHighLightColor(),
               18,
               FontWeight.bold,
             ),
           ),
-        )
+        ),
+        SizedBox(
+          height: 60,
+        ),
       ]),
     ));
   }

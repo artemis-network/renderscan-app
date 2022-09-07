@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/wallet/validation_wallet.screen.dart';
@@ -17,8 +18,13 @@ class GenerateWalletScreen extends StatefulWidget {
 class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
   List<String> pharseWordsList = [];
 
+  Future<void> block() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   void initState() {
+    block();
     setState(() {
       pharseWordsList = [...widget.phrase.split(" ")];
     });
@@ -29,7 +35,23 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(actions: []),
+      appBar: AppBar(
+        actions: [],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -55,17 +77,6 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    child: Text(
-                      "This 12 word secret pharse in the text order mentioned below is the only way to restore your wallet in case you login from another device",
-                      textAlign: TextAlign.center,
-                      style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        16,
-                        FontWeight.bold,
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -81,17 +92,59 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   Container(
-                    child: Text(
-                      "Write down the secret recovery phrase.",
-                      textAlign: TextAlign.center,
-                      style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        20,
-                        FontWeight.bold,
-                      ),
+                    child: Column(
+                      children: [
+                        Text(
+                          "Write down the secret recovery phrase.",
+                          textAlign: TextAlign.center,
+                          style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            20,
+                            FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Copy",
+                                textAlign: TextAlign.center,
+                                style: kPrimartFont(
+                                  context
+                                      .watch<ThemeProvider>()
+                                      .getPriamryFontColor(),
+                                  20,
+                                  FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              GestureDetector(
+                                child: Image.asset(
+                                  "assets/icons/copy.png",
+                                  height: 18,
+                                  width: 18,
+                                ),
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: widget.phrase));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text("phrase copied!")));
+                                },
+                              )
+                            ],
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                        )
+                      ],
                     ),
                   ),
                 ],

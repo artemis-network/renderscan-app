@@ -7,7 +7,6 @@ import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/generate/generate_api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
-import 'package:renderscan/utils/logger.dart';
 
 class BackGroundEdit extends StatefulWidget {
   final Uint8List image;
@@ -20,7 +19,7 @@ class BackGroundEdit extends StatefulWidget {
 }
 
 class _BackGroundEditState extends State<BackGroundEdit> {
-  bool isLoaded = true;
+  bool hasApplied = false;
 
   List<String> c = [
     "#483838",
@@ -54,7 +53,7 @@ class _BackGroundEditState extends State<BackGroundEdit> {
 
   String color = "";
   int currentColor = 0;
-  late Uint8List img = widget.image;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -92,11 +91,15 @@ class _BackGroundEditState extends State<BackGroundEdit> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(),
-              ClipRRect(
-                child: isLoaded
-                    ? Image.memory(img, fit: BoxFit.fill)
-                    : Container(height: 250, width: 160, child: spinkit()),
-                borderRadius: BorderRadius.circular(20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: colors[currentColor],
+                ),
+                child: Image.memory(
+                  widget.image,
+                  fit: BoxFit.fill,
+                ),
               ),
               Column(
                 children: [
@@ -112,16 +115,7 @@ class _BackGroundEditState extends State<BackGroundEdit> {
                           return GestureDetector(
                             onTap: () {
                               setState(() {
-                                isLoaded = false;
-                              });
-                              GenerateApi()
-                                  .addBackgroundImage(widget.image, c[index])
-                                  .then((value) {
-                                log.i(value);
-                                setState(() {
-                                  img = value;
-                                  isLoaded = true;
-                                });
+                                currentColor = index;
                               });
                             },
                             child: Container(
@@ -139,11 +133,21 @@ class _BackGroundEditState extends State<BackGroundEdit> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return EditScreen(
-                            image: img, imageType: widget.imageType);
-                      }));
+                      setState(() {
+                        hasApplied = true;
+                      });
+                      GenerateApi()
+                          .addBackgroundImage(widget.image, c[currentColor])
+                          .then((value) {
+                        setState(() {
+                          hasApplied = false;
+                        });
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return EditScreen(
+                              image: value, imageType: widget.imageType);
+                        }));
+                      });
                     },
                     child: Container(
                       margin: EdgeInsets.all(10),
@@ -163,11 +167,14 @@ class _BackGroundEditState extends State<BackGroundEdit> {
                             context.watch<ThemeProvider>().getHighLightColor(),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Text(
-                        "Next",
-                        textAlign: TextAlign.center,
-                        style: kPrimartFont(Colors.white, 18, FontWeight.bold),
-                      ),
+                      child: hasApplied
+                          ? spinkit()
+                          : Text(
+                              "Next",
+                              textAlign: TextAlign.center,
+                              style: kPrimartFont(
+                                  Colors.white, 18, FontWeight.bold),
+                            ),
                     ),
                   )
                 ],

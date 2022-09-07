@@ -54,7 +54,6 @@ class _ImportScreenState extends State<ImportScreen> {
       ];
 
   int currentStep = 0;
-  Uint8List? img;
 
   Uint8List fromBase64(base64Str) => base64Decode(base64Str);
 
@@ -142,25 +141,55 @@ class _ImportScreenState extends State<ImportScreen> {
                 boxShadow: [],
               ),
             ),
-            InkWell(
-                onTap: pickImage,
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Text("Upload",
-                      style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          22,
-                          FontWeight.bold)),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                            blurRadius: 1,
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getFavouriteColor())
-                      ]),
-                ))
+            !isUploaded
+                ? InkWell(
+                    onTap: pickImage,
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: Text("Upload",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              22,
+                              FontWeight.bold)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 1,
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getFavouriteColor())
+                          ]),
+                    ))
+                : InkWell(
+                    onTap: () {
+                      setState(() {
+                        isUploaded = false;
+                      });
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: Text("Reset",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              22,
+                              FontWeight.bold)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 1,
+                                color: context
+                                    .watch<ThemeProvider>()
+                                    .getFavouriteColor())
+                          ]),
+                    ))
           ],
         ));
   }

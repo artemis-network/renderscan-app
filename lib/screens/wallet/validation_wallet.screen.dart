@@ -34,6 +34,8 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
     false,
   ];
 
+  List<int> order = [];
+
   List<String> value = [
     "",
     "",
@@ -57,6 +59,20 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
         child: Scaffold(
       appBar: AppBar(
         actions: [],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
+        backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
@@ -132,8 +148,37 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                           );
                         })),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    GestureDetector(
+                      onTap: () {
+                        List<int> o = order;
+                        if (o.length > 0) {
+                          setState(() {
+                            value[count - 1] = "";
+                            isSelected[o[o.length - 1]] = false;
+                            count -= 1;
+                          });
+                          o.removeLast();
+                          setState(() {
+                            order = o;
+                          });
+                        }
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: Text(
+                          "Delete",
+                          style: kPrimartFont(
+                              context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              18,
+                              FontWeight.bold),
+                        ),
+                      ),
+                    ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -192,9 +237,13 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                           return GestureDetector(
                             onTap: () {
                               if (count < 12 && isSelected[index] != true) {
+                                List<int> o = order;
+                                o.add(index);
+                                print(o);
                                 setState(() {
                                   value[count] = widget.shuffled[index];
                                   isSelected[index] = true;
+                                  order = o;
                                   count += 1;
                                 });
                               }

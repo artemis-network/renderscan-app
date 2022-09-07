@@ -89,10 +89,10 @@ class _GalleryScreenState extends State<GalleryScreen> {
   }
 
   List<String> galleryType = [
+    "MINTED",
     "SCANNED",
     "IMPORTED",
     "GENERATED",
-    "MINTED",
   ];
   List<bool> activeTab = [true, false, false, false];
 
@@ -196,13 +196,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
                   builder: ((context, snapshot) {
                     if (snapshot.hasData) {
                       try {
-                        final username = snapshot.data;
+                        final username = snapshot.data as String;
                         var url =
                             "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                                username.toString() +
+                                username +
                                 '.png';
                         return CircleAvatar(
-                          backgroundImage: AssetImage(url),
+                          backgroundImage: NetworkImage(url),
                           radius: 48,
                         );
                       } catch (err) {
@@ -251,53 +251,74 @@ class _GalleryScreenState extends State<GalleryScreen> {
                     height: 5,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
-                    decoration: BoxDecoration(
-                        color:
-                            context.watch<ThemeProvider>().getBackgroundColor(),
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                              spreadRadius: 0,
-                              blurRadius: 100,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getHighLightColor()
-                                  .withOpacity(0.33),
-                              offset: Offset(0, 0))
-                        ]),
+                    margin: EdgeInsets.only(top: 10),
                     child: FutureBuilder(
                         future: Storage().getItem("address"),
                         builder: ((context, snapshot) {
                           if (snapshot.hasData) {
-                            return GestureDetector(
-                              onTap: () {
-                                Clipboard.setData(ClipboardData(
-                                    text: snapshot.data.toString()));
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Address copied!")));
-                              },
-                              child: Text(
-                                snapshot.data.toString(),
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
-                                    12,
-                                    FontWeight.bold),
-                              ),
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: context
+                                            .watch<ThemeProvider>()
+                                            .getBackgroundColor(),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              offset: Offset(0, 0),
+                                              blurRadius: 2,
+                                              color: context
+                                                  .watch<ThemeProvider>()
+                                                  .getHighLightColor())
+                                        ]),
+                                    child: Container(
+                                      child: Text(
+                                        snapshot.data
+                                                .toString()
+                                                .substring(0, 5) +
+                                            "....." +
+                                            snapshot.data.toString().substring(
+                                                snapshot.data
+                                                        .toString()
+                                                        .length -
+                                                    6,
+                                                snapshot.data
+                                                        .toString()
+                                                        .length -
+                                                    1),
+                                        style: kPrimartFont(
+                                            context
+                                                .watch<ThemeProvider>()
+                                                .getPriamryFontColor(),
+                                            12,
+                                            FontWeight.bold),
+                                      ),
+                                    )),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text: snapshot.data.toString()));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content:
+                                                  Text("Address copied!")));
+                                    },
+                                    child: Image.asset(
+                                      "assets/icons/copy.png",
+                                      height: 16,
+                                      width: 16,
+                                    ))
+                              ],
                             );
                           }
-
-                          return Text(
-                            "0x318A...adc2",
-                            style: kPrimartFont(
-                                context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                12,
-                                FontWeight.bold),
-                          );
+                          return Container();
                         })),
                   ),
                 ],

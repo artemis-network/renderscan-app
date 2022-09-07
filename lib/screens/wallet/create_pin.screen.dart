@@ -15,7 +15,20 @@ class CreatePinScreen extends StatefulWidget {
 class _CreatePinScreenState extends State<CreatePinScreen> {
   List<String> confirmPin = ["", "", "", "", "", ""];
   List<String> currentPin = ["", "", "", "", "", ""];
-  List<String> controls = ["X", "0", "Reset"];
+  List<String> controls = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "X",
+    "0",
+    "Reset"
+  ];
   bool isPinEntered = false;
   int count = 0;
 
@@ -24,11 +37,27 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
     return Scaffold(
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       appBar: AppBar(
-        actions: [],
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Padding(
+            child: Image.asset(
+              "assets/icons/back.png",
+              height: 24,
+              width: 24,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+          ),
+        ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       ),
       body: Column(children: [
+        SizedBox(
+          height: 30,
+        ),
         Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               alignment: Alignment.center,
@@ -43,25 +72,26 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 "This password will unlock only on this device",
                 textAlign: TextAlign.center,
                 style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
-                  18,
+                  16,
                   FontWeight.normal,
                 ),
               ),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 isPinEntered ? "Confirm PIN" : "Enter PIN",
                 style: kPrimartFont(
@@ -85,131 +115,85 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
           ],
         ),
         SizedBox(
-          height: 40,
+          height: 30,
         ),
         Expanded(
-            child: Column(
-          children: [
-            Expanded(
-                child: MasonryGridView.count(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    itemCount: 9,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 3,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                              )
-                            ],
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getBackgroundColor(),
-                          ),
-                          child: Text(
-                            (index + 1).toString(),
-                            textAlign: TextAlign.center,
-                            style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              28,
-                              FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          if (count < 6) {
-                            setState(() {
-                              currentPin[count] = (index + 1).toString();
-                              count += 1;
-                            });
-                          }
-                        },
-                      );
-                    })),
-            Expanded(
-                child: MasonryGridView.count(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 2,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                              )
-                            ],
-                            color: context
-                                .watch<ThemeProvider>()
-                                .getBackgroundColor(),
-                          ),
-                          child: Text(
-                            controls[index],
-                            textAlign: TextAlign.center,
-                            style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              28,
-                              FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          if (index == 0) {
-                            if (count >= 0) {
-                              setState(() {
-                                currentPin[count - 1] = "";
-                                count -= 1;
-                              });
-                            }
-                          }
+            child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: MasonryGridView.count(
+              physics: BouncingScrollPhysics(),
+              crossAxisCount: 3,
+              itemCount: controls.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 2,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor(),
+                        )
+                      ],
+                      color: context.watch<ThemeProvider>().getHighLightColor(),
+                    ),
+                    child: Text(
+                      controls[index],
+                      textAlign: TextAlign.center,
+                      style: kPrimartFont(
+                        context.watch<ThemeProvider>().getPriamryFontColor(),
+                        28,
+                        FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    if (count < 6 && index != 9 && index != 10 && index != 11) {
+                      setState(() {
+                        currentPin[count] = (index + 1).toString();
+                        count += 1;
+                      });
+                    }
 
-                          if (index == 1) {
-                            if (count < 6) {
-                              setState(() {
-                                currentPin[count] = (0).toString();
-                                count += 1;
-                              });
-                            }
-                          }
+                    if (index == 9) {
+                      if (count >= 0) {
+                        setState(() {
+                          currentPin[count - 1] = "";
+                          count -= 1;
+                        });
+                      }
+                    }
 
-                          if (index == 2) {
-                            setState(() {
-                              currentPin = ["", "", "", "", "", ""];
-                              confirmPin = ["", "", "", "", "", ""];
-                              isPinEntered = false;
-                              count = 0;
-                            });
-                          }
-                        },
-                      );
-                    })),
-          ],
+                    if (index == 10) {
+                      if (count < 6) {
+                        setState(() {
+                          currentPin[count] = (0).toString();
+                          count += 1;
+                        });
+                      }
+                    }
+
+                    if (index == 11) {
+                      setState(() {
+                        currentPin = ["", "", "", "", "", ""];
+                        confirmPin = ["", "", "", "", "", ""];
+                        isPinEntered = false;
+                        count = 0;
+                      });
+                    }
+                  },
+                );
+              }),
         )),
+        SizedBox(
+          height: 20,
+        ),
         Container(
-          margin: EdgeInsets.only(bottom: 40),
           child: CreateWalletButton(
               text: "Submit",
               press: () {
@@ -222,9 +206,6 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
                       count = 0;
                     });
                   } else {
-                    print(confirmPin.toString());
-                    print(currentPin.toString());
-                    print(confirmPin.toString() != currentPin.toString());
                     if (!listEquals(confirmPin, currentPin)) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
@@ -264,7 +245,10 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
                   }
                 }
               }),
-        )
+        ),
+        SizedBox(
+          height: 30,
+        ),
       ]),
     );
   }

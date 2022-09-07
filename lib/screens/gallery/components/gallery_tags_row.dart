@@ -28,27 +28,27 @@ class GalleryTagRow extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               GestureDetector(
+                  child: GalleryTag(
+                    tag: "Minted",
+                    icon: "assets/icons/list.png",
+                    isActive: activeTab[0],
+                  ),
+                  onTap: () {
+                    click(0);
+                  }),
+              GestureDetector(
                 child: GalleryTag(
                   tag: "Scanned",
                   icon: "assets/icons/list.png",
-                  isActive: activeTab[0],
+                  isActive: activeTab[1],
                 ),
                 onTap: () {
-                  click(0);
+                  click(1);
                 },
               ),
               GestureDetector(
                   child: GalleryTag(
                     tag: "Imported",
-                    icon: "assets/icons/import.png",
-                    isActive: activeTab[1],
-                  ),
-                  onTap: () {
-                    click(1);
-                  }),
-              GestureDetector(
-                  child: GalleryTag(
-                    tag: "Generated",
                     icon: "assets/icons/import.png",
                     isActive: activeTab[2],
                   ),
@@ -57,8 +57,8 @@ class GalleryTagRow extends StatelessWidget {
                   }),
               GestureDetector(
                   child: GalleryTag(
-                    tag: "Minted",
-                    icon: "assets/icons/list.png",
+                    tag: "Generated",
+                    icon: "assets/icons/import.png",
                     isActive: activeTab[3],
                   ),
                   onTap: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/filters/auth_filter.dart';
@@ -8,6 +9,8 @@ import 'package:renderscan/screens/faq/faq_screen.dart';
 import 'package:renderscan/screens/feedback/feedback_screen.dart';
 import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
+import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/profile/profile_sidebar.dart';
 import 'package:renderscan/screens/profile/user_screen.dart';
 import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
@@ -135,7 +138,7 @@ class _SideBarState extends State<SideBar> {
                       operate() {
                         Navigator.of(context).push(PageTransition(
                             type: PageTransitionType.bottomToTop,
-                            child: UserScreen(),
+                            child: ProfileSideBarScreen(),
                             ctx: context,
                             duration: Duration(milliseconds: 300),
                             fullscreenDialog: true,
@@ -240,11 +243,126 @@ class _SideBarState extends State<SideBar> {
                       text: "Logout",
                       icon: "assets/icons/logout.png",
                       onClick: () {
-                        print("> Logging out");
-                        Storage().logout();
-                        context.read<NavigationProvider>().setCurrentIndex(0);
-                        context.read<ScanProvider>().resetProvider();
-                        Navigator.of(context).pop();
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                backgroundColor: context
+                                    .watch<ThemeProvider>()
+                                    .getBackgroundColor(),
+                                elevation: 4,
+                                child: Container(
+                                    height: 150,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            "Are you sure?",
+                                            textAlign: TextAlign.center,
+                                            style: kPrimartFont(
+                                                context
+                                                    .watch<ThemeProvider>()
+                                                    .getPriamryFontColor(),
+                                                24,
+                                                FontWeight.bold),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            GestureDetector(
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 20,
+                                                  vertical: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: context
+                                                        .watch<ThemeProvider>()
+                                                        .getHighLightColor()),
+                                                child: Text(
+                                                  "No",
+                                                  style: kPrimartFont(
+                                                    context
+                                                        .watch<ThemeProvider>()
+                                                        .getPriamryFontColor(),
+                                                    22,
+                                                    FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 20,
+                                            ),
+                                            GestureDetector(
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 20,
+                                                  vertical: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: context
+                                                        .watch<ThemeProvider>()
+                                                        .getHighLightColor()),
+                                                child: Text(
+                                                  "Yes",
+                                                  style: kPrimartFont(
+                                                    context
+                                                        .watch<ThemeProvider>()
+                                                        .getPriamryFontColor(),
+                                                    22,
+                                                    FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              onTap: () {
+                                                GoogleSignIn _googleSignin =
+                                                    GoogleSignIn(
+                                                  scopes: [
+                                                    'email',
+                                                    'https://www.googleapis.com/auth/contacts.readonly',
+                                                  ],
+                                                );
+                                                _googleSignin.signOut();
+                                                print("> Logging out");
+                                                Storage().logout();
+                                                context
+                                                    .read<NavigationProvider>()
+                                                    .setCurrentIndex(0);
+                                                context
+                                                    .read<ScanProvider>()
+                                                    .resetProvider();
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                  return NavigationScreen();
+                                                }));
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                              );
+                            });
                       },
                     ),
                     guestView: Column(

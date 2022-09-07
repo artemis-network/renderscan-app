@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/screens/nft/components/nft_details.dart';
@@ -50,10 +51,10 @@ class NFTSolScreen extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: Padding(
-              child: Image.asset(
-                "assets/icons/cancel.png",
-                height: 24,
-                width: 24,
+              child: Icon(
+                FontAwesomeIcons.arrowLeft,
+                size: 32,
+                color: context.watch<ThemeProvider>().getFavouriteColor(),
               ),
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             ),

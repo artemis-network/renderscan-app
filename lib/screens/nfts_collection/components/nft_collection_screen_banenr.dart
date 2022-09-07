@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
@@ -34,10 +35,10 @@ class NFTCollectScreenBanner extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Image.asset(
-                "assets/icons/back.png",
-                height: 46,
-                width: 46,
+              child: Icon(
+                FontAwesomeIcons.arrowLeft,
+                size: 32,
+                color: context.watch<ThemeProvider>().getFavouriteColor(),
               ),
             ),
           ),
