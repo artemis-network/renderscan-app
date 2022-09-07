@@ -72,7 +72,7 @@ class _BackGroundEditState extends State<BackGroundEdit> {
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),

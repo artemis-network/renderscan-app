@@ -56,7 +56,7 @@ class NFTSolScreen extends StatelessWidget {
                 size: 32,
                 color: context.watch<ThemeProvider>().getFavouriteColor(),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           )),
 

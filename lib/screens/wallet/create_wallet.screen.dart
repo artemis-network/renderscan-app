@@ -25,7 +25,7 @@ class CreateWalletScreen extends StatelessWidget {
           child: Column(children: [
             Container(
                 child: Text(
-              "	• Create a wallet with a secret phase recovery",
+              "Create a wallet with a secret phase recovery",
               textAlign: TextAlign.left,
               style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -38,7 +38,7 @@ class CreateWalletScreen extends StatelessWidget {
             ),
             Container(
                 child: Text(
-              "	• This is secure web3 wallet that will be used to store NFT's and Earnings",
+              "This is secure web3 wallet that will be used to store NFT's and Earnings",
               textAlign: TextAlign.left,
               style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -77,7 +77,7 @@ class CreateWalletScreen extends StatelessWidget {
   }
 }
 
-class CreateWalletButton extends StatelessWidget {
+class CreateWalletButton extends StatefulWidget {
   final String text;
   final Function press;
   const CreateWalletButton({
@@ -86,31 +86,44 @@ class CreateWalletButton extends StatelessWidget {
     required this.press,
   }) : super(key: key);
 
+  @override
+  State<CreateWalletButton> createState() => _CreateWalletButtonState();
+}
+
+class _CreateWalletButtonState extends State<CreateWalletButton> {
+  bool buttonEffect = false;
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {
-        press();
-      },
-      child: Container(
-        padding: EdgeInsets.all(20),
-        width: size.width * 0.8,
-        decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getHighLightColor(),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  color: context.watch<ThemeProvider>().getHighLightColor(),
-                  offset: Offset(0, 0)),
-            ]),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: kPrimartFont(Colors.white, 24, FontWeight.bold),
-        ),
-      ),
-    );
+        onTap: () {
+          setState(() {
+            buttonEffect = !buttonEffect;
+          });
+          var future = Future.delayed(Duration(milliseconds: 150), () {
+            setState(() {
+              buttonEffect = !buttonEffect;
+            });
+            widget.press();
+          });
+          future.then((value) {});
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: context.watch<ThemeProvider>().getHighLightColor(),
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: buttonEffect ? 30 : 10,
+                    color: context.watch<ThemeProvider>().getHighLightColor())
+              ]),
+          alignment: Alignment.center,
+          child: Text(widget.text,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  34,
+                  FontWeight.bold)),
+        ));
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_provider.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/profile/profile_sidebar.dart';
-import 'package:renderscan/screens/profile/user_screen.dart';
 import 'package:renderscan/screens/referal/referal_screen.dart';
 import 'package:renderscan/screens/scan/scan_provider.dart';
 import 'package:renderscan/screens/transcations/components/buy_ruby_modal.dart';
@@ -247,21 +247,23 @@ class _SideBarState extends State<SideBar> {
                             context: context,
                             builder: (context) {
                               return Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
                                 backgroundColor: context
                                     .watch<ThemeProvider>()
                                     .getBackgroundColor(),
                                 elevation: 4,
                                 child: Container(
-                                    height: 150,
+                                    height: 250,
                                     child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                          MainAxisAlignment.spaceEvenly,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
                                           child: Text(
-                                            "Are you sure?",
+                                            "Logout ",
                                             textAlign: TextAlign.center,
                                             style: kPrimartFont(
                                                 context
@@ -271,8 +273,33 @@ class _SideBarState extends State<SideBar> {
                                                 FontWeight.bold),
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 20,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.warning,
+                                              size: 20,
+                                              color: context
+                                                  .watch<ThemeProvider>()
+                                                  .getHighLightColor(),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                "Are you sure?",
+                                                textAlign: TextAlign.center,
+                                                style: kPrimartFont(
+                                                    context
+                                                        .watch<ThemeProvider>()
+                                                        .getPriamryFontColor(),
+                                                    18,
+                                                    FontWeight.bold),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         Row(
                                           mainAxisAlignment:
@@ -316,14 +343,22 @@ class _SideBarState extends State<SideBar> {
                                                   vertical: 10,
                                                 ),
                                                 decoration: BoxDecoration(
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          blurRadius: 2,
+                                                          color: context
+                                                              .watch<
+                                                                  ThemeProvider>()
+                                                              .getHighLightColor())
+                                                    ],
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
                                                     color: context
                                                         .watch<ThemeProvider>()
-                                                        .getHighLightColor()),
+                                                        .getBackgroundColor()),
                                                 child: Text(
-                                                  "Yes",
+                                                  "Yes, Logout",
                                                   style: kPrimartFont(
                                                     context
                                                         .watch<ThemeProvider>()

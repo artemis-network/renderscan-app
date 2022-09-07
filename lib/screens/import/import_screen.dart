@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,6 +23,7 @@ class _ImportScreenState extends State<ImportScreen> {
   String filename = "";
   late Uint8List imageFile;
   bool isUploaded = false;
+  bool isLoading = false;
 
   List<Step> getSteps() => [
         Step(
@@ -57,7 +59,7 @@ class _ImportScreenState extends State<ImportScreen> {
 
   Uint8List fromBase64(base64Str) => base64Decode(base64Str);
 
-  Future pickImage() async {
+  Future<void> pickImage() async {
     try {
       final image = await ImagePicker().getImage(source: ImageSource.gallery);
       final img = await image!.readAsBytes();
@@ -70,26 +72,35 @@ class _ImportScreenState extends State<ImportScreen> {
     }
   }
 
-  Future clipImage() async {
+  clipImage() {
     try {
-      ScanResponse resp = await ScanApi().cutImageFromServer(imageFile);
-      var url = resp.file?.replaceAll("data:image/png;base64,", "").toString();
       setState(() {
-        imageFile = fromBase64(url);
-        filename = resp.filename.toString();
+        isLoading = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: Colors.greenAccent,
-        content: Text("Image Clipped",
-            style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
-      ));
+      ScanApi().cutUploadedImage(imageFile).then((value) {
+        var url =
+            value.file?.replaceAll("data:image/png;base64,", "").toString();
+        log.i("her" + url.toString());
+        setState(() {
+          imageFile = fromBase64(url);
+          filename = value.filename.toString();
+          isLoading = false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.greenAccent,
+          content: Text("Image Clipped",
+              style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
+        ));
+      }).catchError((error) {
+        log.e(error);
+      });
     } on PlatformException catch (e) {
       log.e(e);
     }
   }
 
-  Future saveImage() async {
-    await ScanApi().save(filename).then((value) {
+  saveImage() {
+    ScanApi().save(filename).then((value) {
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.greenAccent,
         content: Text("File Saved",
@@ -135,7 +146,12 @@ class _ImportScreenState extends State<ImportScreen> {
                         fit: BoxFit.fitWidth,
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      child: Text(
+                        "Upload image",
+                        style: kPrimartFont(Colors.white, 22, FontWeight.bold),
+                      ),
+                    ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [],
@@ -222,7 +238,7 @@ class _ImportScreenState extends State<ImportScreen> {
             margin: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
             height: 350,
             width: 420,
-            child: isUploaded
+            child: !isLoading && isUploaded
                 ? InkWell(
                     child: Image.memory(
                       imageFile,
@@ -230,7 +246,7 @@ class _ImportScreenState extends State<ImportScreen> {
                       fit: BoxFit.fitWidth,
                     ),
                   )
-                : Container(),
+                : spinkit(),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               boxShadow: [],
@@ -342,7 +358,7 @@ class _ImportScreenState extends State<ImportScreen> {
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),

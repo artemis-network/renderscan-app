@@ -12,6 +12,7 @@ class GettingStarted extends StatefulWidget {
 
 class _GettingStartedState extends State<GettingStarted> {
   final buttonState = [false, false, false, false];
+  bool buttonEffect = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,15 +81,26 @@ class _GettingStartedState extends State<GettingStarted> {
               ),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(PageTransition(
-                        type: PageTransitionType.leftToRight,
-                        child: Slides(),
-                        ctx: context,
-                        duration: Duration(milliseconds: 300),
-                        fullscreenDialog: true,
-                        childCurrent: GettingStarted()));
+                    setState(() {
+                      buttonEffect = !buttonEffect;
+                    });
+                    var future = Future.delayed(
+                        const Duration(milliseconds: 250), () async {
+                      setState(() {
+                        buttonEffect = !buttonEffect;
+                      });
+                      Navigator.of(context).push(PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: Slides(),
+                          ctx: context,
+                          duration: Duration(milliseconds: 150),
+                          fullscreenDialog: true,
+                          childCurrent: GettingStarted()));
+                    });
+                    future.then((value) {});
                   },
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 150),
                     margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
                     padding: EdgeInsets.symmetric(vertical: 10),
                     decoration: BoxDecoration(
@@ -97,7 +109,7 @@ class _GettingStartedState extends State<GettingStarted> {
                             context.watch<ThemeProvider>().getBackgroundColor(),
                         boxShadow: [
                           BoxShadow(
-                              blurRadius: 10,
+                              blurRadius: buttonEffect ? 30 : 10,
                               color: context
                                   .watch<ThemeProvider>()
                                   .getHighLightColor())
@@ -105,9 +117,13 @@ class _GettingStartedState extends State<GettingStarted> {
                     alignment: Alignment.center,
                     child: Text("Get Started",
                         style: kPrimartFont(
-                            context
-                                .watch<ThemeProvider>()
-                                .getPriamryFontColor(),
+                            buttonEffect
+                                ? context
+                                    .watch<ThemeProvider>()
+                                    .getHighLightColor()
+                                : context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
                             34,
                             FontWeight.bold)),
                   )),
@@ -142,12 +158,12 @@ class _SelectorState extends State<Selector> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: !widget.selected
-                ? context.watch<ThemeProvider>().getPriamryFontColor()
+                ? context.watch<ThemeProvider>().getBackgroundColor()
                 : context.watch<ThemeProvider>().getHighLightColor(),
             boxShadow: [
               BoxShadow(
                 blurRadius: 3,
-                color: context.watch<ThemeProvider>().getBackgroundColor(),
+                color: context.watch<ThemeProvider>().getHighLightColor(),
               )
             ]),
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),

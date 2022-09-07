@@ -98,6 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
+  bool buttonEffect = false;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -130,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 24,
                   width: 24,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               ),
             ),
           ),
@@ -146,18 +148,58 @@ class _HomeScreenState extends State<HomeScreen> {
                       HeadingWidget(text: "🔥 Trending"),
                       Padding(
                         padding: EdgeInsets.only(right: 20),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RankingScreen()));
+                        child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                buttonEffect = !buttonEffect;
+                              });
+                              var future = Future.delayed(
+                                  Duration(milliseconds: 150), () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RankingScreen()));
+                              });
+                              future.then((value) => {});
                             },
-                            icon: Icon(Icons.arrow_forward_ios,
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                                size: 24)),
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 250),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        blurRadius: buttonEffect ? 20 : 5,
+                                        color: context
+                                            .watch<ThemeProvider>()
+                                            .getHighLightColor())
+                                  ],
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: context
+                                      .watch<ThemeProvider>()
+                                      .getHighLightColor()),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "View More",
+                                    style: kPrimartFont(
+                                        context
+                                            .watch<ThemeProvider>()
+                                            .getPriamryFontColor(),
+                                        16,
+                                        FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getPriamryFontColor(),
+                                      size: 16),
+                                ],
+                              ),
+                            )),
                       )
                     ],
                   ),

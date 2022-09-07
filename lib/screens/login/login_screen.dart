@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -148,141 +148,136 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
       body: Container(
-        padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
+        padding: EdgeInsets.symmetric(horizontal: 30),
         child: Form(
             key: formkey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Image.asset(
-                    "assets/images/no_bg_logo.png",
-                    height: size.height * 0.2,
-                  ),
-                  InputField(
-                    icon: Icons.email,
-                    labelText: "Email/Username",
-                    onChange: (email) => handleEmailInput(email),
-                  ),
-                  InputPasswordField(
-                    text: "Password",
-                    onChanged: (password) => handlePasswordInput(password),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      scaffoldKey.currentState?.openDrawer();
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                child: ForgotPassword(),
-                                ctx: context,
-                                duration: Duration(milliseconds: 300),
-                                fullscreenDialog: true,
-                                childCurrent: LoginScreen()));
-                          },
-                          child: Text(
-                            "Forgot Password ?",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  !isLoading
-                      ? LoginButton(
-                          text: "Login",
-                          press: authenticate,
-                        )
-                      : spinkit(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Stack(alignment: Alignment.center, children: [
-                    Positioned(
-                        child: Container(
-                      child: Divider(
-                        height: 20,
-                        thickness: 2,
-                        color:
-                            context.watch<ThemeProvider>().getFavouriteColor(),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 50),
-                    )),
-                    Positioned(
-                        child: Container(
-                      color:
-                          context.watch<ThemeProvider>().getBackgroundColor(),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: Text("OR",
-                          style: GoogleFonts.poppins(
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold)),
-                    )),
-                  ]),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GoogleLoginButton(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      scaffoldKey.currentState?.openDrawer();
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account?",
+            child: Column(
+              children: <Widget>[
+                Image.asset(
+                  "assets/images/no_bg_logo.png",
+                  height: size.height * 0.125,
+                ),
+                InputField(
+                  icon: Icons.email,
+                  labelText: "Email/Username",
+                  onChange: (email) => handleEmailInput(email),
+                ),
+                InputPasswordField(
+                  text: "Password",
+                  onChanged: (password) => handlePasswordInput(password),
+                ),
+                TextButton(
+                  onPressed: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: ForgotPassword(),
+                              ctx: context,
+                              duration: Duration(milliseconds: 300),
+                              fullscreenDialog: true,
+                              childCurrent: LoginScreen()));
+                        },
+                        child: Text(
+                          "Forgot Password ?",
                           style: TextStyle(
                             fontSize: 16,
                             color: context
                                 .watch<ThemeProvider>()
                                 .getPriamryFontColor(),
-                            fontWeight: FontWeight.normal,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                child: SignUpScreen(),
-                                ctx: context,
-                                duration: Duration(milliseconds: 300),
-                                fullscreenDialog: true,
-                                childCurrent: LoginScreen()));
-                          },
-                          child: Text(
-                            " Register",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                ],
-              ),
+                ),
+                !isLoading
+                    ? LoginButton(
+                        text: "Login",
+                        press: authenticate,
+                      )
+                    : spinkit(),
+                SizedBox(
+                  height: 10,
+                ),
+                Stack(alignment: Alignment.center, children: [
+                  Positioned(
+                      child: Container(
+                    child: Divider(
+                      height: 20,
+                      thickness: 2,
+                      color: context.watch<ThemeProvider>().getFavouriteColor(),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                  )),
+                  Positioned(
+                      child: Container(
+                    color: context.watch<ThemeProvider>().getBackgroundColor(),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Text("OR",
+                        style: GoogleFonts.poppins(
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold)),
+                  )),
+                ]),
+                SizedBox(
+                  height: 10,
+                ),
+                GoogleLoginButton(),
+                SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account?",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: context
+                              .watch<ThemeProvider>()
+                              .getPriamryFontColor(),
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: SignUpScreen(),
+                              ctx: context,
+                              duration: Duration(milliseconds: 300),
+                              fullscreenDialog: true,
+                              childCurrent: LoginScreen()));
+                        },
+                        child: Text(
+                          " Register",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
             )),
       ),
     );

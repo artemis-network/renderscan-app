@@ -4,7 +4,10 @@ import 'package:renderscan/config/web3.services.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
+import 'package:renderscan/screens/import/import_screen.dart';
+import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/screens/scan/scan_screen.dart';
 import 'package:renderscan/screens/wallet/create_wallet.screen.dart';
 import 'package:renderscan/screens/welcome/slides/getting_started.dart';
 import 'package:renderscan/theme/theme_provider.dart';
@@ -27,17 +30,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         try {
           final isFirstTime = await Storage().isFirstTime();
           final hasAddress = await Storage().getItem("address");
+          // if (isFirstTime.toString() == "null")
+          //   return Navigator.push(context,
+          //       MaterialPageRoute(builder: (context) => GettingStarted()));
 
-          if (isFirstTime.toString() == "null")
-            return Navigator.push(context,
-                MaterialPageRoute(builder: (context) => GettingStarted()));
-
-          if (hasAddress.toString() == "null")
-            return Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateWalletScreen()));
+          // if (hasAddress.toString() == "null")
+          //   return Navigator.push(context,
+          //       MaterialPageRoute(builder: (context) => CreateWalletScreen()));
 
           return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => NavigationScreen()));
+              MaterialPageRoute(builder: (context) => CreateWalletScreen()));
         } catch (err) {
           return Navigator.push(context,
               MaterialPageRoute(builder: (context) => GettingStarted()));

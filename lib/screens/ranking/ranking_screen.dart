@@ -80,13 +80,12 @@ class _RankingScreenState extends State<RankingScreen> {
               Navigator.of(context).pop();
             },
             child: Padding(
-              child: Image.asset(
-                "assets/icons/back.png",
-                height: 24,
-                width: 24,
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            ),
+                child: Image.asset(
+                  "assets/icons/back.png",
+                  height: 24,
+                  width: 24,
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12)),
           ),
         ),
         body: Container(

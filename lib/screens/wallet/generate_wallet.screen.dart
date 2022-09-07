@@ -33,6 +33,7 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -41,13 +42,13 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -108,42 +109,49 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                             FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Copy",
-                                textAlign: TextAlign.center,
-                                style: kPrimartFont(
-                                  context
-                                      .watch<ThemeProvider>()
-                                      .getPriamryFontColor(),
-                                  20,
-                                  FontWeight.bold,
+                        GestureDetector(
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: size.width * 0.3, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getHighLightColor(),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Copy",
+                                  textAlign: TextAlign.center,
+                                  style: kPrimartFont(
+                                    context
+                                        .watch<ThemeProvider>()
+                                        .getPriamryFontColor(),
+                                    20,
+                                    FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                child: Image.asset(
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
                                   "assets/icons/copy.png",
                                   height: 18,
                                   width: 18,
                                 ),
-                                onTap: () {
-                                  Clipboard.setData(
-                                      ClipboardData(text: widget.phrase));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text("phrase copied!")));
-                                },
-                              )
-                            ],
+                              ],
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 6),
                           ),
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                        )
+                          onTap: () {
+                            Clipboard.setData(
+                                ClipboardData(text: widget.phrase));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("phrase copied!")));
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -213,7 +221,7 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
   }
 }
 
-class CreateWalletButton extends StatelessWidget {
+class CreateWalletButton extends StatefulWidget {
   final String text;
   final Function press;
   const CreateWalletButton({
@@ -222,31 +230,44 @@ class CreateWalletButton extends StatelessWidget {
     required this.press,
   }) : super(key: key);
 
+  @override
+  State<CreateWalletButton> createState() => _CreateWalletButtonState();
+}
+
+class _CreateWalletButtonState extends State<CreateWalletButton> {
+  bool buttonEffect = false;
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {
-        press();
-      },
-      child: Container(
-        padding: EdgeInsets.all(20),
-        width: size.width * 0.8,
-        decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getHighLightColor(),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  color: context.watch<ThemeProvider>().getHighLightColor(),
-                  offset: Offset(0, 0)),
-            ]),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: kPrimartFont(Colors.white, 24, FontWeight.bold),
-        ),
-      ),
-    );
+        onTap: () {
+          setState(() {
+            buttonEffect = !buttonEffect;
+          });
+          var future = Future.delayed(Duration(milliseconds: 150), () {
+            setState(() {
+              buttonEffect = !buttonEffect;
+            });
+            widget.press();
+          });
+          future.then((value) {});
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: context.watch<ThemeProvider>().getHighLightColor(),
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: buttonEffect ? 30 : 10,
+                    color: context.watch<ThemeProvider>().getHighLightColor())
+              ]),
+          alignment: Alignment.center,
+          child: Text(widget.text,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  34,
+                  FontWeight.bold)),
+        ));
   }
 }

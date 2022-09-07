@@ -7,13 +7,15 @@ import 'package:renderscan/utils/storage.dart';
 class ReferalApi {
   Future<String> getReferalCode() async {
     try {
-      final userId = await Storage().getItem("userId");
+      var userId = await Storage().getItem("userId");
+      userId = userId.toString();
       final resp = await http.post(
           HttpServerConfig().getHost(
             "/users/referal-code",
           ),
-          body: {"userId": userId.toString()});
+          body: {"userId": userId});
       final data = jsonDecode(resp.body);
+      print(data);
       return data["referalCode"];
     } catch (e) {
       return "failed";

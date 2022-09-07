@@ -47,7 +47,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -285,7 +285,7 @@ class PinBox extends StatelessWidget {
   }
 }
 
-class CreateWalletButton extends StatelessWidget {
+class CreateWalletButton extends StatefulWidget {
   final String text;
   final Function press;
   const CreateWalletButton({
@@ -294,29 +294,44 @@ class CreateWalletButton extends StatelessWidget {
     required this.press,
   }) : super(key: key);
 
+  @override
+  State<CreateWalletButton> createState() => _CreateWalletButtonState();
+}
+
+class _CreateWalletButtonState extends State<CreateWalletButton> {
+  bool buttonEffect = false;
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return OutlinedButton(
-      onPressed: () => press(),
-      child: Container(
-        padding: EdgeInsets.all(20),
-        width: size.width * 0.8,
-        decoration: BoxDecoration(
-            color: context.watch<ThemeProvider>().getHighLightColor(),
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  color: context.watch<ThemeProvider>().getHighLightColor(),
-                  offset: Offset(0, 0)),
-            ]),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: kPrimartFont(Colors.white, 24, FontWeight.bold),
-        ),
-      ),
-    );
+    return GestureDetector(
+        onTap: () {
+          setState(() {
+            buttonEffect = !buttonEffect;
+          });
+          var future = Future.delayed(Duration(milliseconds: 150), () {
+            setState(() {
+              buttonEffect = !buttonEffect;
+            });
+            widget.press();
+          });
+          future.then((value) {});
+        },
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 150),
+          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: context.watch<ThemeProvider>().getHighLightColor(),
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: buttonEffect ? 30 : 10,
+                    color: context.watch<ThemeProvider>().getHighLightColor())
+              ]),
+          alignment: Alignment.center,
+          child: Text(widget.text,
+              style: kPrimartFont(
+                  context.watch<ThemeProvider>().getPriamryFontColor(),
+                  34,
+                  FontWeight.bold)),
+        ));
   }
 }

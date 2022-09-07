@@ -24,7 +24,7 @@ class ReferalScreen extends StatelessWidget {
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -54,6 +54,7 @@ class ReferalScreen extends StatelessWidget {
                   future: ReferalApi().getReferalCode(),
                   builder: ((context, snapshot) {
                     dynamic data = snapshot.data;
+                    print(data);
                     if (snapshot.hasData)
                       return Column(
                         children: [

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
           centerTitle: true,
@@ -226,33 +227,80 @@ class DropDown extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      child: DropdownButton<String>(
-        isExpanded: true,
-        borderRadius: BorderRadius.circular(10),
-        value: category,
-        dropdownColor: context.watch<ThemeProvider>().getBackgroundColor(),
-        icon: Icon(Icons.arrow_drop_down,
-            color: context.watch<ThemeProvider>().getBackgroundColor()),
-        alignment: Alignment.center,
-        elevation: 40,
-        style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            color: context.watch<ThemeProvider>().getPriamryFontColor()),
-        focusColor: context.watch<ThemeProvider>().getBackgroundColor(),
-        onChanged: (String? newValue) => onChange(newValue),
-        items: <String>['UI', 'Performance', 'Bug', 'Feature']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                value,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton2(
+          isExpanded: true,
+          hint: Row(
+            children: const [
+              Icon(
+                Icons.list,
+                size: 16,
+                color: Colors.yellow,
               ),
+              SizedBox(
+                width: 4,
+              ),
+              Expanded(
+                child: Text(
+                  'Select Item',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.yellow,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          items: <String>['UI', 'Performance', 'Bug', 'Feature']
+              .map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ))
+              .toList(),
+          value: category,
+          onChanged: (value) => onChange(value),
+          icon: const Icon(
+            Icons.arrow_forward_ios_outlined,
+          ),
+          iconSize: 14,
+          iconEnabledColor: Colors.yellow,
+          iconDisabledColor: Colors.grey,
+          buttonHeight: 50,
+          buttonWidth: 160,
+          buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+          buttonDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: Colors.black26,
             ),
-          );
-        }).toList(),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+          ),
+          buttonElevation: 2,
+          itemHeight: 40,
+          itemPadding: const EdgeInsets.only(left: 14, right: 14),
+          dropdownMaxHeight: 200,
+          dropdownWidth: 200,
+          dropdownPadding: null,
+          dropdownDecoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: context.watch<ThemeProvider>().getHighLightColor(),
+          ),
+          dropdownElevation: 8,
+          scrollbarRadius: const Radius.circular(40),
+          scrollbarThickness: 6,
+          scrollbarAlwaysShow: true,
+          offset: const Offset(-20, 0),
+        ),
       ),
     );
   }
@@ -311,4 +359,8 @@ class GalleryTagRow extends StatelessWidget {
           ),
         ));
   }
+}
+
+fp() {
+  return;
 }

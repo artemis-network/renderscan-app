@@ -72,7 +72,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
         ),

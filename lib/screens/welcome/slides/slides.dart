@@ -28,125 +28,130 @@ class _SlidesState extends State<Slides> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: context.watch<ThemeProvider>().getBackgroundColor(),
-        child: Column(children: [
-          SizedBox(
-            height: 120,
-          ),
-          Text(
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
+      body:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Container(
+          child: Text(
             titles[currentIndex],
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
                 22,
                 FontWeight.bold),
           ),
-          SizedBox(
-            height: 40,
-          ),
-          Image.asset(
-            urls[currentIndex],
-            fit: BoxFit.fill,
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          margin: EdgeInsets.symmetric(vertical: 50),
+        ),
+        Image.asset(
+          urls[currentIndex],
+          fit: BoxFit.fill,
+        ),
+        Container(
+          child: Column(
             children: [
-              IconButton(
-                  onPressed: () async {
-                    if (currentIndex == 0) {
-                      Navigator.of(context).push(PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: GettingStarted(),
-                          ctx: context,
-                          duration: Duration(milliseconds: 300),
-                          fullscreenDialog: true,
-                          childCurrent: Slides()));
-                    }
-                    if (currentIndex > 0) {
-                      setState(() {
-                        currentIndex -= 1;
-                      });
-                    }
-                  },
-                  icon: Icon(
-                    Icons.arrow_back,
-                    size: 32,
-                    color: context.watch<ThemeProvider>().getFavouriteColor(),
-                  )),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                    color: currentIndex == 0 ? Colors.white : Colors.grey,
+                  IconButton(
+                      onPressed: () async {
+                        if (currentIndex == 0) {
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: GettingStarted(),
+                              ctx: context,
+                              duration: Duration(milliseconds: 300),
+                              fullscreenDialog: true,
+                              childCurrent: Slides()));
+                        }
+                        if (currentIndex > 0) {
+                          setState(() {
+                            currentIndex -= 1;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 32,
+                        color:
+                            context.watch<ThemeProvider>().getFavouriteColor(),
+                      )),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        size: 10,
+                        color: currentIndex == 0 ? Colors.white : Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.circle,
+                        size: 10,
+                        color: currentIndex == 1 ? Colors.white : Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.circle,
+                        size: 10,
+                        color: currentIndex == 2 ? Colors.white : Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.circle,
+                        size: 10,
+                        color: currentIndex == 3 ? Colors.white : Colors.grey,
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                    color: currentIndex == 1 ? Colors.white : Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                    color: currentIndex == 2 ? Colors.white : Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Icon(
-                    Icons.circle,
-                    size: 10,
-                    color: currentIndex == 3 ? Colors.white : Colors.grey,
-                  ),
+                  IconButton(
+                      onPressed: () {
+                        if (currentIndex == 3) {
+                          Navigator.of(context).push(PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: CreateWalletScreen(),
+                              ctx: context,
+                              duration: Duration(milliseconds: 300),
+                              fullscreenDialog: true,
+                              childCurrent: Slides()));
+                        }
+                        if (currentIndex < 3) {
+                          setState(() {
+                            currentIndex += 1;
+                          });
+                        }
+                      },
+                      icon: Icon(
+                        Icons.arrow_forward,
+                        size: 32,
+                        color:
+                            context.watch<ThemeProvider>().getFavouriteColor(),
+                      )),
                 ],
               ),
-              IconButton(
-                  onPressed: () {
-                    if (currentIndex == 3) {
-                      Navigator.of(context).push(PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: CreateWalletScreen(),
-                          ctx: context,
-                          duration: Duration(milliseconds: 300),
-                          fullscreenDialog: true,
-                          childCurrent: Slides()));
-                    }
-                    if (currentIndex < 3) {
-                      setState(() {
-                        currentIndex += 1;
-                      });
-                    }
-                  },
-                  icon: Icon(
-                    Icons.arrow_forward,
-                    size: 32,
-                    color: context.watch<ThemeProvider>().getFavouriteColor(),
-                  )),
+              currentIndex == 3
+                  ? Container(
+                      child: Text(
+                        "Start your Journey",
+                        style: kPrimartFont(
+                            context
+                                .watch<ThemeProvider>()
+                                .getPriamryFontColor(),
+                            15,
+                            FontWeight.bold),
+                      ),
+                    )
+                  : Container()
             ],
           ),
-          currentIndex == 3
-              ? Container(
-                  child: Text(
-                    "Start your Journey",
-                    style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        15,
-                        FontWeight.bold),
-                  ),
-                )
-              : Container()
-        ]),
-      ),
-    );
+          padding: EdgeInsets.symmetric(vertical: 50),
+        )
+      ]),
+    ));
   }
 }

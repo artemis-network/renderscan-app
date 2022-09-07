@@ -28,6 +28,28 @@ class ScanApi {
     }
   }
 
+  Future<ScanResponse> cutUploadedImage(file) async {
+    try {
+      var username = await Storage().getItem("username");
+      var filename = DateTime.now().toString() + username.toString();
+      print(filename);
+      var request = http.MultipartRequest(
+        'POST',
+        HttpServerConfig().getHost("/images/cut"),
+      );
+      request.fields['username'] = username.toString();
+      var pic = http.MultipartFile.fromBytes('data', file, filename: filename);
+      request.files.add(pic);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
+      return ScanResponse.fromJson(jsonDecode(response.body));
+    } catch (err) {
+      log.e(err);
+      return ScanResponse(file: "", filename: "", isError: true);
+    }
+  }
+
   Future<ScanProtectionResponse> hasAccountActivated(String code) async {
     try {
       var username = await Storage().getItem("username");

@@ -61,6 +61,7 @@ dependencies:
   audioplayers: ^0.20.1
   percent_indicator: ^4.0.1
   flutter_windowmanager: ^0.2.0
+  dropdown_button2: ^1.7.2
   web_socket_channel: ^2.2.0
   web3dart: ^2.3.0
 

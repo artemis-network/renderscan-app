@@ -170,7 +170,7 @@ class _ScanScreenState extends State<ScanScreen> {
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
         ),
@@ -180,6 +180,7 @@ class _ScanScreenState extends State<ScanScreen> {
         body: Container(
             color: context.watch<ThemeProvider>().getBackgroundColor(),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 FutureBuilder(
                     future: setupCameras(),

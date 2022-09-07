@@ -2,12 +2,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/screens/edit/background_edit.dart';
 import 'package:renderscan/screens/edit/edit_screen.dart';
-import 'package:renderscan/screens/generate/generate_api.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
@@ -22,38 +21,6 @@ class MintScreen extends StatefulWidget {
 }
 
 class _MintScreenState extends State<MintScreen> {
-  bool hasApplied = false;
-
-  List<String> c = [
-    "#483838",
-    "#42855B",
-    "#B9FFF8",
-    "#6FEDD6",
-    "#FF4A4A",
-    "#FF9551",
-    "#F94892",
-    "#293462",
-    "#1CD6CE",
-    "#2B4865",
-    "#D61C4E",
-    "#A47E3B",
-  ];
-
-  List<Color> colors = [
-    Color(0xff483838),
-    Color(0xff42855B),
-    Color(0xffB9FFF8),
-    Color(0xff6FEDD6),
-    Color(0xffFF4A4A),
-    Color(0xffFF9551),
-    Color(0xffF94892),
-    Color(0xff293462),
-    Color(0xff1CD6CE),
-    Color(0xff2B4865),
-    Color(0xffD61C4E),
-    Color(0xffA47E3B),
-  ];
-
   String color = "";
   int currentColor = 0;
 
@@ -145,19 +112,9 @@ class _MintScreenState extends State<MintScreen> {
 
     var scaffoldKey = GlobalKey<ScaffoldState>();
     goToEditScreen() {
-      setState(() {
-        hasApplied = true;
-      });
-      GenerateApi()
-          .addBackgroundImage(widget.imageSource, c[currentColor])
-          .then((value) {
-        setState(() {
-          hasApplied = false;
-        });
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-          return EditScreen(image: value, imageType: "SCANNED");
-        }));
-      });
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return BackGroundEdit(image: widget.imageSource, imageType: "SCANNED");
+      }));
     }
 
     return Scaffold(
@@ -182,7 +139,7 @@ class _MintScreenState extends State<MintScreen> {
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
         ),
@@ -196,7 +153,6 @@ class _MintScreenState extends State<MintScreen> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: colors[currentColor],
               ),
               child: Image.memory(
                 widget.imageSource,
@@ -207,34 +163,6 @@ class _MintScreenState extends State<MintScreen> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      height: 100,
-                      width: size.width,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: BouncingScrollPhysics(),
-                          itemCount: colors.length,
-                          itemBuilder: (item, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  currentColor = index;
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.symmetric(horizontal: 4),
-                                child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 16,
-                                    child: CircleAvatar(
-                                      radius: 14,
-                                      backgroundColor: colors[index],
-                                    )),
-                              ),
-                            );
-                          }),
-                    ),
                     Container(
                       width: size.width * 0.45,
                       decoration: BoxDecoration(
@@ -283,11 +211,9 @@ class _MintScreenState extends State<MintScreen> {
                           ]),
                       child: TextButton(
                           onPressed: goToEditScreen,
-                          child: hasApplied
-                              ? spinkit()
-                              : Text("Edit",
-                                  style: kPrimartFont(
-                                      Colors.white, 14, FontWeight.bold))),
+                          child: Text("Edit",
+                              style: kPrimartFont(
+                                  Colors.white, 14, FontWeight.bold))),
                     )
                   ]),
               padding: EdgeInsets.symmetric(vertical: 60),

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -103,7 +104,7 @@ class _UserScreenState extends State<UserScreen> {
                         width: 24,
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                     ),
                   ),
                 ),
@@ -140,51 +141,70 @@ class _UserScreenState extends State<UserScreen> {
                                 future: Storage().getItem("username"),
                                 builder: ((context, snapshot) {
                                   if (snapshot.hasData) {
-                                    final username = snapshot.data as String;
-                                    var url =
-                                        "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                                            username +
-                                            '.png';
-                                    return Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: NetworkImage(url),
-                                          radius: 48,
-                                        ),
-                                        Positioned(
-                                            right: 0,
-                                            bottom: -12,
-                                            child: GestureDetector(
-                                              child: Image.asset(
-                                                "assets/icons/edit.png",
-                                                height: 46,
-                                                width: 46,
-                                              ),
-                                              onTap: () {
-                                                Profile profile = Profile(
-                                                    displayName: displayName,
-                                                    region: region,
-                                                    language: language,
-                                                    email: email);
-                                                context
-                                                    .read<ProfileProvider>()
-                                                    .setProfile(profile);
-                                                Navigator.of(context).push(
-                                                    PageTransition(
-                                                        type: PageTransitionType
-                                                            .leftToRight,
-                                                        child: ProfileScreen(),
-                                                        ctx: context,
-                                                        duration: Duration(
-                                                            milliseconds: 300),
-                                                        fullscreenDialog: true,
-                                                        childCurrent:
-                                                            UserScreen()));
-                                              },
-                                            ))
-                                      ],
-                                    );
+                                    try {
+                                      final username = snapshot.data as String;
+                                      var url =
+                                          "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
+                                              username +
+                                              '.png';
+                                      return Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          Image.network(
+                                            url,
+                                            fit: BoxFit.fill,
+                                            errorBuilder: (c, e, s) {
+                                              return CircleAvatar(
+                                                backgroundImage:
+                                                    AssetImage(images[random]),
+                                                radius: 48,
+                                              );
+                                            },
+                                          ),
+                                          Positioned(
+                                              right: 0,
+                                              bottom: -12,
+                                              child: GestureDetector(
+                                                child: Image.asset(
+                                                  "assets/icons/edit.png",
+                                                  height: 46,
+                                                  width: 46,
+                                                ),
+                                                onTap: () {
+                                                  Profile profile = Profile(
+                                                      displayName: displayName,
+                                                      region: region,
+                                                      language: language,
+                                                      email: email);
+                                                  context
+                                                      .read<ProfileProvider>()
+                                                      .setProfile(profile);
+                                                  Navigator.of(context).push(
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .leftToRight,
+                                                          child:
+                                                              ProfileScreen(),
+                                                          ctx: context,
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  300),
+                                                          fullscreenDialog:
+                                                              true,
+                                                          childCurrent:
+                                                              UserScreen()));
+                                                },
+                                              ))
+                                        ],
+                                      );
+                                    } catch (e) {
+                                      return CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage(images[random]),
+                                        radius: 48,
+                                      );
+                                    }
                                   }
                                   return CircleAvatar(
                                     backgroundImage: AssetImage(images[random]),
@@ -354,21 +374,25 @@ class _UserScreenState extends State<UserScreen> {
                                       context: context,
                                       builder: (context) {
                                         return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
                                           backgroundColor: context
                                               .watch<ThemeProvider>()
                                               .getBackgroundColor(),
                                           elevation: 4,
                                           child: Container(
-                                              height: 150,
+                                              height: 250,
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
                                                     child: Text(
-                                                      "Are you sure?",
+                                                      "Logout ",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: kPrimartFont(
@@ -380,8 +404,38 @@ class _UserScreenState extends State<UserScreen> {
                                                           FontWeight.bold),
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    height: 20,
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        FontAwesomeIcons
+                                                            .warning,
+                                                        size: 20,
+                                                        color: context
+                                                            .watch<
+                                                                ThemeProvider>()
+                                                            .getHighLightColor(),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Container(
+                                                        child: Text(
+                                                          "Are you sure?",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: kPrimartFont(
+                                                              context
+                                                                  .watch<
+                                                                      ThemeProvider>()
+                                                                  .getPriamryFontColor(),
+                                                              18,
+                                                              FontWeight.bold),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   Row(
                                                     mainAxisAlignment:
@@ -432,6 +486,15 @@ class _UserScreenState extends State<UserScreen> {
                                                             vertical: 10,
                                                           ),
                                                           decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    blurRadius:
+                                                                        2,
+                                                                    color: context
+                                                                        .watch<
+                                                                            ThemeProvider>()
+                                                                        .getHighLightColor())
+                                                              ],
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
@@ -439,9 +502,9 @@ class _UserScreenState extends State<UserScreen> {
                                                               color: context
                                                                   .watch<
                                                                       ThemeProvider>()
-                                                                  .getHighLightColor()),
+                                                                  .getBackgroundColor()),
                                                           child: Text(
-                                                            "Yes",
+                                                            "Yes, Logout",
                                                             style: kPrimartFont(
                                                               context
                                                                   .watch<
