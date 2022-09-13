@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -100,7 +101,7 @@ class RankingItem extends StatelessWidget {
                             backgroundColor: context
                                 .watch<ThemeProvider>()
                                 .getForegroundColor(),
-                            child: Text(ranking),
+                            child: AutoSizeText(ranking),
                           ),
                         ),
                       ],
@@ -117,7 +118,7 @@ class RankingItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                AutoSizeText(
                                   name,
                                   style: kPrimartFont(
                                       context
@@ -128,7 +129,7 @@ class RankingItem extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Text(
+                                    AutoSizeText(
                                       totalValue,
                                       style: kPrimartFont(
                                           context
@@ -162,11 +163,11 @@ class RankingItem extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text(
+                              AutoSizeText(
                                 changed + "%",
                                 style: kPrimartFont(color, 14, FontWeight.bold),
                               ),
-                              Text(
+                              AutoSizeText(
                                 getCurrentTimeFrame(),
                                 style: kPrimartFont(
                                     context
@@ -188,7 +189,7 @@ class RankingItem extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text(
+                              AutoSizeText(
                                 o,
                                 style: kPrimartFont(
                                     context
@@ -197,7 +198,7 @@ class RankingItem extends StatelessWidget {
                                     14,
                                     FontWeight.bold),
                               ),
-                              Text(
+                              AutoSizeText(
                                 "Owners",
                                 style: kPrimartFont(
                                     context

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -62,7 +63,7 @@ class _QuoteLoaderState extends State<QuoteLoader> {
               radius: 50.0,
               lineWidth: 10.0,
               percent: time > 1 ? 1 : time,
-              center: new Text(
+              center: new AutoSizeText(
                 percentage(),
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -76,7 +77,7 @@ class _QuoteLoaderState extends State<QuoteLoader> {
             ),
             AnimatedContainer(
               duration: Duration(seconds: 1),
-              child: Text(
+              child: AutoSizeText(
                 quotes[currentIndex],
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(

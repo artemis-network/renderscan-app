@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -41,7 +42,7 @@ class NFTItem extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           nftModel.name.length > 10
                               ? nftModel.name.substring(0, 10)
                               : nftModel.name,
@@ -54,7 +55,7 @@ class NFTItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
+                            AutoSizeText(
                               nftModel.lastprice,
                               style: kPrimartFont(
                                   context

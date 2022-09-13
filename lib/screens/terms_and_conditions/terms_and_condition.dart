@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
@@ -14,19 +15,19 @@ class TermsAndConditionScreen extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         actions: [],
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "Terms & Conditions",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -53,7 +54,7 @@ class TermsAndConditionScreen extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
+                  child: AutoSizeText(
                     "Tell us how we can help?",
                     textAlign: TextAlign.center,
                     style: kPrimartFont(
@@ -87,7 +88,7 @@ class TermsAndConditionScreen extends StatelessWidget {
                               20,
                               FontWeight.bold),
                           title: 'GF Accordion',
-                          contentChild: Text(
+                          contentChild: AutoSizeText(
                             "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
                             style: kPrimartFont(
                                 context
@@ -145,14 +146,14 @@ class FAQItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            AutoSizeText(
               main,
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
                   18,
                   FontWeight.bold),
             ),
-            Text(
+            AutoSizeText(
               sub,
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),

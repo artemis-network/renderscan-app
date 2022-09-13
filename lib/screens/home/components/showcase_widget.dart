@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,7 +85,7 @@ class ShowcaseWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    child: Text(
+                    child: AutoSizeText(
                       nft.name.toString().length > 14
                           ? nft.name.toString().substring(0, 14)
                           : nft.name.toString(),
@@ -102,7 +103,7 @@ class ShowcaseWidget extends StatelessWidget {
                       SizedBox(
                         width: 5,
                       ),
-                      Text(
+                      AutoSizeText(
                         nft.lastprice,
                         style: GoogleFonts.poppins(
                             fontSize: 12,

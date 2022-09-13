@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
@@ -56,7 +57,8 @@ class _ScanScreenState extends State<ScanScreen> {
               label: "Close",
               onPressed: () {},
             ),
-            content: Text("Server is busy, please try again"),
+            content: AutoSizeText(
+                "Image upload failed: Please try again later or select a different image."),
             duration: const Duration(milliseconds: 3000),
             backgroundColor: Colors.red,
             width: size.width * 0.9, // Width of the SnackBar.
@@ -164,13 +166,13 @@ class _ScanScreenState extends State<ScanScreen> {
             onTap: () {
               scaffoldKey.currentState?.openDrawer();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/menu.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
         ),
@@ -261,7 +263,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                     ]),
                                                 child: TextButton(
                                                     onPressed: () => retry(),
-                                                    child: Text(
+                                                    child: AutoSizeText(
                                                       "Retry",
                                                       style: kPrimartFont(
                                                           context
@@ -293,7 +295,7 @@ class _ScanScreenState extends State<ScanScreen> {
                                                     ]),
                                                 child: TextButton(
                                                   onPressed: goToMintScreen,
-                                                  child: Text("Next",
+                                                  child: AutoSizeText("Next",
                                                       style: kPrimartFont(
                                                           Colors.white,
                                                           14,

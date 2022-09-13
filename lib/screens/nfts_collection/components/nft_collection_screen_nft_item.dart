@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -72,7 +73,7 @@ class NFTCollectionScreenNFTItem extends StatelessWidget {
             Container(
                 margin: EdgeInsets.symmetric(horizontal: 8),
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: AutoSizeText(
                   nft.name.length > 14
                       ? nft.name.substring(0, 14) + "..."
                       : nft.name,
@@ -86,7 +87,7 @@ class NFTCollectionScreenNFTItem extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     nft.nftPrice.amount,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),

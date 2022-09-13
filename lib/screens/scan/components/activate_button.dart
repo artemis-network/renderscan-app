@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -47,7 +48,7 @@ class _ActivateButtonState extends State<ActivateButton> {
                   blurRadius: 1,
                   color: context.watch<ThemeProvider>().getHighLightColor())
             ]),
-        child: Text(
+        child: AutoSizeText(
           widget.text,
           textAlign: TextAlign.center,
           style: kPrimartFont(Colors.white, 18, FontWeight.bold),

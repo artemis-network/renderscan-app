@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_editor/image_editor.dart';
@@ -43,18 +44,18 @@ class _EditScreenState extends State<EditScreen> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
           centerTitle: true,
-          title: Text(
+          title: AutoSizeText(
             "Edit",
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -212,7 +213,7 @@ class _EditScreenState extends State<EditScreen> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Edit",
+                                AutoSizeText("Edit",
                                     style: kPrimartFont(
                                         context
                                             .watch<ThemeProvider>()
@@ -259,7 +260,7 @@ class _EditScreenState extends State<EditScreen> {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Text("Save",
+                                AutoSizeText("Save",
                                     style: kPrimartFont(
                                         context
                                             .watch<ThemeProvider>()

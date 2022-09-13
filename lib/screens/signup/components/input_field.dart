@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class InputField extends StatelessWidget {
                       BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: Column(
                     children: [
-                      Text(
+                      AutoSizeText(
                         errorMessage,
                         style: kPrimartFont(
                             Colors.redAccent, 14, FontWeight.normal),
@@ -62,7 +63,7 @@ class InputField extends StatelessWidget {
                             margin: EdgeInsets.symmetric(vertical: 10),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
-                            child: Text("Okay",
+                            child: AutoSizeText("Okay",
                                 style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()
@@ -113,7 +114,7 @@ class InputField extends StatelessWidget {
                       child: Icon(Icons.info, color: Colors.redAccent),
                     )
                   : Icon(Icons.check_circle, color: Colors.greenAccent),
-              label: Text(
+              label: AutoSizeText(
                 labelText,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),

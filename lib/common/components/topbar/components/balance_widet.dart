@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class BalanceWidget extends StatelessWidget {
                             SizedBox(
                               width: 4,
                             ),
-                            Text(data.ruby.toString(),
+                            AutoSizeText(data.ruby.toString(),
                                 style: kPrimartFont(Colors.blueGrey.shade800,
                                     14, FontWeight.w800)),
                             SizedBox(
@@ -82,7 +83,7 @@ class BalanceWidget extends StatelessWidget {
                             SizedBox(
                               width: 4,
                             ),
-                            Text(data.superRuby.toString(),
+                            AutoSizeText(data.superRuby.toString(),
                                 style: kPrimartFont(
                                     Colors.white, 14, FontWeight.w800)),
                             SizedBox(

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -27,17 +28,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
           centerTitle: true,
-          title: Text(
+          title: AutoSizeText(
             "Feedback",
             textAlign: TextAlign.center,
             style: kPrimartFont(
@@ -82,7 +83,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       "Pleas rate your experience",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -111,7 +112,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         },
                       ),
                     ),
-                    Text(
+                    AutoSizeText(
                       "Additional Comments",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -140,7 +141,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                       backgroundColor: Colors.greenAccent,
-                                      content: Text(
+                                      content: AutoSizeText(
                                         value.message,
                                         style: kPrimartFont(Colors.blueGrey, 22,
                                             FontWeight.bold),
@@ -158,7 +159,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             ),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 10),
-                            child: Text(
+                            child: AutoSizeText(
                               "Submit",
                               style: kPrimartFont(
                                   Colors.white, 20, FontWeight.bold),
@@ -241,7 +242,7 @@ class DropDown extends StatelessWidget {
                 width: 4,
               ),
               Expanded(
-                child: Text(
+                child: AutoSizeText(
                   'Select Item',
                   style: TextStyle(
                     fontSize: 14,
@@ -256,7 +257,7 @@ class DropDown extends StatelessWidget {
           items: <String>['UI', 'Performance', 'Bug', 'Feature']
               .map((item) => DropdownMenuItem<String>(
                     value: item,
-                    child: Text(
+                    child: AutoSizeText(
                       item,
                       style: const TextStyle(
                         fontSize: 14,
@@ -270,7 +271,8 @@ class DropDown extends StatelessWidget {
           value: category,
           onChanged: (value) => onChange(value),
           icon: const Icon(
-            Icons.arrow_forward_ios_outlined,
+            Icons.keyboard_arrow_down_outlined,
+            size: 24,
           ),
           iconSize: 14,
           iconEnabledColor: Colors.yellow,

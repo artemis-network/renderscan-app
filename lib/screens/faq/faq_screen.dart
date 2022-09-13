@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
@@ -16,18 +17,18 @@ class FAQScreen extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "FAQ & HELP",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -51,7 +52,7 @@ class FAQScreen extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: Text(
+                  child: AutoSizeText(
                     "Tell us how we can help?",
                     textAlign: TextAlign.center,
                     style: kPrimartFont(
@@ -83,7 +84,7 @@ class FAQScreen extends StatelessWidget {
                               20,
                               FontWeight.bold),
                           title: 'GF Accordion',
-                          contentChild: Text(
+                          contentChild: AutoSizeText(
                             "LLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremLOremOrem",
                             style: kPrimartFont(
                                 context
@@ -141,14 +142,14 @@ class FAQItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            AutoSizeText(
               main,
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
                   18,
                   FontWeight.bold),
             ),
-            Text(
+            AutoSizeText(
               sub,
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),

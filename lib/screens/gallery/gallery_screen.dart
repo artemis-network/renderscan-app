@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +21,8 @@ class GalleryScreen extends StatefulWidget {
 class _GalleryScreenState extends State<GalleryScreen> {
   List<GalleryModel> gallery = [];
   bool isGalleryLoaded = false;
+  String url =
+      "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/avatar.png";
 
   loader() {
     return Container(
@@ -118,6 +119,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   void initState() {
+    Storage().getItem("avatarUrl").then((value) {
+      final u = value.toString();
+      setState(() {
+        url = u;
+      });
+    });
+
     GalleryApi().getGallery("SCANNED").then((value) {
       setState(() {
         gallery = value;
@@ -135,21 +143,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> images = [
-      "assets/avtars/1.png",
-      "assets/avtars/2.png",
-      "assets/avtars/3.png",
-      "assets/avtars/4.png",
-      "assets/avtars/5.png",
-      "assets/avtars/6.png",
-      "assets/avtars/7.png",
-      "assets/avtars/8.png",
-      "assets/avtars/9.png",
-      "assets/avtars/10.png",
-    ];
-
-    final random = new Random().nextInt(11);
-
     var scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -170,13 +163,13 @@ class _GalleryScreenState extends State<GalleryScreen> {
           onTap: () {
             scaffoldKey.currentState?.openDrawer();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/menu.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
       ),
@@ -191,32 +184,12 @@ class _GalleryScreenState extends State<GalleryScreen> {
               height: 20,
             ),
             Container(
-              child: FutureBuilder(
-                  future: Storage().getItem("username"),
-                  builder: ((context, snapshot) {
-                    if (snapshot.hasData) {
-                      try {
-                        final username = snapshot.data as String;
-                        var url =
-                            "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                                username +
-                                '.png';
-                        return CircleAvatar(
-                          backgroundImage: NetworkImage(url),
-                          radius: 48,
-                        );
-                      } catch (err) {
-                        return CircleAvatar(
-                          backgroundImage: AssetImage(images[random]),
-                          radius: 48,
-                        );
-                      }
-                    }
-                    return CircleAvatar(
-                      backgroundImage: AssetImage(images[random]),
-                      radius: 48,
-                    );
-                  })),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(url),
+                backgroundColor:
+                    context.watch<ThemeProvider>().getFavouriteColor(),
+                radius: 48,
+              ),
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 10),
@@ -227,7 +200,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                       builder: ((context, snapshot) {
                         if (snapshot.hasData) {
                           final username = snapshot.data;
-                          return Text(
+                          return AutoSizeText(
                             username.toString(),
                             style: kPrimartFont(
                                 context
@@ -237,8 +210,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                 FontWeight.bold),
                           );
                         }
-                        return Text(
-                          "",
+                        return AutoSizeText(
+                          "Loading...",
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -276,7 +249,7 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                                   .getHighLightColor())
                                         ]),
                                     child: Container(
-                                      child: Text(
+                                      child: AutoSizeText(
                                         snapshot.data
                                                 .toString()
                                                 .substring(0, 5) +
@@ -307,8 +280,8 @@ class _GalleryScreenState extends State<GalleryScreen> {
                                           text: snapshot.data.toString()));
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                              content:
-                                                  Text("Address copied!")));
+                                              content: AutoSizeText(
+                                                  "Address copied!")));
                                     },
                                     child: Image.asset(
                                       "assets/icons/copy.png",
@@ -318,7 +291,55 @@ class _GalleryScreenState extends State<GalleryScreen> {
                               ],
                             );
                           }
-                          return Container();
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: context
+                                          .watch<ThemeProvider>()
+                                          .getBackgroundColor(),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            offset: Offset(0, 0),
+                                            blurRadius: 2,
+                                            color: context
+                                                .watch<ThemeProvider>()
+                                                .getHighLightColor())
+                                      ]),
+                                  child: Container(
+                                    child: AutoSizeText(
+                                      "oxxyz.....fff",
+                                      style: kPrimartFont(
+                                          context
+                                              .watch<ThemeProvider>()
+                                              .getPriamryFontColor(),
+                                          12,
+                                          FontWeight.bold),
+                                    ),
+                                  )),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: snapshot.data.toString()));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: AutoSizeText(
+                                                "Address copied!")));
+                                  },
+                                  child: Image.asset(
+                                    "assets/icons/copy.png",
+                                    height: 16,
+                                    width: 16,
+                                  ))
+                            ],
+                          );
                         })),
                   ),
                 ],

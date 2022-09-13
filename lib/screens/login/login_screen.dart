@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/buttons/button_type.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/utils/logger.dart';
 import 'package:renderscan/utils/storage.dart';
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     void handleError(String argMessage, bool argError) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: argError ? Colors.redAccent : Colors.greenAccent,
-          content: Text(
+          content: AutoSizeText(
             argMessage,
             style: kPrimartFont(
                 argError ? Colors.white : Colors.black, 14, FontWeight.bold),
@@ -122,23 +124,22 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        actions: [],
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/cancel.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "Login",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -147,7 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
       backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
-      body: Container(
+      body: SingleChildScrollView(
+          child: Container(
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: Form(
             key: formkey,
@@ -183,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fullscreenDialog: true,
                               childCurrent: LoginScreen()));
                         },
-                        child: Text(
+                        child: AutoSizeText(
                           "Forgot Password ?",
                           style: TextStyle(
                             fontSize: 16,
@@ -198,7 +200,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 !isLoading
-                    ? LoginButton(
+                    ? ButtonType(
+                        type: "3",
                         text: "Login",
                         press: authenticate,
                       )
@@ -220,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Container(
                     color: context.watch<ThemeProvider>().getBackgroundColor(),
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    child: Text("OR",
+                    child: AutoSizeText("OR",
                         style: GoogleFonts.poppins(
                             color: context
                                 .watch<ThemeProvider>()
@@ -243,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      AutoSizeText(
                         "Don't have an account?",
                         style: TextStyle(
                           fontSize: 16,
@@ -263,7 +266,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fullscreenDialog: true,
                               childCurrent: LoginScreen()));
                         },
-                        child: Text(
+                        child: AutoSizeText(
                           " Register",
                           style: TextStyle(
                             fontSize: 16,
@@ -279,7 +282,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             )),
-      ),
+      )),
     );
   }
 }

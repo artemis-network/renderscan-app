@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ class HeadingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-      child: Text(
+      child: AutoSizeText(
         text,
         style: GoogleFonts.poppins(
             fontSize: 22,
@@ -37,7 +38,7 @@ class HeadingWithIconWidget extends StatelessWidget {
           size: 24,
           color: context.watch<ThemeProvider>().getPriamryFontColor(),
         ),
-        Text(
+        AutoSizeText(
           text,
           style: GoogleFonts.poppins(
               fontSize: 22,
@@ -67,7 +68,7 @@ class HeadingWithImageWidget extends StatelessWidget {
         SizedBox(
           width: 4,
         ),
-        Text(
+        AutoSizeText(
           text,
           style: GoogleFonts.poppins(
               fontSize: 22,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -22,7 +23,7 @@ class NFTTitles extends StatelessWidget {
         SizedBox(
           width: 12,
         ),
-        Text(
+        AutoSizeText(
           title,
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),

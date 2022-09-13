@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -44,18 +45,18 @@ class _GalleryViewState extends State<GalleryView> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "Edit",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -96,7 +97,7 @@ class _GalleryViewState extends State<GalleryView> {
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    child: Text(
+                    child: AutoSizeText(
                       "Edit",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -120,7 +121,7 @@ class _GalleryViewState extends State<GalleryView> {
                 GestureDetector(
                     child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Text(
+                  child: AutoSizeText(
                     "Mint",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),

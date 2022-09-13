@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class NFTCollectionActivityTab extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AutoSizeText(
                             "Doodle Lion #2123",
                             style: kPrimartFont(
                                 context
@@ -60,7 +61,7 @@ class NFTCollectionActivityTab extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text(
+                              AutoSizeText(
                                 "Sold for " + 10.toString(),
                                 style: kPrimartFont(
                                     context
@@ -83,7 +84,7 @@ class NFTCollectionActivityTab extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AutoSizeText(
                         "Sale",
                         style: kPrimartFont(
                             context
@@ -92,7 +93,7 @@ class NFTCollectionActivityTab extends StatelessWidget {
                             14,
                             FontWeight.bold),
                       ),
-                      Text(
+                      AutoSizeText(
                         "3 hours ago",
                         style: kPrimartFont(
                             context

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,18 +19,18 @@ class ReferalScreen extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "Refer & Earn",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -61,7 +62,7 @@ class ReferalScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              AutoSizeText(
                                 "Referal Code",
                                 style: kPrimartFont(
                                     context
@@ -77,7 +78,7 @@ class ReferalScreen extends StatelessWidget {
                                     ScaffoldMessenger.of(context)
                                         .showSnackBar(SnackBar(
                                       backgroundColor: Colors.greenAccent,
-                                      content: Text("Referal copied",
+                                      content: AutoSizeText("Referal copied",
                                           style: kPrimartFont(Colors.blueGrey,
                                               22, FontWeight.bold)),
                                     ));
@@ -91,7 +92,7 @@ class ReferalScreen extends StatelessWidget {
                                   ))
                             ],
                           ),
-                          Text(
+                          AutoSizeText(
                             data.length > 10
                                 ? data.substring(0, 10) + "..."
                                 : data,
@@ -154,7 +155,7 @@ class ReferalScreen extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         "500",
                                         style: kPrimartFont(
                                             context
@@ -173,7 +174,7 @@ class ReferalScreen extends StatelessWidget {
                                       )
                                     ],
                                   ),
-                                  Text(
+                                  AutoSizeText(
                                     "You've earned till now",
                                     style: kPrimartFont(
                                         context
@@ -226,7 +227,7 @@ class ReferalScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  AutoSizeText(
                                     totalReferals + " peers",
                                     style: kPrimartFont(
                                         context
@@ -235,7 +236,7 @@ class ReferalScreen extends StatelessWidget {
                                         16,
                                         FontWeight.bold),
                                   ),
-                                  Text(
+                                  AutoSizeText(
                                     "accepted your referals",
                                     style: kPrimartFont(
                                         context

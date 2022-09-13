@@ -82,12 +82,7 @@ class _MyAppState extends State<MyApp> {
             backgroundRadius: 30,
           ),
         ),
-        // onFirstBackPress: (context) {
-        //   // change this with your custom action
-        //   final snackBar = SnackBar(content: Text('Press back again to exit'));
-        //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //   // ---
-        // },
+
         waitForSecondBackPress: 3, // default 2
         textStyle: TextStyle(
           fontSize: 13,

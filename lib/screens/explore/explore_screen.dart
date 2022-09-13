@@ -39,13 +39,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
           onTap: () {
             scaffoldKey.currentState?.openDrawer();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/menu.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
       ),

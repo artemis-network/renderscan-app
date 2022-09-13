@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
@@ -48,13 +49,13 @@ class CreateScreen extends StatelessWidget {
           onTap: () {
             scaffoldKey.currentState?.openDrawer();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/menu.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
       ),
@@ -65,16 +66,16 @@ class CreateScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 50),
+              padding: EdgeInsets.symmetric(vertical: 30),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.asset(
                     'assets/icons/create.png',
-                    height: 120,
-                    width: 120,
+                    height: 100,
+                    width: 100,
                   )),
             ),
-            Text(
+            AutoSizeText(
               "Create your own NFTs",
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -83,7 +84,7 @@ class CreateScreen extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-              child: Text(
+              child: AutoSizeText(
                 "Select an image from camera roll or gallery or generate random nfts from text input",
                 textAlign: TextAlign.center,
                 style: kPrimartFont(

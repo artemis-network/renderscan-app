@@ -23,6 +23,7 @@ class AuthResponse {
   String? accessToken;
   String? publicToken;
   String? userId;
+  String? avatarUrl;
   String? message;
   bool? error;
 
@@ -30,6 +31,7 @@ class AuthResponse {
       {this.email,
       this.username,
       this.accessToken,
+      this.avatarUrl,
       this.publicToken,
       this.userId,
       this.message,
@@ -41,6 +43,7 @@ class AuthResponse {
     accessToken = json['accessToken'];
     publicToken = json['publicToken'];
     userId = json['userId'];
+    avatarUrl = json["avatarUrl"];
     message = json['message'];
     error = json['error'];
   }

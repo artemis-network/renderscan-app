@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 
@@ -36,14 +37,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (!response.error)
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Colors.greenAccent,
-            content: Text(
+            content: AutoSizeText(
               "Changes updated!",
               style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold),
             )));
       else
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Colors.redAccent,
-            content: Text(
+            content: AutoSizeText(
               "Something went wrong!",
               style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold),
             )));
@@ -64,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       var color = profile.error ? Colors.redAccent : Colors.greenAccent;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: color,
-          content: Text(
+          content: AutoSizeText(
             profile.message,
             style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold),
           )));
@@ -121,19 +122,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Padding(
+              child: Container(
                 child: Image.asset(
                   "assets/icons/cancel.png",
                   height: 24,
                   width: 24,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                margin: EdgeInsets.only(left: 18),
               ),
             ),
             backgroundColor:
                 context.watch<ThemeProvider>().getBackgroundColor(),
             actions: [],
-            title: Text("Edit Your Profile",
+            title: AutoSizeText("Edit Your Profile",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     24,
@@ -177,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           FutureBuilder(
                               future: Storage().getItem('username'),
                               builder: (context, snapshot) {
-                                return Text(snapshot.data.toString(),
+                                return AutoSizeText(snapshot.data.toString(),
                                     style: kPrimartFont(
                                         context
                                             .watch<ThemeProvider>()
@@ -194,7 +195,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               source: ImageSource.gallery);
                           await ProfileApi().updateAvatar(image);
                         },
-                        child: Text("Choose a photo")),
+                        child: AutoSizeText("Choose a photo")),
                     Expanded(
                         child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
@@ -216,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: TextButton(
                               onPressed: () => submit(context),
-                              child: Text("Save"),
+                              child: AutoSizeText("Save"),
                               style: ButtonStyle(
                                   textStyle: MaterialStateProperty.all(
                                       kPrimartFont(
@@ -250,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: TextButton(
                               onPressed: () => updateEmail(context),
-                              child: Text("Update Email"),
+                              child: AutoSizeText("Update Email"),
                               style: ButtonStyle(
                                   textStyle: MaterialStateProperty.all(
                                       kPrimartFont(

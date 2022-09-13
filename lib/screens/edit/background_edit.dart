@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
@@ -66,18 +67,18 @@ class _BackGroundEditState extends State<BackGroundEdit> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
           "Background",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -169,7 +170,7 @@ class _BackGroundEditState extends State<BackGroundEdit> {
                       ),
                       child: hasApplied
                           ? spinkit()
-                          : Text(
+                          : AutoSizeText(
                               "Next",
                               textAlign: TextAlign.center,
                               style: kPrimartFont(

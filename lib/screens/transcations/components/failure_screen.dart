@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -32,14 +33,14 @@ class FailureScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
+              AutoSizeText(
                 "Oops!",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     22,
                     FontWeight.bold),
               ),
-              Text("Something went wrong on our side.",
+              AutoSizeText("Uh-Oh, Your Payment was Declined 💳",
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),
                       18,
@@ -47,14 +48,14 @@ class FailureScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
+              AutoSizeText(
                 "Please,",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     14,
                     FontWeight.normal),
               ),
-              Text(
+              AutoSizeText(
                 "Try after sometime.",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),

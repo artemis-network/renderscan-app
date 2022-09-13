@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,14 +33,14 @@ class NFTCollectionScreenStats extends StatelessWidget {
         children: [
           Column(
             children: [
-              Text(
+              AutoSizeText(
                 i,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     14,
                     FontWeight.bold),
               ),
-              Text(
+              AutoSizeText(
                 "items",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -50,14 +51,14 @@ class NFTCollectionScreenStats extends StatelessWidget {
           ),
           Column(
             children: [
-              Text(
+              AutoSizeText(
                 o,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     14,
                     FontWeight.bold),
               ),
-              Text(
+              AutoSizeText(
                 "owners",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -78,7 +79,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                   SizedBox(
                     width: 4,
                   ),
-                  Text(
+                  AutoSizeText(
                     f,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -87,7 +88,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
+              AutoSizeText(
                 "floor",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -108,7 +109,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                   SizedBox(
                     width: 4,
                   ),
-                  Text(
+                  AutoSizeText(
                     v,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -117,7 +118,7 @@ class NFTCollectionScreenStats extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
+              AutoSizeText(
                 "volume",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class NFTSolTraitList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       traits[index].trait_type,
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -46,7 +47,7 @@ class NFTSolTraitList extends StatelessWidget {
                     SizedBox(
                       height: 2,
                     ),
-                    Text(
+                    AutoSizeText(
                       traits[index].value.toString(),
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),

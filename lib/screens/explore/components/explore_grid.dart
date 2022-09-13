@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -57,7 +58,7 @@ class Collections extends StatelessWidget {
               height: 45,
             ),
             Container(
-              child: Text(
+              child: AutoSizeText(
                 collection.slug,
                 style: GoogleFonts.poppins(
                   fontSize: 18,
@@ -70,7 +71,7 @@ class Collections extends StatelessWidget {
               height: 8,
             ),
             Container(
-              child: Text(
+              child: AutoSizeText(
                 collection.name,
                 style: GoogleFonts.poppins(
                   fontSize: 16,
@@ -89,7 +90,7 @@ class Collections extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: context.watch<ThemeProvider>().getBackgroundColor(),
               ),
-              child: Text(
+              child: AutoSizeText(
                 oneDayChange.toStringAsFixed(2) + "%",
                 style: GoogleFonts.poppins(
                     fontSize: 14, color: color, fontWeight: FontWeight.bold),

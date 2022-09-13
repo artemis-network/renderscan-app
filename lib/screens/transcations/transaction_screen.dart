@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -66,13 +67,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
         ),
@@ -97,7 +98,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(
+                  AutoSizeText(
                     "Transactions",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -130,7 +131,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                   width: 300,
                                 ),
                               ),
-                              Text(
+                              AutoSizeText(
                                 "No Transcations found!",
                                 style: kPrimartFont(
                                     context

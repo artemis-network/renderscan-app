@@ -11,6 +11,7 @@ class Storage {
     storage.write(key: "userId", value: response.userId.toString());
     storage.write(key: "publicToken", value: response.publicToken);
     storage.write(key: "accessToken", value: response.accessToken);
+    storage.write(key: "avatarUrl", value: response.avatarUrl);
   }
 
   Future<void> setFirstTime(bool setFirstTime) async {
@@ -43,6 +44,7 @@ class Storage {
     await deleteItem("publicToken").then((value) => null);
     await deleteItem("accessToken").then((value) => null);
     await deleteItem("isFirstTime").then((value) => null);
+    await deleteItem("avatarUrl").then((value) => null);
 
     var tempDir = await getTemporaryDirectory();
     if (tempDir.existsSync()) tempDir.deleteSync(recursive: true);

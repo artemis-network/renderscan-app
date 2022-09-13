@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _SideBarButtonState extends State<SideBarButton> {
                 SizedBox(
                   width: 20,
                 ),
-                Text(
+                AutoSizeText(
                   widget.text,
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),

@@ -50,13 +50,13 @@ class NFTSolScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Icon(
                 FontAwesomeIcons.arrowLeft,
                 size: 32,
                 color: context.watch<ThemeProvider>().getFavouriteColor(),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           )),
 

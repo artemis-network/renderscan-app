@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/config/web3.services.dart';
@@ -21,14 +22,14 @@ class Web3Screen extends StatelessWidget {
                 children: [
                   Container(
                     alignment: Alignment.center,
-                    child: Text(
+                    child: AutoSizeText(
                       notes[index].title,
                       style: kPrimartFont(Colors.amber, 24, FontWeight.bold),
                     ),
                   ),
                   Container(
                     alignment: Alignment.center,
-                    child: Text(
+                    child: AutoSizeText(
                       notes[index].descrpition,
                       style: kPrimartFont(Colors.amber, 18, FontWeight.bold),
                     ),
@@ -40,7 +41,7 @@ class Web3Screen extends StatelessWidget {
           onTap: () {
             context.read<Web3Servives>().createNote("test", "cool");
           },
-          child: Text("Add note"),
+          child: AutoSizeText("Add note"),
         )
       ]),
     );

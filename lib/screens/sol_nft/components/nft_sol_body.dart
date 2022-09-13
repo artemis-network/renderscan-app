@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class NFTSolBody extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
+                  AutoSizeText(
                     collectionName.length > 14
                         ? collectionName.substring(0, 14)
                         : collectionName,
@@ -58,7 +59,7 @@ class NFTSolBody extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              Text(
+              AutoSizeText(
                 name,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -67,7 +68,7 @@ class NFTSolBody extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text(
+                  AutoSizeText(
                     "owned by " + owner.substring(0, 24) + "...",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class NFTDetailList extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
+                        AutoSizeText(
                           details[index]["name"].toString(),
                           style: kPrimartFont(
                               context
@@ -38,7 +39,8 @@ class NFTDetailList extends StatelessWidget {
                                       text: details[index]["value"]));
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          content: Text(details[index]["name"] +
+                                          content: AutoSizeText(details[index]
+                                                  ["name"] +
                                               " copied!")));
                                 },
                                 icon: Icon(
@@ -66,7 +68,7 @@ class NFTDetailList extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 10),
                               )
                             : Container(),
-                        Text(
+                        AutoSizeText(
                           details[index]["value"].toString(),
                           style: kPrimartFont(
                               context

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:renderscan/constants.dart';
 
@@ -21,7 +22,7 @@ class _ValidationContainerState extends State<ValidationContainer> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.errors.length,
-          itemBuilder: (context, index) => Text(
+          itemBuilder: (context, index) => AutoSizeText(
                 widget.errors[index],
                 style: kPrimartFont(Colors.redAccent, 12, FontWeight.bold),
               )),

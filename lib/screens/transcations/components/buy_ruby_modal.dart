@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -79,16 +80,16 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/cancel.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
-        title: Text(
+        title: AutoSizeText(
           "Pricing Plan",
           style: kPrimartFont(
               context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -113,8 +114,8 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                   width: 180,
                 )),
             Container(
-              child: Text(
-                "Choose the amount of ruby, unlock premium features.",
+              child: AutoSizeText(
+                "All our PRO level features at your fingertips.",
                 textAlign: TextAlign.center,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -204,7 +205,7 @@ class _BuyRubyModalState extends State<BuyRubyModal> {
                       color: context.watch<ThemeProvider>().getHighLightColor(),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Text(
+                    child: AutoSizeText(
                       "buy ".toUpperCase(),
                       textAlign: TextAlign.center,
                       style: kPrimartFont(
@@ -275,17 +276,17 @@ class RubyRadio extends StatelessWidget {
                 height: 36,
                 width: 36,
               ),
-              Text(
+              AutoSizeText(
                 main,
                 style: kPrimartFont(themeFont, 20, FontWeight.bold),
               ),
               Row(
                 children: [
-                  Text(
+                  AutoSizeText(
                     label,
                     style: kPrimartFont(themeFont, 18, FontWeight.bold),
                   ),
-                  Text(
+                  AutoSizeText(
                     "₹",
                     style: GoogleFonts.openSans(
                         color: themeFont,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -12,7 +13,7 @@ class NFTActions extends StatelessWidget {
       children: [
         Container(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-            child: Text(
+            child: AutoSizeText(
               "Share",
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),

@@ -1,8 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
+import 'package:renderscan/common/components/buttons/button_type.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
 
@@ -58,18 +60,27 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: AutoSizeText(
+          "Confirm Phrase",
+          style: kPrimartFont(
+            context.watch<ThemeProvider>().getPriamryFontColor(),
+            24,
+            FontWeight.bold,
+          ),
+        ),
         actions: [],
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -83,49 +94,198 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                 Column(
                   children: [
                     Container(
-                      child: Text(
-                        "Confirm your secret recovery phrase",
-                        style: kPrimartFont(
-                          context.watch<ThemeProvider>().getPriamryFontColor(),
-                          18,
-                          FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      child: Text(
+                      child: AutoSizeText(
                         "Tap the words to put them next to each other in correct order",
                         textAlign: TextAlign.center,
                         style: kPrimartFont(
                             context
                                 .watch<ThemeProvider>()
                                 .getPriamryFontColor(),
-                            18,
+                            14,
                             FontWeight.normal),
                       ),
                     )
                   ],
                 ),
-                SizedBox(
-                  height: 20,
+                Expanded(
+                    child: Container(
+                  child: MasonryGridView.count(
+                      crossAxisCount: 3,
+                      itemCount: 12,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          decoration: BoxDecoration(
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getPriamryFontColor(),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 2,
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor())
+                              ]),
+                          alignment: Alignment.center,
+                          child: AutoSizeText(
+                            value[index],
+                            textAlign: TextAlign.center,
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getBackgroundColor(),
+                                20,
+                                FontWeight.bold),
+                          ),
+                        );
+                      }),
+                )),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          List<int> o = order;
+                          if (o.length > 0) {
+                            setState(() {
+                              value[count - 1] = "";
+                              isSelected[o[o.length - 1]] = false;
+                              count -= 1;
+                            });
+                            o.removeLast();
+                            setState(() {
+                              order = o;
+                            });
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getBackgroundColor(),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 5,
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor())
+                              ]),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: AutoSizeText(
+                            "Delete",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                18,
+                                FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            count = 0;
+                            value = [
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              "",
+                              ""
+                            ];
+                            isSelected = [
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                              false,
+                            ];
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: context
+                                  .watch<ThemeProvider>()
+                                  .getBackgroundColor(),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 5,
+                                    color: context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor())
+                              ]),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Text(
+                            "Reset",
+                            style: kPrimartFont(
+                                context
+                                    .watch<ThemeProvider>()
+                                    .getPriamryFontColor(),
+                                18,
+                                FontWeight.bold),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 Expanded(
-                    child: MasonryGridView.count(
-                        crossAxisCount: 3,
-                        itemCount: 12,
-                        itemBuilder: (context, index) {
-                          return Container(
+                    child: Container(
+                  child: MasonryGridView.count(
+                      crossAxisCount: 3,
+                      itemCount: widget.shuffled.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            if (count < 12 && isSelected[index] != true) {
+                              List<int> o = order;
+                              o.add(index);
+                              print(o);
+                              setState(() {
+                                value[count] = widget.shuffled[index];
+                                isSelected[index] = true;
+                                order = o;
+                                count += 1;
+                              });
+                            }
+                          },
+                          child: Container(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 5, vertical: 5),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 10),
+                                horizontal: 5, vertical: 5),
                             decoration: BoxDecoration(
-                                color: context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
+                                color: isSelected[index]
+                                    ? context
+                                        .watch<ThemeProvider>()
+                                        .getBackgroundColor()
+                                    : context
+                                        .watch<ThemeProvider>()
+                                        .getHighLightColor(),
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
@@ -135,155 +295,23 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                                           .getHighLightColor())
                                 ]),
                             alignment: Alignment.center,
-                            child: Text(
-                              value[index],
+                            child: AutoSizeText(
+                              widget.shuffled[index],
                               textAlign: TextAlign.center,
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
-                                      .getBackgroundColor(),
-                                  18,
+                                      .getPriamryFontColor(),
+                                  20,
                                   FontWeight.bold),
                             ),
-                          );
-                        })),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        List<int> o = order;
-                        if (o.length > 0) {
-                          setState(() {
-                            value[count - 1] = "";
-                            isSelected[o[o.length - 1]] = false;
-                            count -= 1;
-                          });
-                          o.removeLast();
-                          setState(() {
-                            order = o;
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: Text(
-                          "Delete",
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              18,
-                              FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          count = 0;
-                          value = [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            ""
-                          ];
-                          isSelected = [
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                            false,
-                          ];
-                        });
-                      },
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        child: Text(
-                          "Reset",
-                          style: kPrimartFont(
-                              context
-                                  .watch<ThemeProvider>()
-                                  .getPriamryFontColor(),
-                              18,
-                              FontWeight.bold),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Expanded(
-                    child: MasonryGridView.count(
-                        crossAxisCount: 3,
-                        itemCount: widget.shuffled.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (count < 12 && isSelected[index] != true) {
-                                List<int> o = order;
-                                o.add(index);
-                                print(o);
-                                setState(() {
-                                  value[count] = widget.shuffled[index];
-                                  isSelected[index] = true;
-                                  order = o;
-                                  count += 1;
-                                });
-                              }
-                            },
-                            child: Container(
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 5),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 10),
-                              decoration: BoxDecoration(
-                                  color: isSelected[index]
-                                      ? context
-                                          .watch<ThemeProvider>()
-                                          .getBackgroundColor()
-                                      : context
-                                          .watch<ThemeProvider>()
-                                          .getHighLightColor(),
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: 2,
-                                        color: context
-                                            .watch<ThemeProvider>()
-                                            .getHighLightColor())
-                                  ]),
-                              alignment: Alignment.center,
-                              child: Text(
-                                widget.shuffled[index],
-                                textAlign: TextAlign.center,
-                                style: kPrimartFont(
-                                    context
-                                        .watch<ThemeProvider>()
-                                        .getPriamryFontColor(),
-                                    18,
-                                    FontWeight.bold),
-                              ),
-                            ),
-                          );
-                        })),
-                CreateWalletButton(
+                          ),
+                        );
+                      }),
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                )),
+                ButtonType(
+                    type: "1",
                     text: "Confirm",
                     press: () async {
                       String pharse = "";
@@ -291,9 +319,8 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                         pharse += value[i] + " ";
 
                       if (widget.pharse.trim() == pharse.trim()) {
-                        Storage()
-                            .setAddress(widget.address)
-                            .then((value) async {
+                        final String address = "0x" + widget.address;
+                        Storage().setAddress(address).then((value) async {
                           await Storage().setFirstTime(false);
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
@@ -302,7 +329,7 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                         });
                       } else
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
+                            content: AutoSizeText(
                           "Invalid pharse retry!",
                           style:
                               kPrimartFont(Colors.amber, 18, FontWeight.bold),
@@ -310,56 +337,5 @@ class _ValidationWalletScreenState extends State<ValidationWalletScreen> {
                     })
               ])),
     ));
-  }
-}
-
-class CreateWalletButton extends StatefulWidget {
-  final String text;
-  final Function press;
-  const CreateWalletButton({
-    Key? key,
-    required this.text,
-    required this.press,
-  }) : super(key: key);
-
-  @override
-  State<CreateWalletButton> createState() => _CreateWalletButtonState();
-}
-
-class _CreateWalletButtonState extends State<CreateWalletButton> {
-  bool buttonEffect = false;
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            buttonEffect = !buttonEffect;
-          });
-          var future = Future.delayed(Duration(milliseconds: 150), () {
-            setState(() {
-              buttonEffect = !buttonEffect;
-            });
-            widget.press();
-          });
-          future.then((value) {});
-        },
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 150),
-          margin: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-          padding: EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: context.watch<ThemeProvider>().getHighLightColor(),
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: buttonEffect ? 30 : 10,
-                    color: context.watch<ThemeProvider>().getHighLightColor())
-              ]),
-          alignment: Alignment.center,
-          child: Text(widget.text,
-              style: kPrimartFont(
-                  context.watch<ThemeProvider>().getPriamryFontColor(),
-                  34,
-                  FontWeight.bold)),
-        ));
   }
 }

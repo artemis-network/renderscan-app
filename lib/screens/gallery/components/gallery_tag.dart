@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -30,7 +31,7 @@ class GalleryTag extends StatelessWidget {
           SizedBox(
             width: 15,
           ),
-          Text(
+          AutoSizeText(
             tag,
             style: kPrimartFont(
                 isActive

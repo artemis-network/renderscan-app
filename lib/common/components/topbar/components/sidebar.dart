@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,6 +26,20 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
+  String url =
+      "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/avatar.png";
+
+  @override
+  void initState() {
+    Storage().getItem("avatarUrl").then((value) {
+      final u = value.toString();
+      setState(() {
+        url = u;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     operatePage(Function fn) async {
@@ -43,11 +58,10 @@ class _SideBarState extends State<SideBar> {
 
     final size = MediaQuery.of(context).size;
     bool isMusicOn = context.watch<ThemeProvider>().IsMusic();
-    return SafeArea(
-        child: Container(
+    return Container(
       constraints: BoxConstraints(minHeight: size.height),
       color: context.watch<ThemeProvider>().getBackgroundColor(),
-      padding: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.only(top: 30),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +78,7 @@ class _SideBarState extends State<SideBar> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            AutoSizeText(
                               "Welcome",
                               style: kPrimartFont(
                                   context
@@ -79,7 +93,7 @@ class _SideBarState extends State<SideBar> {
                                   final String username =
                                       (snapshot.data ?? "") as String;
                                   if (snapshot.hasData) {
-                                    return Text(
+                                    return AutoSizeText(
                                       username + "!",
                                       style: kPrimartFont(
                                           context
@@ -89,7 +103,7 @@ class _SideBarState extends State<SideBar> {
                                           FontWeight.bold),
                                     );
                                   }
-                                  return Text(
+                                  return AutoSizeText(
                                     "Guest!",
                                     style: kPrimartFont(
                                         context
@@ -101,26 +115,13 @@ class _SideBarState extends State<SideBar> {
                                 })),
                           ],
                         ),
-                        FutureBuilder(
-                            future: Storage().getItem("username"),
-                            builder: ((context, snapshot) {
-                              if (snapshot.hasData) {
-                                final username = snapshot.data as String;
-                                var url =
-                                    "https://renderscan-user-avatars.s3.ap-south-1.amazonaws.com/" +
-                                        username +
-                                        '.png';
-                                return CircleAvatar(
-                                  backgroundImage: NetworkImage(url),
-                                  radius: 42,
-                                );
-                              }
-                              return CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/avtars/1.png"),
-                                radius: 42,
-                              );
-                            })),
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(url),
+                          backgroundColor: context
+                              .watch<ThemeProvider>()
+                              .getFavouriteColor(),
+                          radius: 42,
+                        ),
                       ],
                     )),
                 Divider(
@@ -262,7 +263,7 @@ class _SideBarState extends State<SideBar> {
                                           CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          child: Text(
+                                          child: AutoSizeText(
                                             "Logout ",
                                             textAlign: TextAlign.center,
                                             style: kPrimartFont(
@@ -278,7 +279,8 @@ class _SideBarState extends State<SideBar> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Icon(
-                                              FontAwesomeIcons.warning,
+                                              FontAwesomeIcons
+                                                  .circleExclamation,
                                               size: 20,
                                               color: context
                                                   .watch<ThemeProvider>()
@@ -288,8 +290,8 @@ class _SideBarState extends State<SideBar> {
                                               width: 8,
                                             ),
                                             Container(
-                                              child: Text(
-                                                "Are you sure?",
+                                              child: AutoSizeText(
+                                                "We'll miss you, Logout now ?",
                                                 textAlign: TextAlign.center,
                                                 style: kPrimartFont(
                                                     context
@@ -318,7 +320,7 @@ class _SideBarState extends State<SideBar> {
                                                     color: context
                                                         .watch<ThemeProvider>()
                                                         .getHighLightColor()),
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   "No",
                                                   style: kPrimartFont(
                                                     context
@@ -357,7 +359,7 @@ class _SideBarState extends State<SideBar> {
                                                     color: context
                                                         .watch<ThemeProvider>()
                                                         .getBackgroundColor()),
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   "Yes, Logout",
                                                   style: kPrimartFont(
                                                     context
@@ -447,7 +449,7 @@ class _SideBarState extends State<SideBar> {
                         SizedBox(
                           width: 4,
                         ),
-                        Text(
+                        AutoSizeText(
                           "Music",
                           style: kPrimartFont(
                               context
@@ -477,7 +479,7 @@ class _SideBarState extends State<SideBar> {
                         SizedBox(
                           width: 4,
                         ),
-                        Text(
+                        AutoSizeText(
                           "Dark Mode",
                           style: kPrimartFont(
                               context
@@ -495,9 +497,12 @@ class _SideBarState extends State<SideBar> {
                     )
                   ]),
             ),
+            SizedBox(
+              height: 40,
+            )
           ],
         ),
       ),
-    ));
+    );
   }
 }

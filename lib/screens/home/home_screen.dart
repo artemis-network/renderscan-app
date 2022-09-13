@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
+                  AutoSizeText(
                     "Notification",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -81,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: context
                                 .watch<ThemeProvider>()
                                 .getBackgroundColor()),
-                        child: Text(
+                        child: AutoSizeText(
                           notification.notification,
                           style: kPrimartFont(
                               context
@@ -126,13 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 scaffoldKey.currentState?.openDrawer();
               },
-              child: Padding(
+              child: Container(
                 child: Image.asset(
                   "assets/icons/menu.png",
                   height: 24,
                   width: 24,
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                margin: EdgeInsets.only(left: 18),
               ),
             ),
           ),
@@ -169,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
-                                        blurRadius: buttonEffect ? 20 : 5,
+                                        blurRadius: buttonEffect ? 1 : 6,
                                         color: context
                                             .watch<ThemeProvider>()
                                             .getHighLightColor())
@@ -180,12 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .getHighLightColor()),
                               child: Row(
                                 children: [
-                                  Text(
+                                  AutoSizeText(
                                     "View More",
                                     style: kPrimartFont(
                                         context
                                             .watch<ThemeProvider>()
-                                            .getPriamryFontColor(),
+                                            .getBackgroundColor(),
                                         16,
                                         FontWeight.bold),
                                   ),
@@ -195,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Icon(Icons.arrow_forward_ios,
                                       color: context
                                           .watch<ThemeProvider>()
-                                          .getPriamryFontColor(),
+                                          .getBackgroundColor(),
                                       size: 16),
                                 ],
                               ),
@@ -265,7 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: CryptoFontIcons.ETC,
                   ),
                   Container(
-                      height: 145,
+                      height: 155,
                       width: 225,
                       child: context.watch<HomeProvider>().showcaseLoaded
                           ? ListView.builder(
@@ -378,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     image: "assets/images/sol.png",
                   ),
                   Container(
-                      height: 145,
+                      height: 155,
                       width: 225,
                       child: context.watch<HomeProvider>().solanaNFTsLoaded
                           ? ListView.builder(

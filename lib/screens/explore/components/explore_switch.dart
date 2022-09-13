@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -52,7 +53,7 @@ class ExploreSwitch extends StatelessWidget {
                 width: 32,
                 height: 32,
               ),
-              label: Text(
+              label: AutoSizeText(
                 'NFTs',
                 style: kPrimartFont(getChipFontColor(0), 16, FontWeight.bold),
               ),
@@ -73,7 +74,7 @@ class ExploreSwitch extends StatelessWidget {
                 width: 32,
                 height: 32,
               ),
-              label: Text(
+              label: AutoSizeText(
                 'Collections',
                 style: kPrimartFont(getChipFontColor(1), 16, FontWeight.bold),
               ),

@@ -10,7 +10,7 @@ class SignupValidations {
     if (email.isEmpty) {
       return "*Email required";
     } else if (!_isValidEmail(email)) {
-      return "*Email invalid";
+      return "*Hmm… that email doesn't look valid";
     } else {
       return "";
     }

@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/buttons/button_type.dart';
 import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/login/components/input_password_field.dart';
@@ -150,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (password != _confirmPassword) {
         setState(() {
           isPasswordHasError = true;
-          passwordError = "*Passwords wont match";
+          passwordError = "*The username and password don’t match";
         });
       } else {
         setState(() {
@@ -169,7 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (!hasError) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: bgColor,
-            content: Text(
+            content: AutoSizeText(
               response.message ?? "Internal server error!",
               style: kPrimartFont(Colors.black, 14, FontWeight.bold),
             )));
@@ -179,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: bgColor,
-            content: Text(
+            content: AutoSizeText(
               response.message ?? "Internal server error!",
               style: kPrimartFont(Colors.black, 14, FontWeight.bold),
             )));
@@ -195,13 +197,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/back.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
       ),
@@ -219,7 +221,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Register",
+                      AutoSizeText("Register",
                           style: GoogleFonts.poppins(
                               fontSize: 32,
                               fontWeight: FontWeight.w800,
@@ -278,7 +280,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 _isLoading
                     ? spinkit()
-                    : SignUpButton(
+                    : ButtonType(
+                        type: "3",
                         text: "Register",
                         press: () async {
                           bool isValid = !isUsernameHasError &&
@@ -306,7 +309,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 backgroundColor: Colors.redAccent,
-                                content: Text(
+                                content: AutoSizeText(
                                   "Invalid credentials",
                                   style: kPrimartFont(
                                       Colors.black, 14, FontWeight.bold),

@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
+import 'package:renderscan/common/components/buttons/button_type.dart';
 import 'package:renderscan/screens/wallet/validation_wallet.screen.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
@@ -38,6 +40,16 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
         child: Scaffold(
       appBar: AppBar(
         actions: [],
+        title: AutoSizeText(
+          "Wallet Created",
+          textAlign: TextAlign.center,
+          style: kPrimartFont(
+            context.watch<ThemeProvider>().getPriamryFontColor(),
+            24,
+            FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
         leading: GestureDetector(
           onTap: () {
             Navigator.of(context).pop();
@@ -48,7 +60,7 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -65,54 +77,40 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                     height: 20,
                   ),
                   Container(
-                    child: Text(
-                      "Your wallet is successfully created",
-                      textAlign: TextAlign.center,
-                      style: kPrimartFont(
-                        context.watch<ThemeProvider>().getPriamryFontColor(),
-                        20,
-                        FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    child: Text(
+                    child: AutoSizeText(
                       "Save them somewhere safe and never share them with anyone.",
                       textAlign: TextAlign.center,
                       style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
-                        16,
+                        14,
                         FontWeight.bold,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     child: Column(
                       children: [
-                        Text(
+                        AutoSizeText(
                           "Write down the secret recovery phrase.",
                           textAlign: TextAlign.center,
                           style: kPrimartFont(
                             context
                                 .watch<ThemeProvider>()
                                 .getPriamryFontColor(),
-                            20,
+                            18,
                             FontWeight.bold,
                           ),
+                        ),
+                        SizedBox(
+                          height: 10,
                         ),
                         GestureDetector(
                           child: Container(
                             margin: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.3, vertical: 10),
+                                horizontal: size.width * 0.35, vertical: 10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30),
                               color: context
@@ -122,14 +120,14 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                AutoSizeText(
                                   "Copy",
                                   textAlign: TextAlign.center,
                                   style: kPrimartFont(
                                     context
                                         .watch<ThemeProvider>()
                                         .getPriamryFontColor(),
-                                    20,
+                                    18,
                                     FontWeight.bold,
                                   ),
                                 ),
@@ -148,8 +146,8 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                           onTap: () {
                             Clipboard.setData(
                                 ClipboardData(text: widget.phrase));
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("phrase copied!")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: AutoSizeText("phrase copied!")));
                           },
                         ),
                       ],
@@ -158,13 +156,14 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: 10,
               ),
               Container(
                 child: Expanded(
                   child: MasonryGridView.count(
                       itemCount: pharseWordsList.length,
                       crossAxisCount: 3,
+                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.symmetric(
@@ -183,7 +182,7 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                                       .getHighLightColor())
                             ],
                           ),
-                          child: Text(
+                          child: AutoSizeText(
                             pharseWordsList[index],
                             textAlign: TextAlign.center,
                             style: kPrimartFont(
@@ -199,9 +198,10 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                child: CreateWalletButton(
-                    text: "Procced",
+                margin: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                child: ButtonType(
+                    type: "1",
+                    text: "Proceed",
                     press: () {
                       var words = pharseWordsList;
                       words.shuffle();
@@ -218,56 +218,5 @@ class _GenerateWalletScreenState extends State<GenerateWalletScreen> {
             ]),
       ),
     ));
-  }
-}
-
-class CreateWalletButton extends StatefulWidget {
-  final String text;
-  final Function press;
-  const CreateWalletButton({
-    Key? key,
-    required this.text,
-    required this.press,
-  }) : super(key: key);
-
-  @override
-  State<CreateWalletButton> createState() => _CreateWalletButtonState();
-}
-
-class _CreateWalletButtonState extends State<CreateWalletButton> {
-  bool buttonEffect = false;
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            buttonEffect = !buttonEffect;
-          });
-          var future = Future.delayed(Duration(milliseconds: 150), () {
-            setState(() {
-              buttonEffect = !buttonEffect;
-            });
-            widget.press();
-          });
-          future.then((value) {});
-        },
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 150),
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          padding: EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: context.watch<ThemeProvider>().getHighLightColor(),
-              boxShadow: [
-                BoxShadow(
-                    blurRadius: buttonEffect ? 30 : 10,
-                    color: context.watch<ThemeProvider>().getHighLightColor())
-              ]),
-          alignment: Alignment.center,
-          child: Text(widget.text,
-              style: kPrimartFont(
-                  context.watch<ThemeProvider>().getPriamryFontColor(),
-                  34,
-                  FontWeight.bold)),
-        ));
   }
 }

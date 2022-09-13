@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -82,7 +83,7 @@ class TrendingWidget extends StatelessWidget {
                     bottom: 6,
                     left: 0,
                     child: CircleAvatar(
-                      child: Text((index + 1).toString(),
+                      child: AutoSizeText((index + 1).toString(),
                           style: GoogleFonts.poppins(
                               color: Colors.white,
                               fontWeight: FontWeight.bold)),
@@ -92,7 +93,7 @@ class TrendingWidget extends StatelessWidget {
               ],
             ),
             Container(
-              child: Text(
+              child: AutoSizeText(
                 trending.name.toString().length < 10
                     ? trending.name.toString()
                     : trending.name.toString().substring(0, 10),
@@ -113,7 +114,7 @@ class TrendingWidget extends StatelessWidget {
                   SizedBox(
                     width: 8,
                   ),
-                  Text(
+                  AutoSizeText(
                     trending.oneDayVolume.toString().length < 4
                         ? trending.oneDayVolume.toString()
                         : trending.oneDayVolume.toString().substring(0, 5),

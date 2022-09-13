@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,7 @@ class NotableCollectionWidget extends StatelessWidget {
                   height: 18,
                 ),
                 Container(
-                  child: Text(
+                  child: AutoSizeText(
                     notableCollection.slug,
                     style: GoogleFonts.poppins(
                         fontSize: 12,
@@ -77,7 +78,7 @@ class NotableCollectionWidget extends StatelessWidget {
                   padding: EdgeInsets.only(left: 5),
                 ),
                 Container(
-                  child: Text(
+                  child: AutoSizeText(
                     notableCollection.name.toString().length > 14
                         ? notableCollection.name.toString().substring(0, 14) +
                             "..."

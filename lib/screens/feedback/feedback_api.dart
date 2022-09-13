@@ -32,7 +32,9 @@ class FeedbackApi {
       var json = jsonDecode(response.body);
       return FeedbackResponse.jsonToObject(json);
     } catch (e) {
-      return FeedbackResponse(error: true, message: "something went wrong");
+      return FeedbackResponse(
+          error: true,
+          message: "For some reason, we couldn't able to perform that action");
     }
   }
 }

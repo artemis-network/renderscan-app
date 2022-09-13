@@ -1,12 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/topbar/components/balance_widet.dart';
 import 'package:renderscan/common/components/topbar/components/sidebar.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/edit/background_edit.dart';
-import 'package:renderscan/screens/edit/edit_screen.dart';
 import 'package:renderscan/screens/mint/components/modal_buttons.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 
@@ -53,7 +53,7 @@ class _MintScreenState extends State<MintScreen> {
                           SizedBox(
                             height: size.height * 0.1,
                           ),
-                          Text("Mint!",
+                          AutoSizeText("Mint!",
                               textAlign: TextAlign.center,
                               style: kPrimartFont(
                                   context
@@ -64,8 +64,7 @@ class _MintScreenState extends State<MintScreen> {
                           SizedBox(
                             height: size.height * 0.04,
                           ),
-                          Text(
-                              "Minting image will write the image on to the block chain",
+                          AutoSizeText("Let's do this, Mint now ?",
                               textAlign: TextAlign.center,
                               style: kPrimartFont(
                                   context
@@ -133,13 +132,13 @@ class _MintScreenState extends State<MintScreen> {
             onTap: () {
               scaffoldKey.currentState?.openDrawer();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/menu.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
         ),
@@ -181,7 +180,7 @@ class _MintScreenState extends State<MintScreen> {
                                 offset: Offset(0, 0)),
                           ]),
                       child: TextButton(
-                          child: Text("Mint",
+                          child: AutoSizeText("Mint",
                               style: kPrimartFont(
                                   context
                                       .watch<ThemeProvider>()
@@ -211,7 +210,7 @@ class _MintScreenState extends State<MintScreen> {
                           ]),
                       child: TextButton(
                           onPressed: goToEditScreen,
-                          child: Text("Edit",
+                          child: AutoSizeText("Edit",
                               style: kPrimartFont(
                                   Colors.white, 14, FontWeight.bold))),
                     )

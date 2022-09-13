@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -61,7 +62,7 @@ class ExploreCollectionSearchGrid extends StatelessWidget {
               return Container(
                 alignment: Alignment.center,
                 color: context.watch<ThemeProvider>().getBackgroundColor(),
-                child: Text(
+                child: AutoSizeText(
                   "No Collection found!",
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -105,7 +106,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             width: 30,
                           ),
                         ),
-                        Text(
+                        AutoSizeText(
                           "Home",
                           style: kPrimartFont(
                               currentTab == 0
@@ -140,7 +141,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             width: 30,
                           ),
                         ),
-                        Text(
+                        AutoSizeText(
                           "Explore",
                           style: kPrimartFont(
                               currentTab == 1
@@ -192,7 +193,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             width: 30,
                           ),
                         ),
-                        Text(
+                        AutoSizeText(
                           "NFTs",
                           style: kPrimartFont(
                               currentTab == 3
@@ -239,7 +240,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             width: 30,
                           ),
                         ),
-                        Text(
+                        AutoSizeText(
                           "Profile",
                           style: kPrimartFont(
                               currentTab == 4

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -28,13 +29,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           onTap: () {
             Navigator.of(context).pop();
           },
-          child: Padding(
+          child: Container(
             child: Image.asset(
               "assets/icons/cancel.png",
               height: 24,
               width: 24,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            margin: EdgeInsets.only(left: 18),
           ),
         ),
         backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -59,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  AutoSizeText(
                     "Forgot",
                     textAlign: TextAlign.center,
                     style: kPrimartFont(
@@ -70,7 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   SizedBox(
                     width: 10,
                   ),
-                  Text(
+                  AutoSizeText(
                     "Password?",
                     textAlign: TextAlign.center,
                     style: kPrimartFont(
@@ -82,7 +83,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             Container(
-              child: Text(
+              child: AutoSizeText(
                 "Check your email and reset password",
                 textAlign: TextAlign.center,
                 style: kPrimartFont(
@@ -109,8 +110,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ForGotPasswordApi().sendForgotPasswordRequest(email).then(
                     (value) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              "password reset link has been sent to mail",
+                          content: AutoSizeText(
+                              "We will send you a link where you can change your password.",
                               style: kPrimartFont(
                                   Colors.white, 14, FontWeight.bold))));
                     },

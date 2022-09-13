@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -87,15 +88,15 @@ class _GoogleLoginButtonState extends State<GoogleLoginButton> {
               }
             }).catchError((err) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                "Something went wrong",
+                  content: AutoSizeText(
+                "For some reason, we couldn't signup",
                 style: kPrimartFont(Colors.amber, 18, FontWeight.bold),
               )));
             });
           }).catchError((err) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(
-              "Something went wrong",
+                content: AutoSizeText(
+              "For some reason, we couldn't signup",
               style: kPrimartFont(Colors.amber, 18, FontWeight.bold),
             )));
           });

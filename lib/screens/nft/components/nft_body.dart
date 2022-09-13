@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,7 +78,7 @@ class _NFTBodyState extends State<NFTBody> {
                     SizedBox(
                       width: 12,
                     ),
-                    Text(
+                    AutoSizeText(
                       widget.collectionName.length > 14
                           ? widget.collectionName.substring(0, 14)
                           : widget.collectionName,
@@ -92,7 +93,7 @@ class _NFTBodyState extends State<NFTBody> {
               SizedBox(
                 height: 15,
               ),
-              Text(
+              AutoSizeText(
                 widget.name,
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -109,7 +110,7 @@ class _NFTBodyState extends State<NFTBody> {
                   SizedBox(
                     width: 4,
                   ),
-                  Text(
+                  AutoSizeText(
                     widget.lastPrice.toString(),
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -130,7 +131,7 @@ class _NFTBodyState extends State<NFTBody> {
                   SizedBox(
                     width: 12,
                   ),
-                  Text(
+                  AutoSizeText(
                     widget.owner.length > 18
                         ? widget.owner.substring(0, 18) + "..."
                         : widget.owner,
@@ -145,7 +146,7 @@ class _NFTBodyState extends State<NFTBody> {
                 height: 15,
               ),
               showDesctiption
-                  ? Text(
+                  ? AutoSizeText(
                       widget.description,
                       style: kPrimartFont(
                           context
@@ -154,7 +155,7 @@ class _NFTBodyState extends State<NFTBody> {
                           12,
                           FontWeight.w400),
                     )
-                  : Text(
+                  : AutoSizeText(
                       widget.description.substring(0, 100) + "...",
                       style: kPrimartFont(
                           context
@@ -164,7 +165,7 @@ class _NFTBodyState extends State<NFTBody> {
                           FontWeight.w400),
                     ),
               GestureDetector(
-                  child: Text(
+                  child: AutoSizeText(
                     showDesctiption ? "Hide" : "View More",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getSecondaryFontColor(),

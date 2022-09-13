@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
@@ -176,7 +177,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
 
   descriptionFetcher() {
     if (showDesription) {
-      return Text(
+      return AutoSizeText(
         nftCollection!.description,
         style: kPrimartFont(
             context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -184,7 +185,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
             FontWeight.normal),
       );
     }
-    return Text(
+    return AutoSizeText(
       nftCollection!.description.length < 150
           ? nftCollection!.description
           : nftCollection!.description.substring(0, 150) + "...",
@@ -217,7 +218,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                AutoSizeText(
                                   nftCollection!.name,
                                   style: kPrimartFont(
                                       context
@@ -226,7 +227,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                                       16,
                                       FontWeight.normal),
                                 ),
-                                Text(
+                                AutoSizeText(
                                   "by " + widget.slug,
                                   style: kPrimartFont(
                                       context
@@ -251,7 +252,7 @@ class _NFTCollectionScreenState extends State<NFTCollectionScreen> {
                                 showDesription = !showDesription;
                               });
                             },
-                            child: Text(
+                            child: AutoSizeText(
                               !showDesription ? "view more" : "hide",
                               textAlign: TextAlign.left,
                               style: kPrimartFont(

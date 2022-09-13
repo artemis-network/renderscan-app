@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +35,7 @@ class _SlidesState extends State<Slides> {
       body:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Container(
-          child: Text(
+          child: AutoSizeText(
             titles[currentIndex],
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -136,7 +137,7 @@ class _SlidesState extends State<Slides> {
               ),
               currentIndex == 3
                   ? Container(
-                      child: Text(
+                      child: AutoSizeText(
                         "Start your Journey",
                         style: kPrimartFont(
                             context

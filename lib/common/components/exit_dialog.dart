@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
@@ -17,13 +18,13 @@ class App_ExitDialogStateWrapper extends State<AppExitDialogWrapper> {
       return (await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: new Text('Are you sure?'),
-              content: new Text('Do you want to exit an App'),
+              title: new AutoSizeText('Are you sure?'),
+              content: new AutoSizeText('Do you want to exit an App'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () =>
                       Navigator.of(context).pop(false), //<-- SEE HERE
-                  child: new Text('No'),
+                  child: new AutoSizeText('No'),
                 ),
                 TextButton(
                   onPressed: () {
@@ -32,7 +33,7 @@ class App_ExitDialogStateWrapper extends State<AppExitDialogWrapper> {
                     else
                       exit(0);
                   },
-                  child: new Text('Yes'),
+                  child: new AutoSizeText('Yes'),
                 ),
               ],
             ),

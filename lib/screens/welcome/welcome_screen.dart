@@ -1,13 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/config/web3.services.dart';
 import 'package:renderscan/constants.dart';
 import 'package:lottie/lottie.dart';
 import 'package:renderscan/screens/home/home_provider.dart';
-import 'package:renderscan/screens/import/import_screen.dart';
-import 'package:renderscan/screens/login/login_screen.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
-import 'package:renderscan/screens/scan/scan_screen.dart';
 import 'package:renderscan/screens/wallet/create_wallet.screen.dart';
 import 'package:renderscan/screens/welcome/slides/getting_started.dart';
 import 'package:renderscan/theme/theme_provider.dart';
@@ -30,16 +28,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         try {
           final isFirstTime = await Storage().isFirstTime();
           final hasAddress = await Storage().getItem("address");
-          // if (isFirstTime.toString() == "null")
-          //   return Navigator.push(context,
-          //       MaterialPageRoute(builder: (context) => GettingStarted()));
 
-          // if (hasAddress.toString() == "null")
-          //   return Navigator.push(context,
-          //       MaterialPageRoute(builder: (context) => CreateWalletScreen()));
+          if (isFirstTime.toString() == "null")
+            return Navigator.push(context,
+                MaterialPageRoute(builder: (context) => GettingStarted()));
+
+          if (hasAddress.toString() == "null")
+            return Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateWalletScreen()));
 
           return Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateWalletScreen()));
+              MaterialPageRoute(builder: (context) => NavigationScreen()));
         } catch (err) {
           return Navigator.push(context,
               MaterialPageRoute(builder: (context) => GettingStarted()));
@@ -65,7 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-              child: Text(
+              child: AutoSizeText(
                 "RENDERVERSE",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -75,7 +74,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-              child: Text(
+              child: AutoSizeText(
                 "Create, Design, & Mint NFTs",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),

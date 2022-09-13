@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/constants.dart';
@@ -33,7 +34,7 @@ class ResetButton extends StatelessWidget {
                   color: context.watch<ThemeProvider>().getHighLightColor(),
                   offset: Offset(0, 0)),
             ]),
-        child: Text(
+        child: AutoSizeText(
           text,
           textAlign: TextAlign.center,
           style: kPrimartFont(Colors.white, 18, FontWeight.bold),

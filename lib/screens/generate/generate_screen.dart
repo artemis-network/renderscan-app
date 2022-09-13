@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/quote_loader.dart';
@@ -32,13 +33,13 @@ class _GenerateScreenState extends State<GenerateScreen>
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),
@@ -106,7 +107,7 @@ class _GenerateScreenState extends State<GenerateScreen>
                                               .withOpacity(0.22),
                                           offset: Offset(0, 0)),
                                     ]),
-                                child: Text(
+                                child: AutoSizeText(
                                   "save",
                                   textAlign: TextAlign.center,
                                   style: kPrimartFont(
@@ -122,7 +123,7 @@ class _GenerateScreenState extends State<GenerateScreen>
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(SnackBar(
                                         backgroundColor: Colors.greenAccent,
-                                        content: Text(
+                                        content: AutoSizeText(
                                           "Image Saved!",
                                           style: kPrimartFont(Colors.blueGrey,
                                               22, FontWeight.bold),
@@ -135,7 +136,7 @@ class _GenerateScreenState extends State<GenerateScreen>
                           : Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
-                              child: Text(
+                              child: AutoSizeText(
                                 "Turn imagination into art. Powered by the latest technology, our AI creates art and images based on simple text instructions.",
                                 textAlign: TextAlign.center,
                                 style: kPrimartFont(
@@ -151,7 +152,7 @@ class _GenerateScreenState extends State<GenerateScreen>
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
-                        child: Text("Input text to generate NFT",
+                        child: AutoSizeText("Input text to generate NFT",
                             style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -230,7 +231,7 @@ class _GenerateScreenState extends State<GenerateScreen>
                                       ]),
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 20),
-                                  child: Text(
+                                  child: AutoSizeText(
                                     "Generate",
                                     textAlign: TextAlign.center,
                                     style: kPrimartFont(

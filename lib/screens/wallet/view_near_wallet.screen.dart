@@ -1,20 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/loader.dart';
 import 'package:renderscan/constants.dart';
-import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/common/components/buttons/button_type.dart';
+import 'package:renderscan/screens/wallet/near_wallet.screen.dart';
 import 'package:renderscan/screens/wallet/wallet.api.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/storage.dart';
 
-class ImportWalletScreen extends StatefulWidget {
+class ViewNearWallerScreen extends StatefulWidget {
   @override
-  State<ImportWalletScreen> createState() => _ImportWalletScreenState();
+  State<ViewNearWallerScreen> createState() => _ViewNearWallerScreenState();
 }
 
-class _ImportWalletScreenState extends State<ImportWalletScreen> {
-  String mnemonic = "";
+class _ViewNearWallerScreenState extends State<ViewNearWallerScreen> {
+  String privatekey = "";
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Container(
             child: AutoSizeText(
-              "Enter phrase",
+              "Enter passphrase ",
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
                   18,
@@ -62,7 +64,7 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
           TextFormField(
               onChanged: (value) {
                 setState(() {
-                  mnemonic = value;
+                  privatekey = value;
                 });
               },
               style: kPrimartFont(
@@ -77,20 +79,33 @@ class _ImportWalletScreenState extends State<ImportWalletScreen> {
           SizedBox(
             height: 20,
           ),
-          ButtonType(
-              type: "1",
-              text: "Recover Wallet",
-              press: () async {
-                WalletApi.recoveryEthWalletAddress(mnemonic)
-                    .then((value) async {
-                  await Storage().setAddress(value.address);
-                  await Storage().setFirstTime(false);
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return NavigationScreen();
-                  }));
-                });
-              })
+          !isLoading
+              ? ButtonType(
+                  type: "1",
+                  text: "Recover Wallet",
+                  press: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    WalletApi.recoveryNeartWalletAddress(privatekey)
+                        .then((value) async {
+                      await Storage().setAddress(value.address);
+                      await Storage().setFirstTime(false);
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return NearWalletScreen(
+                          address: value.address,
+                          pharse: value.mnemonic,
+                          privateKey: value.privateKey,
+                          recoverUrl: value.recoverUrl,
+                        );
+                      }));
+                    });
+                  })
+              : spinkit()
         ]),
         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:renderscan/common/components/loader.dart';
@@ -30,7 +31,7 @@ class _RankingScreenState extends State<RankingScreen> {
                     color: context.watch<ThemeProvider>().getBackgroundColor(),
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
+                    child: AutoSizeText(
                       "Filter",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -42,7 +43,7 @@ class _RankingScreenState extends State<RankingScreen> {
                     width: size.width * 1,
                     padding: EdgeInsets.symmetric(vertical: 6, horizontal: 20),
                     color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    child: Text(
+                    child: AutoSizeText(
                       "Sort by",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -55,7 +56,7 @@ class _RankingScreenState extends State<RankingScreen> {
                     width: size.width * 1,
                     padding: EdgeInsets.fromLTRB(20, 22, 20, 0),
                     color: context.watch<ThemeProvider>().getBackgroundColor(),
-                    child: Text(
+                    child: AutoSizeText(
                       "Filter by",
                       style: kPrimartFont(
                           context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -101,7 +102,7 @@ class _RankingScreenState extends State<RankingScreen> {
                     children: [
                       Container(
                         padding: EdgeInsets.only(top: 10),
-                        child: Text(
+                        child: AutoSizeText(
                           "Ranking 🏆",
                           style: kPrimartFont(
                               context
@@ -333,7 +334,7 @@ class RankSortByTag extends StatelessWidget {
           width: 50,
           padding: EdgeInsets.all(10),
           alignment: Alignment.center,
-          child: Text(
+          child: AutoSizeText(
             text,
             style: kPrimartFont(
                 context.watch<ThemeProvider>().getBackgroundColor(),

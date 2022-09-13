@@ -1,6 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import 'package:renderscan/common/components/buttons/button_type.dart';
 import 'package:renderscan/constants.dart';
 import 'package:renderscan/screens/welcome/slides/slides.dart';
 import 'package:renderscan/theme/theme_provider.dart';
@@ -36,14 +38,14 @@ class _GettingStartedState extends State<GettingStarted> {
                   SizedBox(
                     height: 70,
                   ),
-                  Text(
+                  AutoSizeText(
                     "You want to...",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         22,
                         FontWeight.bold),
                   ),
-                  Text(
+                  AutoSizeText(
                     "(Select all that apply)",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -79,54 +81,32 @@ class _GettingStartedState extends State<GettingStarted> {
                       main: "assets/images/no_bg.png")
                 ],
               ),
-              GestureDetector(
-                  onTap: () {
+              SizedBox(
+                height: 20,
+              ),
+              ButtonType(
+                type: "2",
+                press: () {
+                  setState(() {
+                    buttonEffect = !buttonEffect;
+                  });
+                  var future = Future.delayed(const Duration(milliseconds: 250),
+                      () async {
                     setState(() {
                       buttonEffect = !buttonEffect;
                     });
-                    var future = Future.delayed(
-                        const Duration(milliseconds: 250), () async {
-                      setState(() {
-                        buttonEffect = !buttonEffect;
-                      });
-                      Navigator.of(context).push(PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: Slides(),
-                          ctx: context,
-                          duration: Duration(milliseconds: 150),
-                          fullscreenDialog: true,
-                          childCurrent: GettingStarted()));
-                    });
-                    future.then((value) {});
-                  },
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 150),
-                    margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color:
-                            context.watch<ThemeProvider>().getBackgroundColor(),
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: buttonEffect ? 30 : 10,
-                              color: context
-                                  .watch<ThemeProvider>()
-                                  .getHighLightColor())
-                        ]),
-                    alignment: Alignment.center,
-                    child: Text("Get Started",
-                        style: kPrimartFont(
-                            buttonEffect
-                                ? context
-                                    .watch<ThemeProvider>()
-                                    .getHighLightColor()
-                                : context
-                                    .watch<ThemeProvider>()
-                                    .getPriamryFontColor(),
-                            34,
-                            FontWeight.bold)),
-                  )),
+                    Navigator.of(context).push(PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: Slides(),
+                        ctx: context,
+                        duration: Duration(milliseconds: 150),
+                        fullscreenDialog: true,
+                        childCurrent: GettingStarted()));
+                  });
+                  future.then((value) {});
+                },
+                text: "Get Started",
+              ),
             ]),
       )),
     );
@@ -187,7 +167,7 @@ class _SelectorState extends State<Selector> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   widget.text,
                   style: kPrimartFont(
                       widget.selected

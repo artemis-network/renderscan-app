@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,6 @@ import 'package:renderscan/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:renderscan/screens/navigation/navigation_screen.dart';
 import 'package:renderscan/screens/scan/scan_api.dart';
-import 'package:renderscan/screens/scan/scan_modal.dart';
 import 'package:renderscan/theme/theme_provider.dart';
 import 'package:renderscan/utils/logger.dart';
 
@@ -30,7 +30,7 @@ class _ImportScreenState extends State<ImportScreen> {
             isActive: currentStep >= 0,
             state: currentStep >= 0 ? StepState.complete : StepState.indexed,
             content: StepOne(context),
-            title: Text("Import",
+            title: AutoSizeText("Import",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     18,
@@ -39,7 +39,7 @@ class _ImportScreenState extends State<ImportScreen> {
             isActive: currentStep >= 1,
             state: currentStep >= 1 ? StepState.complete : StepState.indexed,
             content: stepTwo(context),
-            title: Text("Clip",
+            title: AutoSizeText("Clip",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     18,
@@ -48,7 +48,7 @@ class _ImportScreenState extends State<ImportScreen> {
             isActive: currentStep >= 2,
             state: currentStep >= 2 ? StepState.complete : StepState.indexed,
             content: stepThree(context),
-            title: Text("Save",
+            title: AutoSizeText("Save",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
                     18,
@@ -88,7 +88,7 @@ class _ImportScreenState extends State<ImportScreen> {
         });
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.greenAccent,
-          content: Text("Image Clipped",
+          content: AutoSizeText("Image Clipped",
               style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
         ));
       }).catchError((error) {
@@ -103,7 +103,7 @@ class _ImportScreenState extends State<ImportScreen> {
     ScanApi().save(filename).then((value) {
       return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.greenAccent,
-        content: Text("File Saved",
+        content: AutoSizeText("File Saved",
             style: kPrimartFont(Colors.blueGrey, 22, FontWeight.bold)),
       ));
     });
@@ -125,7 +125,7 @@ class _ImportScreenState extends State<ImportScreen> {
                 SizedBox(
                   width: 15,
                 ),
-                Text(
+                AutoSizeText(
                   "Select Image",
                   style: kPrimartFont(
                       context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -147,7 +147,7 @@ class _ImportScreenState extends State<ImportScreen> {
                       ),
                     )
                   : Container(
-                      child: Text(
+                      child: AutoSizeText(
                         "Upload image",
                         style: kPrimartFont(Colors.white, 22, FontWeight.bold),
                       ),
@@ -163,7 +163,7 @@ class _ImportScreenState extends State<ImportScreen> {
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text("Upload",
+                      child: AutoSizeText("Upload",
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -189,7 +189,7 @@ class _ImportScreenState extends State<ImportScreen> {
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      child: Text("Reset",
+                      child: AutoSizeText("Reset",
                           style: kPrimartFont(
                               context
                                   .watch<ThemeProvider>()
@@ -225,7 +225,7 @@ class _ImportScreenState extends State<ImportScreen> {
               SizedBox(
                 width: 15,
               ),
-              Text(
+              AutoSizeText(
                 "Clip",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -256,7 +256,7 @@ class _ImportScreenState extends State<ImportScreen> {
               onTap: clipImage,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text("Clip",
+                child: AutoSizeText("Clip",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         22,
@@ -291,7 +291,7 @@ class _ImportScreenState extends State<ImportScreen> {
               SizedBox(
                 width: 15,
               ),
-              Text(
+              AutoSizeText(
                 "Save",
                 style: kPrimartFont(
                     context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -322,7 +322,7 @@ class _ImportScreenState extends State<ImportScreen> {
               onTap: saveImage,
               child: Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text("Save",
+                child: AutoSizeText("Save",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         22,
@@ -352,13 +352,13 @@ class _ImportScreenState extends State<ImportScreen> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
           backgroundColor: context.watch<ThemeProvider>().getBackgroundColor(),

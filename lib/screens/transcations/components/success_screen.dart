@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +20,13 @@ class SuccessScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: Padding(
+            child: Container(
               child: Image.asset(
                 "assets/icons/back.png",
                 height: 24,
                 width: 24,
               ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              margin: EdgeInsets.only(left: 18),
             ),
           ),
           elevation: 0,
@@ -46,7 +47,7 @@ class SuccessScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            Text(
+            AutoSizeText(
               "Congrats!",
               style: kPrimartFont(
                   context.watch<ThemeProvider>().getPriamryFontColor(),
@@ -56,7 +57,7 @@ class SuccessScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(amount,
+                AutoSizeText(amount,
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         18,
@@ -72,7 +73,7 @@ class SuccessScreen extends StatelessWidget {
                 SizedBox(
                   width: 4,
                 ),
-                Text("added to your wallet",
+                AutoSizeText("added to your wallet",
                     style: kPrimartFont(
                         context.watch<ThemeProvider>().getPriamryFontColor(),
                         18,
@@ -108,7 +109,7 @@ class SuccessScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    AutoSizeText(
                       "Buy",
                       textAlign: TextAlign.center,
                       style: kPrimartFont(Colors.white, 24, FontWeight.bold),
